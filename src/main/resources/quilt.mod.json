@@ -1,25 +1,24 @@
 {
 	"schema_version": 1,
 	"quilt_loader": {
-		"group": "com.example",
-		"id": "example_mod",
+		"group": "io.github.sweetberrycollectie",
+		"id": "wwizardry",
 		"version": "${version}",
 		"metadata": {
-			"name": "Mod Name",
-			"description": "A short description of your mod.",
+			"name": "Wandering Wizardry",
+			"description": "An exploraton focused magic mod",
 			"contributors": {
-				"Your name here": "Owner"
+				"Sweet Berry Collective": "Owner"
 			},
 			"contact": {
-				"homepage": "https://example.com/",
-				"issues": "https://github.com/QuiltMC/quilt-template-mod/issues",
-				"sources": "https://github.com/QuiltMC/quilt-template-mod"
+				"issues": "https://github.com/Sweet-Berry-Collective/Wandering-Wizardry/issues",
+				"sources": "https://github.com/Sweet-Berry-Collective/Wandering-Wizardry"
 			},
-			"icon": "assets/example_mod/icon.png"
+			"icon": "assets/wwizardry/icon.png"
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "com.example.example_mod.ExampleMod"
+			"init": "io.github.sweetberrycollectie.wwizardry.WanderingWizardryMod"
 		},
 		"depends": [
 			{
@@ -36,5 +35,5 @@
 			}
 		]
 	},
-	"mixin": "example_mod.mixins.json"
+	"mixin": "wwizardry.mixins.json"
 }
