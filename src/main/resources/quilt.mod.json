@@ -18,7 +18,8 @@
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "io.github.sweetberrycollective.wwizardry.WanderingMod"
+			"init": "io.github.sweetberrycollective.wwizardry.WanderingMod",
+			"client_init": "io.github.sweetberrycollective.wwizardry.client.WanderingClient"
 		},
 		"depends": [
 			{
