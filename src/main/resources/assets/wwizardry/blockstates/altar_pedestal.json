@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "wwizardry:block/altar_pedestal",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "wwizardry:block/altar_pedestal",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "wwizardry:block/altar_pedestal",
+      "y": 0
+    },
+    "facing=west": {
+      "model": "wwizardry:block/altar_pedestal",
+      "y": 90
+    }
+  }
+}
