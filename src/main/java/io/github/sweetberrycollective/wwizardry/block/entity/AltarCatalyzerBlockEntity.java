@@ -1,7 +1,6 @@
 package io.github.sweetberrycollective.wwizardry.block.entity;
 
 import io.github.sweetberrycollective.wwizardry.block.AltarCatalyzerBlock;
-import io.github.sweetberrycollective.wwizardry.block.AltarPedestalBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -99,14 +98,16 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 	@Override
 	public ItemStack removeStack(int slot, int amount) {
 		var item = heldItem.copy();
-		heldItem = null;
+		heldItem = ItemStack.EMPTY;
+		markDirty();
 		return item;
 	}
 
 	@Override
 	public ItemStack removeStack(int slot) {
 		var item = heldItem.copy();
-		heldItem = null;
+		heldItem = ItemStack.EMPTY;
+		markDirty();
 		return item;
 	}
 
@@ -114,6 +115,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 	public void setStack(int slot, ItemStack stack) {
 		heldItem = stack.copy();
 		heldItem.setCount(1);
+		markDirty();
 	}
 
 	@Override

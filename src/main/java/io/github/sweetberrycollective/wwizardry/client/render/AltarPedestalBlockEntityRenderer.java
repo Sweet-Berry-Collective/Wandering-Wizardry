@@ -11,7 +11,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.Vec3f;
 
 public class AltarPedestalBlockEntityRenderer implements BlockEntityRenderer<AltarPedestalBlockEntity> {
@@ -52,11 +51,8 @@ public class AltarPedestalBlockEntityRenderer implements BlockEntityRenderer<Alt
 			}
 		}
 
-		matrices.translate(0, 0.125, 0);
-		if (!(entity.heldItem.getItem() instanceof BlockItem)) {
-			matrices.translate(0, 0.125, 0);
-		}
-		matrices.translate(0, Math.sin(WanderingClient.ITEM_ROTATION*0.25+entity.rand)*0.03125, 0);
+		matrices.translate(0, 0.25, 0);
+		matrices.translate(0, Math.sin(WanderingClient.ITEM_ROTATION * 0.25 + entity.rand) * 0.03125, 0);
 		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(WanderingClient.ITEM_ROTATION));
 
 		var lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
