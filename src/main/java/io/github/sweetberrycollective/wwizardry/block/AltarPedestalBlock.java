@@ -1,7 +1,5 @@
 package io.github.sweetberrycollective.wwizardry.block;
 
-import com.google.common.collect.ImmutableMap;
-import io.github.sweetberrycollective.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarPedestalBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -23,6 +21,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -32,7 +31,7 @@ import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable {
-	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(QuiltBlockSettings.of(Material.STONE));
+	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(QuiltBlockSettings.copyOf(Blocks.REDSTONE_BLOCK));
 	public static final BlockItem ITEM = new BlockItem(INSTANCE, new QuiltItemSettings());
 	public static final VoxelShape NORTH_SHAPE = VoxelShapes.union(
 			WanderingBlocks.ALTAR_BASE_SHAPE,
@@ -118,6 +117,7 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 		if (player.isSneaking()) return ActionResult.PASS;
 		var entity = (AltarPedestalBlockEntity)world.getBlockEntity(pos);
 		assert entity != null;
+		if (entity.crafting) return ActionResult.PASS;
 		var stack = player.getStackInHand(hand);
 		if (stack.isEmpty() && entity.heldItem.isEmpty()) return ActionResult.PASS;
 		if (world.isClient) return ActionResult.SUCCESS;
@@ -184,9 +184,28 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 
 	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		var entity = (AltarPedestalBlockEntity)world.getBlockEntity(pos);
+		var entity = (AltarPedestalBlockEntity) world.getBlockEntity(pos);
 		var stackEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), entity.heldItem);
 		world.spawnEntity(stackEntity);
 		super.onBreak(world, pos, state, player);
+	}
+
+	@Override
+	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+		var be = world.getBlockEntity(pos);
+		if (!(be instanceof AltarPedestalBlockEntity abe)) return 0;
+		return !abe.heldItem.isEmpty() ? 15 : 0;
+	}
+
+	@Override
+	public boolean emitsRedstonePower(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
+		var be = world.getBlockEntity(pos);
+		if (!(be instanceof AltarPedestalBlockEntity abe)) return 0;
+		return abe.crafting ? 15 : 0;
 	}
 }

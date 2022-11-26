@@ -52,7 +52,11 @@ public class AltarPedestalBlockEntityRenderer implements BlockEntityRenderer<Alt
 		}
 
 		matrices.translate(0, 0.25, 0);
-		matrices.translate(0, Math.sin(WanderingClient.ITEM_ROTATION * 0.25 + entity.rand) * 0.03125, 0);
+		if (!entity.crafting) {
+			matrices.translate(0, Math.sin(WanderingClient.ITEM_ROTATION * 0.25 + entity.rand) * 0.03125, 0);
+		} else {
+			matrices.translate(0, (float) entity.craftingTick / 25, 0);
+		}
 		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(WanderingClient.ITEM_ROTATION));
 
 		var lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());

@@ -22,10 +22,15 @@ public class AltarCatalyzerBlockEntityRenderer implements BlockEntityRenderer<Al
 		matrices.push();
 
 		matrices.translate(0.5, 1.1875, 0.5);
-		matrices.translate(0, Math.sin(WanderingClient.ITEM_ROTATION * 0.25 + entity.rand) * 0.03125, 0);
+		if (!entity.crafting) {
+			matrices.translate(0, Math.sin(WanderingClient.ITEM_ROTATION * 0.25 + entity.rand) * 0.03125, 0);
+		} else {
+			matrices.translate(0, (float) entity.craftingTick / 25, 0);
+		}
 		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(WanderingClient.ITEM_ROTATION));
 
 		var lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
+
 		MinecraftClient.getInstance().getItemRenderer().renderItem(entity.heldItem, ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, 0);
 
 		matrices.pop();
