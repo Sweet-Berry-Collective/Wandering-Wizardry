@@ -1,6 +1,8 @@
 package io.github.sweetberrycollective.wwizardry.client;
 
+import io.github.sweetberrycollective.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarPedestalBlockEntity;
+import io.github.sweetberrycollective.wwizardry.client.render.AltarCatalyzerBlockEntityRenderer;
 import io.github.sweetberrycollective.wwizardry.client.render.AltarPedestalBlockEntityRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import org.quiltmc.loader.api.ModContainer;
@@ -12,6 +14,7 @@ public class WanderingClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient(ModContainer mod) {
 		BlockEntityRendererRegistry.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(AltarCatalyzerBlockEntity.TYPE, AltarCatalyzerBlockEntityRenderer::new);
 		ClientWorldTickEvents.END.register((client, world) -> ITEM_ROTATION += 0.5f);
 	}
 }

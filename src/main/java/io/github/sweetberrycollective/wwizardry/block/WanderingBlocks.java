@@ -7,8 +7,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 
 public class WanderingBlocks {
+	public static final VoxelShape ALTAR_BASE_SHAPE = VoxelShapes.union(
+			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 2.0, 14.0),
+			Block.createCuboidShape(4.0, 2.0 , 4.0, 12.0, 15.0, 12.0)
+	).simplify();
+
 	public static void init() {
 		registerBlock("altar_pedestal", AltarPedestalBlock.INSTANCE);
 		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);
