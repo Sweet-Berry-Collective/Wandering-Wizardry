@@ -2,6 +2,7 @@ package io.github.sweetberrycollective.wwizardry;
 
 import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
+import io.github.sweetberrycollective.wwizardry.recipe.WanderingRecipes;
 import net.minecraft.util.Identifier;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
@@ -16,6 +17,7 @@ public class WanderingMod implements ModInitializer {
 	public void onInitialize(ModContainer mod) {
 		WanderingBlocks.init();
 		WanderingItems.init();
+		WanderingRecipes.init();
 	}
 
 	public static Identifier id(String path) {

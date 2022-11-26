@@ -123,9 +123,13 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 		if (world.isClient) return ActionResult.SUCCESS;
 		var newstack = stack.getItem().getDefaultStack();
 		if (stack.getItem() == entity.heldItem.getItem()) {
+			if (stack.getCount() == stack.getMaxCount()) {
+				player.giveItemStack(entity.heldItem);
+			} else {
+				stack.increment(1);
+				player.setStackInHand(hand, stack);
+			}
 			entity.heldItem = ItemStack.EMPTY;
-			stack.increment(1);
-			player.setStackInHand(hand, stack);
 			entity.markDirty();
 			world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 10f, 0f);
 			return ActionResult.SUCCESS;
@@ -139,12 +143,13 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 				boolean inserted = false;
 				for (int i = 0; i < player.getInventory().size(); i++) {
 					var invStack = player.getInventory().getStack(i);
-					if (invStack.getCount() > 64) continue;
+					if (invStack.getCount() == invStack.getMaxCount()) continue;
 					if (invStack.getItem() != entity.heldItem.getItem()) continue;
 					inserted = true;
 					invStack.increment(1);
 					player.getInventory().setStack(i, invStack);
 					player.getInventory().markDirty();
+					break;
 				}
 				if (!inserted) {
 					player.setStackInHand(hand, entity.heldItem);
@@ -157,12 +162,13 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 			boolean inserted = false;
 			for (int i = 0; i < player.getInventory().size(); i++) {
 				var invStack = player.getInventory().getStack(i);
-				if (invStack.getCount() > 64) continue;
+				if (invStack.getCount() == invStack.getMaxCount()) continue;
 				if (invStack.getItem() != entity.heldItem.getItem()) continue;
 				inserted = true;
 				invStack.increment(1);
 				player.getInventory().setStack(i, invStack);
 				player.getInventory().markDirty();
+				break;
 			}
 			if (!inserted) {
 				player.setStackInHand(hand, entity.heldItem);
