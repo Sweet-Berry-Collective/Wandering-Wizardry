@@ -1,52 +1,102 @@
 {
-  "variants": {
-    "facing=east,sculked=false": {
-      "model": "wwizardry:block/altar_pedestal",
-      "y": 270
+  "multipart": [
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_pedestal",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "sculked": "false",
+        "facing": "north"
+      }
     },
-    "facing=north,sculked=false": {
-      "model": "wwizardry:block/altar_pedestal",
-      "y": 180
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_pedestal_sculk",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "sculked": "true",
+        "facing": "north"
+      }
     },
-    "facing=south,sculked=false": {
-      "model": "wwizardry:block/altar_pedestal",
-      "y": 0
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_pedestal",
+        "uvlock": true
+      },
+      "when": {
+        "sculked": "false",
+        "facing": "south"
+      }
     },
-    "facing=west,sculked=false": {
-      "model": "wwizardry:block/altar_pedestal",
-      "y": 90
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_pedestal_sculk",
+        "uvlock": true
+      },
+      "when": {
+        "sculked": "true",
+        "facing": "south"
+      }
     },
-    "facing=east,sculked=true,sculk_below=false": {
-      "model": "wwizardry:block/altar_pedestal_sculk_more",
-      "y": 270
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_pedestal",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "sculked": "false",
+        "facing": "east"
+      }
     },
-    "facing=north,sculked=true,sculk_below=false": {
-      "model": "wwizardry:block/altar_pedestal_sculk_more",
-      "y": 180
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_pedestal_sculk",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "sculked": "true",
+        "facing": "east"
+      }
     },
-    "facing=south,sculked=true,sculk_below=false": {
-      "model": "wwizardry:block/altar_pedestal_sculk_more",
-      "y": 0
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_pedestal",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "sculked": "false",
+        "facing": "west"
+      }
     },
-    "facing=west,sculked=true,sculk_below=false": {
-      "model": "wwizardry:block/altar_pedestal_sculk_more",
-      "y": 90
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_pedestal_sculk",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "sculked": "true",
+        "facing": "west"
+      }
     },
-    "facing=east,sculked=true,sculk_below=true": {
-      "model": "wwizardry:block/altar_pedestal_sculk",
-      "y": 270
-    },
-    "facing=north,sculked=true,sculk_below=true": {
-      "model": "wwizardry:block/altar_pedestal_sculk",
-      "y": 180
-    },
-    "facing=south,sculked=true,sculk_below=true": {
-      "model": "wwizardry:block/altar_pedestal_sculk",
-      "y": 0
-    },
-    "facing=west,sculked=true,sculk_below=true": {
-      "model": "wwizardry:block/altar_pedestal_sculk",
-      "y": 90
+    {
+      "apply": {
+        "model": "minecraft:block/sculk_vein",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "sculked": "true",
+        "sculk_below": "false"
+      }
     }
-  }
+  ]
 }
+

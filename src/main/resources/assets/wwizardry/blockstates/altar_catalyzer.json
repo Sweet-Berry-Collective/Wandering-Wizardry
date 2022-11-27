@@ -1,13 +1,33 @@
 {
-  "variants": {
-    "sculked=false": {
-      "model": "wwizardry:block/altar_catalyzer"
+  "multipart": [
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_catalyzer",
+        "uvlock": true
+      },
+      "when": {
+        "sculked": "false"
+      }
     },
-    "sculked=true,sculk_below=false": {
-      "model": "wwizardry:block/altar_catalyzer_sculk_more"
+    {
+      "apply": {
+        "model": "wwizardry:block/altar_catalyzer_sculk",
+        "uvlock": true
+      },
+      "when": {
+        "sculked": "true"
+      }
     },
-    "sculked=true,sculk_below=true": {
-      "model": "wwizardry:block/altar_catalyzer_sculk"
+    {
+      "apply": {
+        "model": "minecraft:block/sculk_vein",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "sculked": "true",
+        "sculk_below": "false"
+      }
     }
-  }
+  ]
 }

@@ -19,6 +19,10 @@ public class AltarCatalyzerBlockEntityRenderer implements BlockEntityRenderer<Al
 	public void render(AltarCatalyzerBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		if (entity.isRemoved()) return;
 
+		var pos = entity.getPos();
+		if (entity.shouldUpdateClient)
+			MinecraftClient.getInstance().worldRenderer.scheduleBlockRenders(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
+
 		matrices.push();
 
 		matrices.translate(0.5, 1.1875, 0.5);

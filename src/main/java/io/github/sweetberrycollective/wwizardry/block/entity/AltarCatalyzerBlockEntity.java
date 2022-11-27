@@ -7,7 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.block.sculk.SculkBehavior;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -40,8 +40,11 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 	public ItemStack result = ItemStack.EMPTY;
 
 	public boolean keepCatalyst = false;
+	private final SculkBehavior behavior = SculkBehavior.createBehavior();
+	public int bloom = 0;
 
 	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = QuiltBlockEntityTypeBuilder.create(AltarCatalyzerBlockEntity::new, AltarCatalyzerBlock.INSTANCE).build();
+	public boolean shouldUpdateClient = false;
 
 	public AltarCatalyzerBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
@@ -52,6 +55,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		crafting = true;
 		craftingTick = 0;
 		keepCatalyst = recipe.keepCatalyst();
+		bloom = recipe.bloom();
 		markDirty();
 		var neighbors = getNeighbors();
 		for (var n : neighbors) {
@@ -70,6 +74,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		result = ItemStack.EMPTY;
 		crafting = false;
 		craftingTick = 0;
+		bloom = 0;
 		var neighbors = getNeighbors();
 		for (var n : neighbors) {
 			n.cancelCraft();
@@ -77,6 +82,8 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 	}
 
 	public void tick(World world, BlockPos pos, BlockState state) {
+		behavior.updateCharges(world, pos, world.random, true);
+		markDirty();
 		if (crafting) {
 			if (++craftingTick >= 100) {
 				craftingTick = 0;
@@ -88,6 +95,12 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 				result = ItemStack.EMPTY;
 				world.spawnEntity(stackEntity);
 				world.playSound(pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 2, 1, true);
+				if (!world.isClient && bloom > 0) {
+					System.out.println(world);
+					world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 2, 1, true);
+					behavior.addCharge(pos, bloom);
+				}
+				bloom = 0;
 				markDirty();
 			}
 			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0.25 * ((craftingTick + 30) / 100f), 0);
@@ -103,6 +116,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		nbt.put("HeldItem", compound);
 		nbt.putBoolean("crafting", crafting);
 		nbt.putBoolean("keepCatalyst", keepCatalyst);
+		behavior.write(nbt);
 	}
 
 	@Override
@@ -111,6 +125,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		heldItem = ItemStack.fromNbt(compound);
 		crafting = nbt.getBoolean("crafting");
 		keepCatalyst = nbt.getBoolean("keepCatalyst");
+		behavior.read(nbt);
 	}
 
 	@Override
@@ -188,7 +203,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 	public void markDirty() {
 		if (world != null) {
 			if (world.isClient()) {
-				MinecraftClient.getInstance().worldRenderer.scheduleBlockRenders(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
+				shouldUpdateClient = true;
 			} else {
 				((ServerWorld) world).getChunkManager().markForUpdate(pos);
 			}

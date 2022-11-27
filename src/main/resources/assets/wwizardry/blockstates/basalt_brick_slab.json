@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "wwizardry:block/basalt_brick_slab"
+    },
+    "type=double": {
+      "model": "wwizardry:block/basalt_bricks"
+    },
+    "type=top": {
+      "model": "wwizardry:block/basalt_brick_slab_top"
+    }
+  }
+}

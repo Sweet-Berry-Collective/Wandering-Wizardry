@@ -32,7 +32,7 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 
 		var result = ShapedRecipe.outputFromJson(schema.result);
 
-		return new AltarRecipe(id, catalyst, inputs, result, schema.keepCatalyst);
+		return new AltarRecipe(id, catalyst, inputs, result, schema.keepCatalyst, schema.bloom);
 	}
 
 	Gson gson = new Gson();
@@ -51,6 +51,7 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 				.result()
 				.ifPresent(result -> obj.add("result", result));
 		obj.addProperty("keepCatalyst", recipe.keepCatalyst());
+		obj.addProperty("bloom", recipe.bloom());
 		return obj;
 	}
 
@@ -63,7 +64,8 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 		}
 		var result = buf.readItemStack();
 		var keepCatalyst = buf.readBoolean();
-		return new AltarRecipe(id, catalyst, inputs, result, keepCatalyst);
+		var bloom = buf.readInt();
+		return new AltarRecipe(id, catalyst, inputs, result, keepCatalyst, bloom);
 	}
 
 	@Override
@@ -74,6 +76,7 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 		}
 		buf.writeItemStack(recipe.result());
 		buf.writeBoolean(recipe.keepCatalyst());
+		buf.writeInt(recipe.bloom());
 	}
 
 	public static class JsonSchema {
@@ -81,5 +84,6 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 		public JsonObject[] inputs;
 		public JsonObject result;
 		public boolean keepCatalyst;
+		public int bloom;
 	}
 }

@@ -13,8 +13,14 @@ import net.minecraft.world.World;
 
 import java.util.Arrays;
 
-public record AltarRecipe(Identifier id, Ingredient catalyst, Ingredient[] inputs, ItemStack result,
-						  boolean keepCatalyst) implements Recipe<AltarCatalyzerBlockEntity> {
+public record AltarRecipe(
+		Identifier id,
+		Ingredient catalyst,
+		Ingredient[] inputs,
+		ItemStack result,
+		boolean keepCatalyst,
+		int bloom
+) implements Recipe<AltarCatalyzerBlockEntity> {
 	public static final WanderingRecipeType<AltarRecipe> TYPE = new WanderingRecipeType<>(WanderingMod.id("altar"));
 
 	@Override
@@ -61,7 +67,7 @@ public record AltarRecipe(Identifier id, Ingredient catalyst, Ingredient[] input
 
 	@Override
 	public Identifier getId() {
-		return id;
+		return WanderingMod.id("altar");
 	}
 
 	@Override

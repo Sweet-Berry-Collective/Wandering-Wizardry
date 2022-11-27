@@ -5,6 +5,8 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.sculk.SculkBehavior;
+import net.minecraft.block.sculk.SculkVeinSpreader;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,11 +20,13 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -32,7 +36,9 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
-public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable {
+import java.util.Collection;
+
+public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable, SculkVeinSpreader {
 	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(QuiltBlockSettings.copyOf(Blocks.REDSTONE_BLOCK));
 	public static final BlockItem ITEM = new BlockItem(INSTANCE, new QuiltItemSettings());
 	public static final VoxelShape NORTH_SHAPE = VoxelShapes.union(
@@ -132,6 +138,7 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (player.isSneaking()) return ActionResult.PASS;
 		var stack = player.getStackInHand(hand);
 		var entity = (AltarPedestalBlockEntity) world.getBlockEntity(pos);
 		assert entity != null;
@@ -141,7 +148,7 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 		var newstack = stack.getItem().getDefaultStack();
 		if (stack.getItem() == entity.heldItem.getItem()) {
 			if (stack.getCount() == stack.getMaxCount()) {
-				player.giveItemStack(entity.heldItem);
+				if (!player.giveItemStack(entity.heldItem)) return ActionResult.SUCCESS;
 			} else {
 				stack.increment(1);
 				player.setStackInHand(hand, stack);
@@ -156,8 +163,7 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 			entity.heldItem = newstack;
 			entity.tryCraft(state);
 		} else if (!stack.isEmpty()) {
-			stack.decrement(1);
-			if (stack.isEmpty()) {
+			if (stack.getCount() == 1) {
 				boolean inserted = false;
 				for (int i = 0; i < player.getInventory().size(); i++) {
 					var invStack = player.getInventory().getStack(i);
@@ -173,8 +179,9 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 					player.setStackInHand(hand, entity.heldItem);
 				}
 			} else {
-				player.giveItemStack(entity.heldItem);
+				if (!player.giveItemStack(entity.heldItem)) return ActionResult.SUCCESS;
 			}
+			stack.decrement(1);
 			entity.heldItem = newstack;
 			entity.tryCraft(state);
 		} else {
@@ -228,5 +235,41 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 		var be = world.getBlockEntity(pos);
 		if (!(be instanceof AltarPedestalBlockEntity abe)) return 0;
 		return abe.crafting ? 15 : 0;
+	}
+
+	@Override
+	public boolean trySpreadVein(WorldAccess world, BlockPos pos, BlockState state, @Nullable Collection<Direction> directions, boolean postProcess) {
+		var posDown = pos.down();
+		var stateDown = world.getBlockState(posDown);
+		if (!state.get(WanderingBlocks.SCULK_INFESTED)) {
+			world.setBlockState(pos, state.with(WanderingBlocks.SCULK_INFESTED, true).with(WanderingBlocks.SCULK_BELOW, stateDown.getBlock() == Blocks.SCULK), NOTIFY_ALL | FORCE_STATE);
+			world.playSound(null, pos, SoundEvents.BLOCK_SCULK_SPREAD, SoundCategory.BLOCKS, 1, 1);
+
+			return true;
+		}
+		if (!state.get(WanderingBlocks.SCULK_BELOW) && stateDown.isIn(BlockTags.SCULK_REPLACEABLE)) {
+			world.setBlockState(posDown, Blocks.SCULK.getDefaultState(), NOTIFY_ALL | FORCE_STATE);
+			world.setBlockState(pos, state.with(WanderingBlocks.SCULK_BELOW, true), NOTIFY_ALL | FORCE_STATE);
+			world.playSound(null, pos, SoundEvents.BLOCK_SCULK_SPREAD, SoundCategory.BLOCKS, 1, 1);
+
+			return true;
+		}
+		return SculkVeinSpreader.super.trySpreadVein(world, pos, state, directions, postProcess);
+	}
+
+	@Override
+	public int tryUseCharge(SculkBehavior.ChargeCursor charge, WorldAccess world, BlockPos pos, RandomGenerator random, SculkBehavior sculkChargeHandler, boolean spread) {
+		var state = world.getBlockState(pos);
+		var posDown = pos.down();
+		var stateDown = world.getBlockState(posDown);
+		if (stateDown.getBlock() == Blocks.SCULK || stateDown.getBlock() == Blocks.AIR) {
+			world.setBlockState(pos, state.with(WanderingBlocks.SCULK_BELOW, true), NOTIFY_ALL | FORCE_STATE);
+		}
+		return charge.getCharge();
+	}
+
+	@Override
+	public boolean canUpdateOnSpread() {
+		return true;
 	}
 }

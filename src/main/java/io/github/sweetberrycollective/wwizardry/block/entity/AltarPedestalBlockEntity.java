@@ -88,7 +88,7 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 			default -> 0;
 		};
 		if (crafting) {
-			if (++craftingTick == 100) {
+			if (++craftingTick >= 100) {
 				craftingTick = 0;
 				crafting = false;
 				heldItem = ItemStack.EMPTY;
@@ -150,6 +150,7 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 		if (crafting) return ItemStack.EMPTY;
 		var item = heldItem.copy();
 		heldItem = ItemStack.EMPTY;
+		markDirty();
 		return item;
 	}
 
@@ -158,6 +159,7 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 		if (crafting) return ItemStack.EMPTY;
 		var item = heldItem.copy();
 		heldItem = ItemStack.EMPTY;
+		markDirty();
 		return item;
 	}
 
@@ -167,6 +169,7 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 		heldItem = stack.copy();
 		heldItem.setCount(1);
 		tryCraft(world.getBlockState(pos));
+		markDirty();
 	}
 
 	@Override
