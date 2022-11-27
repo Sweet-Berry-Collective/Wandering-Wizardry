@@ -13,6 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3f;
 
 public class AltarPedestalBlockEntityRenderer implements BlockEntityRenderer<AltarPedestalBlockEntity> {
+
 	public AltarPedestalBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
 
 	@Override
@@ -52,9 +53,9 @@ public class AltarPedestalBlockEntityRenderer implements BlockEntityRenderer<Alt
 
 		matrices.translate(0, 0.25, 0);
 		if (!entity.crafting) {
-			matrices.translate(0, Math.sin(WanderingClient.ITEM_ROTATION * 0.25 + entity.rand) * 0.03125, 0);
+			matrices.translate(0, Math.sin((WanderingClient.ITEM_ROTATION + tickDelta) * 0.25 + entity.rand) * 0.03125, 0);
 		} else {
-			matrices.translate(0, (float) entity.craftingTick / 25, 0);
+			matrices.translate(0, (entity.craftingTick + tickDelta) / 25, 0);
 		}
 		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(WanderingClient.ITEM_ROTATION));
 

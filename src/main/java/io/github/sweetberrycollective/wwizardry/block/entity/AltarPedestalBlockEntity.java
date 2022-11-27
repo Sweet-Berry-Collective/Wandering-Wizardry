@@ -96,6 +96,8 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 				markDirty();
 			}
 			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, vpos.getX(), vpos.getY(), vpos.getZ(), 0.10355 * x * ((craftingTick + 30) / 100f), 0.25 * ((craftingTick + 30) / 100f), 0.10355 * z * ((craftingTick + 30) / 100f));
+		} else {
+			craftingTick = 0;
 		}
 	}
 
@@ -105,7 +107,6 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 		heldItem.writeNbt(compound);
 		nbt.put("HeldItem", compound);
 		nbt.putBoolean("crafting", crafting);
-		nbt.putInt("craftingTick", craftingTick);
 	}
 
 	@Override
@@ -113,7 +114,6 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 		var compound = nbt.getCompound("HeldItem");
 		heldItem = ItemStack.fromNbt(compound);
 		crafting = nbt.getBoolean("crafting");
-		craftingTick = nbt.getInt("craftingTick");
 	}
 
 	@Override

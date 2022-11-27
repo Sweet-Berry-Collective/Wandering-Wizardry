@@ -1,19 +1,51 @@
 {
   "variants": {
-    "facing=east": {
+    "facing=east,sculked=false": {
       "model": "wwizardry:block/altar_pedestal",
       "y": 270
     },
-    "facing=north": {
+    "facing=north,sculked=false": {
       "model": "wwizardry:block/altar_pedestal",
       "y": 180
     },
-    "facing=south": {
+    "facing=south,sculked=false": {
       "model": "wwizardry:block/altar_pedestal",
       "y": 0
     },
-    "facing=west": {
+    "facing=west,sculked=false": {
       "model": "wwizardry:block/altar_pedestal",
+      "y": 90
+    },
+    "facing=east,sculked=true,sculk_below=false": {
+      "model": "wwizardry:block/altar_pedestal_sculk_more",
+      "y": 270
+    },
+    "facing=north,sculked=true,sculk_below=false": {
+      "model": "wwizardry:block/altar_pedestal_sculk_more",
+      "y": 180
+    },
+    "facing=south,sculked=true,sculk_below=false": {
+      "model": "wwizardry:block/altar_pedestal_sculk_more",
+      "y": 0
+    },
+    "facing=west,sculked=true,sculk_below=false": {
+      "model": "wwizardry:block/altar_pedestal_sculk_more",
+      "y": 90
+    },
+    "facing=east,sculked=true,sculk_below=true": {
+      "model": "wwizardry:block/altar_pedestal_sculk",
+      "y": 270
+    },
+    "facing=north,sculked=true,sculk_below=true": {
+      "model": "wwizardry:block/altar_pedestal_sculk",
+      "y": 180
+    },
+    "facing=south,sculked=true,sculk_below=true": {
+      "model": "wwizardry:block/altar_pedestal_sculk",
+      "y": 0
+    },
+    "facing=west,sculked=true,sculk_below=true": {
+      "model": "wwizardry:block/altar_pedestal_sculk",
       "y": 90
     }
   }

@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -26,6 +27,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
@@ -63,15 +65,31 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 	).simplify();
 
 
-
 	public AltarPedestalBlock(Settings settings) {
 		super(settings);
-		setDefaultState(getDefaultState().with(Properties.WATERLOGGED, false));
+		setDefaultState(
+				getDefaultState()
+						.with(Properties.WATERLOGGED, false)
+						.with(WanderingBlocks.SCULK_INFESTED, false)
+						.with(WanderingBlocks.SCULK_BELOW, false)
+		);
+	}
+
+	@Override
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+		var down = world.getBlockState(pos.down()).getBlock();
+		return state.with(WanderingBlocks.SCULK_BELOW, down == Blocks.SCULK || down == Blocks.AIR);
+	}
+
+	@Override
+	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+		var down = world.getBlockState(pos.down()).getBlock();
+		world.setBlockState(pos, state.with(WanderingBlocks.SCULK_BELOW, down == Blocks.SCULK || down == Blocks.AIR));
 	}
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(HorizontalFacingBlock.FACING, Properties.WATERLOGGED);
+		builder.add(HorizontalFacingBlock.FACING, Properties.WATERLOGGED, WanderingBlocks.SCULK_INFESTED, WanderingBlocks.SCULK_BELOW);
 	}
 
 	@Nullable
@@ -114,11 +132,10 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (player.isSneaking()) return ActionResult.PASS;
-		var entity = (AltarPedestalBlockEntity)world.getBlockEntity(pos);
+		var stack = player.getStackInHand(hand);
+		var entity = (AltarPedestalBlockEntity) world.getBlockEntity(pos);
 		assert entity != null;
 		if (entity.crafting) return ActionResult.PASS;
-		var stack = player.getStackInHand(hand);
 		if (stack.isEmpty() && entity.heldItem.isEmpty()) return ActionResult.PASS;
 		if (world.isClient) return ActionResult.SUCCESS;
 		var newstack = stack.getItem().getDefaultStack();

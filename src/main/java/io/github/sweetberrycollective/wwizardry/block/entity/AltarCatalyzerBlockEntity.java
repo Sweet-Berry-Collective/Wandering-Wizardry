@@ -78,7 +78,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 
 	public void tick(World world, BlockPos pos, BlockState state) {
 		if (crafting) {
-			if (++craftingTick == 100) {
+			if (++craftingTick >= 100) {
 				craftingTick = 0;
 				crafting = false;
 				if (!keepCatalyst) heldItem = ItemStack.EMPTY;
@@ -91,6 +91,8 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 				markDirty();
 			}
 			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0.25 * ((craftingTick + 30) / 100f), 0);
+		} else {
+			craftingTick = 0;
 		}
 	}
 
@@ -100,7 +102,6 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		heldItem.writeNbt(compound);
 		nbt.put("HeldItem", compound);
 		nbt.putBoolean("crafting", crafting);
-		nbt.putInt("craftingTick", craftingTick);
 		nbt.putBoolean("keepCatalyst", keepCatalyst);
 	}
 
@@ -109,7 +110,6 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		var compound = nbt.getCompound("HeldItem");
 		heldItem = ItemStack.fromNbt(compound);
 		crafting = nbt.getBoolean("crafting");
-		craftingTick = nbt.getInt("craftingTick");
 		keepCatalyst = nbt.getBoolean("keepCatalyst");
 	}
 

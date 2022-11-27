@@ -12,6 +12,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3f;
 
 public class AltarCatalyzerBlockEntityRenderer implements BlockEntityRenderer<AltarCatalyzerBlockEntity> {
+
 	public AltarCatalyzerBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
 
 	@Override
@@ -21,10 +22,11 @@ public class AltarCatalyzerBlockEntityRenderer implements BlockEntityRenderer<Al
 		matrices.push();
 
 		matrices.translate(0.5, 1.1875, 0.5);
+
 		if (!entity.crafting || entity.keepCatalyst) {
-			matrices.translate(0, Math.sin(WanderingClient.ITEM_ROTATION * 0.25 + entity.rand) * 0.03125, 0);
+			matrices.translate(0, Math.sin((WanderingClient.ITEM_ROTATION + tickDelta) * 0.25 + entity.rand) * 0.03125, 0);
 		} else {
-			matrices.translate(0, (float) entity.craftingTick / 25, 0);
+			matrices.translate(0, (entity.craftingTick + tickDelta) / 25, 0);
 		}
 		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(WanderingClient.ITEM_ROTATION));
 

@@ -1,7 +1,13 @@
 {
   "variants": {
-    "": {
+    "sculked=false": {
       "model": "wwizardry:block/altar_catalyzer"
+    },
+    "sculked=true,sculk_below=false": {
+      "model": "wwizardry:block/altar_catalyzer_sculk_more"
+    },
+    "sculked=true,sculk_below=true": {
+      "model": "wwizardry:block/altar_catalyzer_sculk"
     }
   }
 }
