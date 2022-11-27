@@ -5,20 +5,12 @@ import com.mojang.serialization.JsonOps;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.Identifier;
 import org.quiltmc.qsl.recipe.api.serializer.QuiltRecipeSerializer;
 
 public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe> {
 	public static final AltarRecipeSerializer INSTANCE = new AltarRecipeSerializer();
-
-	public static class JsonSchema {
-		public JsonObject catalyst;
-		public JsonObject[] inputs;
-		public JsonObject result;
-	}
-	Gson gson = new Gson();
 
 	@Override
 	public AltarRecipe read(Identifier id, JsonObject json) {
@@ -40,8 +32,10 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 
 		var result = ShapedRecipe.outputFromJson(schema.result);
 
-		return new AltarRecipe(id, catalyst, inputs, result);
+		return new AltarRecipe(id, catalyst, inputs, result, schema.keepCatalyst);
 	}
+
+	Gson gson = new Gson();
 
 	@Override
 	public JsonObject toJson(AltarRecipe recipe) {
@@ -56,6 +50,7 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 		ItemStack.CODEC.encode(recipe.result(), JsonOps.INSTANCE, JsonOps.INSTANCE.empty())
 				.result()
 				.ifPresent(result -> obj.add("result", result));
+		obj.addProperty("keepCatalyst", recipe.keepCatalyst());
 		return obj;
 	}
 
@@ -67,7 +62,8 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 			inputs[i] = Ingredient.fromPacket(buf);
 		}
 		var result = buf.readItemStack();
-		return new AltarRecipe(id, catalyst, inputs, result);
+		var keepCatalyst = buf.readBoolean();
+		return new AltarRecipe(id, catalyst, inputs, result, keepCatalyst);
 	}
 
 	@Override
@@ -77,5 +73,13 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 			input.write(buf);
 		}
 		buf.writeItemStack(recipe.result());
+		buf.writeBoolean(recipe.keepCatalyst());
+	}
+
+	public static class JsonSchema {
+		public JsonObject catalyst;
+		public JsonObject[] inputs;
+		public JsonObject result;
+		public boolean keepCatalyst;
 	}
 }

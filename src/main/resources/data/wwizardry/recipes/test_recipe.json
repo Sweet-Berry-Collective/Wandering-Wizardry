@@ -1,0 +1,24 @@
+{
+  "type": "wwizardry:altar",
+  "catalyst": {
+    "item": "diamond"
+  },
+  "keepCatalyst": true,
+  "inputs": [
+    {
+      "item": "stone"
+    },
+    {
+      "item": "stone"
+    },
+    {
+      "item": "stone"
+    },
+    {
+      "item": "stone"
+    }
+  ],
+  "result": {
+    "item": "end_stone"
+  }
+}

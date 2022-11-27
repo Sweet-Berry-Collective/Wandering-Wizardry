@@ -11,23 +11,29 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-public record AltarRecipe(Identifier id, Ingredient catalyst, Ingredient[] inputs, ItemStack result) implements Recipe<AltarCatalyzerBlockEntity> {
+public record AltarRecipe(Identifier id, Ingredient catalyst, Ingredient[] inputs, ItemStack result,
+						  boolean keepCatalyst) implements Recipe<AltarCatalyzerBlockEntity> {
 	public static final WanderingRecipeType<AltarRecipe> TYPE = new WanderingRecipeType<>(WanderingMod.id("altar"));
 
 	@Override
 	public boolean matches(AltarCatalyzerBlockEntity inventory, World world) {
 		if (!catalyst.test(inventory.heldItem)) return false;
-		boolean[] met = new boolean[4];
-		for (int i = 1; i < inventory.size(); i++)
-			for (int j = 0; j < inputs.length; j++)
-				if (!met[j])
-					met[j] = inputs[j].test(inventory.getStack(i));
-		for (boolean b : met)
+		var met = new boolean[]{false, false, false, false};
+		var neighbors = inventory.getNeighbors();
+		for (var neighbor : neighbors) {
+			for (var j = 0; j < 4; j++) {
+				if (!met[j]) {
+					met[j] = inputs[j].test(neighbor.heldItem);
+					j = 5;
+				}
+			}
+		}
+		for (var b : met) {
 			if (!b)
 				return false;
+		}
 		return true;
 	}
 
@@ -38,7 +44,7 @@ public record AltarRecipe(Identifier id, Ingredient catalyst, Ingredient[] input
 
 	@Override
 	public boolean fits(int width, int height) {
-		return width <= 5 && height == 1;
+		return width == 1 && height == 1;
 	}
 
 	@Override
@@ -60,7 +66,7 @@ public record AltarRecipe(Identifier id, Ingredient catalyst, Ingredient[] input
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return null;
+		return AltarRecipeSerializer.INSTANCE;
 	}
 
 	@Override

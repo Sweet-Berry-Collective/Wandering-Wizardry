@@ -43,6 +43,27 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 		world.updateNeighbors(pos, AltarPedestalBlock.INSTANCE);
 	}
 
+	public void tryCraft(BlockState state) {
+		var dir = state.get(HorizontalFacingBlock.FACING);
+		var pos = this.pos.offset(dir, -2);
+		var entity = world.getBlockEntity(pos);
+		if (!(entity instanceof AltarCatalyzerBlockEntity altarEntity)) return;
+		altarEntity.tryCraft();
+	}
+
+	public void tryCancelCraft(BlockState state) {
+		var dir = state.get(HorizontalFacingBlock.FACING);
+		var pos = this.pos.offset(dir, -2);
+		var entity = world.getBlockEntity(pos);
+		if (!(entity instanceof AltarCatalyzerBlockEntity altarEntity)) return;
+		altarEntity.cancelCraft();
+	}
+
+	public void cancelCraft() {
+		crafting = false;
+		craftingTick = 0;
+	}
+
 	public void tick(World world, BlockPos pos, BlockState state) {
 		var dir = state.get(HorizontalFacingBlock.FACING);
 		var vpos = switch (dir) {
@@ -57,13 +78,13 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 			default -> new Vec3f(0, 0, 0);
 		};
 		var x = switch (dir) {
-			case NORTH -> -1;
-			case SOUTH -> 1;
+			case EAST -> -1;
+			case WEST -> 1;
 			default -> 0;
 		};
 		var z = switch (dir) {
-			case EAST -> 1;
-			case WEST -> -1;
+			case NORTH -> 1;
+			case SOUTH -> -1;
 			default -> 0;
 		};
 		if (crafting) {
@@ -74,11 +95,7 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 				world.updateNeighbors(pos, state.getBlock());
 				markDirty();
 			}
-			if (!heldItem.isEmpty()) {
-				world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, vpos.getX(), vpos.getY(), vpos.getZ(), 0.10355 * x * ((craftingTick + 30) / 100f), 0.25 * ((craftingTick + 30) / 100f), 0.10355 * z * ((craftingTick + 30) / 100f));
-			}
-		} else if (!heldItem.isEmpty()) {
-			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, vpos.getX(), vpos.getY(), vpos.getZ(), 0.010355 * x, 0.025, 0.010355 * z);
+			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, vpos.getX(), vpos.getY(), vpos.getZ(), 0.10355 * x * ((craftingTick + 30) / 100f), 0.25 * ((craftingTick + 30) / 100f), 0.10355 * z * ((craftingTick + 30) / 100f));
 		}
 	}
 
@@ -149,6 +166,7 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 		if (crafting) return;
 		heldItem = stack.copy();
 		heldItem.setCount(1);
+		tryCraft(world.getBlockState(pos));
 	}
 
 	@Override

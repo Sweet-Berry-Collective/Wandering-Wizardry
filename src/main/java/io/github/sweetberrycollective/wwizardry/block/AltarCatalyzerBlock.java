@@ -96,6 +96,7 @@ public class AltarCatalyzerBlock extends BlockWithEntity implements Waterloggabl
 		if (!stack.isEmpty() && entity.heldItem.isEmpty()) {
 			stack.decrement(1);
 			entity.heldItem = newstack;
+			entity.tryCraft();
 		} else if (!stack.isEmpty()) {
 			stack.decrement(1);
 			if (stack.isEmpty()) {
@@ -117,6 +118,7 @@ public class AltarCatalyzerBlock extends BlockWithEntity implements Waterloggabl
 				player.giveItemStack(entity.heldItem);
 			}
 			entity.heldItem = newstack;
+			entity.tryCraft();
 		} else {
 			boolean inserted = false;
 			for (int i = 0; i < player.getInventory().size(); i++) {
@@ -143,7 +145,9 @@ public class AltarCatalyzerBlock extends BlockWithEntity implements Waterloggabl
 
 	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		var entity = (AltarCatalyzerBlockEntity) world.getBlockEntity(pos);
+		var e = world.getBlockEntity(pos);
+		if (!(e instanceof AltarCatalyzerBlockEntity entity)) return;
+		entity.cancelCraft();
 		var stackEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), entity.heldItem);
 		world.spawnEntity(stackEntity);
 		super.onBreak(world, pos, state, player);

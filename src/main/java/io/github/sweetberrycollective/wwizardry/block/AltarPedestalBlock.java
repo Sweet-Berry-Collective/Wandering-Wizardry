@@ -137,6 +137,7 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 		if (!stack.isEmpty() && entity.heldItem.isEmpty()) {
 			stack.decrement(1);
 			entity.heldItem = newstack;
+			entity.tryCraft(state);
 		} else if (!stack.isEmpty()) {
 			stack.decrement(1);
 			if (stack.isEmpty()) {
@@ -158,6 +159,7 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 				player.giveItemStack(entity.heldItem);
 			}
 			entity.heldItem = newstack;
+			entity.tryCraft(state);
 		} else {
 			boolean inserted = false;
 			for (int i = 0; i < player.getInventory().size(); i++) {
@@ -184,7 +186,9 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 
 	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		var entity = (AltarPedestalBlockEntity) world.getBlockEntity(pos);
+		var e = world.getBlockEntity(pos);
+		if (!(e instanceof AltarPedestalBlockEntity entity)) return;
+		entity.tryCancelCraft(state);
 		var stackEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), entity.heldItem);
 		world.spawnEntity(stackEntity);
 		super.onBreak(world, pos, state, player);

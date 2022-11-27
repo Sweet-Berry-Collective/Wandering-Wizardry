@@ -2,11 +2,13 @@ package io.github.sweetberrycollective.wwizardry.block.entity;
 
 import io.github.sweetberrycollective.wwizardry.block.AltarCatalyzerBlock;
 import io.github.sweetberrycollective.wwizardry.block.AltarPedestalBlock;
+import io.github.sweetberrycollective.wwizardry.recipe.AltarRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -16,6 +18,8 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -33,22 +37,43 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 
 	public int craftingTick = 0;
 
+	public ItemStack result = ItemStack.EMPTY;
+
+	public boolean keepCatalyst = false;
+
 	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = QuiltBlockEntityTypeBuilder.create(AltarCatalyzerBlockEntity::new, AltarCatalyzerBlock.INSTANCE).build();
 
 	public AltarCatalyzerBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
 	}
 
-	public void startCrafting() {
+	public void startCrafting(AltarRecipe recipe) {
+		result = recipe.result().copy();
 		crafting = true;
 		craftingTick = 0;
+		keepCatalyst = recipe.keepCatalyst();
 		markDirty();
 		var neighbors = getNeighbors();
 		for (var n : neighbors) {
 			n.startCrafting();
+			world.updateNeighbors(n.getPos(), AltarPedestalBlock.INSTANCE);
 		}
-		if (world == null) return;
-		world.updateNeighbors(pos, AltarPedestalBlock.INSTANCE);
+		world.updateNeighbors(pos, AltarCatalyzerBlock.INSTANCE);
+	}
+
+	public void tryCraft() {
+		var optional = world.getRecipeManager().getFirstMatch(AltarRecipe.TYPE, this, world);
+		optional.ifPresent(this::startCrafting);
+	}
+
+	public void cancelCraft() {
+		result = ItemStack.EMPTY;
+		crafting = false;
+		craftingTick = 0;
+		var neighbors = getNeighbors();
+		for (var n : neighbors) {
+			n.cancelCraft();
+		}
 	}
 
 	public void tick(World world, BlockPos pos, BlockState state) {
@@ -56,16 +81,16 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 			if (++craftingTick == 100) {
 				craftingTick = 0;
 				crafting = false;
-				heldItem = ItemStack.EMPTY;
+				if (!keepCatalyst) heldItem = ItemStack.EMPTY;
 				world.updateNeighbors(pos, state.getBlock());
 				world.addParticle(ParticleTypes.SONIC_BOOM, pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, 0, 0, 0);
+				var stackEntity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, result.copy());
+				result = ItemStack.EMPTY;
+				world.spawnEntity(stackEntity);
+				world.playSound(pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 2, 1, true);
 				markDirty();
 			}
-			if (!heldItem.isEmpty()) {
-				world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0.25 * ((craftingTick + 30) / 100f), 0);
-			}
-		} else if (!heldItem.isEmpty()) {
-			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0.025, 0);
+			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0.25 * ((craftingTick + 30) / 100f), 0);
 		}
 	}
 
@@ -76,6 +101,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		nbt.put("HeldItem", compound);
 		nbt.putBoolean("crafting", crafting);
 		nbt.putInt("craftingTick", craftingTick);
+		nbt.putBoolean("keepCatalyst", keepCatalyst);
 	}
 
 	@Override
@@ -84,6 +110,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		heldItem = ItemStack.fromNbt(compound);
 		crafting = nbt.getBoolean("crafting");
 		craftingTick = nbt.getInt("craftingTick");
+		keepCatalyst = nbt.getBoolean("keepCatalyst");
 	}
 
 	@Override
@@ -110,7 +137,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		var eastState = world.getBlockState(pos.east(2));
 		if (east instanceof AltarPedestalBlockEntity be && eastState.get(HorizontalFacingBlock.FACING) == Direction.EAST) out.add(be);
 		var west = world.getBlockEntity(pos.west(2));
-		var westState = world.getBlockState(pos.east(2));
+		var westState = world.getBlockState(pos.west(2));
 		if (west instanceof AltarPedestalBlockEntity be && westState.get(HorizontalFacingBlock.FACING) == Direction.WEST) out.add(be);
 		return out;
 	}
@@ -154,6 +181,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		if (crafting) return;
 		heldItem = stack.copy();
 		heldItem.setCount(1);
+		tryCraft();
 	}
 
 	@Override
