@@ -83,14 +83,12 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 
 	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-		var down = world.getBlockState(pos.down()).getBlock();
-		return state.with(WanderingBlocks.SCULK_BELOW, down == Blocks.SCULK || down == Blocks.AIR);
+		return state.with(WanderingBlocks.SCULK_BELOW, WanderingBlocks.testForSculk(world, pos.down()));
 	}
 
 	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-		var down = world.getBlockState(pos.down()).getBlock();
-		world.setBlockState(pos, state.with(WanderingBlocks.SCULK_BELOW, down == Blocks.SCULK || down == Blocks.AIR));
+		world.setBlockState(pos, state.with(WanderingBlocks.SCULK_BELOW, WanderingBlocks.testForSculk(world, pos.down())));
 	}
 
 	@Override
@@ -242,7 +240,7 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 		var posDown = pos.down();
 		var stateDown = world.getBlockState(posDown);
 		if (!state.get(WanderingBlocks.SCULK_INFESTED)) {
-			world.setBlockState(pos, state.with(WanderingBlocks.SCULK_INFESTED, true).with(WanderingBlocks.SCULK_BELOW, stateDown.getBlock() == Blocks.SCULK), NOTIFY_ALL | FORCE_STATE);
+			world.setBlockState(pos, state.with(WanderingBlocks.SCULK_INFESTED, true).with(WanderingBlocks.SCULK_BELOW, WanderingBlocks.testForSculk(world, pos.down())), NOTIFY_ALL | FORCE_STATE);
 			world.playSound(null, pos, SoundEvents.BLOCK_SCULK_SPREAD, SoundCategory.BLOCKS, 1, 1);
 
 			return true;
