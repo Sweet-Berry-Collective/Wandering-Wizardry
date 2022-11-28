@@ -38,6 +38,34 @@ public class WanderingItems {
 					new QuiltItemSettings()
 			)
 	);
+	public static final Item BASALT_TILES = registerItem(
+			"basalt_tiles",
+			new BlockItem(
+					WanderingBlocks.BASALT_TILES,
+					new QuiltItemSettings()
+			)
+	);
+	public static final Item BASALT_TILE_STAIRS = registerItem(
+			"basalt_tile_stairs",
+			new BlockItem(
+					WanderingBlocks.BASALT_TILE_STAIRS,
+					new QuiltItemSettings()
+			)
+	);
+	public static final Item BASALT_TILE_SLAB = registerItem(
+			"basalt_tile_slab",
+			new BlockItem(
+					WanderingBlocks.BASALT_TILE_SLAB,
+					new QuiltItemSettings()
+			)
+	);
+	public static final Item BASALT_TILE_WALL = registerItem(
+			"basalt_tile_wall",
+			new BlockItem(
+					WanderingBlocks.BASALT_TILE_WALL,
+					new QuiltItemSettings()
+			)
+	);
 
 	public static void init() {
 		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);

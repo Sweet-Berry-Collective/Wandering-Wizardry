@@ -54,6 +54,36 @@ public class WanderingBlocks {
 			)
 	);
 
+	public static final Block BASALT_TILES = registerBlock(
+			"basalt_tiles",
+			new Block(
+					QuiltBlockSettings
+							.copyOf(Blocks.SMOOTH_BASALT)
+			)
+	);
+	public static final Block BASALT_TILE_STAIRS = registerBlock(
+			"basalt_tile_stairs",
+			new StairsBlock(
+					BASALT_TILES.getDefaultState(),
+					QuiltBlockSettings
+							.copyOf(BASALT_TILES)
+			)
+	);
+	public static final Block BASALT_TILE_SLAB = registerBlock(
+			"basalt_tile_slab",
+			new SlabBlock(
+					QuiltBlockSettings
+							.copyOf(BASALT_TILES)
+			)
+	);
+	public static final Block BASALT_TILE_WALL = registerBlock(
+			"basalt_tile_wall",
+			new WallBlock(
+					QuiltBlockSettings
+							.copyOf(BASALT_TILES)
+			)
+	);
+
 	public static void init() {
 		registerBlock("altar_pedestal", AltarPedestalBlock.INSTANCE);
 		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);
