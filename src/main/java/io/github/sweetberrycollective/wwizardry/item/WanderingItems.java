@@ -66,6 +66,34 @@ public class WanderingItems {
 					new QuiltItemSettings()
 			)
 	);
+	public static final Item CHISELED_BASALT = registerItem(
+			"chiseled_basalt",
+			new BlockItem(
+					WanderingBlocks.CHISELED_BASALT,
+					new QuiltItemSettings()
+			)
+	);
+	public static final Item CHISELED_BASALT_STAIRS = registerItem(
+			"chiseled_basalt_stairs",
+			new BlockItem(
+					WanderingBlocks.CHISELED_BASALT_STAIRS,
+					new QuiltItemSettings()
+			)
+	);
+	public static final Item CHISELED_BASALT_SLAB = registerItem(
+			"chiseled_basalt_slab",
+			new BlockItem(
+					WanderingBlocks.CHISELED_BASALT_SLAB,
+					new QuiltItemSettings()
+			)
+	);
+	public static final Item CHISELED_BASALT_WALL = registerItem(
+			"chiseled_basalt_wall",
+			new BlockItem(
+					WanderingBlocks.CHISELED_BASALT_WALL,
+					new QuiltItemSettings()
+			)
+	);
 
 	public static void init() {
 		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);

@@ -223,6 +223,12 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 		return !abe.heldItem.isEmpty() ? 15 : 0;
 	}
 
+
+	@Override
+	public boolean hasComparatorOutput(BlockState state) {
+		return true;
+	}
+
 	@Override
 	public boolean emitsRedstonePower(BlockState state) {
 		return true;

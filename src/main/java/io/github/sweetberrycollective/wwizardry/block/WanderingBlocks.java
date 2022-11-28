@@ -84,6 +84,36 @@ public class WanderingBlocks {
 			)
 	);
 
+	public static final Block CHISELED_BASALT = registerBlock(
+			"chiseled_basalt",
+			new Block(
+					QuiltBlockSettings
+							.copyOf(Blocks.SMOOTH_BASALT)
+			)
+	);
+	public static final Block CHISELED_BASALT_STAIRS = registerBlock(
+			"chiseled_basalt_stairs",
+			new StairsBlock(
+					CHISELED_BASALT.getDefaultState(),
+					QuiltBlockSettings
+							.copyOf(CHISELED_BASALT)
+			)
+	);
+	public static final Block CHISELED_BASALT_SLAB = registerBlock(
+			"chiseled_basalt_slab",
+			new SlabBlock(
+					QuiltBlockSettings
+							.copyOf(CHISELED_BASALT)
+			)
+	);
+	public static final Block CHISELED_BASALT_WALL = registerBlock(
+			"chiseled_basalt_wall",
+			new WallBlock(
+					QuiltBlockSettings
+							.copyOf(CHISELED_BASALT)
+			)
+	);
+
 	public static void init() {
 		registerBlock("altar_pedestal", AltarPedestalBlock.INSTANCE);
 		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);
