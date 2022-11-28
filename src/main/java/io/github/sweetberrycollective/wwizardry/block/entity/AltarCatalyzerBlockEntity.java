@@ -1,7 +1,7 @@
 package io.github.sweetberrycollective.wwizardry.block.entity;
 
 import io.github.sweetberrycollective.wwizardry.block.AltarCatalyzerBlock;
-import io.github.sweetberrycollective.wwizardry.block.AltarPedestalBlock;
+import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import io.github.sweetberrycollective.wwizardry.recipe.AltarRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -23,6 +23,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
 
@@ -60,7 +61,6 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		var neighbors = getNeighbors();
 		for (var n : neighbors) {
 			n.startCrafting();
-			world.updateNeighbors(n.getPos(), AltarPedestalBlock.INSTANCE);
 		}
 		world.updateNeighbors(pos, AltarCatalyzerBlock.INSTANCE);
 	}
@@ -79,6 +79,7 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 		for (var n : neighbors) {
 			n.cancelCraft();
 		}
+		world.updateNeighbors(pos, AltarCatalyzerBlock.INSTANCE);
 	}
 
 	public void tick(World world, BlockPos pos, BlockState state) {
@@ -98,8 +99,11 @@ public class AltarCatalyzerBlockEntity extends BlockEntity implements Inventory 
 				if (!world.isClient && bloom > 0) {
 					System.out.println(world);
 					world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 2, 1, true);
-					behavior.addCharge(pos, bloom);
+					if (state.get(WanderingBlocks.NATURALLY_GENERATED)) {
+						behavior.addCharge(pos, bloom);
+					}
 				}
+				world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 				bloom = 0;
 				markDirty();
 			}

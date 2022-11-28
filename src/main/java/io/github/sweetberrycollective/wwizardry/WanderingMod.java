@@ -19,6 +19,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
@@ -41,6 +42,7 @@ public class WanderingMod implements ModInitializer {
 				var item = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, Items.SCULK_VEIN.getDefaultStack());
 				world.spawnEntity(item);
 			}
+			world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 			return ActionResult.SUCCESS;
 		} else if (stack.getItem() == Items.SCULK_VEIN && state.contains(WanderingBlocks.SCULK_INFESTED) && !state.get(WanderingBlocks.SCULK_INFESTED)) {
 			world.setBlockState(pos, state.with(WanderingBlocks.SCULK_INFESTED, true));
@@ -51,6 +53,7 @@ public class WanderingMod implements ModInitializer {
 			if (!player.isCreative()) {
 				stack.decrement(1);
 			}
+			world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 			return ActionResult.SUCCESS;
 		}
 		return ActionResult.PASS;

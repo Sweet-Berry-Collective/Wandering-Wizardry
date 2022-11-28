@@ -32,6 +32,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
@@ -154,6 +155,7 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 			entity.heldItem = ItemStack.EMPTY;
 			entity.markDirty();
 			world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 10f, 0f);
+			world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 			return ActionResult.SUCCESS;
 		}
 		if (!stack.isEmpty() && entity.heldItem.isEmpty()) {
@@ -199,7 +201,8 @@ public class AltarPedestalBlock extends BlockWithEntity implements Waterloggable
 			}
 			entity.heldItem = ItemStack.EMPTY;
 		}
-		((ServerWorld)world).getChunkManager().markForUpdate(pos);
+		((ServerWorld) world).getChunkManager().markForUpdate(pos);
+		world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 
 		entity.markDirty();
 		world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 10f, 0f);

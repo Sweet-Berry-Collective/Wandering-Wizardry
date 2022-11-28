@@ -62,6 +62,7 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 	public void cancelCraft() {
 		crafting = false;
 		craftingTick = 0;
+		world.updateNeighbors(pos, AltarPedestalBlock.INSTANCE);
 	}
 
 	public void tick(World world, BlockPos pos, BlockState state) {
@@ -92,7 +93,7 @@ public class AltarPedestalBlockEntity extends BlockEntity implements Inventory {
 				craftingTick = 0;
 				crafting = false;
 				heldItem = ItemStack.EMPTY;
-				world.updateNeighbors(pos, state.getBlock());
+				world.updateNeighbors(pos, AltarPedestalBlock.INSTANCE);
 				markDirty();
 			}
 			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, vpos.getX(), vpos.getY(), vpos.getZ(), 0.10355 * x * ((craftingTick + 30) / 100f), 0.25 * ((craftingTick + 30) / 100f), 0.10355 * z * ((craftingTick + 30) / 100f));

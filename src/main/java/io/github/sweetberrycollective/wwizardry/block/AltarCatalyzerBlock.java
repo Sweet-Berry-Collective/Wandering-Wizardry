@@ -31,6 +31,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
@@ -54,6 +55,7 @@ public class AltarCatalyzerBlock extends BlockWithEntity implements Waterloggabl
 						.with(Properties.WATERLOGGED, false)
 						.with(WanderingBlocks.SCULK_INFESTED, false)
 						.with(WanderingBlocks.SCULK_BELOW, false)
+						.with(WanderingBlocks.NATURALLY_GENERATED, false)
 		);
 	}
 
@@ -69,7 +71,7 @@ public class AltarCatalyzerBlock extends BlockWithEntity implements Waterloggabl
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(Properties.WATERLOGGED, WanderingBlocks.SCULK_INFESTED, WanderingBlocks.SCULK_BELOW);
+		builder.add(Properties.WATERLOGGED, WanderingBlocks.SCULK_INFESTED, WanderingBlocks.SCULK_BELOW, WanderingBlocks.NATURALLY_GENERATED);
 	}
 
 	@Nullable
@@ -114,6 +116,7 @@ public class AltarCatalyzerBlock extends BlockWithEntity implements Waterloggabl
 			entity.heldItem = ItemStack.EMPTY;
 			entity.markDirty();
 			world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 10f, 0f);
+			world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 			return ActionResult.SUCCESS;
 		}
 		if (!stack.isEmpty() && entity.heldItem.isEmpty()) {
@@ -159,7 +162,8 @@ public class AltarCatalyzerBlock extends BlockWithEntity implements Waterloggabl
 			}
 			entity.heldItem = ItemStack.EMPTY;
 		}
-		((ServerWorld)world).getChunkManager().markForUpdate(pos);
+		((ServerWorld) world).getChunkManager().markForUpdate(pos);
+		world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 
 		entity.markDirty();
 		world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 10f, 0f);
