@@ -46,12 +46,20 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 		startCrafting(null);
 	}
 
-	public abstract void tryCraft();
+	public void tryCraft() {
+		tryCraft(world.getBlockState(pos));
+	}
+
+	public abstract void tryCraft(BlockState state);
 
 	public void cancelCraft() {
 		crafting = false;
 		craftingTick = 0;
 		world.updateNeighbors(pos, getBlock());
+	}
+
+	public void tryCancelCraft(BlockState state) {
+		cancelCraft();
 	}
 
 	public void finishCrafting(BlockState state, boolean removeHeldItem) {
