@@ -49,7 +49,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	public void tryCraft() {
+	public void tryCraft(BlockState state) {
 		var optional = world.getRecipeManager().getFirstMatch(AltarRecipe.TYPE, this, world);
 		optional.ifPresent(this::startCrafting);
 	}

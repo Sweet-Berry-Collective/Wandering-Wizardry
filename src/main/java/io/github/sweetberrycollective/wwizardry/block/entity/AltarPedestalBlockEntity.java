@@ -65,10 +65,6 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	public void tryCraft() {
-		tryCraft(world.getBlockState(pos));
-	}
-
 	public void tryCancelCraft(BlockState state) {
 		findCatalyzer(state).ifPresent(AltarCatalyzerBlockEntity::cancelCraft);
 	}
