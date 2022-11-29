@@ -17,6 +17,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -28,6 +29,21 @@ import org.slf4j.LoggerFactory;
 public class WanderingMod implements ModInitializer {
 	public static final String MODID = "wwizardry";
 	public static final Logger LOGGER = LoggerFactory.getLogger("Wandering Wizardry");
+
+	public static ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
+		if (!player.canModifyBlocks()) return ActionResult.PASS;
+		var pos = hitResult.getBlockPos();
+		var state = world.getBlockState(pos);
+		var stack = player.getStackInHand(hand);
+		if (player.isSneaking()) {
+			var test = testPos(pos, state, player, world, hand, stack);
+			if (test != ActionResult.PASS) return test;
+		}
+		if (state.contains(WanderingBlocks.SCULK_INFESTED) && !player.isSneaking()) return ActionResult.PASS;
+		var hitPos = pos.offset(hitResult.getSide());
+		var hitState = world.getBlockState(hitPos);
+		return testPos(hitPos, hitState, player, world, hand, stack);
+	}
 
 	public static ActionResult testPos(BlockPos pos, BlockState state, PlayerEntity player, World world, Hand hand, ItemStack stack) {
 		if (stack.getItem() instanceof ShearsItem && state.contains(WanderingBlocks.SCULK_INFESTED) && state.get(WanderingBlocks.SCULK_INFESTED)) {
@@ -64,20 +80,7 @@ public class WanderingMod implements ModInitializer {
 		WanderingBlocks.init();
 		WanderingItems.init();
 		WanderingRecipes.init();
-		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-			if (!player.canModifyBlocks()) return ActionResult.PASS;
-			var pos = hitResult.getBlockPos();
-			var state = world.getBlockState(pos);
-			var stack = player.getStackInHand(hand);
-			if (player.isSneaking()) {
-				var test = testPos(pos, state, player, world, hand, stack);
-				if (test != ActionResult.PASS) return test;
-			}
-			if (state.contains(WanderingBlocks.SCULK_INFESTED) && !player.isSneaking()) return ActionResult.PASS;
-			var hitPos = pos.offset(hitResult.getSide());
-			var hitState = world.getBlockState(hitPos);
-			return testPos(hitPos, hitState, player, world, hand, stack);
-		});
+		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
 	}
 
 	public static Identifier id(String path) {
