@@ -11,31 +11,21 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3f;
 
-public class AltarCatalyzerBlockEntityRenderer implements BlockEntityRenderer<AltarCatalyzerBlockEntity> {
+public class AltarCatalyzerBlockEntityRenderer implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
 
 	public AltarCatalyzerBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
 
 	@Override
-	public void render(AltarCatalyzerBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-		if (entity.isRemoved()) return;
+	public boolean shouldHover(AltarCatalyzerBlockEntity entity) {
+		return AltarBlockEntityRenderer.super.shouldHover(entity) || entity.keepCatalyst;
+	}
 
+	@Override
+	public void beforeRender(AltarCatalyzerBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		var pos = entity.getPos();
 		if (entity.shouldUpdateClient)
 			MinecraftClient.getInstance().worldRenderer.scheduleBlockRenders(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
 
-		matrices.push();
-
 		matrices.translate(0.5, 1.1875, 0.5);
-
-		if (!entity.crafting || entity.keepCatalyst) {
-			matrices.translate(0, Math.sin((WanderingClient.ITEM_ROTATION + tickDelta) * 0.25 + entity.rand) * 0.03125, 0);
-		} else {
-			matrices.translate(0, (entity.craftingTick + tickDelta) / 25, 0);
-		}
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(WanderingClient.ITEM_ROTATION));
-
-		MinecraftClient.getInstance().getItemRenderer().renderItem(entity.heldItem, ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, 0);
-
-		matrices.pop();
 	}
 }
