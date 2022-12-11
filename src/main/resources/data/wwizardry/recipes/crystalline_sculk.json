@@ -1,0 +1,25 @@
+{
+  "type": "wwizardry:altar",
+  "catalyst": {
+    "item": "echo_shard"
+  },
+  "keepCatalyst": false,
+  "inputs": [
+    {
+      "item": "amethyst_shard"
+    },
+    {
+      "item": "amethyst_shard"
+    },
+    {
+      "item": "amethyst_shard"
+    },
+    {
+      "item": "amethyst_shard"
+    }
+  ],
+  "result": {
+    "item": "wwizardry:crystalline_sculk_shard"
+  },
+  "bloom": 10
+}

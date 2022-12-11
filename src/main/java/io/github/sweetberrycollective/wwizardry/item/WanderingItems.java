@@ -95,6 +95,13 @@ public class WanderingItems {
 			)
 	);
 
+	public static final Item CRYSTALLINE_SCULK_SHARD = registerItem(
+			"crystalline_sculk_shard",
+			new Item(
+					new QuiltItemSettings()
+			)
+	);
+
 	public static void init() {
 		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);
 		registerItem("altar_catalyzer", AltarCatalyzerBlock.ITEM);
