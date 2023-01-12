@@ -97,7 +97,7 @@ public class WanderingItems {
 	);
 
 	public static final Item CRYSTALLINE_SCULK_SHARD = registerItem(
-			"crystalline_sculk_shard",
+			"crystalline_sculk",
 			new Item(
 					new QuiltItemSettings()
 			)
