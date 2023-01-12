@@ -1,0 +1,8 @@
+{
+  "parent": "block/stairs",
+  "textures": {
+    "bottom": "wwizardry:block/%_planks",
+    "side": "wwizardry:block/%_planks",
+    "top": "wwizardry:block/%_planks"
+  }
+}

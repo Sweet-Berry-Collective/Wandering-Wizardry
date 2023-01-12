@@ -1,0 +1,7 @@
+{
+  "parent": "block/door$",
+  "textures": {
+    "bottom": "wwizardry:block/%_door_bottom",
+    "top": "wwizardry:block/%_door_top"
+  }
+}

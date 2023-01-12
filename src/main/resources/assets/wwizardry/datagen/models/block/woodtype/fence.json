@@ -1,0 +1,6 @@
+{
+  "parent": "block/fence$",
+  "textures": {
+    "texture": "wwizardry:block/%_planks"
+  }
+}

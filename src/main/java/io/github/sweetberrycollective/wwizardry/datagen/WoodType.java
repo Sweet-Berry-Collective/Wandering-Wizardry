@@ -12,7 +12,6 @@ import net.minecraft.item.SignItem;
 import net.minecraft.resource.MultiPackResourceManager;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
@@ -21,10 +20,7 @@ import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.api.ResourcePackRegistrationContext;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-public class WoodType implements ResourcePackRegistrationContext.Callback {
+public class WoodType extends WanderingDatagen {
 	public final String BASE_NAME;
 
 	public final Block LOG;
@@ -124,12 +120,14 @@ public class WoodType implements ResourcePackRegistrationContext.Callback {
 		var manager = context.resourceManager();
 		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
 		var pack = new InMemoryResourcePack.Named("AutoSlab resources");
-		var blockstates = new BlockstateData(context, BASE_NAME);
+		var blockstates = new BlockstateDataApplier(context, BASE_NAME);
+		var blockModels = new BlockModelDataApplier(context, BASE_NAME);
 		blockstates.addToResourcePack(pack);
+		blockModels.addToResourcePack(pack);
 		context.addResourcePack(pack);
 	}
 
-	public static class BlockstateData {
+	public static class BlockstateDataApplier extends WanderingDatagen.AbstractBlockstateDataApplier {
 		public final String BUTTON;
 		public final String DOOR;
 		public final String FENCE;
@@ -145,12 +143,8 @@ public class WoodType implements ResourcePackRegistrationContext.Callback {
 		public final String TRAPDOOR;
 		public final String WOOD;
 
-		public final @NotNull ResourcePackRegistrationContext context;
-		public final String baseName;
-
-		public BlockstateData(@NotNull ResourcePackRegistrationContext context, String baseName) {
-			this.context = context;
-			this.baseName = baseName;
+		public BlockstateDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
+			super(context, baseName, "woodtype");
 
 			BUTTON = getResource("button");
 			DOOR = getResource("door");
@@ -166,20 +160,6 @@ public class WoodType implements ResourcePackRegistrationContext.Callback {
 			STRIPPED_WOOD = getResource("stripped_wood");
 			TRAPDOOR = getResource("trapdoor");
 			WOOD = getResource("wood");
-		}
-
-
-		private String getResource(String name) {
-			try {
-				return new String(context.resourceManager().open(path(name)).readAllBytes(), StandardCharsets.UTF_8);
-			} catch (IOException e) {
-				WanderingMod.LOGGER.error("Unable to find "+name);
-				return "{}";
-			}
-		}
-
-		private Identifier path(String file) {
-			return WanderingMod.id("datagen/blockstates/woodtype/"+file+".json");
 		}
 
 		public void addToResourcePack(InMemoryResourcePack pack) {
@@ -199,9 +179,82 @@ public class WoodType implements ResourcePackRegistrationContext.Callback {
 			put(pack, baseName+"_trapdoor", TRAPDOOR);
 			put(pack, baseName+"_wood", WOOD);
 		}
+	}
 
-		private void put(InMemoryResourcePack pack, String path, String text) {
-			pack.putText(ResourceType.CLIENT_RESOURCES, WanderingMod.id("blockstates/"+path+".json"), text.replaceAll("%", baseName));
+	public static class BlockModelDataApplier extends AbstractBlockModelDataApplier {
+		public final String BUTTON;
+		public final String DOOR;
+		public final String FENCE;
+		public final String FENCE_GATE;
+		public final String LOG;
+		public final String PLANKS;
+		public final String PRESSURE_PLATE;
+		public final String SIGN;
+		public final String SLAB;
+		public final String STAIRS;
+		public final String STRIPPED_LOG;
+		public final String STRIPPED_WOOD;
+		public final String TRAPDOOR;
+		public final String WOOD;
+		public BlockModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
+			super(context, baseName, "woodtype");
+
+			BUTTON = getResource("button");
+			DOOR = getResource("door");
+			FENCE = getResource("fence");
+			FENCE_GATE = getResource("fence_gate");
+			LOG = getResource("log");
+			PLANKS = getResource("planks");
+			PRESSURE_PLATE = getResource("pressure_plate");
+			SIGN = getResource("sign");
+			SLAB = getResource("slab");
+			STAIRS = getResource("stairs");
+			STRIPPED_LOG = getResource("stripped_log");
+			STRIPPED_WOOD = getResource("stripped_wood");
+			TRAPDOOR = getResource("trapdoor");
+			WOOD = getResource("wood");
+		}
+
+		@Override
+		public void addToResourcePack(InMemoryResourcePack pack) {
+			put(pack, baseName+"_button", BUTTON, null);
+			put(pack, baseName+"_button", BUTTON, "inventory");
+			put(pack, baseName+"_button", BUTTON, "pressed");
+			put(pack, baseName+"_door", DOOR, "bottom_left");
+			put(pack, baseName+"_door", DOOR, "bottom_left_open");
+			put(pack, baseName+"_door", DOOR, "bottom_right");
+			put(pack, baseName+"_door", DOOR, "bottom_right_open");
+			put(pack, baseName+"_door", DOOR, "top_left");
+			put(pack, baseName+"_door", DOOR, "top_left_open");
+			put(pack, baseName+"_door", DOOR, "top_right");
+			put(pack, baseName+"_door", DOOR, "top_right_open");
+			put(pack, baseName+"_fence_gate", FENCE_GATE, null);
+			put(pack, baseName+"_fence_gate", FENCE_GATE, "open");
+			put(pack, baseName+"_fence_gate", FENCE_GATE, "wall");
+			put(pack, baseName+"_fence_gate", FENCE_GATE, "wall_open");
+			put(pack, baseName+"_fence", FENCE, "inventory");
+			put(pack, baseName+"_fence", FENCE, "post");
+			put(pack, baseName+"_fence", FENCE, "side");
+			put(pack, baseName+"_log", LOG, null);
+			put(pack, baseName+"_log", LOG, "horizontal");
+			put(pack, baseName+"_planks", PLANKS);
+			put(pack, baseName+"_pressure_plate", PRESSURE_PLATE);
+			put(pack, baseName+"_pressure_plate_down", PRESSURE_PLATE.replace("up", "down"));
+			put(pack, baseName+"_sign", SIGN);
+			put(pack, baseName+"_slab", SLAB, null);
+			put(pack, baseName+"_slab", SLAB, "top");
+			put(pack, baseName+"_stairs", STAIRS);
+			put(pack, baseName+"_stairs_inner", STAIRS.replace("stairs", "inner_stairs"));
+			put(pack, baseName+"_stairs_outer", STAIRS.replace("stairs", "outer_stairs"));
+			put(pack, "stripped_"+baseName+"_log", STRIPPED_LOG, null);
+			put(pack, "stripped_"+baseName+"_log", STRIPPED_LOG, "horizontal");
+			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD, null);
+			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD, "horizontal");
+			put(pack, baseName+"_trapdoor", TRAPDOOR, "bottom");
+			put(pack, baseName+"_trapdoor", TRAPDOOR, "open");
+			put(pack, baseName+"_trapdoor", TRAPDOOR, "top");
+			put(pack, baseName+"_wood", WOOD, null);
+			put(pack, baseName+"_wood", WOOD, "horizontal");
 		}
 	}
 }
