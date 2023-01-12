@@ -1,15 +1,10 @@
 package io.github.sweetberrycollective.wwizardry.client.render;
 
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarCatalyzerBlockEntity;
-import io.github.sweetberrycollective.wwizardry.client.WanderingClient;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Vec3f;
 
 public class AltarCatalyzerBlockEntityRenderer implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
 

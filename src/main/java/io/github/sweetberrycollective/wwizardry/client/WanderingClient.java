@@ -18,8 +18,8 @@ public class WanderingClient implements ClientModInitializer {
 	public static int ITEM_ROTATION = 0;
 	@Override
 	public void onInitializeClient(ModContainer mod) {
-		BlockEntityRendererFactories.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
-		BlockEntityRendererFactories.register(AltarCatalyzerBlockEntity.TYPE, AltarCatalyzerBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(AltarCatalyzerBlockEntity.TYPE, AltarCatalyzerBlockEntityRenderer::new);
 		ClientWorldTickEvents.END.register((client, world) -> ITEM_ROTATION++);
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), AltarPedestalBlock.INSTANCE);
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), AltarCatalyzerBlock.INSTANCE);

@@ -27,12 +27,12 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 		beforeRender(entity, tickDelta, matrices, vertexConsumers, light, overlay);
 
 		if (shouldHover(entity)) {
-			matrices.translate(0, Math.sin((WanderingClient.ITEM_ROTATION + tickDelta) / 8 + entity.rand) * 0.03125, 0);
+			matrices.translate(0, Math.sin((WanderingClient.ITEM_ROTATION + tickDelta) / 16 + entity.rand) * 0.03125, 0);
 		} else {
 			matrices.translate(0, (entity.craftingTick + tickDelta) / 25, 0);
 		}
 
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(WanderingClient.ITEM_ROTATION));
+		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(WanderingClient.ITEM_ROTATION + tickDelta / 2));
 
 		MinecraftClient.getInstance().getItemRenderer().renderItem(entity.heldItem, ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, 0);
 
