@@ -91,7 +91,7 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
+	public NbtCompound toSyncedNbt() {
 		return toNbt();
 	}
 

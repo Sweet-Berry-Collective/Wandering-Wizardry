@@ -8,7 +8,8 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Vec3f;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
 
 public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends BlockEntityRenderer<T> {
 
@@ -32,7 +33,7 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 			matrices.translate(0, (entity.craftingTick + tickDelta) / 25, 0);
 		}
 
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(WanderingClient.ITEM_ROTATION));
+		matrices.multiply(new Quaternionf().rotationY((WanderingClient.ITEM_ROTATION + tickDelta)/16));
 
 		MinecraftClient.getInstance().getItemRenderer().renderItem(entity.heldItem, ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, 0);
 

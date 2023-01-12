@@ -6,7 +6,8 @@ import io.github.sweetberrycollective.wwizardry.block.AltarPedestalBlock;
 import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class WanderingItems {
@@ -108,6 +109,6 @@ public class WanderingItems {
 	}
 
 	public static Item registerItem(String id, Item item) {
-		return Registry.register(Registry.ITEM, WanderingMod.id(id), item);
+		return Registry.register(Registries.ITEM, WanderingMod.id(id), item);
 	}
 }
