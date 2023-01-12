@@ -1,8 +1,9 @@
-package io.github.sweetberrycollective.wwizardry.block;
+package io.github.sweetberrycollective.wwizardry.datagen;
 
 import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 import io.github.sweetberrycollective.wwizardry.WanderingMod;
+import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;

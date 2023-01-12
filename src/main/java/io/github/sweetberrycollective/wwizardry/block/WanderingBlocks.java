@@ -3,6 +3,7 @@ package io.github.sweetberrycollective.wwizardry.block;
 import io.github.sweetberrycollective.wwizardry.WanderingMod;
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarPedestalBlockEntity;
+import io.github.sweetberrycollective.wwizardry.datagen.WoodType;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
