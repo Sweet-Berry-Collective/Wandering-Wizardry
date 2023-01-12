@@ -1,5 +1,5 @@
 {
-  "parent": "block/template_orientable_trapdoor_open",
+  "parent": "block/template_orientable_trapdoor$",
   "textures": {
     "texture": "wwizardry:block/%_trapdoor"
   }
