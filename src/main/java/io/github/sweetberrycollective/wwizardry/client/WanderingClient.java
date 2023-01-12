@@ -6,7 +6,6 @@ import io.github.sweetberrycollective.wwizardry.block.entity.AltarCatalyzerBlock
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarPedestalBlockEntity;
 import io.github.sweetberrycollective.wwizardry.client.render.AltarCatalyzerBlockEntityRenderer;
 import io.github.sweetberrycollective.wwizardry.client.render.AltarPedestalBlockEntityRenderer;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import org.quiltmc.loader.api.ModContainer;
@@ -18,8 +17,8 @@ public class WanderingClient implements ClientModInitializer {
 	public static int ITEM_ROTATION = 0;
 	@Override
 	public void onInitializeClient(ModContainer mod) {
-		BlockEntityRendererRegistry.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
-		BlockEntityRendererRegistry.register(AltarCatalyzerBlockEntity.TYPE, AltarCatalyzerBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(AltarCatalyzerBlockEntity.TYPE, AltarCatalyzerBlockEntityRenderer::new);
 		ClientWorldTickEvents.END.register((client, world) -> ITEM_ROTATION++);
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), AltarPedestalBlock.INSTANCE);
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), AltarCatalyzerBlock.INSTANCE);
