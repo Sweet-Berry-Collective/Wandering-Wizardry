@@ -1,6 +1,7 @@
 package io.github.sweetberrycollective.wwizardry;
 
 import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
+import io.github.sweetberrycollective.wwizardry.datagen.WanderingDatagen;
 import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
 import io.github.sweetberrycollective.wwizardry.recipe.WanderingRecipes;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -80,6 +81,7 @@ public class WanderingMod implements ModInitializer {
 		WanderingBlocks.init();
 		WanderingItems.init();
 		WanderingRecipes.init();
+		WanderingDatagen.init();
 		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
 	}
 

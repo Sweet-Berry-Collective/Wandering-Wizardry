@@ -20,7 +20,7 @@ import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.api.ResourcePackRegistrationContext;
 
-public class WoodType extends WanderingDatagen {
+public class WoodType extends AbstractDataGenerator {
 	public final String BASE_NAME;
 
 	public final Block LOG;
@@ -129,7 +129,7 @@ public class WoodType extends WanderingDatagen {
 		context.addResourcePack(pack);
 	}
 
-	public static class BlockstateDataApplier extends WanderingDatagen.AbstractBlockstateDataApplier {
+	public static class BlockstateDataApplier extends AbstractDataGenerator.AbstractBlockstateDataApplier {
 		public final String BUTTON;
 		public final String DOOR;
 		public final String FENCE;
@@ -260,7 +260,7 @@ public class WoodType extends WanderingDatagen {
 		}
 	}
 
-	public static class ItemModelDataApplier extends WanderingDatagen.AbstractItemModelDataApplier {
+	public static class ItemModelDataApplier extends AbstractDataGenerator.AbstractItemModelDataApplier {
 		public final String BUTTON;
 		public final String DOOR;
 		public final String FENCE;
