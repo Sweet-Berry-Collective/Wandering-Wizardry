@@ -8,12 +8,24 @@ import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SignItem;
+import net.minecraft.resource.MultiPackResourceManager;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
+import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
+import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
+import org.quiltmc.qsl.resource.loader.api.ResourcePackRegistrationContext;
 
-public class WoodType {
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+public class WoodType implements ResourcePackRegistrationContext.Callback {
+	public final String BASE_NAME;
+
 	public final Block LOG;
 	public final Item LOG_ITEM;
 	public final Block STRIPPED_LOG;
@@ -45,6 +57,8 @@ public class WoodType {
 	public final Item FENCE_GATE_ITEM;
 
 	public WoodType(String baseName, MapColor wood, MapColor bark) {
+		BASE_NAME = baseName;
+
 		final var blockSettings = QuiltBlockSettings.of(Material.WOOD).mapColor(wood);
 		final var itemSettings = new QuiltItemSettings();
 
@@ -90,6 +104,8 @@ public class WoodType {
 
 		FENCE_GATE = WanderingBlocks.registerBlock(baseName+"_fence_gate", new FenceGateBlock(blockSettings));
 		FENCE_GATE_ITEM = WanderingItems.registerItem(baseName+"_fence_gate", new BlockItem(FENCE_GATE, itemSettings));
+
+		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).getRegisterDefaultResourcePackEvent().register(this);
 	}
 
 	private static PillarBlock createLogBlock(MapColor top, MapColor side) {
@@ -100,5 +116,93 @@ public class WoodType {
 							.strength(2.0F)
 							.sounds(BlockSoundGroup.WOOD)
 		);
+	}
+
+	@Override
+	public void onRegisterPack(@NotNull ResourcePackRegistrationContext context) {
+		var manager = context.resourceManager();
+		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
+		var pack = new InMemoryResourcePack.Named("AutoSlab resources");
+		var blockstates = new BlockstateData(context, pack, BASE_NAME);
+		blockstates.addToResourcePack();
+		context.addResourcePack(pack);
+	}
+
+	public static class BlockstateData {
+		public final String BUTTON;
+		public final String DOOR;
+		public final String FENCE;
+		public final String FENCE_GATE;
+		public final String LOG;
+		public final String PLANKS;
+		public final String PRESSURE_PLATE;
+		public final String SIGN;
+		public final String SLAB;
+		public final String STAIRS;
+		public final String STRIPPED_LOG;
+		public final String STRIPPED_WOOD;
+		public final String TRAPDOOR;
+		public final String WOOD;
+
+		public final @NotNull ResourcePackRegistrationContext context;
+		public final InMemoryResourcePack.Named pack;
+		public final String baseName;
+
+		public BlockstateData(@NotNull ResourcePackRegistrationContext context, InMemoryResourcePack.Named pack, String baseName) {
+			this.context = context;
+			this.pack = pack;
+			this.baseName = baseName;
+
+			BUTTON = getResource("button");
+			DOOR = getResource("door");
+			FENCE = getResource("fence");
+			FENCE_GATE = getResource("fence_gate");
+			LOG = getResource("log");
+			PLANKS = getResource("planks");
+			PRESSURE_PLATE = getResource("pressure_plate");
+			SIGN = getResource("sign");
+			SLAB = getResource("slab");
+			STAIRS = getResource("stairs");
+			STRIPPED_LOG = getResource("stripped_log");
+			STRIPPED_WOOD = getResource("stripped_wood");
+			TRAPDOOR = getResource("trapdoor");
+			WOOD = getResource("wood");
+		}
+
+
+		private String getResource(String name) {
+			try {
+				return new String(context.resourceManager().open(path(name)).readAllBytes(), StandardCharsets.UTF_8);
+			} catch (IOException e) {
+				WanderingMod.LOGGER.error("Unable to find "+name);
+				return "{}";
+			}
+		}
+
+		private Identifier path(String file) {
+			return WanderingMod.id("datagen/blockstates/woodtype/"+file+".json");
+		}
+
+		public void addToResourcePack() {
+			put(baseName+"_button", BUTTON);
+			put(baseName+"_door", DOOR);
+			put(baseName+"_fence", FENCE);
+			put(baseName+"_fence_gate", FENCE_GATE);
+			put(baseName+"_log", LOG);
+			put(baseName+"_planks", PLANKS);
+			put(baseName+"_pressure_plate", PRESSURE_PLATE);
+			put(baseName+"_sign", SIGN);
+			put(baseName+"_wall_sign", SIGN);
+			put(baseName+"_slab", SLAB);
+			put(baseName+"_stairs", STAIRS);
+			put("stripped_"+baseName+"_log", STRIPPED_LOG);
+			put("stripped_"+baseName+"_wood", STRIPPED_WOOD);
+			put(baseName+"_trapdoor", TRAPDOOR);
+			put(baseName+"_wood", WOOD);
+		}
+
+		private void put(String path, String text) {
+			pack.putText(ResourceType.CLIENT_RESOURCES, WanderingMod.id("blockstates/"+path+".json"), text.replaceAll("%", baseName));
+		}
 	}
 }

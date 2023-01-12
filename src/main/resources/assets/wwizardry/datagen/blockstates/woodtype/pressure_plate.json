@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "wwizardry:block/%_pressure_plate"
+    },
+    "powered=true": {
+      "model": "wwizardry:block/%_pressure_plate_down"
+    }
+  }
+}

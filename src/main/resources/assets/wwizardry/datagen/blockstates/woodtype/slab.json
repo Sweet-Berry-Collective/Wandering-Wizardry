@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "wwizardry:block/%_slab"
+    },
+    "type=double": {
+      "model": "wwizardry:block/%_planks"
+    },
+    "type=top": {
+      "model": "wwizardry:block/%_slab_top"
+    }
+  }
+}

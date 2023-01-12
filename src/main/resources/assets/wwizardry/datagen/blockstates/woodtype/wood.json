@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "wwizardry:block/%_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "wwizardry:block/%_wood"
+    },
+    "axis=z": {
+      "model": "wwizardry:block/%_wood",
+      "x": 90
+    }
+  }
+}
