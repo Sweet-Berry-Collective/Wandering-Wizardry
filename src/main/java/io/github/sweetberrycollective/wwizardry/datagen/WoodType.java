@@ -122,8 +122,10 @@ public class WoodType extends WanderingDatagen {
 		var pack = new InMemoryResourcePack.Named("AutoSlab resources");
 		var blockstates = new BlockstateDataApplier(context, BASE_NAME);
 		var blockModels = new BlockModelDataApplier(context, BASE_NAME);
+		var itemModels = new ItemModelDataApplier(context, BASE_NAME);
 		blockstates.addToResourcePack(pack);
 		blockModels.addToResourcePack(pack);
+		itemModels.addToResourcePack(pack);
 		context.addResourcePack(pack);
 	}
 
@@ -255,6 +257,60 @@ public class WoodType extends WanderingDatagen {
 			put(pack, baseName+"_trapdoor", TRAPDOOR, "top");
 			put(pack, baseName+"_wood", WOOD, null);
 			put(pack, baseName+"_wood", WOOD, "horizontal");
+		}
+	}
+
+	public static class ItemModelDataApplier extends WanderingDatagen.AbstractItemModelDataApplier {
+		public final String BUTTON;
+		public final String DOOR;
+		public final String FENCE;
+		public final String FENCE_GATE;
+		public final String LOG;
+		public final String PLANKS;
+		public final String PRESSURE_PLATE;
+		public final String SIGN;
+		public final String SLAB;
+		public final String STAIRS;
+		public final String STRIPPED_LOG;
+		public final String STRIPPED_WOOD;
+		public final String TRAPDOOR;
+		public final String WOOD;
+
+		public ItemModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
+			super(context, baseName, "woodtype");
+
+			BUTTON = getResource("button");
+			DOOR = getResource("door");
+			FENCE = getResource("fence");
+			FENCE_GATE = getResource("fence_gate");
+			LOG = getResource("log");
+			PLANKS = getResource("planks");
+			PRESSURE_PLATE = getResource("pressure_plate");
+			SIGN = getResource("sign");
+			SLAB = getResource("slab");
+			STAIRS = getResource("stairs");
+			STRIPPED_LOG = getResource("stripped_log");
+			STRIPPED_WOOD = getResource("stripped_wood");
+			TRAPDOOR = getResource("trapdoor");
+			WOOD = getResource("wood");
+		}
+
+		public void addToResourcePack(InMemoryResourcePack pack) {
+			put(pack, baseName+"_button", BUTTON);
+			put(pack, baseName+"_door", DOOR);
+			put(pack, baseName+"_fence", FENCE);
+			put(pack, baseName+"_fence_gate", FENCE_GATE);
+			put(pack, baseName+"_log", LOG);
+			put(pack, baseName+"_planks", PLANKS);
+			put(pack, baseName+"_pressure_plate", PRESSURE_PLATE);
+			put(pack, baseName+"_sign", SIGN);
+			put(pack, baseName+"_wall_sign", SIGN);
+			put(pack, baseName+"_slab", SLAB);
+			put(pack, baseName+"_stairs", STAIRS);
+			put(pack, "stripped_"+baseName+"_log", STRIPPED_LOG);
+			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD);
+			put(pack, baseName+"_trapdoor", TRAPDOOR);
+			put(pack, baseName+"_wood", WOOD);
 		}
 	}
 }

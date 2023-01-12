@@ -41,7 +41,6 @@ public abstract class WanderingDatagen implements ResourcePackRegistrationContex
 		}
 
 		public void put(InMemoryResourcePack pack, String path, String text) {
-			WanderingMod.LOGGER.info(WanderingMod.id(outputPath+"/"+path+".json").toString());
 			pack.putText(ResourceType.CLIENT_RESOURCES, WanderingMod.id(outputPath+"/"+path+".json"), text.replaceAll("%", baseName));
 		}
 
@@ -63,6 +62,12 @@ public abstract class WanderingDatagen implements ResourcePackRegistrationContex
 	public abstract static class AbstractBlockModelDataApplier extends AbstractDataApplier {
 		public AbstractBlockModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, String subPath) {
 			super(context, baseName, "models/block/"+subPath, "models/block");
+		}
+	}
+
+	public abstract static class AbstractItemModelDataApplier extends AbstractDataApplier {
+		public AbstractItemModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, String subPath) {
+			super(context, baseName, "models/item/"+subPath, "models/item");
 		}
 	}
 }
