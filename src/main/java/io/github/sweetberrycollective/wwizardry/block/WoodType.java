@@ -33,18 +33,19 @@ public class WoodType {
 		LOG = WanderingBlocks.registerBlock(baseName+"_log", createLogBlock(bark, wood));
 		STRIPPED_LOG = WanderingBlocks.registerBlock("stripped_"+baseName+"_log", createLogBlock(wood, wood));
 		WOOD = WanderingBlocks.registerBlock(baseName+"_wood", createLogBlock(bark, wood));
+		final var settings = QuiltBlockSettings.of(Material.WOOD).mapColor(wood);
 		STRIPPED_WOOD = WanderingBlocks.registerBlock("stripped_"+baseName+"_wood", createLogBlock(wood, wood));
-		PLANKS = WanderingBlocks.registerBlock(baseName+"_planks", new Block(QuiltBlockSettings.of(Material.WOOD)));
-		STAIRS = WanderingBlocks.registerBlock(baseName+"_stairs", new StairsBlock(PLANKS.getDefaultState(), QuiltBlockSettings.of(Material.WOOD)));
-		SLAB = WanderingBlocks.registerBlock(baseName+"_slab", new SlabBlock(QuiltBlockSettings.of(Material.WOOD)));
-		BUTTON = WanderingBlocks.registerBlock(baseName+"_slab", new WoodenButtonBlock(QuiltBlockSettings.of(Material.WOOD)));
-		PRESSURE_PLATE = WanderingBlocks.registerBlock(baseName+"_slab", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, QuiltBlockSettings.of(Material.WOOD)));
-		DOOR = WanderingBlocks.registerBlock(baseName+"_slab", new DoorBlock(QuiltBlockSettings.of(Material.WOOD)));
-		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_slab", new TrapdoorBlock(QuiltBlockSettings.of(Material.WOOD)));
-		SIGN = WanderingBlocks.registerBlock(baseName+"_slab", new TerraformSignBlock(WanderingMod.id("entity/sign/"+baseName), QuiltBlockSettings.of(Material.WOOD)));
-		SIGN_WALL = WanderingBlocks.registerBlock(baseName+"_slab", new TerraformWallSignBlock(WanderingMod.id("entity/sign/"+baseName), QuiltBlockSettings.of(Material.WOOD)));
-		FENCE = WanderingBlocks.registerBlock(baseName+"_slab", new FenceBlock(QuiltBlockSettings.of(Material.WOOD)));
-		FENCE_GATE = WanderingBlocks.registerBlock(baseName+"_slab", new FenceGateBlock(QuiltBlockSettings.of(Material.WOOD)));
+		PLANKS = WanderingBlocks.registerBlock(baseName+"_planks", new Block(settings));
+		STAIRS = WanderingBlocks.registerBlock(baseName+"_stairs", new StairsBlock(PLANKS.getDefaultState(), settings));
+		SLAB = WanderingBlocks.registerBlock(baseName+"_slab", new SlabBlock(settings));
+		BUTTON = WanderingBlocks.registerBlock(baseName+"_button", new WoodenButtonBlock(settings));
+		PRESSURE_PLATE = WanderingBlocks.registerBlock(baseName+"_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, settings));
+		DOOR = WanderingBlocks.registerBlock(baseName+"_door", new DoorBlock(settings));
+		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(settings));
+		SIGN = WanderingBlocks.registerBlock(baseName+"_sign", new TerraformSignBlock(WanderingMod.id("entity/sign/"+baseName), settings));
+		SIGN_WALL = WanderingBlocks.registerBlock(baseName+"_wall_sign", new TerraformWallSignBlock(WanderingMod.id("entity/sign/"+baseName), settings));
+		FENCE = WanderingBlocks.registerBlock(baseName+"_slab_fence", new FenceBlock(settings));
+		FENCE_GATE = WanderingBlocks.registerBlock(baseName+"_slab_fence_gate", new FenceGateBlock(settings));
 	}
 
 	private static PillarBlock createLogBlock(MapColor top, MapColor side) {
