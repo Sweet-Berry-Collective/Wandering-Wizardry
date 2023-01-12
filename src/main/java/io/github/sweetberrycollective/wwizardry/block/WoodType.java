@@ -123,8 +123,8 @@ public class WoodType implements ResourcePackRegistrationContext.Callback {
 		var manager = context.resourceManager();
 		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
 		var pack = new InMemoryResourcePack.Named("AutoSlab resources");
-		var blockstates = new BlockstateData(context, pack, BASE_NAME);
-		blockstates.addToResourcePack();
+		var blockstates = new BlockstateData(context, BASE_NAME);
+		blockstates.addToResourcePack(pack);
 		context.addResourcePack(pack);
 	}
 
@@ -145,12 +145,10 @@ public class WoodType implements ResourcePackRegistrationContext.Callback {
 		public final String WOOD;
 
 		public final @NotNull ResourcePackRegistrationContext context;
-		public final InMemoryResourcePack.Named pack;
 		public final String baseName;
 
-		public BlockstateData(@NotNull ResourcePackRegistrationContext context, InMemoryResourcePack.Named pack, String baseName) {
+		public BlockstateData(@NotNull ResourcePackRegistrationContext context, String baseName) {
 			this.context = context;
-			this.pack = pack;
 			this.baseName = baseName;
 
 			BUTTON = getResource("button");
@@ -183,25 +181,25 @@ public class WoodType implements ResourcePackRegistrationContext.Callback {
 			return WanderingMod.id("datagen/blockstates/woodtype/"+file+".json");
 		}
 
-		public void addToResourcePack() {
-			put(baseName+"_button", BUTTON);
-			put(baseName+"_door", DOOR);
-			put(baseName+"_fence", FENCE);
-			put(baseName+"_fence_gate", FENCE_GATE);
-			put(baseName+"_log", LOG);
-			put(baseName+"_planks", PLANKS);
-			put(baseName+"_pressure_plate", PRESSURE_PLATE);
-			put(baseName+"_sign", SIGN);
-			put(baseName+"_wall_sign", SIGN);
-			put(baseName+"_slab", SLAB);
-			put(baseName+"_stairs", STAIRS);
-			put("stripped_"+baseName+"_log", STRIPPED_LOG);
-			put("stripped_"+baseName+"_wood", STRIPPED_WOOD);
-			put(baseName+"_trapdoor", TRAPDOOR);
-			put(baseName+"_wood", WOOD);
+		public void addToResourcePack(InMemoryResourcePack pack) {
+			put(pack, baseName+"_button", BUTTON);
+			put(pack, baseName+"_door", DOOR);
+			put(pack, baseName+"_fence", FENCE);
+			put(pack, baseName+"_fence_gate", FENCE_GATE);
+			put(pack, baseName+"_log", LOG);
+			put(pack, baseName+"_planks", PLANKS);
+			put(pack, baseName+"_pressure_plate", PRESSURE_PLATE);
+			put(pack, baseName+"_sign", SIGN);
+			put(pack, baseName+"_wall_sign", SIGN);
+			put(pack, baseName+"_slab", SLAB);
+			put(pack, baseName+"_stairs", STAIRS);
+			put(pack, "stripped_"+baseName+"_log", STRIPPED_LOG);
+			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD);
+			put(pack, baseName+"_trapdoor", TRAPDOOR);
+			put(pack, baseName+"_wood", WOOD);
 		}
 
-		private void put(String path, String text) {
+		private void put(InMemoryResourcePack pack, String path, String text) {
 			pack.putText(ResourceType.CLIENT_RESOURCES, WanderingMod.id("blockstates/"+path+".json"), text.replaceAll("%", baseName));
 		}
 	}
