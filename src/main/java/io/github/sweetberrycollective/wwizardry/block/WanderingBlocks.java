@@ -115,6 +115,8 @@ public class WanderingBlocks {
 			)
 	);
 
+	public static final WoodType DENIA_WOOD = new WoodType("denia", MapColor.DARK_AQUA, MapColor.DEEPSLATE_GRAY);
+
 	public static void init() {
 		registerBlock("altar_pedestal", AltarPedestalBlock.INSTANCE);
 		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);

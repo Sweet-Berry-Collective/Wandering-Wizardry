@@ -5,12 +5,8 @@ import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 import io.github.sweetberrycollective.wwizardry.WanderingMod;
 import net.minecraft.block.*;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class WoodType {
 	public final Block LOG;
