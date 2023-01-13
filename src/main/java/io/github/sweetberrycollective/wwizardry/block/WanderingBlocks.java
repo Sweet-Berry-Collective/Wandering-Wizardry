@@ -14,7 +14,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class WanderingBlocks {
 	public static final BooleanProperty SCULK_INFESTED = BooleanProperty.of("sculked");

@@ -7,18 +7,17 @@ import io.github.sweetberrycollective.wwizardry.WanderingMod;
 import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
 import net.minecraft.block.*;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SignItem;
 import net.minecraft.resource.MultiPackResourceManager;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.api.ResourcePackRegistrationContext;
 
 public class WoodType extends AbstractDataGenerator {
@@ -53,6 +52,8 @@ public class WoodType extends AbstractDataGenerator {
 	public final Item FENCE_ITEM;
 	public final Block FENCE_GATE;
 	public final Item FENCE_GATE_ITEM;
+	public final Block LEAVES;
+	public final Item LEAVES_ITEM;
 
 	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds) {
 		super();
@@ -92,7 +93,7 @@ public class WoodType extends AbstractDataGenerator {
 		DOOR = WanderingBlocks.registerBlock(baseName+"_door", new DoorBlock(blockSettings));
 		DOOR_ITEM = WanderingItems.registerItem(baseName+"_door", new BlockItem(DOOR, itemSettings));
 
-		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(blockSettings));
+		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(QuiltBlockSettings.copyOf(blockSettings).nonOpaque()));
 		TRAPDOOR_ITEM = WanderingItems.registerItem(baseName+"_trapdoor", new BlockItem(TRAPDOOR, itemSettings));
 
 		SIGN = WanderingBlocks.registerBlock(baseName+"_sign", new TerraformSignBlock(WanderingMod.id("entity/sign/"+baseName), nonCollidable));
@@ -104,6 +105,22 @@ public class WoodType extends AbstractDataGenerator {
 
 		FENCE_GATE = WanderingBlocks.registerBlock(baseName+"_fence_gate", new FenceGateBlock(blockSettings));
 		FENCE_GATE_ITEM = WanderingItems.registerItem(baseName+"_fence_gate", new BlockItem(FENCE_GATE, itemSettings));
+
+		LEAVES = WanderingBlocks.registerBlock(baseName+"_leaves", createLeavesBlock());
+		LEAVES_ITEM = WanderingItems.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
+	}
+
+	private static LeavesBlock createLeavesBlock() {
+		return new LeavesBlock(
+				QuiltBlockSettings.of(Material.LEAVES)
+						.strength(0.2F)
+						.ticksRandomly()
+						.sounds(BlockSoundGroup.AZALEA_LEAVES)
+						.nonOpaque()
+						.allowsSpawning((a,b,c, type) -> type == EntityType.OCELOT || type == EntityType.PARROT)
+						.suffocates((a,b,c) -> false)
+						.blockVision((a,b,c) -> false)
+		);
 	}
 
 	private static Block createLogBlock(MapColor top, MapColor side, BlockSoundGroup sounds) {
@@ -157,6 +174,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String STRIPPED_WOOD;
 		public final String TRAPDOOR;
 		public final String WOOD;
+		public final String LEAVES;
 
 		public BlockstateDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
 			super(context, baseName, "wood");
@@ -175,6 +193,7 @@ public class WoodType extends AbstractDataGenerator {
 			STRIPPED_WOOD = getResource("stripped_wood");
 			TRAPDOOR = getResource("trapdoor");
 			WOOD = getResource("wood");
+			LEAVES = getResource("leaves");
 		}
 
 		@Override
@@ -194,6 +213,7 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD);
 			put(pack, baseName+"_trapdoor", TRAPDOOR);
 			put(pack, baseName+"_wood", WOOD);
+			put(pack, baseName+"_leaves", LEAVES);
 		}
 	}
 
@@ -212,6 +232,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String STRIPPED_WOOD;
 		public final String TRAPDOOR;
 		public final String WOOD;
+		public final String LEAVES;
 		public BlockModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
 			super(context, baseName, "wood");
 
@@ -229,6 +250,7 @@ public class WoodType extends AbstractDataGenerator {
 			STRIPPED_WOOD = getResource("stripped_wood");
 			TRAPDOOR = getResource("trapdoor");
 			WOOD = getResource("wood");
+			LEAVES = getResource("leaves");
 		}
 
 		@Override
@@ -271,6 +293,7 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_trapdoor", TRAPDOOR, "top");
 			put(pack, baseName+"_wood", WOOD, null);
 			put(pack, baseName+"_wood", WOOD, "horizontal");
+			put(pack, baseName+"_leaves", LEAVES);
 		}
 	}
 
@@ -289,6 +312,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String STRIPPED_WOOD;
 		public final String TRAPDOOR;
 		public final String WOOD;
+		public final String LEAVES;
 
 		public ItemModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
 			super(context, baseName, "wood");
@@ -307,6 +331,7 @@ public class WoodType extends AbstractDataGenerator {
 			STRIPPED_WOOD = getResource("stripped_wood");
 			TRAPDOOR = getResource("trapdoor");
 			WOOD = getResource("wood");
+			LEAVES = getResource("leaves");
 		}
 
 		@Override
@@ -326,6 +351,7 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD);
 			put(pack, baseName+"_trapdoor", TRAPDOOR);
 			put(pack, baseName+"_wood", WOOD);
+			put(pack, baseName+"_leaves", LEAVES);
 		}
 	}
 }
