@@ -2,6 +2,7 @@ package io.github.sweetberrycollective.wwizardry.datagen;
 
 import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
+import com.terraformersmc.terraform.wood.block.StrippableLogBlock;
 import io.github.sweetberrycollective.wwizardry.WanderingMod;
 import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
@@ -21,7 +22,7 @@ import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.api.ResourcePackRegistrationContext;
 
 public class WoodType extends AbstractDataGenerator {
-	public final String BASE_NAME;
+	public final String baseName;
 
 	public final Block LOG;
 	public final Item LOG_ITEM;
@@ -53,23 +54,23 @@ public class WoodType extends AbstractDataGenerator {
 	public final Block FENCE_GATE;
 	public final Item FENCE_GATE_ITEM;
 
-	public WoodType(String baseName, MapColor wood, MapColor bark) {
-		BASE_NAME = baseName;
+	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds) {
+		this.baseName = baseName;
 
-		final var blockSettings = QuiltBlockSettings.of(Material.WOOD).mapColor(wood);
+		final var blockSettings = QuiltBlockSettings.of(Material.WOOD).sounds(sounds).mapColor(wood);
 		final var itemSettings = new QuiltItemSettings();
 
-		LOG = WanderingBlocks.registerBlock(baseName+"_log", createLogBlock(bark, wood));
-		LOG_ITEM = WanderingItems.registerItem(baseName+"_log", new BlockItem(LOG, itemSettings));
-
-		STRIPPED_LOG = WanderingBlocks.registerBlock("stripped_"+baseName+"_log", createLogBlock(wood, wood));
+		STRIPPED_LOG = WanderingBlocks.registerBlock("stripped_"+baseName+"_log", createLogBlock(wood, wood, sounds));
 		STRIPPED_LOG_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_log", new BlockItem(STRIPPED_LOG, itemSettings));
 
-		WOOD = WanderingBlocks.registerBlock(baseName+"_wood", createLogBlock(bark, wood));
-		WOOD_ITEM = WanderingItems.registerItem(baseName+"_wood", new BlockItem(WOOD, itemSettings));
+		LOG = WanderingBlocks.registerBlock(baseName+"_log", createStrippableLogBlock(STRIPPED_LOG, bark, wood, sounds));
+		LOG_ITEM = WanderingItems.registerItem(baseName+"_log", new BlockItem(LOG, itemSettings));
 
-		STRIPPED_WOOD = WanderingBlocks.registerBlock("stripped_"+baseName+"_wood", createLogBlock(wood, wood));
+		STRIPPED_WOOD = WanderingBlocks.registerBlock("stripped_"+baseName+"_wood", createLogBlock(wood, wood, sounds));
 		STRIPPED_WOOD_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_wood", new BlockItem(STRIPPED_WOOD, itemSettings));
+
+		WOOD = WanderingBlocks.registerBlock(baseName+"_wood", createStrippableLogBlock(STRIPPED_WOOD, bark, wood, sounds));
+		WOOD_ITEM = WanderingItems.registerItem(baseName+"_wood", new BlockItem(WOOD, itemSettings));
 
 		PLANKS = WanderingBlocks.registerBlock(baseName+"_planks", new Block(blockSettings));
 		PLANKS_ITEM = WanderingItems.registerItem(baseName+"_planks", new BlockItem(PLANKS, itemSettings));
@@ -105,13 +106,26 @@ public class WoodType extends AbstractDataGenerator {
 		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).getRegisterDefaultResourcePackEvent().register(this);
 	}
 
-	private static PillarBlock createLogBlock(MapColor top, MapColor side) {
+	private static Block createLogBlock(MapColor top, MapColor side, BlockSoundGroup sounds) {
 		return new PillarBlock(QuiltBlockSettings.of(
 				Material.WOOD,
 				(state) ->
 						state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)
 							.strength(2.0F)
-							.sounds(BlockSoundGroup.WOOD)
+							.sounds(sounds)
+		);
+	}
+
+	private static Block createStrippableLogBlock(Block stripped, MapColor top, MapColor side, BlockSoundGroup sounds) {
+		return new StrippableLogBlock(
+				() -> stripped,
+				top,
+				QuiltBlockSettings.of(
+						Material.WOOD,
+						(state) ->
+								state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)
+				.strength(2.0F)
+				.sounds(sounds)
 		);
 	}
 
@@ -120,9 +134,9 @@ public class WoodType extends AbstractDataGenerator {
 		var manager = context.resourceManager();
 		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
 		var pack = new InMemoryResourcePack.Named("AutoSlab resources");
-		var blockstates = new BlockstateDataApplier(context, BASE_NAME);
-		var blockModels = new BlockModelDataApplier(context, BASE_NAME);
-		var itemModels = new ItemModelDataApplier(context, BASE_NAME);
+		var blockstates = new BlockstateDataApplier(context, baseName);
+		var blockModels = new BlockModelDataApplier(context, baseName);
+		var itemModels = new ItemModelDataApplier(context, baseName);
 		blockstates.addToResourcePack(pack);
 		blockModels.addToResourcePack(pack);
 		itemModels.addToResourcePack(pack);
