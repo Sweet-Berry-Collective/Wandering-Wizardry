@@ -1,6 +1,7 @@
 package io.github.sweetberrycollective.wwizardry.block;
 
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarPedestalBlockEntity;
+import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -18,7 +19,7 @@ import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class AltarPedestalBlock extends AltarBlock<AltarPedestalBlockEntity> {
 	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(QuiltBlockSettings.copyOf(Blocks.REDSTONE_BLOCK));
-	public static final BlockItem ITEM = new BlockItem(INSTANCE, new QuiltItemSettings());
+	public static final BlockItem ITEM = new BlockItem(INSTANCE, new QuiltItemSettings().group(WanderingItems.GROUP));
 	public static final VoxelShape NORTH_SHAPE = VoxelShapes.union(
 			WanderingBlocks.ALTAR_BASE_SHAPE,
 

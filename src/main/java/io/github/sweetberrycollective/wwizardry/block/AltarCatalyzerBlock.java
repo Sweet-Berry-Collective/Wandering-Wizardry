@@ -1,6 +1,7 @@
 package io.github.sweetberrycollective.wwizardry.block;
 
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarCatalyzerBlockEntity;
+import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -19,7 +20,7 @@ import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
 	public static final AltarCatalyzerBlock INSTANCE = new AltarCatalyzerBlock(QuiltBlockSettings.copyOf(Blocks.REDSTONE_BLOCK));
-	public static final BlockItem ITEM = new BlockItem(INSTANCE, new QuiltItemSettings());
+	public static final BlockItem ITEM = new BlockItem(INSTANCE, new QuiltItemSettings().group(WanderingItems.GROUP));
 	public static final VoxelShape SHAPE = VoxelShapes.union(
 			WanderingBlocks.ALTAR_BASE_SHAPE,
 
