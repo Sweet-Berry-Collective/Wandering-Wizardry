@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "wwizardry:block/basalt_tiles",
-    "side": "wwizardry:block/basalt_tiles",
-    "top": "wwizardry:block/basalt_tiles"
-  }
-}

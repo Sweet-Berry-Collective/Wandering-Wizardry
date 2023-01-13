@@ -5,12 +5,26 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
+import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.api.ResourcePackRegistrationContext;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public abstract class AbstractDataGenerator implements ResourcePackRegistrationContext.Callback {
+public abstract class AbstractDataGenerator {
+	static {
+		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).getRegisterDefaultResourcePackEvent().register(context -> {
+			WanderingDatagen.pack.clearResources();
+			WanderingDatagen.REGISTRY.forEach(generator -> generator.onRegisterPack(context));
+			context.addResourcePack(WanderingDatagen.pack);
+		});
+	}
+
+	public AbstractDataGenerator() {
+	}
+
+	public abstract void onRegisterPack(@NotNull ResourcePackRegistrationContext context);
+
 	public static abstract class AbstractDataApplier {
 		public final @NotNull ResourcePackRegistrationContext context;
 		public final String baseName;
@@ -30,7 +44,7 @@ public abstract class AbstractDataGenerator implements ResourcePackRegistrationC
 			try {
 				return new String(context.resourceManager().open(path(name)).readAllBytes(), StandardCharsets.UTF_8);
 			} catch (IOException e) {
-				WanderingMod.LOGGER.error("Unable to find "+name);
+				WanderingMod.LOGGER.error("Unable to find "+path(name));
 				return "{}";
 			}
 		}

@@ -1,0 +1,6 @@
+{
+  "parent": "block/template_wall$",
+  "textures": {
+    "wall": "wwizardry:block/%?"
+  }
+}

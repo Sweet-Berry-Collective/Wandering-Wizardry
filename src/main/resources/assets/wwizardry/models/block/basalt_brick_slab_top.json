@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "wwizardry:block/basalt_bricks",
-    "side": "wwizardry:block/basalt_bricks",
-    "top": "wwizardry:block/basalt_bricks"
-  }
-}

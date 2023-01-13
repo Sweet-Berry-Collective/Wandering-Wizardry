@@ -55,6 +55,7 @@ public class WoodType extends AbstractDataGenerator {
 	public final Item FENCE_GATE_ITEM;
 
 	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds) {
+		super();
 		this.baseName = baseName;
 
 		final var blockSettings = QuiltBlockSettings.of(Material.WOOD).sounds(sounds).mapColor(wood);
@@ -102,8 +103,6 @@ public class WoodType extends AbstractDataGenerator {
 
 		FENCE_GATE = WanderingBlocks.registerBlock(baseName+"_fence_gate", new FenceGateBlock(blockSettings));
 		FENCE_GATE_ITEM = WanderingItems.registerItem(baseName+"_fence_gate", new BlockItem(FENCE_GATE, itemSettings));
-
-		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).getRegisterDefaultResourcePackEvent().register(this);
 	}
 
 	private static Block createLogBlock(MapColor top, MapColor side, BlockSoundGroup sounds) {
@@ -133,14 +132,13 @@ public class WoodType extends AbstractDataGenerator {
 	public void onRegisterPack(@NotNull ResourcePackRegistrationContext context) {
 		var manager = context.resourceManager();
 		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
-		var pack = new InMemoryResourcePack.Named("AutoSlab resources");
+		var pack = WanderingDatagen.pack;
 		var blockstates = new BlockstateDataApplier(context, baseName);
 		var blockModels = new BlockModelDataApplier(context, baseName);
 		var itemModels = new ItemModelDataApplier(context, baseName);
 		blockstates.addToResourcePack(pack);
 		blockModels.addToResourcePack(pack);
 		itemModels.addToResourcePack(pack);
-		context.addResourcePack(pack);
 	}
 
 	public static class BlockstateDataApplier extends AbstractDataGenerator.AbstractBlockstateDataApplier {
@@ -160,7 +158,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String WOOD;
 
 		public BlockstateDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
-			super(context, baseName, "woodtype");
+			super(context, baseName, "wood");
 
 			BUTTON = getResource("button");
 			DOOR = getResource("door");
@@ -178,6 +176,7 @@ public class WoodType extends AbstractDataGenerator {
 			WOOD = getResource("wood");
 		}
 
+		@Override
 		public void addToResourcePack(InMemoryResourcePack pack) {
 			put(pack, baseName+"_button", BUTTON);
 			put(pack, baseName+"_door", DOOR);
@@ -213,7 +212,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String TRAPDOOR;
 		public final String WOOD;
 		public BlockModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
-			super(context, baseName, "woodtype");
+			super(context, baseName, "wood");
 
 			BUTTON = getResource("button");
 			DOOR = getResource("door");
@@ -291,7 +290,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String WOOD;
 
 		public ItemModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
-			super(context, baseName, "woodtype");
+			super(context, baseName, "wood");
 
 			BUTTON = getResource("button");
 			DOOR = getResource("door");
@@ -309,6 +308,7 @@ public class WoodType extends AbstractDataGenerator {
 			WOOD = getResource("wood");
 		}
 
+		@Override
 		public void addToResourcePack(InMemoryResourcePack pack) {
 			put(pack, baseName+"_button", BUTTON);
 			put(pack, baseName+"_door", DOOR);

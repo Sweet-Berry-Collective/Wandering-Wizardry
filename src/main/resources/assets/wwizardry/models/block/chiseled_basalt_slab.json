@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "wwizardry:block/chiseled_basalt",
-    "side": "wwizardry:block/chiseled_basalt",
-    "top": "wwizardry:block/chiseled_basalt"
-  }
-}
