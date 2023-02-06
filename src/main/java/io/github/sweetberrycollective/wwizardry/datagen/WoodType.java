@@ -1,5 +1,10 @@
 package io.github.sweetberrycollective.wwizardry.datagen;
 
+import com.terraformersmc.terraform.boat.api.TerraformBoatType;
+import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
+import com.terraformersmc.terraform.boat.impl.TerraformBoatTypeImpl;
+import com.terraformersmc.terraform.boat.impl.entity.TerraformBoatEntity;
+import com.terraformersmc.terraform.boat.impl.item.TerraformBoatItem;
 import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 import com.terraformersmc.terraform.wood.block.StrippableLogBlock;
@@ -8,12 +13,12 @@ import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.SignItem;
+import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.item.*;
 import net.minecraft.resource.MultiPackResourceManager;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
@@ -45,8 +50,8 @@ public class WoodType extends AbstractDataGenerator {
 	public final Item DOOR_ITEM;
 	public final Block TRAPDOOR;
 	public final Item TRAPDOOR_ITEM;
-	public final Block SIGN;
-	public final Block SIGN_WALL;
+	public final TerraformSignBlock SIGN;
+	public final TerraformWallSignBlock SIGN_WALL;
 	public final Item SIGN_ITEM;
 	public final Block FENCE;
 	public final Item FENCE_ITEM;
@@ -55,12 +60,19 @@ public class WoodType extends AbstractDataGenerator {
 	public final Block LEAVES;
 	public final Item LEAVES_ITEM;
 
+	public final TerraformBoatType BOAT;
+
+	public final Item BOAT_ITEM;
+
+	public final Item BOAT_CHEST_ITEM;
+
 	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds) {
 		super();
 		this.baseName = baseName;
 
 		final var blockSettings = QuiltBlockSettings.of(Material.WOOD).sounds(sounds).mapColor(wood);
 		final var nonCollidable = QuiltBlockSettings.copyOf(blockSettings).collidable(false);
+		final var nonOpaque = QuiltBlockSettings.copyOf(blockSettings).nonOpaque();
 		final var itemSettings = new QuiltItemSettings().group(WanderingItems.GROUP);
 
 		STRIPPED_LOG = WanderingBlocks.registerBlock("stripped_"+baseName+"_log", createLogBlock(wood, wood, sounds));
@@ -90,14 +102,14 @@ public class WoodType extends AbstractDataGenerator {
 		PRESSURE_PLATE = WanderingBlocks.registerBlock(baseName+"_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, nonCollidable));
 		PRESSURE_PLATE_ITEM = WanderingItems.registerItem(baseName+"_pressure_plate", new BlockItem(PRESSURE_PLATE, itemSettings));
 
-		DOOR = WanderingBlocks.registerBlock(baseName+"_door", new DoorBlock(blockSettings));
+		DOOR = WanderingBlocks.registerBlock(baseName+"_door", new DoorBlock(nonOpaque));
 		DOOR_ITEM = WanderingItems.registerItem(baseName+"_door", new BlockItem(DOOR, itemSettings));
 
-		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(QuiltBlockSettings.copyOf(blockSettings).nonOpaque()));
+		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(nonOpaque));
 		TRAPDOOR_ITEM = WanderingItems.registerItem(baseName+"_trapdoor", new BlockItem(TRAPDOOR, itemSettings));
 
-		SIGN = WanderingBlocks.registerBlock(baseName+"_sign", new TerraformSignBlock(WanderingMod.id("entity/sign/"+baseName), nonCollidable));
-		SIGN_WALL = WanderingBlocks.registerBlock(baseName+"_wall_sign", new TerraformWallSignBlock(WanderingMod.id("entity/sign/"+baseName), nonCollidable));
+		SIGN = (TerraformSignBlock) WanderingBlocks.registerBlock(baseName+"_sign", new TerraformSignBlock(WanderingMod.id("entity/signs/"+baseName), nonCollidable));
+		SIGN_WALL = (TerraformWallSignBlock) WanderingBlocks.registerBlock(baseName+"_wall_sign", new TerraformWallSignBlock(WanderingMod.id("entity/signs/"+baseName), nonCollidable));
 		SIGN_ITEM = WanderingItems.registerItem(baseName+"_sign", new SignItem(itemSettings, SIGN, SIGN_WALL));
 
 		FENCE = WanderingBlocks.registerBlock(baseName+"_fence", new FenceBlock(blockSettings));
@@ -108,6 +120,14 @@ public class WoodType extends AbstractDataGenerator {
 
 		LEAVES = WanderingBlocks.registerBlock(baseName+"_leaves", createLeavesBlock());
 		LEAVES_ITEM = WanderingItems.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
+
+		BOAT_ITEM = WanderingItems.registerItem(baseName+"_boat", new TerraformBoatItem(this::getBoat, false, itemSettings));
+		BOAT_CHEST_ITEM = WanderingItems.registerItem(baseName+"_chest_boat", new TerraformBoatItem(this::getBoat, true, itemSettings));
+		BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, WanderingMod.id(baseName+"_boat"), new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
+	}
+
+	private TerraformBoatType getBoat() {
+		return BOAT;
 	}
 
 	private static LeavesBlock createLeavesBlock() {
@@ -313,6 +333,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String TRAPDOOR;
 		public final String WOOD;
 		public final String LEAVES;
+		public final String BOAT;
 
 		public ItemModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
 			super(context, baseName, "wood");
@@ -332,6 +353,7 @@ public class WoodType extends AbstractDataGenerator {
 			TRAPDOOR = getResource("trapdoor");
 			WOOD = getResource("wood");
 			LEAVES = getResource("leaves");
+			BOAT = getResource("boat");
 		}
 
 		@Override
@@ -352,6 +374,8 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_trapdoor", TRAPDOOR);
 			put(pack, baseName+"_wood", WOOD);
 			put(pack, baseName+"_leaves", LEAVES);
+			put(pack, baseName+"_boat", BOAT);
+			put(pack, baseName+"_chest_boat", BOAT);
 		}
 	}
 }

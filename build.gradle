@@ -11,6 +11,17 @@ repositories {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/'
 	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
 }
 
 dependencies {
@@ -20,6 +31,7 @@ dependencies {
 	modImplementation libs.quilted.fabric.api
 
 	modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:4.2.0"
+	modImplementation "maven.modrinth:moremcmeta:v1.19-3.0.5-fabric"
 }
 
 processResources {

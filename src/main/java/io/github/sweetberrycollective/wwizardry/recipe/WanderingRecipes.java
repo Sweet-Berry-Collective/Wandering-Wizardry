@@ -9,7 +9,7 @@ import org.quiltmc.qsl.recipe.api.serializer.QuiltRecipeSerializer;
 public class WanderingRecipes {
 	public static void init() {
 		registerRecipe(AltarRecipe.TYPE);
-		registerSerializer("altar", AltarRecipeSerializer.INSTANCE);
+		registerSerializer("altar_serializer", AltarRecipeSerializer.INSTANCE);
 	}
 
 	public static <T extends Recipe<?>> void registerRecipe(WanderingRecipeType<T> recipe) {
