@@ -2,7 +2,7 @@ package io.github.sweetberrycollective.wwizardry.block.entity;
 
 import io.github.sweetberrycollective.wwizardry.block.AltarCatalyzerBlock;
 import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
-import io.github.sweetberrycollective.wwizardry.recipe.AltarRecipe;
+import io.github.sweetberrycollective.wwizardry.recipe.AltarCatalyzationRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -38,7 +38,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	public void startCrafting(AltarRecipe recipe) {
+	public void startCrafting(AltarCatalyzationRecipe recipe) {
 		result = recipe.result().copy();
 		keepCatalyst = recipe.keepCatalyst();
 		bloom = recipe.bloom();
@@ -50,7 +50,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void tryCraft(BlockState state) {
-		var optional = world.getRecipeManager().getFirstMatch(AltarRecipe.TYPE, this, world);
+		var optional = world.getRecipeManager().getFirstMatch(AltarCatalyzationRecipe.TYPE, this, world);
 		optional.ifPresent(this::startCrafting);
 	}
 

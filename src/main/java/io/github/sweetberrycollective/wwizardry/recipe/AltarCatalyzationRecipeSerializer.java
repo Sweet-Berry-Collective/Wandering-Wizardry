@@ -9,11 +9,11 @@ import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.Identifier;
 import org.quiltmc.qsl.recipe.api.serializer.QuiltRecipeSerializer;
 
-public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe> {
-	public static final AltarRecipeSerializer INSTANCE = new AltarRecipeSerializer();
+public class AltarCatalyzationRecipeSerializer implements QuiltRecipeSerializer<AltarCatalyzationRecipe> {
+	public static final AltarCatalyzationRecipeSerializer INSTANCE = new AltarCatalyzationRecipeSerializer();
 
 	@Override
-	public AltarRecipe read(Identifier id, JsonObject json) {
+	public AltarCatalyzationRecipe read(Identifier id, JsonObject json) {
 		var schema = gson.fromJson(json, JsonSchema.class);
 		if (schema.catalyst == null) {
 			throw new JsonSyntaxException("Missing field 'catalyst'");
@@ -32,15 +32,15 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 
 		var result = ShapedRecipe.outputFromJson(schema.result);
 
-		return new AltarRecipe(id, catalyst, inputs, result, schema.keepCatalyst, schema.bloom);
+		return new AltarCatalyzationRecipe(id, catalyst, inputs, result, schema.keepCatalyst, schema.bloom);
 	}
 
 	Gson gson = new Gson();
 
 	@Override
-	public JsonObject toJson(AltarRecipe recipe) {
+	public JsonObject toJson(AltarCatalyzationRecipe recipe) {
 		var obj = new JsonObject();
-		obj.add("type", new JsonPrimitive(AltarRecipe.TYPE.id().toString()));
+		obj.add("type", new JsonPrimitive(AltarCatalyzationRecipe.TYPE.id().toString()));
 		obj.add("catalyst", recipe.catalyst().toJson());
 		var inputs = new JsonArray();
 		for (var input : recipe.inputs()) {
@@ -56,7 +56,7 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 	}
 
 	@Override
-	public AltarRecipe read(Identifier id, PacketByteBuf buf) {
+	public AltarCatalyzationRecipe read(Identifier id, PacketByteBuf buf) {
 		var catalyst = Ingredient.fromPacket(buf);
 		var inputs = new Ingredient[4];
 		for (int i = 0; i < inputs.length; i++) {
@@ -65,11 +65,11 @@ public class AltarRecipeSerializer implements QuiltRecipeSerializer<AltarRecipe>
 		var result = buf.readItemStack();
 		var keepCatalyst = buf.readBoolean();
 		var bloom = buf.readInt();
-		return new AltarRecipe(id, catalyst, inputs, result, keepCatalyst, bloom);
+		return new AltarCatalyzationRecipe(id, catalyst, inputs, result, keepCatalyst, bloom);
 	}
 
 	@Override
-	public void write(PacketByteBuf buf, AltarRecipe recipe) {
+	public void write(PacketByteBuf buf, AltarCatalyzationRecipe recipe) {
 		recipe.catalyst().write(buf);
 		for (Ingredient input : recipe.inputs()) {
 			input.write(buf);

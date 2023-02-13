@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.util.Arrays;
 
-public record AltarRecipe(
+public record AltarCatalyzationRecipe(
 		Identifier id,
 		Ingredient catalyst,
 		Ingredient[] inputs,
@@ -21,7 +21,7 @@ public record AltarRecipe(
 		boolean keepCatalyst,
 		int bloom
 ) implements Recipe<AltarCatalyzerBlockEntity> {
-	public static final WanderingRecipeType<AltarRecipe> TYPE = new WanderingRecipeType<>(WanderingMod.id("altar"));
+	public static final WanderingRecipeType<AltarCatalyzationRecipe> TYPE = new WanderingRecipeType<>(WanderingMod.id("altar_catalyzation"));
 
 	@Override
 	public boolean matches(AltarCatalyzerBlockEntity inventory, World world) {
@@ -32,10 +32,11 @@ public record AltarRecipe(
 			for (var j = 0; j < 4; j++) {
 				if (!met[j]) {
 					met[j] = inputs[j].test(neighbor.heldItem);
-					j = 5;
+					if (met[j]) j = 5;
 				}
 			}
 		}
+		WanderingMod.LOGGER.info(Arrays.toString(met));
 		for (var b : met) {
 			if (!b)
 				return false;
@@ -72,7 +73,7 @@ public record AltarRecipe(
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return AltarRecipeSerializer.INSTANCE;
+		return AltarCatalyzationRecipeSerializer.INSTANCE;
 	}
 
 	@Override

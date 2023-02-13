@@ -1,21 +1,21 @@
 {
-  "type": "wwizardry:altar",
+  "type": "wwizardry:altar_catalyzation",
   "catalyst": {
-    "item": "echo_shard"
+    "item": "amethyst_shard"
   },
   "keepCatalyst": false,
   "inputs": [
     {
-      "item": "amethyst_shard"
+      "item": "sculk"
     },
     {
-      "item": "amethyst_shard"
+      "item": "redstone"
     },
     {
-      "item": "amethyst_shard"
+      "item": "crying_obsidian"
     },
     {
-      "item": "amethyst_shard"
+      "item": "diamond"
     }
   ],
   "result": {

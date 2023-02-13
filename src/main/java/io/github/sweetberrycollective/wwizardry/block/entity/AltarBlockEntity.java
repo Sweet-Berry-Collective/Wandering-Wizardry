@@ -1,6 +1,6 @@
 package io.github.sweetberrycollective.wwizardry.block.entity;
 
-import io.github.sweetberrycollective.wwizardry.recipe.AltarRecipe;
+import io.github.sweetberrycollective.wwizardry.recipe.AltarCatalyzationRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -36,7 +36,7 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 		world.updateNeighbors(pos, getBlock());
 	}
 
-	public void startCrafting(AltarRecipe recipe) {
+	public void startCrafting(AltarCatalyzationRecipe recipe) {
 		crafting = true;
 		craftingTick = 0;
 		update();
