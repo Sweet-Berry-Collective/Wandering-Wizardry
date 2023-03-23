@@ -4,6 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerBlock;
+import net.minecraft.block.sculk.SculkBehavior;
+import net.minecraft.block.sculk.SculkVeinSpreader;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
@@ -11,13 +13,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
-public class SculkflowerBlock extends FlowerBlock implements Sculkable {
+public class SculkflowerBlock extends FlowerBlock implements Sculkable, SculkVeinSpreader {
 	public static final SculkflowerBlock INSTANCE = new SculkflowerBlock(StatusEffects.DARKNESS, 30, QuiltBlockSettings.copyOf(Blocks.POPPY));
 
 	public SculkflowerBlock(StatusEffect suspiciousStewEffect, int effectDuration, Settings settings) {
@@ -38,7 +41,9 @@ public class SculkflowerBlock extends FlowerBlock implements Sculkable {
 
 	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-		return state.with(WanderingBlocks.SCULK_BELOW, WanderingBlocks.testForSculk(world, pos.down()));
+		var sup = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+		if (sup.isAir()) return sup;
+		return sup.with(WanderingBlocks.SCULK_BELOW, WanderingBlocks.testForSculk(world, pos.down()));
 	}
 
 	@Override
@@ -49,5 +54,15 @@ public class SculkflowerBlock extends FlowerBlock implements Sculkable {
 	@Override
 	public boolean hasPrimaryAction() {
 		return false;
+	}
+
+	@Override
+	public int tryUseCharge(SculkBehavior.ChargeCursor charge, WorldAccess world, BlockPos pos, RandomGenerator random, SculkBehavior sculkChargeHandler, boolean spread) {
+		var state = world.getBlockState(pos);
+		var stateDown = world.getBlockState(pos.down());
+		if (stateDown.getBlock() == Blocks.SCULK || stateDown.getBlock() == Blocks.AIR) {
+			world.setBlockState(pos, state.with(WanderingBlocks.SCULK_BELOW, true), NOTIFY_ALL | FORCE_STATE);
+		}
+		return charge.getCharge();
 	}
 }

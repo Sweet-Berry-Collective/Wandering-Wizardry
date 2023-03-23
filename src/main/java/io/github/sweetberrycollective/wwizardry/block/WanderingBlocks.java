@@ -32,6 +32,7 @@ public class WanderingBlocks {
 		registerBlock("altar_catalyzer", AltarCatalyzerBlock.INSTANCE);
 		registerBlockEntity("altar_catalyzer", AltarCatalyzerBlockEntity.TYPE);
 		registerBlock("sculkflower", SculkflowerBlock.INSTANCE);
+		registerBlock("crystalline_sculk_block", CrystalSculkBlock.INSTANCE);
 	}
 
 	public static <T extends Block> T registerBlock(String id, T block) {
