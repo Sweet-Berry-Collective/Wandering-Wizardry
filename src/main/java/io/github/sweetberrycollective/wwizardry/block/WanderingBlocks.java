@@ -3,10 +3,10 @@ package io.github.sweetberrycollective.wwizardry.block;
 import io.github.sweetberrycollective.wwizardry.WanderingMod;
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarPedestalBlockEntity;
-import io.github.sweetberrycollective.wwizardry.datagen.WoodType;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -14,6 +14,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class WanderingBlocks {
 	public static final BooleanProperty SCULK_INFESTED = BooleanProperty.of("sculked");
@@ -30,9 +31,10 @@ public class WanderingBlocks {
 		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);
 		registerBlock("altar_catalyzer", AltarCatalyzerBlock.INSTANCE);
 		registerBlockEntity("altar_catalyzer", AltarCatalyzerBlockEntity.TYPE);
+		registerBlock("sculkflower", SculkflowerBlock.INSTANCE);
 	}
 
-	public static Block registerBlock(String id, Block block) {
+	public static <T extends Block> T registerBlock(String id, T block) {
 		return Registry.register(Registry.BLOCK, WanderingMod.id(id), block);
 	}
 

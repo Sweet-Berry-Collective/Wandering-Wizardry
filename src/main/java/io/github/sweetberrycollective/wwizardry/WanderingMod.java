@@ -1,5 +1,6 @@
 package io.github.sweetberrycollective.wwizardry;
 
+import io.github.sweetberrycollective.wwizardry.block.Sculkable;
 import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import io.github.sweetberrycollective.wwizardry.datagen.WanderingDatagen;
 import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
@@ -36,18 +37,27 @@ public class WanderingMod implements ModInitializer {
 		var pos = hitResult.getBlockPos();
 		var state = world.getBlockState(pos);
 		var stack = player.getStackInHand(hand);
-		if (player.isSneaking()) {
+		var shouldSneak = false;
+		if (state.getBlock() instanceof Sculkable sculkable) {
+			shouldSneak = sculkable.hasPrimaryAction();
+		}
+		var isBasicallySneaking = player.isSneaking() || !shouldSneak;
+		if (isBasicallySneaking) {
 			var test = testPos(pos, state, player, world, hand, stack);
 			if (test != ActionResult.PASS) return test;
 		}
-		if (state.contains(WanderingBlocks.SCULK_INFESTED) && !player.isSneaking()) return ActionResult.PASS;
+		if (state.contains(WanderingBlocks.SCULK_INFESTED) && !isBasicallySneaking) return ActionResult.PASS;
 		var hitPos = pos.offset(hitResult.getSide());
 		var hitState = world.getBlockState(hitPos);
 		return testPos(hitPos, hitState, player, world, hand, stack);
 	}
 
 	public static ActionResult testPos(BlockPos pos, BlockState state, PlayerEntity player, World world, Hand hand, ItemStack stack) {
-		if (stack.getItem() instanceof ShearsItem && state.contains(WanderingBlocks.SCULK_INFESTED) && state.get(WanderingBlocks.SCULK_INFESTED)) {
+		if (!state.contains(WanderingBlocks.SCULK_INFESTED)) return ActionResult.PASS;
+
+		boolean isInfested = state.get(WanderingBlocks.SCULK_INFESTED);
+
+		if (stack.getItem() instanceof ShearsItem && isInfested) {
 			world.setBlockState(pos, state.with(WanderingBlocks.SCULK_INFESTED, false));
 			if (player instanceof ServerPlayerEntity serverPlayer) {
 				Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
@@ -61,7 +71,7 @@ public class WanderingMod implements ModInitializer {
 			}
 			world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 			return ActionResult.SUCCESS;
-		} else if (stack.getItem() == Items.SCULK_VEIN && state.contains(WanderingBlocks.SCULK_INFESTED) && !state.get(WanderingBlocks.SCULK_INFESTED)) {
+		} else if (stack.getItem() == Items.SCULK_VEIN && !isInfested) {
 			world.setBlockState(pos, state.with(WanderingBlocks.SCULK_INFESTED, true));
 			if (player instanceof ServerPlayerEntity serverPlayer) {
 				Criteria.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);

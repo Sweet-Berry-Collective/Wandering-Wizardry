@@ -5,6 +5,8 @@ import com.terraformersmc.terraform.sign.SpriteIdentifierRegistry;
 import io.github.sweetberrycollective.wwizardry.WanderingMod;
 import io.github.sweetberrycollective.wwizardry.block.AltarCatalyzerBlock;
 import io.github.sweetberrycollective.wwizardry.block.AltarPedestalBlock;
+import io.github.sweetberrycollective.wwizardry.block.SculkflowerBlock;
+import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import io.github.sweetberrycollective.wwizardry.block.entity.AltarPedestalBlockEntity;
 import io.github.sweetberrycollective.wwizardry.client.render.AltarCatalyzerBlockEntityRenderer;
@@ -31,6 +33,7 @@ public class WanderingClient implements ClientModInitializer {
 		ClientWorldTickEvents.END.register((client, world) -> ITEM_ROTATION++);
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), AltarPedestalBlock.INSTANCE);
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), AltarCatalyzerBlock.INSTANCE);
+		BlockRenderLayerMap.put(RenderLayer.getCutout(), SculkflowerBlock.INSTANCE);
 		WanderingDatagen.REGISTRY.forEach(dataGenerator -> {
 			if (dataGenerator instanceof WoodType woodType) {
 				BlockRenderLayerMap.put(RenderLayer.getCutout(), woodType.LEAVES, woodType.DOOR, woodType.TRAPDOOR);

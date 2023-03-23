@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.function.Function;
 
-public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEntity implements Waterloggable, SculkVeinSpreader {
+public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEntity implements Waterloggable, SculkVeinSpreader, Sculkable {
 
 	protected AltarBlock(Settings settings) {
 		super(settings);
@@ -214,6 +214,11 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 
 	@Override
 	public boolean canUpdateOnSpread() {
+		return true;
+	}
+
+	@Override
+	public boolean hasPrimaryAction() {
 		return true;
 	}
 }

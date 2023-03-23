@@ -3,7 +3,9 @@ package io.github.sweetberrycollective.wwizardry.item;
 import io.github.sweetberrycollective.wwizardry.WanderingMod;
 import io.github.sweetberrycollective.wwizardry.block.AltarCatalyzerBlock;
 import io.github.sweetberrycollective.wwizardry.block.AltarPedestalBlock;
+import io.github.sweetberrycollective.wwizardry.block.SculkflowerBlock;
 import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
+import net.minecraft.block.PlantBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -23,6 +25,14 @@ public class WanderingItems {
 	public static final Item CRYSTALLINE_SCULK_SHARD = registerItem(
 			"crystalline_sculk",
 			new Item(
+					new QuiltItemSettings().group(GROUP)
+			)
+	);
+
+	public static final Item SCULKFLOWER = registerItem(
+			"sculkflower",
+			new BlockItem(
+					SculkflowerBlock.INSTANCE,
 					new QuiltItemSettings().group(GROUP)
 			)
 	);
