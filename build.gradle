@@ -30,8 +30,8 @@ dependencies {
 	modImplementation libs.quilt.loader
 	modImplementation libs.quilted.fabric.api
 
-	modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:4.2.0"
-	modImplementation "maven.modrinth:moremcmeta:v1.19-3.0.5-fabric"
+	modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:6.0.0-beta.2"
+	modImplementation "maven.modrinth:moremcmeta:v1.19.4-3.0.6-fabric"
 }
 
 processResources {

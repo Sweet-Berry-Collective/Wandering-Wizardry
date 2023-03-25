@@ -7,6 +7,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -45,7 +46,7 @@ public record AltarCatalyzationRecipe(
 	}
 
 	@Override
-	public ItemStack craft(AltarCatalyzerBlockEntity inventory) {
+	public ItemStack craft(AltarCatalyzerBlockEntity inventory, DynamicRegistryManager registryManager) {
 		return result.copy();
 	}
 
@@ -62,7 +63,7 @@ public record AltarCatalyzationRecipe(
 	}
 
 	@Override
-	public ItemStack getOutput() {
+	public ItemStack getResult(DynamicRegistryManager registryManager) {
 		return result;
 	}
 

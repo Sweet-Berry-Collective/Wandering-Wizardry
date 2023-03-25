@@ -33,7 +33,7 @@ public class BrickType extends AbstractDataGenerator {
 		this.plural = plural;
 
 		final var blockSettings = QuiltBlockSettings.of(Material.STONE).sounds(sounds).mapColor(color);
-		final var itemSettings = new QuiltItemSettings().group(WanderingItems.GROUP);
+		final var itemSettings = new QuiltItemSettings();
 
 		BASE = WanderingBlocks.registerBlock(baseName+(plural?"s":""), new Block(blockSettings));
 		BASE_ITEM = WanderingItems.registerItem(baseName+(plural?"s":""), new BlockItem(BASE, itemSettings));
