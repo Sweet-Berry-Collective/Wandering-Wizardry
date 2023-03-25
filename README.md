@@ -1,2 +1,2 @@
 # Wandering Wizardry
-An exploration focused minecraft mod
+An exploration-focused Minecraft mod.
