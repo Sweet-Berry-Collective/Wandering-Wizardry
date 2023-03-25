@@ -1,12 +1,13 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "io.github.sweetberrycollective.wwizardry.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "Mixin_SculkVeinSpreadBehavior"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"required": true,
+	"minVersion": "0.8",
+	"package": "io.github.sweetberrycollective.wwizardry.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"Mixin_SculkVeinSpreadBehavior",
+		"Mixin_TerraformBoatTrackedData"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }

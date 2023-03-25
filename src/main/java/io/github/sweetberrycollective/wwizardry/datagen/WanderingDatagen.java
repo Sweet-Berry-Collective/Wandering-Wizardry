@@ -3,18 +3,17 @@ package io.github.sweetberrycollective.wwizardry.datagen;
 import com.mojang.serialization.Lifecycle;
 import io.github.sweetberrycollective.wwizardry.WanderingMod;
 import net.minecraft.block.MapColor;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.DefaultedRegistry;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.util.registry.SimpleRegistry;
 import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
 
 public class WanderingDatagen {
 	public static final Identifier REGISTRY_ID = WanderingMod.id("data_generators");
 	public static final RegistryKey<Registry<AbstractDataGenerator>> REGISTRY_KEY = RegistryKey.ofRegistry(REGISTRY_ID);
-	public static final Registry<AbstractDataGenerator> REGISTRY = new SimpleRegistry<>(REGISTRY_KEY, Lifecycle.stable(), null);
+	public static final Registry<AbstractDataGenerator> REGISTRY = new SimpleRegistry<>(REGISTRY_KEY, Lifecycle.stable(), false);
 
 	public static final InMemoryResourcePack pack = new InMemoryResourcePack.Named("Wandering Wizardry resources");
 

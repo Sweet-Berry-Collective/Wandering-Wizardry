@@ -2,9 +2,6 @@ package io.github.sweetberrycollective.wwizardry.datagen;
 
 import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
-import com.terraformersmc.terraform.boat.impl.TerraformBoatTypeImpl;
-import com.terraformersmc.terraform.boat.impl.entity.TerraformBoatEntity;
-import com.terraformersmc.terraform.boat.impl.item.TerraformBoatItem;
 import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 import com.terraformersmc.terraform.wood.block.StrippableLogBlock;
@@ -13,12 +10,15 @@ import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
 import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.SignItem;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.resource.MultiPackResourceManager;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
@@ -62,6 +62,8 @@ public class WoodType extends AbstractDataGenerator {
 
 	public final TerraformBoatType BOAT;
 
+	public final RegistryKey<TerraformBoatType> BOAT_KEY;
+
 	public final Item BOAT_ITEM;
 
 	public final Item BOAT_CHEST_ITEM;
@@ -73,7 +75,7 @@ public class WoodType extends AbstractDataGenerator {
 		final var blockSettings = QuiltBlockSettings.of(Material.WOOD).sounds(sounds).mapColor(wood);
 		final var nonCollidable = QuiltBlockSettings.copyOf(blockSettings).collidable(false);
 		final var nonOpaque = QuiltBlockSettings.copyOf(blockSettings).nonOpaque();
-		final var itemSettings = new QuiltItemSettings().group(WanderingItems.GROUP);
+		final var itemSettings = new QuiltItemSettings();
 
 		STRIPPED_LOG = WanderingBlocks.registerBlock("stripped_"+baseName+"_log", createLogBlock(wood, wood, sounds));
 		STRIPPED_LOG_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_log", new BlockItem(STRIPPED_LOG, itemSettings));
@@ -96,16 +98,16 @@ public class WoodType extends AbstractDataGenerator {
 		SLAB = WanderingBlocks.registerBlock(baseName+"_slab", new SlabBlock(blockSettings));
 		SLAB_ITEM = WanderingItems.registerItem(baseName+"_slab", new BlockItem(SLAB, itemSettings));
 
-		BUTTON = WanderingBlocks.registerBlock(baseName+"_button", new WoodenButtonBlock(nonCollidable));
+		BUTTON = WanderingBlocks.registerBlock(baseName+"_button", new AbstractButtonBlock(blockSettings.noCollision(), BlockSetType.OAK, 30, true));
 		BUTTON_ITEM = WanderingItems.registerItem(baseName+"_button", new BlockItem(BUTTON, itemSettings));
 
-		PRESSURE_PLATE = WanderingBlocks.registerBlock(baseName+"_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, nonCollidable));
+		PRESSURE_PLATE = WanderingBlocks.registerBlock(baseName+"_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, blockSettings.noCollision(), BlockSetType.OAK));
 		PRESSURE_PLATE_ITEM = WanderingItems.registerItem(baseName+"_pressure_plate", new BlockItem(PRESSURE_PLATE, itemSettings));
 
-		DOOR = WanderingBlocks.registerBlock(baseName+"_door", new DoorBlock(nonOpaque));
+		DOOR = WanderingBlocks.registerBlock(baseName+"_door", new DoorBlock(blockSettings.nonOpaque(), BlockSetType.OAK));
 		DOOR_ITEM = WanderingItems.registerItem(baseName+"_door", new BlockItem(DOOR, itemSettings));
 
-		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(nonOpaque));
+		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(blockSettings.nonOpaque(), BlockSetType.OAK));
 		TRAPDOOR_ITEM = WanderingItems.registerItem(baseName+"_trapdoor", new BlockItem(TRAPDOOR, itemSettings));
 
 		SIGN = (TerraformSignBlock) WanderingBlocks.registerBlock(baseName+"_sign", new TerraformSignBlock(WanderingMod.id("entity/signs/"+baseName), nonCollidable));
@@ -115,19 +117,16 @@ public class WoodType extends AbstractDataGenerator {
 		FENCE = WanderingBlocks.registerBlock(baseName+"_fence", new FenceBlock(blockSettings));
 		FENCE_ITEM = WanderingItems.registerItem(baseName+"_fence", new BlockItem(FENCE, itemSettings));
 
-		FENCE_GATE = WanderingBlocks.registerBlock(baseName+"_fence_gate", new FenceGateBlock(blockSettings));
+		FENCE_GATE = WanderingBlocks.registerBlock(baseName+"_fence_gate", new FenceGateBlock(blockSettings, SignType.OAK));
 		FENCE_GATE_ITEM = WanderingItems.registerItem(baseName+"_fence_gate", new BlockItem(FENCE_GATE, itemSettings));
 
 		LEAVES = WanderingBlocks.registerBlock(baseName+"_leaves", createLeavesBlock());
 		LEAVES_ITEM = WanderingItems.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
 
-		BOAT_ITEM = WanderingItems.registerItem(baseName+"_boat", new TerraformBoatItem(this::getBoat, false, itemSettings));
-		BOAT_CHEST_ITEM = WanderingItems.registerItem(baseName+"_chest_boat", new TerraformBoatItem(this::getBoat, true, itemSettings));
+		BOAT_KEY = RegistryKey.of(TerraformBoatTypeRegistry.INSTANCE.getKey(), WanderingMod.id(baseName+"_boat"));
+		BOAT_ITEM = WanderingItems.registerBoatItem(baseName+"_boat", BOAT_KEY, false, itemSettings);
+		BOAT_CHEST_ITEM = WanderingItems.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, itemSettings);
 		BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, WanderingMod.id(baseName+"_boat"), new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
-	}
-
-	private TerraformBoatType getBoat() {
-		return BOAT;
 	}
 
 	private static LeavesBlock createLeavesBlock() {

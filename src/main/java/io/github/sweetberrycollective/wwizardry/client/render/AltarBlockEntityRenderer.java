@@ -6,9 +6,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.Axis;
 
 public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends BlockEntityRenderer<T> {
 
@@ -32,9 +33,10 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 			matrices.translate(0, (entity.craftingTick + tickDelta) / 25, 0);
 		}
 
-		matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion((WanderingClient.ITEM_ROTATION + tickDelta) / 2));
+		matrices.multiply(Axis.Y_NEGATIVE.rotationDegrees((WanderingClient.ITEM_ROTATION + tickDelta) / 2));
 
-		MinecraftClient.getInstance().getItemRenderer().renderItem(entity.heldItem, ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, 0);
+		BakedModel bakedModel = MinecraftClient.getInstance().getItemRenderer().getModels().getModel(entity.heldItem);
+		MinecraftClient.getInstance().getItemRenderer().renderItem(entity.heldItem, ModelTransformationMode.GROUND, true, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, bakedModel);
 
 		matrices.pop();
 	}
