@@ -3,10 +3,7 @@ package io.github.sweetberrycollective.wwizardry.item;
 import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import io.github.sweetberrycollective.wwizardry.WanderingMod;
-import io.github.sweetberrycollective.wwizardry.block.AltarCatalyzerBlock;
-import io.github.sweetberrycollective.wwizardry.block.AltarPedestalBlock;
-import io.github.sweetberrycollective.wwizardry.block.CrystalSculkBlock;
-import io.github.sweetberrycollective.wwizardry.block.SculkflowerBlock;
+import io.github.sweetberrycollective.wwizardry.block.*;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -48,10 +45,41 @@ public class WanderingItems {
 			)
 	);
 
+	public static final Item INDIGO_CAERULEUM = registerItem(
+		"indigo_caeruleum",
+		new BlockItem(
+			WanderingBlocks.INDIGO_CAERULEUM,
+			new QuiltItemSettings()
+		)
+	);
+
+	public static final Item CAMERA = registerItem(
+		"camera",
+		new BlockItem(
+			CameraBlock.INSTANCE,
+			new QuiltItemSettings()
+		)
+	);
+
+	public static final Item REINFORCED_GLASS = registerItem(
+		"reinforced_glass",
+		new BlockItem(
+			WanderingBlocks.REINFORCED_GLASS,
+			new QuiltItemSettings()
+		)
+	);
+
+	public static final Item REINFORCED_GLASS_PANE = registerItem(
+		"reinforced_glass_pane",
+		new BlockItem(
+			WanderingBlocks.REINFORCED_GLASS_PANE,
+			new QuiltItemSettings()
+		)
+	);
+
 	public static final List<ItemStack> STACKS;
 
-	// This is here because of 'Illegal forward reference' :blobfox_waaaa:
-	// just use kotlin:tm: - anonymous (don't git blame me 🥺👉👈)
+	// This is here because of 'Illegal forward reference'
 	public static ItemStack getIcon() {
 		return CRYSTALLINE_SCULK_SHARD.getDefaultStack();
 	}
