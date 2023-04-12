@@ -15,7 +15,7 @@ public class Mixin_SculkVeinSpreadBehavior {
 	@Inject(method = "canPlace", at = @At("RETURN"), cancellable = true)
 	private void checkAltar(BlockView view, BlockPos posA, BlockPos posB, Direction dir, BlockState state, CallbackInfoReturnable<Boolean> cir) {
 		if (view.getBlockState(posB.offset(dir)).contains(WanderingBlocks.SCULK_INFESTED)) {
-			cir.setReturnValue(false);
+			cir.setReturnValue(true);
 		}
 	}
 }

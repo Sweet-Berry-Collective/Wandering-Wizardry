@@ -29,18 +29,12 @@ public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
 
 	public AltarCatalyzerBlock(Settings settings) {
 		super(settings);
-		setDefaultState(getDefaultState().with(WanderingBlocks.NATURALLY_GENERATED, false));
+		setDefaultState(getDefaultState());
 	}
 
 	@Override
 	public BlockEntityType<AltarCatalyzerBlockEntity> getBlockEntityType() {
 		return AltarCatalyzerBlockEntity.TYPE;
-	}
-
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		super.appendProperties(builder);
-		builder.add(WanderingBlocks.NATURALLY_GENERATED);
 	}
 
 	@Nullable

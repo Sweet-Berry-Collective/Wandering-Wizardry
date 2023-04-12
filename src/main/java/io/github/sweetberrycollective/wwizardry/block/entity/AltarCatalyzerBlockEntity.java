@@ -72,9 +72,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		world.playSound(pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 2, 1, true);
 		if (!world.isClient && bloom > 0) {
 			world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 2, 1, true);
-			if (state.get(WanderingBlocks.NATURALLY_GENERATED)) {
-				behavior.addCharge(pos, bloom);
-			}
+			behavior.addCharge(pos, bloom);
 		}
 		world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 		bloom = 0;

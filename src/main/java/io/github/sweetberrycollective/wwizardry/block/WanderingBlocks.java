@@ -20,7 +20,6 @@ import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 public class WanderingBlocks {
 	public static final BooleanProperty SCULK_INFESTED = BooleanProperty.of("sculked");
 	public static final BooleanProperty SCULK_BELOW = BooleanProperty.of("sculk_below");
-	public static final BooleanProperty NATURALLY_GENERATED = BooleanProperty.of("natural");
 
 	public static final VoxelShape ALTAR_BASE_SHAPE = VoxelShapes.union(
 			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 2.0, 14.0),
