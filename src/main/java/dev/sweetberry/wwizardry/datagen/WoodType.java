@@ -60,6 +60,8 @@ public class WoodType extends AbstractDataGenerator {
 	public final Block LEAVES;
 	public final Item LEAVES_ITEM;
 
+	public final boolean fungus;
+
 //	public final TerraformBoatType BOAT;
 //
 //	public final RegistryKey<TerraformBoatType> BOAT_KEY;
@@ -67,27 +69,36 @@ public class WoodType extends AbstractDataGenerator {
 //	public final Item BOAT_ITEM;
 //
 //	public final Item BOAT_CHEST_ITEM;
-
 	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds) {
+		this(baseName, wood, bark, sounds, false);
+	}
+
+
+	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds, boolean fungus) {
 		super();
 		this.baseName = baseName;
+
+		this.fungus = fungus;
 
 		final var blockSettings = QuiltBlockSettings.of(Material.WOOD).sounds(sounds).mapColor(wood);
 		final var nonCollidable = QuiltBlockSettings.copyOf(blockSettings).collidable(false);
 		final var nonOpaque = QuiltBlockSettings.copyOf(blockSettings).nonOpaque();
 		final var itemSettings = new QuiltItemSettings();
 
-		STRIPPED_LOG = WanderingBlocks.registerBlock("stripped_"+baseName+"_log", createLogBlock(wood, wood, sounds));
-		STRIPPED_LOG_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_log", new BlockItem(STRIPPED_LOG, itemSettings));
+		final var logName = fungus ? "stem" : "log";
+		final var woodName = fungus ? "hyphae" : "wood";
 
-		LOG = WanderingBlocks.registerBlock(baseName+"_log", createStrippableLogBlock(STRIPPED_LOG, bark, wood, sounds));
-		LOG_ITEM = WanderingItems.registerItem(baseName+"_log", new BlockItem(LOG, itemSettings));
+		STRIPPED_LOG = WanderingBlocks.registerBlock("stripped_"+baseName+"_"+logName, createLogBlock(wood, wood, sounds));
+		STRIPPED_LOG_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_"+logName, new BlockItem(STRIPPED_LOG, itemSettings));
 
-		STRIPPED_WOOD = WanderingBlocks.registerBlock("stripped_"+baseName+"_wood", createLogBlock(wood, wood, sounds));
-		STRIPPED_WOOD_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_wood", new BlockItem(STRIPPED_WOOD, itemSettings));
+		LOG = WanderingBlocks.registerBlock(baseName+"_"+logName, createStrippableLogBlock(STRIPPED_LOG, bark, wood, sounds));
+		LOG_ITEM = WanderingItems.registerItem(baseName+"_"+logName, new BlockItem(LOG, itemSettings));
 
-		WOOD = WanderingBlocks.registerBlock(baseName+"_wood", createStrippableLogBlock(STRIPPED_WOOD, bark, wood, sounds));
-		WOOD_ITEM = WanderingItems.registerItem(baseName+"_wood", new BlockItem(WOOD, itemSettings));
+		STRIPPED_WOOD = WanderingBlocks.registerBlock("stripped_"+baseName+"_"+woodName, createLogBlock(wood, wood, sounds));
+		STRIPPED_WOOD_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_"+woodName, new BlockItem(STRIPPED_WOOD, itemSettings));
+
+		WOOD = WanderingBlocks.registerBlock(baseName+"_"+woodName, createStrippableLogBlock(STRIPPED_WOOD, bark, wood, sounds));
+		WOOD_ITEM = WanderingItems.registerItem(baseName+"_"+woodName, new BlockItem(WOOD, itemSettings));
 
 		PLANKS = WanderingBlocks.registerBlock(baseName+"_planks", new Block(blockSettings));
 		PLANKS_ITEM = WanderingItems.registerItem(baseName+"_planks", new BlockItem(PLANKS, itemSettings));
@@ -120,8 +131,13 @@ public class WoodType extends AbstractDataGenerator {
 		FENCE_GATE = WanderingBlocks.registerBlock(baseName+"_fence_gate", new FenceGateBlock(blockSettings, SignType.OAK));
 		FENCE_GATE_ITEM = WanderingItems.registerItem(baseName+"_fence_gate", new BlockItem(FENCE_GATE, itemSettings));
 
-		LEAVES = WanderingBlocks.registerBlock(baseName+"_leaves", createLeavesBlock());
-		LEAVES_ITEM = WanderingItems.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
+		if (!fungus) {
+			LEAVES = WanderingBlocks.registerBlock(baseName+"_leaves", createLeavesBlock());
+			LEAVES_ITEM = WanderingItems.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
+		} else {
+			LEAVES = WanderingBlocks.registerBlock(baseName+"_wart", new NetherWartBlock(QuiltBlockSettings.copyOf(Blocks.NETHER_WART)));
+			LEAVES_ITEM = WanderingItems.registerItem(baseName+"_wart", new BlockItem(LEAVES, itemSettings));
+		}
 
 //		BOAT_KEY = TerraformBoatTypeRegistry.createKey(WanderingMod.id(baseName));
 //		BOAT_ITEM = WanderingItems.registerBoatItem(baseName+"_boat", BOAT_KEY, false, itemSettings);
@@ -170,9 +186,9 @@ public class WoodType extends AbstractDataGenerator {
 		var manager = context.resourceManager();
 		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
 		var pack = WanderingDatagen.pack;
-		var blockstates = new BlockstateDataApplier(context, baseName);
-		var blockModels = new BlockModelDataApplier(context, baseName);
-		var itemModels = new ItemModelDataApplier(context, baseName);
+		var blockstates = new BlockstateDataApplier(context, baseName, fungus);
+		var blockModels = new BlockModelDataApplier(context, baseName, fungus);
+		var itemModels = new ItemModelDataApplier(context, baseName, fungus);
 		blockstates.addToResourcePack(pack);
 		blockModels.addToResourcePack(pack);
 		itemModels.addToResourcePack(pack);
@@ -195,8 +211,12 @@ public class WoodType extends AbstractDataGenerator {
 		public final String WOOD;
 		public final String LEAVES;
 
-		public BlockstateDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
+		final boolean fungus;
+
+		public BlockstateDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, boolean fungus) {
 			super(context, baseName, "wood");
+
+			this.fungus = fungus;
 
 			BUTTON = getResource("button");
 			DOOR = getResource("door");
@@ -217,22 +237,26 @@ public class WoodType extends AbstractDataGenerator {
 
 		@Override
 		public void addToResourcePack(InMemoryResourcePack pack) {
+			final var logName = fungus ? "stem" : "log";
+			final var woodName = fungus ? "hyphae" : "wood";
+			final var leavesName = fungus ? "wart" : "leaves";
+
 			put(pack, baseName+"_button", BUTTON);
 			put(pack, baseName+"_door", DOOR);
 			put(pack, baseName+"_fence", FENCE);
 			put(pack, baseName+"_fence_gate", FENCE_GATE);
-			put(pack, baseName+"_log", LOG);
+			put(pack, baseName+"_"+logName, LOG.replaceAll("#", logName));
 			put(pack, baseName+"_planks", PLANKS);
 			put(pack, baseName+"_pressure_plate", PRESSURE_PLATE);
 			put(pack, baseName+"_sign", SIGN);
 			put(pack, baseName+"_wall_sign", SIGN);
 			put(pack, baseName+"_slab", SLAB);
 			put(pack, baseName+"_stairs", STAIRS);
-			put(pack, "stripped_"+baseName+"_log", STRIPPED_LOG);
-			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD);
+			put(pack, "stripped_"+baseName+"_"+logName, STRIPPED_LOG.replaceAll("#", logName));
+			put(pack, "stripped_"+baseName+"_"+woodName, STRIPPED_WOOD.replaceAll("#", woodName));
 			put(pack, baseName+"_trapdoor", TRAPDOOR);
-			put(pack, baseName+"_wood", WOOD);
-			put(pack, baseName+"_leaves", LEAVES);
+			put(pack, baseName+"_"+woodName, WOOD.replaceAll("#", woodName));
+			put(pack, baseName+"_"+leavesName, LEAVES.replaceAll("#", leavesName));
 		}
 	}
 
@@ -252,8 +276,13 @@ public class WoodType extends AbstractDataGenerator {
 		public final String TRAPDOOR;
 		public final String WOOD;
 		public final String LEAVES;
-		public BlockModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
+
+		final boolean fungus;
+
+		public BlockModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, boolean fungus) {
 			super(context, baseName, "wood");
+
+			this.fungus = fungus;
 
 			BUTTON = getResource("button");
 			DOOR = getResource("door");
@@ -274,6 +303,10 @@ public class WoodType extends AbstractDataGenerator {
 
 		@Override
 		public void addToResourcePack(InMemoryResourcePack pack) {
+			final var logName = fungus ? "stem" : "log";
+			final var woodName = fungus ? "hyphae" : "wood";
+			final var leavesName = fungus ? "wart" : "leaves";
+
 			put(pack, baseName+"_button", BUTTON, null);
 			put(pack, baseName+"_button", BUTTON, "inventory");
 			put(pack, baseName+"_button", BUTTON, "pressed");
@@ -292,8 +325,8 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_fence", FENCE, "inventory");
 			put(pack, baseName+"_fence", FENCE, "post");
 			put(pack, baseName+"_fence", FENCE, "side");
-			put(pack, baseName+"_log", LOG, null);
-			put(pack, baseName+"_log", LOG, "horizontal");
+			put(pack, baseName+"_"+logName, LOG.replaceAll("#", logName), null);
+			put(pack, baseName+"_"+logName, LOG.replaceAll("#", logName), "horizontal");
 			put(pack, baseName+"_planks", PLANKS);
 			put(pack, baseName+"_pressure_plate", PRESSURE_PLATE);
 			put(pack, baseName+"_pressure_plate_down", PRESSURE_PLATE.replace("up", "down"));
@@ -303,16 +336,16 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_stairs", STAIRS);
 			put(pack, baseName+"_stairs_inner", STAIRS.replace("stairs", "inner_stairs"));
 			put(pack, baseName+"_stairs_outer", STAIRS.replace("stairs", "outer_stairs"));
-			put(pack, "stripped_"+baseName+"_log", STRIPPED_LOG, null);
-			put(pack, "stripped_"+baseName+"_log", STRIPPED_LOG, "horizontal");
-			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD, null);
-			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD, "horizontal");
+			put(pack, "stripped_"+baseName+"_"+logName, STRIPPED_LOG.replaceAll("#", logName), null);
+			put(pack, "stripped_"+baseName+"_"+logName, STRIPPED_LOG.replaceAll("#", logName), "horizontal");
+			put(pack, "stripped_"+baseName+"_"+woodName, STRIPPED_WOOD.replaceAll("#", logName), null);
+			put(pack, "stripped_"+baseName+"_"+woodName, STRIPPED_WOOD.replaceAll("#", logName), "horizontal");
 			put(pack, baseName+"_trapdoor", TRAPDOOR, "bottom");
 			put(pack, baseName+"_trapdoor", TRAPDOOR, "open");
 			put(pack, baseName+"_trapdoor", TRAPDOOR, "top");
-			put(pack, baseName+"_wood", WOOD, null);
-			put(pack, baseName+"_wood", WOOD, "horizontal");
-			put(pack, baseName+"_leaves", LEAVES);
+			put(pack, baseName+"_"+woodName, WOOD.replaceAll("#", logName), null);
+			put(pack, baseName+"_"+woodName, WOOD.replaceAll("#", logName), "horizontal");
+			put(pack, baseName+"_"+leavesName, LEAVES.replaceAll("#", leavesName));
 		}
 	}
 
@@ -334,8 +367,11 @@ public class WoodType extends AbstractDataGenerator {
 		public final String LEAVES;
 		public final String BOAT;
 
-		public ItemModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName) {
+		final boolean fungus;
+
+		public ItemModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, boolean fungus) {
 			super(context, baseName, "wood");
+			this.fungus = fungus;
 
 			BUTTON = getResource("button");
 			DOOR = getResource("door");
@@ -357,22 +393,26 @@ public class WoodType extends AbstractDataGenerator {
 
 		@Override
 		public void addToResourcePack(InMemoryResourcePack pack) {
+			final var logName = fungus ? "stem" : "log";
+			final var woodName = fungus ? "hyphae" : "wood";
+			final var leavesName = fungus ? "wart" : "leaves";
+
 			put(pack, baseName+"_button", BUTTON);
 			put(pack, baseName+"_door", DOOR);
 			put(pack, baseName+"_fence", FENCE);
 			put(pack, baseName+"_fence_gate", FENCE_GATE);
-			put(pack, baseName+"_log", LOG);
+			put(pack, baseName+"_"+logName, LOG.replaceAll("#", logName));
 			put(pack, baseName+"_planks", PLANKS);
 			put(pack, baseName+"_pressure_plate", PRESSURE_PLATE);
 			put(pack, baseName+"_sign", SIGN);
 			put(pack, baseName+"_wall_sign", SIGN);
 			put(pack, baseName+"_slab", SLAB);
 			put(pack, baseName+"_stairs", STAIRS);
-			put(pack, "stripped_"+baseName+"_log", STRIPPED_LOG);
-			put(pack, "stripped_"+baseName+"_wood", STRIPPED_WOOD);
+			put(pack, "stripped_"+baseName+"_"+logName, STRIPPED_LOG.replaceAll("#", logName));
+			put(pack, "stripped_"+baseName+"_"+woodName, STRIPPED_WOOD.replaceAll("#", woodName));
 			put(pack, baseName+"_trapdoor", TRAPDOOR);
-			put(pack, baseName+"_wood", WOOD);
-			put(pack, baseName+"_leaves", LEAVES);
+			put(pack, baseName+"_"+woodName, WOOD.replaceAll("#", woodName));
+			put(pack, baseName+"_"+leavesName, LEAVES.replaceAll("#", leavesName));
 			put(pack, baseName+"_boat", BOAT);
 			put(pack, baseName+"_chest_boat", BOAT);
 		}

@@ -33,7 +33,7 @@ public class WallCandleBlock extends WallHolderBlock {
 	public static final VoxelShape CANDLE_WEST = createCuboidShape(2.25, 6, 7, 4.25, 11, 9);
 
 	public WallCandleBlock(Settings settings, CandleBlock candleBlock) {
-		super(settings.luminance(state -> state.get(Properties.LIT) ? 3 : 0));
+		super(settings.luminance(state -> state.get(Properties.LIT) ? 5 : 0));
 		this.candleBlock = candleBlock;
 		ITEM_LOOKUP.put(candleBlock, this);
 		setDefaultState(getDefaultState().with(Properties.LIT, false));

@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_column$",
   "textures": {
-    "end": "wwizardry:block/stripped_%_log",
-    "side": "wwizardry:block/stripped_%_log"
+    "end": "wwizardry:block/stripped_%_#",
+    "side": "wwizardry:block/stripped_%_#"
   }
 }

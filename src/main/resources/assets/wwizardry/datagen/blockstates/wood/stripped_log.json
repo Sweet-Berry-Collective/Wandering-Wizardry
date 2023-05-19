@@ -1,15 +1,15 @@
 {
   "variants": {
     "axis=x": {
-      "model": "wwizardry:block/stripped_%_log_horizontal",
+      "model": "wwizardry:block/stripped_%_#_horizontal",
       "x": 90,
       "y": 90
     },
     "axis=y": {
-      "model": "wwizardry:block/stripped_%_log"
+      "model": "wwizardry:block/stripped_%_#"
     },
     "axis=z": {
-      "model": "wwizardry:block/stripped_%_log_horizontal",
+      "model": "wwizardry:block/stripped_%_#_horizontal",
       "x": 90
     }
   }

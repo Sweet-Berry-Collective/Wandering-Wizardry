@@ -18,6 +18,8 @@ public class WanderingDatagen {
 	public static final InMemoryResourcePack pack = new InMemoryResourcePack.Named("Wandering Wizardry resources");
 
 	public static final WoodType DENIA_WOOD = registerDataGenerator("denia_wood", new WoodType("denia", MapColor.DARK_AQUA, MapColor.DEEPSLATE_GRAY, BlockSoundGroup.WOOD));
+
+
 	public static final BrickType CHISELED_BASALT = registerDataGenerator("chiseled_basalt", new BrickType("chiseled_basalt", false, MapColor.GRAY, BlockSoundGroup.BASALT));
 	public static final BrickType BASALT_BRICKS = registerDataGenerator("basalt_bricks", new BrickType("basalt_brick", true, MapColor.GRAY, BlockSoundGroup.BASALT));
 	public static final BrickType BASALT_TILES = registerDataGenerator("basalt_tiles", new BrickType("basalt_tile", true, MapColor.GRAY, BlockSoundGroup.BASALT));

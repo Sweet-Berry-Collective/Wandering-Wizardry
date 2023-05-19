@@ -1,15 +1,15 @@
 {
   "variants": {
     "axis=x": {
-      "model": "wwizardry:block/%_log_horizontal",
+      "model": "wwizardry:block/%_#_horizontal",
       "x": 90,
       "y": 90
     },
     "axis=y": {
-      "model": "wwizardry:block/%_log"
+      "model": "wwizardry:block/%_#"
     },
     "axis=z": {
-      "model": "wwizardry:block/%_log_horizontal",
+      "model": "wwizardry:block/%_#_horizontal",
       "x": 90
     }
   }

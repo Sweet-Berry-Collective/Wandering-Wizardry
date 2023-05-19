@@ -35,7 +35,9 @@ public class WanderingClient implements ClientModInitializer {
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), WanderingBlocks.REINFORCED_GLASS_PANE);
 		WanderingDatagen.REGISTRY.forEach(dataGenerator -> {
 			if (dataGenerator instanceof WoodType woodType) {
-				BlockRenderLayerMap.put(RenderLayer.getCutout(), woodType.LEAVES, woodType.DOOR, woodType.TRAPDOOR);
+				BlockRenderLayerMap.put(RenderLayer.getCutout(), woodType.DOOR, woodType.TRAPDOOR);
+				if (!woodType.fungus)
+					BlockRenderLayerMap.put(RenderLayer.getCutout(), woodType.LEAVES);
 				SpriteIdentifierRegistry.INSTANCE.addIdentifier(new SpriteIdentifier(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, woodType.SIGN.getTexture()));
 				TerraformBoatClientHelper.registerModelLayers(WanderingMod.id(woodType.baseName+"_boat"), false);
 			}

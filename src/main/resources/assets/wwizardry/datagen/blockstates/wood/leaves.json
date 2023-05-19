@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "wwizardry:block/%_leaves"
+      "model": "wwizardry:block/%_#"
     }
   }
 }
