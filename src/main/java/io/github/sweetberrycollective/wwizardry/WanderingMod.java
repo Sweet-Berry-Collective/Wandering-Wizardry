@@ -2,17 +2,21 @@ package io.github.sweetberrycollective.wwizardry;
 
 import io.github.sweetberrycollective.wwizardry.block.Sculkable;
 import io.github.sweetberrycollective.wwizardry.block.WanderingBlocks;
+import io.github.sweetberrycollective.wwizardry.datagen.WallCandleBlockType;
 import io.github.sweetberrycollective.wwizardry.datagen.WanderingDatagen;
 import io.github.sweetberrycollective.wwizardry.item.WanderingItems;
 import io.github.sweetberrycollective.wwizardry.recipe.WanderingRecipes;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CandleBlock;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.ShearsItem;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -25,6 +29,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.quiltmc.qsl.registry.api.event.RegistryEvents;
+import org.quiltmc.qsl.registry.api.event.RegistryMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,6 +92,16 @@ public class WanderingMod implements ModInitializer {
 		return ActionResult.PASS;
 	}
 
+	public static void onBlockAdded(Block block, Identifier id) {
+		if (block instanceof CandleBlock candleBlock)
+			onCandleBlockAdded(candleBlock, id);
+
+	}
+
+	public static void onCandleBlockAdded(CandleBlock candleBlock, Identifier id) {
+		WanderingDatagen.registerDataGenerator(WallCandleBlockType.transformId(id), new WallCandleBlockType(id, candleBlock));
+	}
+
 	@Override
 	public void onInitialize(ModContainer mod) {
 		WanderingBlocks.init();
@@ -93,6 +109,7 @@ public class WanderingMod implements ModInitializer {
 		WanderingRecipes.init();
 		WanderingDatagen.init();
 		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
+		RegistryMonitor.create(Registries.BLOCK).forAll((ctx) -> onBlockAdded(ctx.value(), ctx.id()));
 	}
 
 	public static Identifier id(String path) {

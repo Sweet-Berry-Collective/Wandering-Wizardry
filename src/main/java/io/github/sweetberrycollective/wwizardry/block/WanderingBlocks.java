@@ -32,6 +32,8 @@ public class WanderingBlocks {
 
 	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new PaneBlock(QuiltBlockSettings.copyOf(Blocks.GLASS)));
 
+	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(QuiltBlockSettings.copyOf(Blocks.REDSTONE_LAMP)));
+
 	public static void init() {
 		registerBlock("altar_pedestal", AltarPedestalBlock.INSTANCE);
 		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);
@@ -40,6 +42,7 @@ public class WanderingBlocks {
 		registerBlock("sculkflower", SculkflowerBlock.INSTANCE);
 		registerBlock("crystalline_sculk_block", CrystalSculkBlock.INSTANCE);
 		registerBlock("camera", CameraBlock.INSTANCE);
+		registerBlock("wall_holder", WallHolderBlock.EMPTY);
 	}
 
 	public static <T extends Block> T registerBlock(String id, T block) {

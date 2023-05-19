@@ -54,6 +54,9 @@ public abstract class AbstractDataGenerator {
 		}
 
 		public void put(InMemoryResourcePack pack, String path, String text) {
+			var id = WanderingMod.id(outputPath+"/"+path+".json");
+			if (context.resourceManager().getResource(id).isPresent()) return;
+
 			pack.putText(ResourceType.CLIENT_RESOURCES, WanderingMod.id(outputPath+"/"+path+".json"), text.replaceAll("%", baseName));
 		}
 

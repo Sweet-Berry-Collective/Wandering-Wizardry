@@ -1,0 +1,6 @@
+{
+  "parent": "wwizardry:block/wall_holder/base/candle",
+  "textures": {
+    "candle": "#"
+  }
+}

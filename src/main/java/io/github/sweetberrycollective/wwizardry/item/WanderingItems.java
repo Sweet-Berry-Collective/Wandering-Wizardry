@@ -77,6 +77,22 @@ public class WanderingItems {
 		)
 	);
 
+	public static final Item REDSTONE_LANTERN = registerItem(
+		"redstone_lantern",
+		new BlockItem(
+			WanderingBlocks.REDSTONE_LANTERN,
+			new QuiltItemSettings()
+		)
+	);
+
+	public static final Item WALL_HOLDER_EMPTY = registerItem(
+		"wall_holder",
+		new BlockItem(
+			WallHolderBlock.EMPTY,
+			new QuiltItemSettings()
+		)
+	);
+
 	public static final List<ItemStack> STACKS;
 
 	// This is here because of 'Illegal forward reference'

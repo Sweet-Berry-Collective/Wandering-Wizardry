@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "lit=true,facing=north": {
+      "model": "wwizardry:block/%_lit"
+    },
+    "lit=true,facing=south": {
+      "model": "wwizardry:block/%_lit",
+      "y": 180
+    },
+    "lit=true,facing=east": {
+      "model": "wwizardry:block/%_lit",
+      "y": 90
+    },
+    "lit=true,facing=west": {
+      "model": "wwizardry:block/%_lit",
+      "y": 270
+    },
+    "lit=false,facing=north": {
+      "model": "wwizardry:block/%"
+    },
+    "lit=false,facing=south": {
+      "model": "wwizardry:block/%",
+      "y": 180
+    },
+    "lit=false,facing=east": {
+      "model": "wwizardry:block/%",
+      "y": 90
+    },
+    "lit=false,facing=west": {
+      "model": "wwizardry:block/%",
+      "y": 270
+    }
+  }
+}

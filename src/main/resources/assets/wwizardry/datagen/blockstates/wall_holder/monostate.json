@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "wwizardry:block/%"
+    },
+    "facing=south": {
+      "model": "wwizardry:block/%"
+    },
+    "facing=east": {
+      "model": "wwizardry:block/%"
+    },
+    "facing=west": {
+      "model": "wwizardry:block/%"
+    }
+  }
+}
