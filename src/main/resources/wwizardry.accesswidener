@@ -1,3 +1,0 @@
-accessWidener	v2	named
-accessible	method	net/minecraft/world/biome/OverworldBiomeCreator	addBasicFeatures	(Lnet/minecraft/world/biome/GenerationSettings$Builder;)V
-accessible	method	net/minecraft/block/Blocks	createButtonBlock	(Lnet/minecraft/block/BlockSetType;)Lnet/minecraft/block/AbstractButtonBlock;

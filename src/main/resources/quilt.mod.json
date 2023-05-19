@@ -1,7 +1,7 @@
 {
 	"schema_version": 1,
 	"quilt_loader": {
-		"group": "io.github.sweetberrycollectie",
+		"group": "dev.sweetberry",
 		"id": "wwizardry",
 		"version": "${version}",
 		"metadata": {
@@ -18,8 +18,8 @@
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "io.github.sweetberrycollective.wwizardry.WanderingMod",
-			"client_init": "io.github.sweetberrycollective.wwizardry.client.WanderingClient"
+			"init": "dev.sweetberry.wwizardry.WanderingMod",
+			"client_init": "dev.sweetberry.wwizardry.client.WanderingClient"
 		},
 		"depends": [
 			{
@@ -36,6 +36,5 @@
 			}
 		]
 	},
-	"mixin": "wwizardry.mixins.json",
-	"access_widener": "wwizardry.accesswidener"
+	"mixin": "wwizardry.mixins.json"
 }
