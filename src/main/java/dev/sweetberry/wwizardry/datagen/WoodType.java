@@ -60,13 +60,13 @@ public class WoodType extends AbstractDataGenerator {
 	public final Block LEAVES;
 	public final Item LEAVES_ITEM;
 
-	public final TerraformBoatType BOAT;
-
-	public final RegistryKey<TerraformBoatType> BOAT_KEY;
-
-	public final Item BOAT_ITEM;
-
-	public final Item BOAT_CHEST_ITEM;
+//	public final TerraformBoatType BOAT;
+//
+//	public final RegistryKey<TerraformBoatType> BOAT_KEY;
+//
+//	public final Item BOAT_ITEM;
+//
+//	public final Item BOAT_CHEST_ITEM;
 
 	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds) {
 		super();
@@ -123,10 +123,10 @@ public class WoodType extends AbstractDataGenerator {
 		LEAVES = WanderingBlocks.registerBlock(baseName+"_leaves", createLeavesBlock());
 		LEAVES_ITEM = WanderingItems.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
 
-		BOAT_KEY = TerraformBoatTypeRegistry.createKey(WanderingMod.id(baseName));
-		BOAT_ITEM = WanderingItems.registerBoatItem(baseName+"_boat", BOAT_KEY, false, itemSettings);
-		BOAT_CHEST_ITEM = WanderingItems.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, itemSettings);
-		BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, BOAT_KEY, new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
+//		BOAT_KEY = TerraformBoatTypeRegistry.createKey(WanderingMod.id(baseName));
+//		BOAT_ITEM = WanderingItems.registerBoatItem(baseName+"_boat", BOAT_KEY, false, itemSettings);
+//		BOAT_CHEST_ITEM = WanderingItems.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, itemSettings);
+//		BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, BOAT_KEY, new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
 	}
 
 	private static LeavesBlock createLeavesBlock() {
