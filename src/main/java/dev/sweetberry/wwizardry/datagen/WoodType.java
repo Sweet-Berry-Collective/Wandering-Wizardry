@@ -2,7 +2,9 @@ package dev.sweetberry.wwizardry.datagen;
 
 import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
+import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
+import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 import com.terraformersmc.terraform.wood.block.StrippableLogBlock;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
@@ -11,6 +13,7 @@ import dev.sweetberry.wwizardry.item.WanderingItems;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.HangingSignItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SignItem;
 import net.minecraft.registry.Registry;
@@ -53,6 +56,9 @@ public class WoodType extends AbstractDataGenerator {
 	public final TerraformSignBlock SIGN;
 	public final TerraformWallSignBlock SIGN_WALL;
 	public final Item SIGN_ITEM;
+	public final TerraformHangingSignBlock HANGING_SIGN;
+	public final TerraformWallHangingSignBlock HANGING_SIGN_WALL;
+	public final Item HANGING_SIGN_ITEM;
 	public final Block FENCE;
 	public final Item FENCE_ITEM;
 	public final Block FENCE_GATE;
@@ -83,7 +89,9 @@ public class WoodType extends AbstractDataGenerator {
 		final var blockSettings = QuiltBlockSettings.of(Material.WOOD).sounds(sounds).mapColor(wood);
 		final var nonCollidable = QuiltBlockSettings.copyOf(blockSettings).collidable(false);
 		final var nonOpaque = QuiltBlockSettings.copyOf(blockSettings).nonOpaque();
+		final var hanging = QuiltBlockSettings.copyOf(Blocks.OAK_HANGING_SIGN).sounds(sounds).mapColor(wood);
 		final var itemSettings = new QuiltItemSettings();
+		final var singleStack = new QuiltItemSettings().maxCount(1);
 
 		final var logName = fungus ? "stem" : "log";
 		final var woodName = fungus ? "hyphae" : "wood";
@@ -121,9 +129,16 @@ public class WoodType extends AbstractDataGenerator {
 		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(nonOpaque, BlockSetType.OAK));
 		TRAPDOOR_ITEM = WanderingItems.registerItem(baseName+"_trapdoor", new BlockItem(TRAPDOOR, itemSettings));
 
-		SIGN = WanderingBlocks.registerBlock(baseName+"_sign", new TerraformSignBlock(WanderingMod.id("entity/signs/"+baseName), nonCollidable));
-		SIGN_WALL = WanderingBlocks.registerBlock(baseName+"_wall_sign", new TerraformWallSignBlock(WanderingMod.id("entity/signs/"+baseName), nonCollidable));
+		var sign_id = WanderingMod.id("entity/signs/"+baseName);
+		SIGN = WanderingBlocks.registerBlock(baseName+"_sign", new TerraformSignBlock(sign_id, nonCollidable));
+		SIGN_WALL = WanderingBlocks.registerBlock(baseName+"_wall_sign", new TerraformWallSignBlock(sign_id, nonCollidable));
 		SIGN_ITEM = WanderingItems.registerItem(baseName+"_sign", new SignItem(itemSettings, SIGN, SIGN_WALL));
+
+		var hanging_sign_id = WanderingMod.id("textures/gui/hanging_signs/"+baseName);
+		var hanging_sign_gui_id = WanderingMod.id("entity/signs/hanging/"+baseName);
+		HANGING_SIGN = WanderingBlocks.registerBlock(baseName+"_hanging_sign", new TerraformHangingSignBlock(hanging_sign_id, hanging_sign_gui_id, hanging));
+		HANGING_SIGN_WALL = WanderingBlocks.registerBlock(baseName+"_hanging_wall_sign", new TerraformWallHangingSignBlock(hanging_sign_id, hanging_sign_gui_id, hanging));
+		HANGING_SIGN_ITEM = WanderingItems.registerItem(baseName+"_hanging_sign", new HangingSignItem(HANGING_SIGN, HANGING_SIGN_WALL, itemSettings));
 
 		FENCE = WanderingBlocks.registerBlock(baseName+"_fence", new FenceBlock(blockSettings));
 		FENCE_ITEM = WanderingItems.registerItem(baseName+"_fence", new BlockItem(FENCE, itemSettings));
@@ -136,8 +151,8 @@ public class WoodType extends AbstractDataGenerator {
 			LEAVES_ITEM = WanderingItems.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
 
 			BOAT_KEY = TerraformBoatTypeRegistry.createKey(WanderingMod.id(baseName));
-			BOAT_ITEM = WanderingItems.registerBoatItem(baseName+"_boat", BOAT_KEY, false, itemSettings);
-			BOAT_CHEST_ITEM = WanderingItems.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, itemSettings);
+			BOAT_ITEM = WanderingItems.registerBoatItem(baseName+"_boat", BOAT_KEY, false, singleStack);
+			BOAT_CHEST_ITEM = WanderingItems.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, singleStack);
 			BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, BOAT_KEY, new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
 		} else {
 			LEAVES = WanderingBlocks.registerBlock(baseName+"_wart", new Block(QuiltBlockSettings.copyOf(Blocks.NETHER_WART_BLOCK)));
@@ -208,6 +223,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String PLANKS;
 		public final String PRESSURE_PLATE;
 		public final String SIGN;
+		public final String HANGING_SIGN;
 		public final String SLAB;
 		public final String STAIRS;
 		public final String STRIPPED_LOG;
@@ -231,6 +247,7 @@ public class WoodType extends AbstractDataGenerator {
 			PLANKS = getResource("planks");
 			PRESSURE_PLATE = getResource("pressure_plate");
 			SIGN = getResource("sign");
+			HANGING_SIGN = getResource("hanging_sign");
 			SLAB = getResource("slab");
 			STAIRS = getResource("stairs");
 			STRIPPED_LOG = getResource("stripped_log");
@@ -255,6 +272,8 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_pressure_plate", PRESSURE_PLATE);
 			put(pack, baseName+"_sign", SIGN);
 			put(pack, baseName+"_wall_sign", SIGN);
+			put(pack, baseName+"_hanging_sign", HANGING_SIGN);
+			put(pack, baseName+"_wall_hanging_sign", HANGING_SIGN);
 			put(pack, baseName+"_slab", SLAB);
 			put(pack, baseName+"_stairs", STAIRS);
 			put(pack, "stripped_"+baseName+"_"+logName, STRIPPED_LOG.replaceAll("#", logName));
@@ -274,6 +293,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String PLANKS;
 		public final String PRESSURE_PLATE;
 		public final String SIGN;
+		public final String HANGING_SIGN;
 		public final String SLAB;
 		public final String STAIRS;
 		public final String STRIPPED_LOG;
@@ -297,6 +317,7 @@ public class WoodType extends AbstractDataGenerator {
 			PLANKS = getResource("planks");
 			PRESSURE_PLATE = getResource("pressure_plate");
 			SIGN = getResource("sign");
+			HANGING_SIGN = getResource("hanging_sign");
 			SLAB = getResource("slab");
 			STAIRS = getResource("stairs");
 			STRIPPED_LOG = getResource("stripped_log");
@@ -336,6 +357,7 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_pressure_plate", PRESSURE_PLATE);
 			put(pack, baseName+"_pressure_plate_down", PRESSURE_PLATE.replace("up", "down"));
 			put(pack, baseName+"_sign", SIGN);
+			put(pack, baseName+"_hanging_sign", HANGING_SIGN.replaceAll("#", logName));
 			put(pack, baseName+"_slab", SLAB, null);
 			put(pack, baseName+"_slab", SLAB, "top");
 			put(pack, baseName+"_stairs", STAIRS);
@@ -363,6 +385,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String PLANKS;
 		public final String PRESSURE_PLATE;
 		public final String SIGN;
+		public final String HANGING_SIGN;
 		public final String SLAB;
 		public final String STAIRS;
 		public final String STRIPPED_LOG;
@@ -386,6 +409,7 @@ public class WoodType extends AbstractDataGenerator {
 			PLANKS = getResource("planks");
 			PRESSURE_PLATE = getResource("pressure_plate");
 			SIGN = getResource("sign");
+			HANGING_SIGN = getResource("hanging_sign");
 			SLAB = getResource("slab");
 			STAIRS = getResource("stairs");
 			STRIPPED_LOG = getResource("stripped_log");
@@ -410,7 +434,7 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_planks", PLANKS);
 			put(pack, baseName+"_pressure_plate", PRESSURE_PLATE);
 			put(pack, baseName+"_sign", SIGN);
-			put(pack, baseName+"_wall_sign", SIGN);
+			put(pack, baseName+"_hanging_sign", HANGING_SIGN);
 			put(pack, baseName+"_slab", SLAB);
 			put(pack, baseName+"_stairs", STAIRS);
 			put(pack, "stripped_"+baseName+"_"+logName, STRIPPED_LOG.replaceAll("#", logName));
