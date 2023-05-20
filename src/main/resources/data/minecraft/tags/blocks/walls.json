@@ -1,8 +1,1 @@
-{
-  "replace": false,
-  "values": [
-    "wwizardry:basalt_brick_wall",
-    "wwizardry:basalt_tile_wall",
-    "wwizardry:chiseled_basalt_wall"
-  ]
-}
+{"replace":false,"values":["wwizardry:basalt_brick_wall","wwizardry:basalt_tile_wall","wwizardry:chiseled_basalt_wall"]}

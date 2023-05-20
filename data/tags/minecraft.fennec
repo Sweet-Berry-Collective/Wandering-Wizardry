@@ -1,0 +1,32 @@
+blocks {
+    # Hanging Signs
+    all_hanging_signs [
+        "wwizardry:denia_hanging_sign"
+        "wwizardry:denia_wall_hanging_sign"
+        "wwizardry:mycha_hanging_sign"
+        "wwizardry:mycha_wall_hanging_sign"
+    ]
+    wall_hanging_signs [
+        "wwizardry:denia_wall_hanging_sign"
+        "wwizardry:mycha_wall_hanging_sign"
+    ]
+    ceiling_hanging_signs [
+        "wwizardry:denia_hanging_sign"
+        "wwizardry:mycha_hanging_sign"
+    ]
+
+    # Fences/Fence Gates/Walls
+    fences [
+        "wwizardry:denia_fence"
+        "wwizardry:mycha_fence"
+    ]
+    fence_gates [
+        "wwizardry:denia_fence_gate"
+        "wwizardry:mycha_fence_gate"
+    ]
+    walls [
+        "wwizardry:basalt_brick_wall"
+        "wwizardry:basalt_tile_wall"
+        "wwizardry:chiseled_basalt_wall"
+    ]
+}
