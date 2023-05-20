@@ -1,29 +1,119 @@
 blocks {
-    # Hanging Signs
+    mineable {
+        axe [
+            "#wwizardry:wood/denia"
+            "#wwizardry:wood/mycha"
+        ]
+        hoe [
+            "wwizardry:denia_leaves"
+            "wwizardry:mycha_wart"
+        ]
+    }
+
+    impermeable [
+        "wwizardry:reinforced_glass"
+    ]
+
+    stairs [
+        "wwizardry:basalt_brick_stairs"
+        "wwizardry:basalt_tile_stairs"
+        "wwizardry:chiseled_basalt_stairs"
+    ]
+
+    slabs [
+        "wwizardry:denia_slab"
+        "wwizardry:mycha_slab"
+        "wwizardry:basalt_brick_slab"
+        "wwizardry:basalt_tile_slab"
+        "wwizardry:chiseled_basalt_slab"
+    ]
+
+    # Wood
+    logs_that_burn [
+        "#wwizardry:denia_logs"
+    ]
+
+    logs [
+        "#wwizardry:mycha_logs"
+    ]
+
+    planks [
+        "wwizardry:denia_planks"
+        "wwizardry:mycha_planks"
+    ]
+
+    wooden_stairs [
+        "wwizardry:denia_stairs"
+        "wwizardry:mycha_stairs"
+    ]
+
+    wooden_slabs [
+        "wwizardry:denia_slab"
+        "wwizardry:mycha_slab"
+    ]
+
+    wooden_doors [
+        "wwizardry:denia_door"
+        "wwizardry:mycha_door"
+    ]
+
+    wooden_trapdoors [
+        "wwizardry:denia_trapdoor"
+        "wwizardry:mycha_trapdoor"
+    ]
+
+    wooden_buttons [
+        "wwizardry:denia_button"
+        "wwizardry:mycha_button"
+    ]
+
+    wooden_pressure_plates [
+        "wwizardry:denia_pressure_plate"
+        "wwizardry:mycha_pressure_plate"
+    ]
+
+    standing_signs [
+        "wwizardry:denia_sign"
+        "wwizardry:mycha_sign"
+    ]
+
+    wall_signs [
+        "wwizardry:denia_wall_sign"
+        "wwizardry:mycha_wall_sign"
+    ]
+
     all_hanging_signs [
         "wwizardry:denia_hanging_sign"
         "wwizardry:denia_wall_hanging_sign"
         "wwizardry:mycha_hanging_sign"
         "wwizardry:mycha_wall_hanging_sign"
     ]
+
     wall_hanging_signs [
         "wwizardry:denia_wall_hanging_sign"
         "wwizardry:mycha_wall_hanging_sign"
     ]
+
     ceiling_hanging_signs [
         "wwizardry:denia_hanging_sign"
         "wwizardry:mycha_hanging_sign"
     ]
 
-    # Fences/Fence Gates/Walls
     fences [
         "wwizardry:denia_fence"
         "wwizardry:mycha_fence"
     ]
+
     fence_gates [
         "wwizardry:denia_fence_gate"
         "wwizardry:mycha_fence_gate"
     ]
+
+    wart_blocks [
+        "wwizardry:denia_wart"
+    ]
+
+    # Bricks
     walls [
         "wwizardry:basalt_brick_wall"
         "wwizardry:basalt_tile_wall"

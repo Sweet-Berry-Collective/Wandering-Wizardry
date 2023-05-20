@@ -1,0 +1,51 @@
+blocks {
+    wood {
+        denia [
+            "#wwizardry:denia_logs"
+            "wwizardry:denia_planks"
+            "wwizardry:denia_stairs"
+            "wwizardry:denia_slab"
+            "wwizardry:denia_door"
+            "wwizardry:denia_button"
+            "wwizardry:denia_pressure_plate"
+            "wwizardry:denia_sign"
+            "wwizardry:denia_wall_sign"
+            "wwizardry:denia_hanging_sign"
+            "wwizardry:denia_wall_hanging_sign"
+            "wwizardry:denia_wall_hanging_sign"
+            "wwizardry:denia_hanging_sign"
+            "wwizardry:denia_fence"
+            "wwizardry:denia_fence_gate"
+        ]
+        mycha [
+            "#wwizardry:mycha_logs"
+            "wwizardry:mycha_planks"
+            "wwizardry:mycha_stairs"
+            "wwizardry:mycha_slab"
+            "wwizardry:mycha_door"
+            "wwizardry:mycha_button"
+            "wwizardry:mycha_pressure_plate"
+            "wwizardry:mycha_sign"
+            "wwizardry:mycha_wall_sign"
+            "wwizardry:mycha_hanging_sign"
+            "wwizardry:mycha_wall_hanging_sign"
+            "wwizardry:mycha_wall_hanging_sign"
+            "wwizardry:mycha_hanging_sign"
+            "wwizardry:mycha_fence"
+            "wwizardry:mycha_fence_gate"
+        ]
+    }
+
+    denia_logs [
+        "wwizardry:denia_log"
+        "wwizardry:denia_wood"
+        "wwizardry:stripped_denia_log"
+        "wwizardry:stripped_denia_wood"
+    ]
+    mycha_logs [
+        "wwizardry:mycha_stem"
+        "wwizardry:mycha_hyphae"
+        "wwizardry:stripped_mycha_stem"
+        "wwizardry:stripped_mycha_hyphae"
+    ]
+}
