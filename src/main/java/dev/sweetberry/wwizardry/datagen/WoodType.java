@@ -134,10 +134,10 @@ public class WoodType extends AbstractDataGenerator {
 		SIGN_WALL = WanderingBlocks.registerBlock(baseName+"_wall_sign", new TerraformWallSignBlock(sign_id, nonCollidable));
 		SIGN_ITEM = WanderingItems.registerItem(baseName+"_sign", new SignItem(itemSettings, SIGN, SIGN_WALL));
 
-		var hanging_sign_id = WanderingMod.id("textures/gui/hanging_signs/"+baseName);
-		var hanging_sign_gui_id = WanderingMod.id("entity/signs/hanging/"+baseName);
+		var hanging_sign_id = WanderingMod.id("entity/signs/hanging/"+baseName);
+		var hanging_sign_gui_id = WanderingMod.id("textures/gui/hanging_signs/"+baseName);
 		HANGING_SIGN = WanderingBlocks.registerBlock(baseName+"_hanging_sign", new TerraformHangingSignBlock(hanging_sign_id, hanging_sign_gui_id, hanging));
-		HANGING_SIGN_WALL = WanderingBlocks.registerBlock(baseName+"_hanging_wall_sign", new TerraformWallHangingSignBlock(hanging_sign_id, hanging_sign_gui_id, hanging));
+		HANGING_SIGN_WALL = WanderingBlocks.registerBlock(baseName+"_wall_hanging_sign", new TerraformWallHangingSignBlock(hanging_sign_id, hanging_sign_gui_id, hanging));
 		HANGING_SIGN_ITEM = WanderingItems.registerItem(baseName+"_hanging_sign", new HangingSignItem(HANGING_SIGN, HANGING_SIGN_WALL, itemSettings));
 
 		FENCE = WanderingBlocks.registerBlock(baseName+"_fence", new FenceBlock(blockSettings));

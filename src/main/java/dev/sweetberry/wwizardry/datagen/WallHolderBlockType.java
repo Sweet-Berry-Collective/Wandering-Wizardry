@@ -64,11 +64,17 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 	}
 
 	public String getExpectedTexturePath(ParentType parent) {
-		return id.getNamespace()+":block/"+id.getPath();
+		var base = id.getNamespace()+":block/"+id.getPath();
+		if (parent == ParentType.CANDLE || !parent.isToggleable)
+			return base;
+		return base+"_off";
 	}
 
 	public String getExpectedTexturePathLit(ParentType parent) {
-		return getExpectedTexturePath(parent)+"_lit";
+		var base = id.getNamespace()+":block/"+id.getPath();
+		if (parent == ParentType.CANDLE)
+			return base+"_lit";
+		return base;
 	}
 
 	public static class BlockstateDataApplier extends AbstractDataGenerator.AbstractBlockstateDataApplier {
