@@ -1,0 +1,23 @@
+type = "wwizardry:alter_catalyzation"
+catalyst = "amethyst_shard"
+keepCatalyst = false
+inputs [
+    {
+        item = "sculk"
+    }
+    {
+        item = "redstone"
+    }
+    {
+        item = "crying_obsisian"
+    }
+    {
+        item = "lapis_lazuli"
+    }
+]
+
+result {
+    item = "wwizardry:crystalline_sculk"
+}
+
+bloom = 10

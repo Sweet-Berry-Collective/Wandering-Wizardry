@@ -1,5 +1,6 @@
 import { CLI, literal, Builtin, named } from "https://oliver-makes-code.github.io/ts-cli/mod.tsx"
 import generateLang from "./command/lang.ts";
+import genericTranspile from "./command/transpile.ts";
 import generateTags from "./command/tags.ts";
 
 const cli = new CLI();
@@ -14,6 +15,11 @@ cli.register(
         args: [literal("tags"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
         call: generateTags,
         description: "Generates tag files"
+    },
+    {
+        args: [literal("transpile"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
+        call: genericTranspile,
+        description: "Transpiles and copies a dir to another"
     }
 )
 

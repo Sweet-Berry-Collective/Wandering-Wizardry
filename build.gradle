@@ -42,14 +42,19 @@ processResources {
 	}
 }
 
-def runScript(String type, String output) {
-	println("deno run -A ./scripts/mod.ts ${type} ./data/${type} ./src/main/resources/${output}".execute().text)
+def generate(String type, String input, String output) {
+	println("deno run -A ./scripts/mod.ts ${type} ./data/${input} ./src/main/resources/${output}".execute().text)
+}
+
+def generate(String type, String output) {
+	generate(type, type, output)
 }
 
 tasks.register("generateData") {
 	doFirst {
-		runScript("lang", "assets/wwizardry/lang")
-		runScript("tags", "data")
+		generate("lang", "assets/wwizardry/lang")
+		generate("tags", "data")
+		generate("transpile", "recipes", "data/wwizardry/recipes")
 	}
 }
 

@@ -14,7 +14,7 @@ export default function generateTags(inputDir: string, outputDir: string) {
         const inputFile = inputDir+"/"+file+".fennec"
 
         const read = fennec.parse(Deno.readTextFileSync(inputFile)) as TagData
-
+        
         try {
             Deno.mkdirSync(outputDir+"/"+file)
             Deno.mkdirSync(outputDir+"/"+file+"/tags")
