@@ -38,8 +38,6 @@ blocks {
             "wwizardry:denia_wall_sign"
             "wwizardry:denia_hanging_sign"
             "wwizardry:denia_wall_hanging_sign"
-            "wwizardry:denia_wall_hanging_sign"
-            "wwizardry:denia_hanging_sign"
             "wwizardry:denia_fence"
             "wwizardry:denia_fence_gate"
         ]
@@ -55,7 +53,80 @@ blocks {
             "wwizardry:mycha_wall_sign"
             "wwizardry:mycha_hanging_sign"
             "wwizardry:mycha_wall_hanging_sign"
-            "wwizardry:mycha_wall_hanging_sign"
+            "wwizardry:mycha_fence"
+            "wwizardry:mycha_fence_gate"
+        ]
+    }
+
+    altars [
+        "wwizardry:altar_pedestal"
+        "wwizardry:altar_catalyzer"
+    ]
+
+    denia_logs [
+        "wwizardry:denia_log"
+        "wwizardry:denia_wood"
+        "wwizardry:stripped_denia_log"
+        "wwizardry:stripped_denia_wood"
+    ]
+    mycha_stems [
+        "wwizardry:mycha_stem"
+        "wwizardry:mycha_hyphae"
+        "wwizardry:stripped_mycha_stem"
+        "wwizardry:stripped_mycha_hyphae"
+    ]
+}
+
+items {
+    brick {
+        basalt [
+            "#wwizardry:brick/basalt_chiseled"
+            "#wwizardry:brick/basalt_tiles"
+            "#wwizardry:brick/basalt_bricks"
+        ]
+        basalt_chiseled [
+            "wwizardry:chiseled_basalt"
+            "wwizardry:chiseled_basalt_stairs"
+            "wwizardry:chiseled_basalt_slab"
+            "wwizardry:chiseled_basalt_wall"
+        ]
+        basalt_tiles [
+            "wwizardry:basalt_tiles"
+            "wwizardry:basalt_tile_stairs"
+            "wwizardry:basalt_tile_slab"
+            "wwizardry:basalt_tile_wall"
+        ]
+        basalt_bricks [
+            "wwizardry:basalt_bricks"
+            "wwizardry:basalt_brick_stairs"
+            "wwizardry:basalt_brick_slab"
+            "wwizardry:basalt_brick_wall"
+        ]
+    }
+
+    wood {
+        denia [
+            "#wwizardry:denia_logs"
+            "wwizardry:denia_planks"
+            "wwizardry:denia_stairs"
+            "wwizardry:denia_slab"
+            "wwizardry:denia_door"
+            "wwizardry:denia_button"
+            "wwizardry:denia_pressure_plate"
+            "wwizardry:denia_sign"
+            "wwizardry:denia_hanging_sign"
+            "wwizardry:denia_fence"
+            "wwizardry:denia_fence_gate"
+        ]
+        mycha [
+            "#wwizardry:mycha_stems"
+            "wwizardry:mycha_planks"
+            "wwizardry:mycha_stairs"
+            "wwizardry:mycha_slab"
+            "wwizardry:mycha_door"
+            "wwizardry:mycha_button"
+            "wwizardry:mycha_pressure_plate"
+            "wwizardry:mycha_sign"
             "wwizardry:mycha_hanging_sign"
             "wwizardry:mycha_fence"
             "wwizardry:mycha_fence_gate"
@@ -64,7 +135,7 @@ blocks {
 
     altars [
         "wwizardry:altar_pedestal"
-        "wwizardry:alter_catalyzer"
+        "wwizardry:altar_catalyzer"
     ]
 
     denia_logs [

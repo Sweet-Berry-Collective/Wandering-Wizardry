@@ -1,0 +1,8 @@
+blocks {
+    glass_blocks [
+        "wwizardry:reinforced_glass"
+    ]
+    glass_panes [
+        "wwizardry:reinforced_glass_pane"
+    ]
+}

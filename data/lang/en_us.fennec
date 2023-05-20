@@ -1,4 +1,4 @@
-"itemgroup.wwizardry.items" = "Wandering Wizardry Items"
+"itemGroup.wwizardry.items" = "Wandering Wizardry Items"
 
 "block.wwizardry" {
     # Artificial
