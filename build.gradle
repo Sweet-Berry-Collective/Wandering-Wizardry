@@ -42,9 +42,16 @@ processResources {
 	}
 }
 
+tasks.register("generateLang") {
+	doFirst {
+		println("deno run -A ./scripts/mod.ts lang ./data/lang ./src/main/resources/assets/wwizardry/lang".execute().text)
+	}
+}
+
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = 'UTF-8'
 	it.options.release = 17
+	dependsOn "generateLang"
 }
 
 java {

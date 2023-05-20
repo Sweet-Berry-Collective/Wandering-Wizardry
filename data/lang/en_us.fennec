@@ -1,0 +1,64 @@
+"block.wwizardry" {
+    # Artificial
+    crystalline_sculk_block = "Crystalline Sculk Block"
+    reinforced_glass = "Reinforced Glass"
+    reinforced_glass_pane = "Reinforced Glass Pane"
+
+    # Tech
+    camera = "Camera"
+    redstone_lantern = "Redstone Lantern"
+    wall_holder = "Wall Holder"
+
+    # Natural
+    sculkflower = "Sculkflower"
+    indigo_caeruleum = "Indigo Caeruleum"
+
+    # Altar
+    altar_pedestal = "Altar Pedestal"
+    altar_catalyzer = "Altar Catalyzer"
+
+        # Denia
+    stripped_denia_log = "Stripped Denia Log"
+    denia_log = "Denia Log"
+    stripped_denia_wood = "Stripped Denia Log"
+    denia_wood = "Denia Log"
+    denia_planks = "Denia Planks"
+    denia_stairs = "Denia Stairs"
+    denia_slab = "Denia Slab"
+    denia_button = "Denia Button"
+    denia_pressure_plate = "Denia Pressure Plate"
+    denia_door = "Denia Door"
+    denia_trapdoor = "Denia Trapdoor"
+    denia_sign = "Denia Sign"
+    denia_fence = "Denia Fence"
+    denia_fence_gate = "Denia Fence Gate"
+    denia_leaves = "Denia Leaves"
+
+    # Chiseled Basalt
+    chiseled_basalt = "Chiseled Basalt"
+    chiseled_basalt_stairs = "Chiseled Basalt Stairs"
+    chiseled_basalt_slab = "Chiseled Basalt Slab"
+    chiseled_basalt_wall = "Chiseled Basalt Wall"
+
+    # Basalt Bricks
+    basalt_bricks = "Basalt Bricks"
+    basalt_brick_stairs = "Basalt Brick Stairs"
+    basalt_brick_slab = "Basalt Brick Slab"
+    basalt_brick_wall = "Basalt Brick Wall"
+
+    # Basalt Tiles
+    basalt_tiles = "Basalt Tiles"
+    basalt_tile_stairs = "Basalt Tile Stairs"
+    basalt_tile_slab = "Basalt Tile Slab"
+    basalt_tile_wall = "Basalt Tile Wall"
+}
+
+"item.wwizardry" {
+    # Artificial
+    crystalline_sculk = "Crystalline Sculk"
+}
+
+# Compat
+"aurorasdeco.wood_type.wwizardry" {
+    denia = "Denia"
+}
