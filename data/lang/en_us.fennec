@@ -1,3 +1,5 @@
+"itemgroup.wwizardry.items" = "Wandering Wizardry Items"
+
 "block.wwizardry" {
     # Artificial
     crystalline_sculk_block = "Crystalline Sculk Block"
@@ -20,8 +22,8 @@
     # Denia
     stripped_denia_log = "Stripped Denia Log"
     denia_log = "Denia Log"
-    stripped_denia_wood = "Stripped Denia Log"
-    denia_wood = "Denia Log"
+    stripped_denia_wood = "Stripped Denia Wood"
+    denia_wood = "Denia Wood"
     denia_planks = "Denia Planks"
     denia_stairs = "Denia Stairs"
     denia_slab = "Denia Slab"
@@ -33,6 +35,25 @@
     denia_fence = "Denia Fence"
     denia_fence_gate = "Denia Fence Gate"
     denia_leaves = "Denia Leaves"
+    denia_boat = "Denia Boat"
+    denia_chest_boat = "Denia Boat With Chest"
+
+    # Mycha
+    stripped_mycha_stem = "Stripped Mycha Stem"
+    mycha_stem = "Mycha Stem"
+    stripped_mycha_hyphae = "Stripped Mycha Hyphae"
+    mycha_hyphae = "Mycha Hyphae"
+    mycha_planks = "Mycha Planks"
+    mycha_stairs = "Mycha Stairs"
+    mycha_slab = "Mycha Slab"
+    mycha_button = "Mycha Button"
+    mycha_pressure_plate = "Mycha Pressure Plate"
+    mycha_door = "Mycha Door"
+    mycha_trapdoor = "Mycha Trapdoor"
+    mycha_sign = "Mycha Sign"
+    mycha_fence = "Mycha Fence"
+    mycha_fence_gate = "Mycha Fence Gate"
+    mycha_wart = "Mycha Wart"
 
     # Chiseled Basalt
     chiseled_basalt = "Chiseled Basalt"
@@ -61,4 +82,5 @@
 # Compat
 "aurorasdeco.wood_type.wwizardry" {
     denia = "Denia"
+    mycha = "Mycha"
 }

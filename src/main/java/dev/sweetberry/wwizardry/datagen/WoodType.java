@@ -62,13 +62,13 @@ public class WoodType extends AbstractDataGenerator {
 
 	public final boolean fungus;
 
-//	public final TerraformBoatType BOAT;
-//
-//	public final RegistryKey<TerraformBoatType> BOAT_KEY;
-//
-//	public final Item BOAT_ITEM;
-//
-//	public final Item BOAT_CHEST_ITEM;
+	public final TerraformBoatType BOAT;
+
+	public final RegistryKey<TerraformBoatType> BOAT_KEY;
+
+	public final Item BOAT_ITEM;
+
+	public final Item BOAT_CHEST_ITEM;
 	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds) {
 		this(baseName, wood, bark, sounds, false);
 	}
@@ -109,16 +109,16 @@ public class WoodType extends AbstractDataGenerator {
 		SLAB = WanderingBlocks.registerBlock(baseName+"_slab", new SlabBlock(blockSettings));
 		SLAB_ITEM = WanderingItems.registerItem(baseName+"_slab", new BlockItem(SLAB, itemSettings));
 
-		BUTTON = WanderingBlocks.registerBlock(baseName+"_button", new AbstractButtonBlock(blockSettings.noCollision(), BlockSetType.OAK, 30, true));
+		BUTTON = WanderingBlocks.registerBlock(baseName+"_button", new AbstractButtonBlock(nonCollidable, BlockSetType.OAK, 30, true));
 		BUTTON_ITEM = WanderingItems.registerItem(baseName+"_button", new BlockItem(BUTTON, itemSettings));
 
-		PRESSURE_PLATE = WanderingBlocks.registerBlock(baseName+"_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, blockSettings.noCollision(), BlockSetType.OAK));
+		PRESSURE_PLATE = WanderingBlocks.registerBlock(baseName+"_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, nonCollidable, BlockSetType.OAK));
 		PRESSURE_PLATE_ITEM = WanderingItems.registerItem(baseName+"_pressure_plate", new BlockItem(PRESSURE_PLATE, itemSettings));
 
-		DOOR = WanderingBlocks.registerBlock(baseName+"_door", new DoorBlock(blockSettings.nonOpaque(), BlockSetType.OAK));
+		DOOR = WanderingBlocks.registerBlock(baseName+"_door", new DoorBlock(nonOpaque, BlockSetType.OAK));
 		DOOR_ITEM = WanderingItems.registerItem(baseName+"_door", new BlockItem(DOOR, itemSettings));
 
-		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(blockSettings.nonOpaque(), BlockSetType.OAK));
+		TRAPDOOR = WanderingBlocks.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(nonOpaque, BlockSetType.OAK));
 		TRAPDOOR_ITEM = WanderingItems.registerItem(baseName+"_trapdoor", new BlockItem(TRAPDOOR, itemSettings));
 
 		SIGN = WanderingBlocks.registerBlock(baseName+"_sign", new TerraformSignBlock(WanderingMod.id("entity/signs/"+baseName), nonCollidable));
@@ -134,15 +134,20 @@ public class WoodType extends AbstractDataGenerator {
 		if (!fungus) {
 			LEAVES = WanderingBlocks.registerBlock(baseName+"_leaves", createLeavesBlock());
 			LEAVES_ITEM = WanderingItems.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
-		} else {
-			LEAVES = WanderingBlocks.registerBlock(baseName+"_wart", new NetherWartBlock(QuiltBlockSettings.copyOf(Blocks.NETHER_WART)));
-			LEAVES_ITEM = WanderingItems.registerItem(baseName+"_wart", new BlockItem(LEAVES, itemSettings));
-		}
 
-//		BOAT_KEY = TerraformBoatTypeRegistry.createKey(WanderingMod.id(baseName));
-//		BOAT_ITEM = WanderingItems.registerBoatItem(baseName+"_boat", BOAT_KEY, false, itemSettings);
-//		BOAT_CHEST_ITEM = WanderingItems.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, itemSettings);
-//		BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, BOAT_KEY, new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
+			BOAT_KEY = TerraformBoatTypeRegistry.createKey(WanderingMod.id(baseName));
+			BOAT_ITEM = WanderingItems.registerBoatItem(baseName+"_boat", BOAT_KEY, false, itemSettings);
+			BOAT_CHEST_ITEM = WanderingItems.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, itemSettings);
+			BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, BOAT_KEY, new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
+		} else {
+			LEAVES = WanderingBlocks.registerBlock(baseName+"_wart", new Block(QuiltBlockSettings.copyOf(Blocks.NETHER_WART_BLOCK)));
+			LEAVES_ITEM = WanderingItems.registerItem(baseName+"_wart", new BlockItem(LEAVES, itemSettings));
+
+			BOAT_KEY = null;
+			BOAT_ITEM = null;
+			BOAT_CHEST_ITEM = null;
+			BOAT = null;
+		}
 	}
 
 	private static LeavesBlock createLeavesBlock() {
@@ -413,8 +418,8 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_trapdoor", TRAPDOOR);
 			put(pack, baseName+"_"+woodName, WOOD.replaceAll("#", woodName));
 			put(pack, baseName+"_"+leavesName, LEAVES.replaceAll("#", leavesName));
-			put(pack, baseName+"_boat", BOAT);
-			put(pack, baseName+"_chest_boat", BOAT);
+			put(pack, baseName+"_boat", BOAT.replaceAll("\\$", ""));
+			put(pack, baseName+"_chest_boat", BOAT.replaceAll("\\$", "_chest"));
 		}
 	}
 }
