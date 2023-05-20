@@ -2,15 +2,13 @@ package dev.sweetberry.wwizardry;
 
 import dev.sweetberry.wwizardry.block.Sculkable;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
-import dev.sweetberry.wwizardry.datagen.WallCandleBlockType;
+import dev.sweetberry.wwizardry.datagen.WallHolderBlockType;
 import dev.sweetberry.wwizardry.datagen.WanderingDatagen;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import dev.sweetberry.wwizardry.recipe.WanderingRecipes;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CandleBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,6 +18,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -32,6 +31,8 @@ import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.registry.api.event.RegistryMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static dev.sweetberry.wwizardry.datagen.WallHolderBlockType.ParentType;
 
 public class WanderingMod implements ModInitializer {
 	public static final String MODID = "wwizardry";
@@ -92,13 +93,27 @@ public class WanderingMod implements ModInitializer {
 	}
 
 	public static void onBlockAdded(Block block, Identifier id) {
-		if (block instanceof CandleBlock candleBlock)
-			onCandleBlockAdded(candleBlock, id);
-
+		if (block instanceof CandleBlock)
+			registerHolderBlock(block, id, ParentType.CANDLE);
+		// Blocked out for now, until I can implement them
+//		if (block instanceof TorchBlock)
+//			registerHolderBlock(block, id, ParentType.TORCH, ParentType.TORCH_TOGGLEABLE);
+//		if (block instanceof LanternBlock)
+//			registerHolderBlock(block, id, ParentType.LANTERN, ParentType.LANTERN_TOGGLEABLE);
 	}
 
-	public static void onCandleBlockAdded(CandleBlock candleBlock, Identifier id) {
-		WanderingDatagen.registerDataGenerator(WallCandleBlockType.transformId(id), new WallCandleBlockType(id, candleBlock));
+	public static void registerHolderBlock(Block block, Identifier id, ParentType monostate, ParentType bistate) {
+		registerHolderBlock(
+			block,
+			id,
+			block.getDefaultState().contains(Properties.POWERED) ?
+				bistate :
+				monostate
+		);
+	}
+
+	public static void registerHolderBlock(Block block, Identifier id, ParentType parentType) {
+		WanderingDatagen.registerDataGenerator(WallHolderBlockType.transformId(id), new WallHolderBlockType(id, block, parentType));
 	}
 
 	@Override
