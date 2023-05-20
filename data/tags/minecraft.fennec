@@ -1,8 +1,7 @@
 blocks {
     mineable {
         axe [
-            "#wwizardry:wood/denia"
-            "#wwizardry:wood/mycha"
+            "#wwizardry:wood/all"
         ]
         hoe [
             "wwizardry:denia_leaves"

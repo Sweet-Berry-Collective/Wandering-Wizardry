@@ -26,6 +26,11 @@ blocks {
     }
 
     wood {
+        all [
+            "#wwizardry:wood/denia"
+            "#wwizardry:wood/mycha"
+        ]
+
         denia [
             "#wwizardry:denia_logs"
             "wwizardry:denia_planks"
@@ -105,6 +110,10 @@ items {
     }
 
     wood {
+        all [
+            "#wwizardry:wood/denia"
+            "#wwizardry:wood/mycha"
+        ]
         denia [
             "#wwizardry:denia_logs"
             "wwizardry:denia_planks"
