@@ -1,4 +1,30 @@
 blocks {
+    brick {
+        basalt [
+            "#wwizardry:brick/basalt_chiseled"
+            "#wwizardry:brick/basalt_tiles"
+            "#wwizardry:brick/basalt_bricks"
+        ]
+        basalt_chiseled [
+            "wwizardry:chiseled_basalt"
+            "wwizardry:chiseled_basalt_stairs"
+            "wwizardry:chiseled_basalt_slab"
+            "wwizardry:chiseled_basalt_wall"
+        ]
+        basalt_tiles [
+            "wwizardry:basalt_tiles"
+            "wwizardry:basalt_tile_stairs"
+            "wwizardry:basalt_tile_slab"
+            "wwizardry:basalt_tile_wall"
+        ]
+        basalt_bricks [
+            "wwizardry:basalt_bricks"
+            "wwizardry:basalt_brick_stairs"
+            "wwizardry:basalt_brick_slab"
+            "wwizardry:basalt_brick_wall"
+        ]
+    }
+
     wood {
         denia [
             "#wwizardry:denia_logs"
@@ -18,7 +44,7 @@ blocks {
             "wwizardry:denia_fence_gate"
         ]
         mycha [
-            "#wwizardry:mycha_logs"
+            "#wwizardry:mycha_stems"
             "wwizardry:mycha_planks"
             "wwizardry:mycha_stairs"
             "wwizardry:mycha_slab"
@@ -36,13 +62,18 @@ blocks {
         ]
     }
 
+    altars [
+        "wwizardry:altar_pedestal"
+        "wwizardry:alter_catalyzer"
+    ]
+
     denia_logs [
         "wwizardry:denia_log"
         "wwizardry:denia_wood"
         "wwizardry:stripped_denia_log"
         "wwizardry:stripped_denia_wood"
     ]
-    mycha_logs [
+    mycha_stems [
         "wwizardry:mycha_stem"
         "wwizardry:mycha_hyphae"
         "wwizardry:stripped_mycha_stem"

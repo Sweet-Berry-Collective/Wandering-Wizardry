@@ -8,7 +8,19 @@ blocks {
             "wwizardry:denia_leaves"
             "wwizardry:mycha_wart"
         ]
+        pickaxe [
+            "#wwizardry:brick/basalt"
+            "#wwizardry:altars"
+            "wwizardry:camera"
+            "wwizardry:reinforced_glass"
+            "wwizardry:reinforced_glass_pane"
+        ]
     }
+
+    flowers [
+        "wwizardry:sculkflower"
+        "wwizardry:indigo_caeruleum"
+    ]
 
     impermeable [
         "wwizardry:reinforced_glass"
@@ -34,7 +46,7 @@ blocks {
     ]
 
     logs [
-        "#wwizardry:mycha_logs"
+        "#wwizardry:mycha_stems"
     ]
 
     planks [
