@@ -1,0 +1,1 @@
+{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"#":{"item":"polished_basalt"},"M":{"item":"crying_obsidian"}},"pattern":["#","M","#"],"result":{"count":1,"item":"wwizardry:altar_pedestal"}}

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-empty
 export const fennec_file = /\.fennec$/i
 
 export function getAllFiles(dir: string, walk?: string): string[] {

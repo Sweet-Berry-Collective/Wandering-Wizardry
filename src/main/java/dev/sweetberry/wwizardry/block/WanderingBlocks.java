@@ -28,9 +28,9 @@ public class WanderingBlocks {
 
 	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new WanderingFlowerBlock(StatusEffects.INVISIBILITY, 20, QuiltBlockSettings.copyOf(Blocks.POPPY)));
 
-	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new GlassBlock(QuiltBlockSettings.copyOf(Blocks.GLASS)));
+	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new GlassBlock(QuiltBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
 
-	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new PaneBlock(QuiltBlockSettings.copyOf(Blocks.GLASS)));
+	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new PaneBlock(QuiltBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
 
 	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(QuiltBlockSettings.copyOf(Blocks.REDSTONE_LAMP)));
 

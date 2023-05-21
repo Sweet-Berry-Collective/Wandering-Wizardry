@@ -1,0 +1,87 @@
+type = "block"
+pools [
+    {
+        bonus_rolls = 0
+        entries [{
+            type = "alternatives"
+            children [
+                {
+                    type = "item"
+                    conditions [{
+                        condition = "alternative"
+                        terms [
+                            {
+                                condition = "match_tool"
+                                predicate { items [ "shears" ]  }
+                            }
+                            {
+                                condition = "match_tool"
+                                predicate { enchantments [{
+                                    enchantment = "silk_touch"
+                                    levels { min = 1 }
+                                }]}
+                            }
+                        ]
+                    }]
+                    name = "wwizardry:denia_leaves"
+                }
+                {
+                    type = "item"
+                    conditions [
+                        { condition = "survives_explosion" }
+                        {
+                            chances [ 0.05 0.0625 0.083333336 0.1 ]
+                            condition = "table_bonus"
+                            enchantment = "fortune"
+                        }
+                    ]
+                    name = "acacia_sapling"
+                }
+            ]
+        }]
+        rolls = 1
+    }
+    {
+        bonus_rolls = 0
+        conditions [{
+            condition = "inverted"
+            term {
+                condition = "alternative"
+                terms [
+                    {
+                        condition = "match_tool"
+                        predicate { items [ "shears" ] }
+                    }
+                    {
+                        condition = "match_tool"
+                        predicate { enchantments [{
+                            enchantment = "silk_touch"
+                            levels { min = 1 }
+                        }]}
+                    }
+                ]
+            }
+        }]
+        entries [{
+            type = "item"
+            conditions [{
+                chances [ 0.02 0.022222223 0.025 0.033333335 0.1 ]
+                condition = "table_bonus"
+                enchantment = "fortune"
+            }]
+            functions [
+                {
+                    add = false
+                    count {
+                        type = "uniform"
+                        max = 2 min = 1
+                    }
+                    function = "set_count"
+                }
+                { function = "explosion_decay" }
+            ]
+            name = "stick"
+        }]
+        rolls = 1
+    }
+]

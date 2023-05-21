@@ -1,0 +1,12 @@
+type = "block"
+
+pools [{
+    rolls = 1
+    entries [{
+        type = "item"
+        name = "wwizardry:mycha_hanging_sign"
+    }]
+    conditions [{
+        condition = "survives_explosion"
+    }]
+}]

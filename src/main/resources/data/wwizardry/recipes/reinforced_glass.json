@@ -1,0 +1,1 @@
+{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"G":{"item":"glass"},"B":{"item":"iron_bars"}},"pattern":["GGG","GBG","GGG"],"result":{"count":8,"item":"wwizardry:reinforced_glass"}}

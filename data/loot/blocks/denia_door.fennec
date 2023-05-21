@@ -1,0 +1,19 @@
+type = "block"
+
+pools [{
+    rolls = 1
+    entries [{
+        type = "item"
+        name = "wwizardry:denia_door"
+        conditions [{
+            block = "wwizardry:denia_door"
+            condition = "block_state_property"
+            properties {
+                half = "lower"
+            }
+        }]
+    }]
+    conditions [{
+        condition = "survives_explosion"
+    }]
+}]

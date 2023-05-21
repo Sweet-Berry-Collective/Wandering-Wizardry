@@ -1,0 +1,62 @@
+[
+    "crystalline_sculk_block"
+    "camera"
+    "wall_holder"
+    "redstone_lantern"
+
+    "reinforced_glass"
+    "reinforced_glass_pane"
+
+    "altar_pedestal"
+    "altar_catalyzer"
+
+    "sculkflower"
+    "indigo_caeruleum"
+
+    # Basalt Bricks
+    "basalt_bricks"
+    "basalt_brick_stairs"
+    "basalt_brick_slab"
+    "basalt_brick_wall"
+
+    # Basalt Tiles
+    "basalt_tiles"
+    "basalt_tile_stairs"
+    "basalt_tile_slab"
+    "basalt_tile_wall"
+
+    # Chiseled Basalt
+    "chiseled_basalt"
+    "chiseled_basalt_stairs"
+    "chiseled_basalt_slab"
+    "chiseled_basalt_wall"
+
+    # Denia
+    "denia_log"
+    "stripped_denia_log"
+    "denia_wood"
+    "stripped_denia_wood"
+    "denia_planks"
+    "denia_stairs"
+    "denia_button"
+    "denia_slab"
+    "denia_trapdoor"
+    "denia_pressure_plate"
+    "denia_fence"
+    "denia_fence_gate"
+
+    # Mycha
+    "mycha_stem"
+    "stripped_mycha_stem"
+    "mycha_hyphae"
+    "stripped_mycha_hyphae"
+    "mycha_planks"
+    "mycha_stairs"
+    "mycha_button"
+    "mycha_slab"
+    "mycha_trapdoor"
+    "mycha_pressure_plate"
+    "mycha_fence"
+    "mycha_fence_gate"
+    "mycha_wart"
+]

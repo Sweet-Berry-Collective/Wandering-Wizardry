@@ -55,6 +55,8 @@ tasks.register("generateData") {
 		generate("lang", "assets/wwizardry/lang")
 		generate("tags", "data")
 		generate("transpile", "recipes", "data/wwizardry/recipes")
+		generate("transpile", "loot", "data/wwizardry/loot_tables")
+		generate("loot", "basic_block_loot.fennec", "data/wwizardry/loot_tables/blocks")
 	}
 }
 

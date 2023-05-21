@@ -2,6 +2,7 @@ import { CLI, literal, Builtin, named } from "https://oliver-makes-code.github.i
 import generateLang from "./command/lang.ts";
 import genericTranspile from "./command/transpile.ts";
 import generateTags from "./command/tags.ts";
+import loot from "./command/loot.ts";
 
 const cli = new CLI();
 
@@ -20,6 +21,11 @@ cli.register(
         args: [literal("transpile"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
         call: genericTranspile,
         description: "Transpiles and copies a dir to another"
+    },
+    {
+        args: [literal("loot"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
+        call: loot,
+        description: "Generates simple loot tables for a list of blocks"
     }
 )
 

@@ -1,0 +1,14 @@
+type = "crafting_shaped"
+
+category = "redstone"
+group = "wooden_pressure_plate"
+-show_notification
+
+key {
+    "#" { item="wwizardry:mycha_planks" }
+}
+pattern [
+    "##"
+]
+
+result { item="wwizardry:mycha_pressure_plate" }

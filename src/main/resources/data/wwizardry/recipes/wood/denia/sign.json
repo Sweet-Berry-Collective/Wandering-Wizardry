@@ -1,0 +1,1 @@
+{"type":"crafting_shaped","category":"building","group":"wooden_sign","show_notification":true,"key":{"#":{"item":"wwizardry:denia_planks"},"S":{"item":"stick"}},"pattern":["###","###"," S "],"result":{"count":3,"item":"wwizardry:denia_sign"}}

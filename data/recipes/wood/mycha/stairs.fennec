@@ -1,0 +1,19 @@
+type = "crafting_shaped"
+
+category = "building"
+group = "wooden_stairs"
+-show_notification
+
+key {
+    "#" { item="wwizardry:mycha_planks" }
+}
+pattern [
+    "#  "
+    "## "
+    "###"
+]
+
+result {
+    count = 4
+    item = "wwizardry:mycha_stairs"
+}

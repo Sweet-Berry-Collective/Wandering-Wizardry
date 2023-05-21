@@ -1,0 +1,1 @@
+{"type":"crafting_shaped","category":"redstone","group":"wooden_fence_gate","show_notification":true,"key":{"#":{"item":"wwizardry:mycha_planks"},"S":{"item":"stick"}},"pattern":["S#S","S#S"],"result":{"item":"wwizardry:mycha_fence_gate"}}

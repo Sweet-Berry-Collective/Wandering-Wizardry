@@ -1,0 +1,11 @@
+type = "crafting_shapeless"
+
+category = "misc"
+group = "chest_boat"
+
+ingredients [
+    { item="chest" }
+    { item="wwizardry:denia_boat" }
+]
+
+result { item = "wwizardry:denia_chest_boat" }

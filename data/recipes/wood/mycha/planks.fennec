@@ -1,0 +1,13 @@
+type = "crafting_shapeless"
+
+category = "building"
+group = "planks"
+
+ingredients [
+    { tag = "wwizardry:mycha_stems" }
+]
+
+result {
+    count = 4
+    item = "wwizardry:mycha_planks"
+}

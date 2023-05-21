@@ -1,0 +1,17 @@
+type = "crafting_shaped"
+
+category = "building"
+group = "wooden_slab"
+-show_notification
+
+key {
+    "#" { item="wwizardry:denia_planks" }
+}
+pattern [
+    "###"
+]
+
+result {
+    count = 6
+    item = "wwizardry:denia_slab"
+}

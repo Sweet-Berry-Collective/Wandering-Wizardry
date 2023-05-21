@@ -5,9 +5,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.FlintAndSteelItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -24,6 +28,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WallCandleBlock extends WallHolderBlock {
 	public final CandleBlock candleBlock;
 
@@ -37,6 +44,13 @@ public class WallCandleBlock extends WallHolderBlock {
 		this.candleBlock = candleBlock;
 		ITEM_LOOKUP.put(candleBlock, this);
 		setDefaultState(getDefaultState().with(Properties.LIT, false));
+	}
+
+	@Override
+	public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+		var stacks = new ArrayList<>(EMPTY.getDroppedStacks(state, builder));
+		stacks.add(new ItemStack(candleBlock));
+		return stacks;
 	}
 
 	@Override
@@ -83,10 +97,13 @@ public class WallCandleBlock extends WallHolderBlock {
 
 	@Override
 	public ActionResult specializedUseAction(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (player.getStackInHand(hand).isEmpty() && state.get(Properties.LIT)) {
+		var handStack = player.getStackInHand(hand);
+		if (handStack.isEmpty() && state.get(Properties.LIT)) {
 			extinguish(state, world, pos);
 			return ActionResult.SUCCESS;
-		} else if (player.getStackInHand(hand).isOf(Items.FLINT_AND_STEEL) && !state.get(Properties.LIT)) {
+		} else if (handStack.isOf(Items.FLINT_AND_STEEL) && !state.get(Properties.LIT)) {
+			if (world instanceof ServerWorld)
+				handStack.damage(1, player, p -> p.sendToolBreakStatus(hand));
 			light(player, state, world, pos);
 			return ActionResult.SUCCESS;
 		}

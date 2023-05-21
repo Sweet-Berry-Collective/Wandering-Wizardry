@@ -1,0 +1,18 @@
+type = "crafting_shaped"
+
+category = "building"
+-show_notification
+
+key {
+    S { item = "wwizardry:crystalline_sculk" }
+}
+pattern [
+    "SSS"
+    "SSS"
+    "SSS"
+]
+
+result {
+    count = 1
+    item = "wwizardry:crystalline_sculk_block"
+}

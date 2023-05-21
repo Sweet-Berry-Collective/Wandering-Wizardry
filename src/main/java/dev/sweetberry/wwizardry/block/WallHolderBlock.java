@@ -1,11 +1,13 @@
 package dev.sweetberry.wwizardry.block;
 
+import dev.sweetberry.wwizardry.WanderingMod;
 import net.minecraft.block.*;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
@@ -25,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class WallHolderBlock extends Block {
 	public static final WallHolderBlock EMPTY = new WallHolderBlock(QuiltBlockSettings.of(Material.STONE));

@@ -32,7 +32,7 @@ public class BrickType extends AbstractDataGenerator {
 		this.baseName = baseName;
 		this.plural = plural;
 
-		final var blockSettings = QuiltBlockSettings.of(Material.STONE).sounds(sounds).mapColor(color);
+		final var blockSettings = QuiltBlockSettings.copyOf(Blocks.STONE_BRICKS).sounds(sounds).mapColor(color).requiresTool();
 		final var itemSettings = new QuiltItemSettings();
 
 		BASE = WanderingBlocks.registerBlock(baseName+(plural?"s":""), new Block(blockSettings));

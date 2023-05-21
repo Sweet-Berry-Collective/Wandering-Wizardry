@@ -1,0 +1,17 @@
+type = "crafting_shaped"
+
+category = "building"
+-show_notification
+
+key {
+    "#" { item="wwizardry:basalt_brick_slab" }
+}
+pattern [
+    "#"
+    "#"
+]
+
+result {
+    count = 1
+    item = "wwizardry:chiseled_basalt"
+}

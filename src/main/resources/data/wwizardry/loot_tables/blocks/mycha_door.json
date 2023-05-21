@@ -1,0 +1,1 @@
+{"type":"block","pools":[{"rolls":1,"entries":[{"type":"item","name":"wwizardry:mycha_door","conditions":[{"block":"wwizardry:mycha_door","condition":"block_state_property","properties":{"half":"lower"}}]}],"conditions":[{"condition":"survives_explosion"}]}]}

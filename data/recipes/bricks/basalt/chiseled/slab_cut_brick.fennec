@@ -1,0 +1,4 @@
+type = "stonecutting"
+count = 2
+ingredient { item="wwizardry:basalt_bricks" }
+result = "wwizardry:chiseled_basalt_slab"

@@ -86,7 +86,7 @@ public class WoodType extends AbstractDataGenerator {
 
 		this.fungus = fungus;
 
-		final var blockSettings = QuiltBlockSettings.of(Material.WOOD).sounds(sounds).mapColor(wood);
+		final var blockSettings = QuiltBlockSettings.copyOf(Blocks.OAK_PLANKS).sounds(sounds).mapColor(wood);
 		final var nonCollidable = QuiltBlockSettings.copyOf(blockSettings).collidable(false);
 		final var nonOpaque = QuiltBlockSettings.copyOf(blockSettings).nonOpaque();
 		final var hanging = QuiltBlockSettings.copyOf(Blocks.OAK_HANGING_SIGN).sounds(sounds).mapColor(wood);
@@ -179,12 +179,13 @@ public class WoodType extends AbstractDataGenerator {
 	}
 
 	private static Block createLogBlock(MapColor top, MapColor side, BlockSoundGroup sounds) {
-		return new PillarBlock(QuiltBlockSettings.of(
+		return new PillarBlock(
+			QuiltBlockSettings.of(
 				Material.WOOD,
-				(state) ->
-						state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)
-							.strength(2.0F)
-							.sounds(sounds)
+				(state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side
+			)
+				.strength(2.0F)
+				.sounds(sounds)
 		);
 	}
 
@@ -194,10 +195,10 @@ public class WoodType extends AbstractDataGenerator {
 				top,
 				QuiltBlockSettings.of(
 						Material.WOOD,
-						(state) ->
-								state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)
-				.strength(2.0F)
-				.sounds(sounds)
+						(state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side
+				)
+					.strength(2.0F)
+					.sounds(sounds)
 		);
 	}
 

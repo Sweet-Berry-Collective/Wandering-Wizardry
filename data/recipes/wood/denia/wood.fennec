@@ -1,0 +1,18 @@
+type = "crafting_shaped"
+
+category = "building"
+group = "bark"
+-show_notification
+
+key {
+    "#" { item="wwizardry:denia_log" }
+}
+pattern [
+    "##"
+    "##"
+]
+
+result {
+    count = 3
+    item = "wwizardry:denia_wood"
+}
