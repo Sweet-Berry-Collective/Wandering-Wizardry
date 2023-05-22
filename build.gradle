@@ -30,8 +30,8 @@ dependencies {
 	modImplementation libs.quilt.loader
 	modImplementation libs.quilted.fabric.api
 
-	modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:6.0.0-beta.2"
-	modImplementation "maven.modrinth:moremcmeta:v1.19.4-3.0.6-fabric"
+	modImplementation include("com.terraformersmc.terraform-api:terraform-wood-api-v1:6.0.0-beta.2")
+	modImplementation include("maven.modrinth:moremcmeta:v1.19.4-3.0.6-fabric")
 }
 
 processResources {
@@ -50,13 +50,21 @@ def generate(String type, String output) {
 	generate(type, type, output)
 }
 
+def transpile(String input, String output) {
+	generate("transpile", input, output)
+}
+
+def loot(String input, String output) {
+	generate("loot", input, output)
+}
+
 tasks.register("generateData") {
 	doFirst {
 		generate("lang", "assets/wwizardry/lang")
 		generate("tags", "data")
-		generate("transpile", "recipes", "data/wwizardry/recipes")
-		generate("transpile", "loot", "data/wwizardry/loot_tables")
-		generate("loot", "basic_block_loot.fennec", "data/wwizardry/loot_tables/blocks")
+		loot("basic_block_loot.fennec", "data/wwizardry/loot_tables/blocks")
+		transpile("recipes", "data/wwizardry/recipes")
+		transpile("loot", "data/wwizardry/loot_tables")
 	}
 }
 
