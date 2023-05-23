@@ -1,5 +1,6 @@
 [
     "crystalline_sculk_block"
+    "rose_quartz_block"
     "camera"
     "wall_holder"
     "redstone_lantern"
@@ -36,6 +37,7 @@
     "stripped_denia_log"
     "denia_wood"
     "stripped_denia_wood"
+    "denia_sapling"
     "denia_planks"
     "denia_stairs"
     "denia_button"
@@ -50,6 +52,7 @@
     "stripped_mycha_stem"
     "mycha_hyphae"
     "stripped_mycha_hyphae"
+    "mycha_fungus"
     "mycha_planks"
     "mycha_stairs"
     "mycha_button"

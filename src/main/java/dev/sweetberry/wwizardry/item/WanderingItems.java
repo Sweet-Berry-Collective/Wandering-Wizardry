@@ -93,6 +93,32 @@ public class WanderingItems {
 		)
 	);
 
+	public static final Item ROSE_QUARTZ = registerItem(
+		"rose_quartz",
+		new Item(new QuiltItemSettings())
+	);
+	public static final Item ROSE_QUARTZ_ORE = registerItem(
+		"rose_quartz_ore",
+		new BlockItem(
+			WanderingBlocks.ROSE_QUARTZ_ORE,
+			new QuiltItemSettings()
+		)
+	);
+	public static final Item DEEPSLATE_ROSE_QUARTZ_ORE = registerItem(
+		"deepslate_rose_quartz_ore",
+		new BlockItem(
+			WanderingBlocks.DEEPSLATE_ROSE_QUARTZ_ORE,
+			new QuiltItemSettings()
+		)
+	);
+	public static final Item ROSE_QUARTZ_BLOCK = registerItem(
+		"rose_quartz_block",
+		new BlockItem(
+			WanderingBlocks.ROSE_QUARTZ_BLOCK,
+			new QuiltItemSettings()
+		)
+	);
+
 	public static final List<ItemStack> STACKS;
 
 	// This is here because of 'Illegal forward reference'

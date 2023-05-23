@@ -9,6 +9,8 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
@@ -117,9 +119,11 @@ public class WallHolderBlock extends Block {
 		var droppedBlock = getDroppedBlock();
 		if (droppedBlock != null && player.isSneaking()) {
 			if (!player.isCreative()) {
-				var stackEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), droppedBlock.asItem().getDefaultStack());
+				var stackEntity = new ItemEntity(world, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, droppedBlock.asItem().getDefaultStack());
 				world.spawnEntity(stackEntity);
 			}
+			var soundGroup = droppedBlock.getSoundGroup(droppedBlock.getDefaultState());
+			world.playSound(player, pos, soundGroup.getBreakSound(), SoundCategory.BLOCKS);
 			world.setBlockState(pos, EMPTY.getDefaultState().with(Properties.HORIZONTAL_FACING, state.get(Properties.HORIZONTAL_FACING)));
 			return ActionResult.SUCCESS;
 		}
@@ -144,7 +148,10 @@ public class WallHolderBlock extends Block {
 		if (!(stack.getItem() instanceof BlockItem item)) return ActionResult.PASS;
 		if (!ITEM_LOOKUP.containsKey(item.getBlock())) return ActionResult.PASS;
 
-		var holder = ITEM_LOOKUP.get(item.getBlock());
+		var block = item.getBlock();
+		var holder = ITEM_LOOKUP.get(block);
+		var soundGroup = block.getSoundGroup(block.getDefaultState());
+		world.playSound(player, pos, soundGroup.getPlaceSound(), SoundCategory.BLOCKS);
 		world.setBlockState(pos, holder.getDefaultState().with(Properties.HORIZONTAL_FACING, state.get(Properties.HORIZONTAL_FACING)));
 
 		if (!player.isCreative()) {

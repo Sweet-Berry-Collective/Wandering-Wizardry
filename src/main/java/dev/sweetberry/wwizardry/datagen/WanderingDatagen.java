@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.datagen;
 
 import com.mojang.serialization.Lifecycle;
 import dev.sweetberry.wwizardry.WanderingMod;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -18,7 +19,7 @@ public class WanderingDatagen {
 	public static final InMemoryResourcePack pack = new InMemoryResourcePack.Named("Wandering Wizardry resources");
 
 	public static final WoodType DENIA_WOOD = registerDataGenerator("denia_wood", new WoodType("denia", MapColor.DARK_AQUA, MapColor.DEEPSLATE_GRAY, BlockSoundGroup.WOOD));
-	public static final WoodType MYCHA_WOOD = registerDataGenerator("mycha_wood", new WoodType("mycha", MapColor.PURPLE, MapColor.LAPIS_BLUE, BlockSoundGroup.NETHER_WOOD, true));
+	public static final WoodType MYCHA_WOOD = registerDataGenerator("mycha_wood", new WoodType("mycha", MapColor.PURPLE, MapColor.LAPIS_BLUE, BlockSoundGroup.NETHER_WOOD, Blocks.STONE));
 
 	public static final BrickType CHISELED_BASALT = registerDataGenerator("chiseled_basalt", new BrickType("chiseled_basalt", false, MapColor.GRAY, BlockSoundGroup.BASALT));
 	public static final BrickType BASALT_BRICKS = registerDataGenerator("basalt_bricks", new BrickType("basalt_brick", true, MapColor.GRAY, BlockSoundGroup.BASALT));

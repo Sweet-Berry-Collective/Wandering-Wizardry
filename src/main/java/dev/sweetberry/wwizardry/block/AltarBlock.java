@@ -74,7 +74,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 		if (entity.crafting) return ActionResult.PASS;
 		if (stack.isEmpty() && entity.heldItem.isEmpty()) return ActionResult.PASS;
 		if (world.isClient) return ActionResult.SUCCESS;
-		var newstack = stack.getItem().getDefaultStack();
+		var newstack = stack.copy().withCount(1);
 
 		if (stack.getItem() == entity.heldItem.getItem()) {
 			if (stack.getCount() == stack.getMaxCount()) {

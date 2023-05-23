@@ -1,0 +1,43 @@
+schema_version = 1
+
+mixin = "wwizardry.mixins.json"
+
+quilt_loader {
+    group = "dev.sweetberry"
+    id = "wwizardry"
+    version = "${version}"
+
+    metadata {
+        name = "Wandering Wizardry"
+        description = "An exploration focused magic mod"
+
+        contributors {
+            "Sweet Berry Collective" = "Owner"
+            Octal = "Programmer"
+            Cart3r = "Artist"
+        }
+
+        contact {
+            issues = "https://github.com/Sweet-Berry-Collective/Wandering-Wizardry/issues"
+            source = "https://github.com/Sweet-Berry-Collective/Wandering-Wizardry"
+            homepage = "https://sweetberry.dev"
+        }
+
+        icon = "assets/wwizardry/icon.png"
+    }
+    intermediate_mappings = "net.fabricmc:intermediary"
+
+    entrypoints {
+        init = "dev.sweetberry.wwizardry.WanderingMod"
+        client_init = "dev.sweetberry.wwizardry.client.WanderingClient"
+    }
+
+    depends [
+        { id = "quilt_loader" }
+        { id = "quilted_fabric_api" }
+        {
+            id = "minecraft"
+            versions = ">=1.19.4"
+        }
+    ]
+}

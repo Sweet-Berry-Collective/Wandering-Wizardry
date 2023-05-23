@@ -65,6 +65,8 @@ tasks.register("generateData") {
 		loot("basic_block_loot.fennec", "data/wwizardry/loot_tables/blocks")
 		transpile("recipes", "data/wwizardry/recipes")
 		transpile("loot", "data/wwizardry/loot_tables")
+		transpile("world", "data/wwizardry/worldgen")
+		transpile("mod", "")
 	}
 }
 

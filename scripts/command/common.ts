@@ -2,6 +2,9 @@
 export const fennec_file = /\.fennec$/i
 
 export function getAllFiles(dir: string, walk?: string): string[] {
+    if (walk) try {
+        Deno.mkdirSync(walk)
+    } catch {}
     const out: string[] = []
     for (const file of Deno.readDirSync(dir)) {
         if (!file.isFile && !walk) continue

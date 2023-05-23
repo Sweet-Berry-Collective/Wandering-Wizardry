@@ -7,11 +7,13 @@ import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 import com.terraformersmc.terraform.wood.block.StrippableLogBlock;
+import dev.sweetberry.wwizardry.WanderingSaplingGenerator;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
+import net.minecraft.feature_flags.FeatureFlags;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.HangingSignItem;
 import net.minecraft.item.Item;
@@ -23,6 +25,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
@@ -65,6 +68,8 @@ public class WoodType extends AbstractDataGenerator {
 	public final Item FENCE_GATE_ITEM;
 	public final Block LEAVES;
 	public final Item LEAVES_ITEM;
+	public final Block SAPLING;
+	public final Item SAPLING_ITEM;
 
 	public final boolean fungus;
 
@@ -76,20 +81,24 @@ public class WoodType extends AbstractDataGenerator {
 
 	public final Item BOAT_CHEST_ITEM;
 	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds) {
-		this(baseName, wood, bark, sounds, false);
+		this(baseName, wood, bark, sounds, null);
 	}
 
 
-	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds, boolean fungus) {
+	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds, @Nullable Block fungusBaseBlock) {
 		super();
 		this.baseName = baseName;
 
-		this.fungus = fungus;
+		fungus = fungusBaseBlock != null;
 
 		final var blockSettings = QuiltBlockSettings.copyOf(Blocks.OAK_PLANKS).sounds(sounds).mapColor(wood);
 		final var nonCollidable = QuiltBlockSettings.copyOf(blockSettings).collidable(false);
 		final var nonOpaque = QuiltBlockSettings.copyOf(blockSettings).nonOpaque();
-		final var hanging = QuiltBlockSettings.copyOf(Blocks.OAK_HANGING_SIGN).sounds(sounds).mapColor(wood);
+		final var hanging = QuiltBlockSettings
+			.copyOf(Blocks.OAK_HANGING_SIGN)
+			.sounds(sounds)
+			.mapColor(wood)
+			.requiredFlags(FeatureFlags.UPDATE_1_20);
 		final var itemSettings = new QuiltItemSettings();
 		final var singleStack = new QuiltItemSettings().maxCount(1);
 
@@ -150,6 +159,9 @@ public class WoodType extends AbstractDataGenerator {
 			LEAVES = WanderingBlocks.registerBlock(baseName+"_leaves", createLeavesBlock());
 			LEAVES_ITEM = WanderingItems.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
 
+			SAPLING = WanderingBlocks.registerBlock(baseName+"_sapling", createSaplingBlock(baseName, baseName+"_bees"));
+			SAPLING_ITEM = WanderingItems.registerItem(baseName+"_sapling", new BlockItem(SAPLING, itemSettings));
+
 			BOAT_KEY = TerraformBoatTypeRegistry.createKey(WanderingMod.id(baseName));
 			BOAT_ITEM = WanderingItems.registerBoatItem(baseName+"_boat", BOAT_KEY, false, singleStack);
 			BOAT_CHEST_ITEM = WanderingItems.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, singleStack);
@@ -158,11 +170,39 @@ public class WoodType extends AbstractDataGenerator {
 			LEAVES = WanderingBlocks.registerBlock(baseName+"_wart", new Block(QuiltBlockSettings.copyOf(Blocks.NETHER_WART_BLOCK)));
 			LEAVES_ITEM = WanderingItems.registerItem(baseName+"_wart", new BlockItem(LEAVES, itemSettings));
 
+			// TODO: Fungus amongus
+			SAPLING = WanderingBlocks.registerBlock(baseName+"_fungus", createFungusBlock(baseName, fungusBaseBlock));
+			SAPLING_ITEM = WanderingItems.registerItem(baseName+"_fungus", new BlockItem(SAPLING, itemSettings));
+
 			BOAT_KEY = null;
 			BOAT_ITEM = null;
 			BOAT_CHEST_ITEM = null;
 			BOAT = null;
 		}
+	}
+
+	private static FungusBlock createFungusBlock(String generator, Block base) {
+		return new FungusBlock(
+			QuiltBlockSettings
+				.of(Material.PLANT)
+				.breakInstantly()
+				.noCollision()
+				.sounds(BlockSoundGroup.FUNGUS),
+			WanderingSaplingGenerator.getId(generator),
+			base
+		);
+	}
+
+	private static SaplingBlock createSaplingBlock(String noBees, @Nullable String bees) {
+		return new SaplingBlock(
+			new WanderingSaplingGenerator(noBees, bees),
+			QuiltBlockSettings
+				.of(Material.PLANT)
+				.noCollision()
+				.ticksRandomly()
+				.breakInstantly()
+				.sounds(BlockSoundGroup.GRASS)
+		);
 	}
 
 	private static LeavesBlock createLeavesBlock() {
@@ -263,6 +303,7 @@ public class WoodType extends AbstractDataGenerator {
 			final var logName = fungus ? "stem" : "log";
 			final var woodName = fungus ? "hyphae" : "wood";
 			final var leavesName = fungus ? "wart" : "leaves";
+			final var saplingName = fungus ? "fungus" : "sapling";
 
 			put(pack, baseName+"_button", BUTTON);
 			put(pack, baseName+"_door", DOOR);
@@ -282,6 +323,7 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_trapdoor", TRAPDOOR);
 			put(pack, baseName+"_"+woodName, WOOD.replaceAll("#", woodName));
 			put(pack, baseName+"_"+leavesName, LEAVES.replaceAll("#", leavesName));
+			put(pack, baseName+"_"+saplingName, LEAVES.replaceAll("#", saplingName));
 		}
 	}
 
@@ -302,6 +344,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String TRAPDOOR;
 		public final String WOOD;
 		public final String LEAVES;
+		public final String SAPLING;
 
 		final boolean fungus;
 
@@ -326,6 +369,7 @@ public class WoodType extends AbstractDataGenerator {
 			TRAPDOOR = getResource("trapdoor");
 			WOOD = getResource("wood");
 			LEAVES = getResource("leaves");
+			SAPLING = getResource("sapling");
 		}
 
 		@Override
@@ -333,6 +377,7 @@ public class WoodType extends AbstractDataGenerator {
 			final var logName = fungus ? "stem" : "log";
 			final var woodName = fungus ? "hyphae" : "wood";
 			final var leavesName = fungus ? "wart" : "leaves";
+			final var saplingName = fungus ? "fungus" : "sapling";
 
 			put(pack, baseName+"_button", BUTTON, null);
 			put(pack, baseName+"_button", BUTTON, "inventory");
@@ -374,6 +419,7 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_"+woodName, WOOD.replaceAll("#", logName), null);
 			put(pack, baseName+"_"+woodName, WOOD.replaceAll("#", logName), "horizontal");
 			put(pack, baseName+"_"+leavesName, LEAVES.replaceAll("#", leavesName));
+			put(pack, baseName+"_"+saplingName, SAPLING.replaceAll("#", saplingName));
 		}
 	}
 
@@ -394,6 +440,7 @@ public class WoodType extends AbstractDataGenerator {
 		public final String TRAPDOOR;
 		public final String WOOD;
 		public final String LEAVES;
+		public final String SAPLING;
 		public final String BOAT;
 
 		final boolean fungus;
@@ -418,6 +465,7 @@ public class WoodType extends AbstractDataGenerator {
 			TRAPDOOR = getResource("trapdoor");
 			WOOD = getResource("wood");
 			LEAVES = getResource("leaves");
+			SAPLING = getResource("sapling");
 			BOAT = getResource("boat");
 		}
 
@@ -426,6 +474,7 @@ public class WoodType extends AbstractDataGenerator {
 			final var logName = fungus ? "stem" : "log";
 			final var woodName = fungus ? "hyphae" : "wood";
 			final var leavesName = fungus ? "wart" : "leaves";
+			final var saplingName = fungus ? "fungus" : "sapling";
 
 			put(pack, baseName+"_button", BUTTON);
 			put(pack, baseName+"_door", DOOR);
@@ -443,6 +492,7 @@ public class WoodType extends AbstractDataGenerator {
 			put(pack, baseName+"_trapdoor", TRAPDOOR);
 			put(pack, baseName+"_"+woodName, WOOD.replaceAll("#", woodName));
 			put(pack, baseName+"_"+leavesName, LEAVES.replaceAll("#", leavesName));
+			put(pack, baseName+"_"+saplingName, SAPLING.replaceAll("#", saplingName));
 			put(pack, baseName+"_boat", BOAT.replaceAll("\\$", ""));
 			put(pack, baseName+"_chest_boat", BOAT.replaceAll("\\$", "_chest"));
 		}

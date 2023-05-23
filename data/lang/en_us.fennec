@@ -1,6 +1,10 @@
 "itemGroup.wwizardry.items" = "Wandering Wizardry Items"
 
 "block.wwizardry" {
+    rose_quartz_ore = "Rose Quartz Ore"
+    deepslate_rose_quartz_ore = "Deepslate Rose Quartz Ore"
+    rose_quartz_block = "Block Of Rose Quartz"
+
     # Artificial
     crystalline_sculk_block = "Crystalline Sculk Block"
     reinforced_glass = "Reinforced Glass"
@@ -36,6 +40,7 @@
     denia_fence = "Denia Fence"
     denia_fence_gate = "Denia Fence Gate"
     denia_leaves = "Denia Leaves"
+    denia_sapling = "Denia Sapling"
     denia_boat = "Denia Boat"
     denia_chest_boat = "Denia Boat With Chest"
 
@@ -56,6 +61,7 @@
     mycha_fence = "Mycha Fence"
     mycha_fence_gate = "Mycha Fence Gate"
     mycha_wart = "Mycha Wart"
+    mycha_fungus = "Mycha Fungus"
 
     # Chiseled Basalt
     chiseled_basalt = "Chiseled Basalt"
@@ -77,8 +83,8 @@
 }
 
 "item.wwizardry" {
-    # Artificial
     crystalline_sculk = "Crystalline Sculk"
+    rose_quartz = "Rose Quartz"
 }
 
 # Compat

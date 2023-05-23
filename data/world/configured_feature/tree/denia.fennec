@@ -1,0 +1,36 @@
+type = "tree"
+
+config {
+    decorators []
+
+    minimum_size {
+        type = "two_layers_feature_size"
+        limit = 1
+        lower_size = 0
+        upper_size = 1
+    }
+    dirt_provider {
+        type = "simple_state_provider"
+        state { Name = "dirt" }
+    }
+    trunk_provider {
+        type = "simple_state_provider"
+        state { Name = "wwizardry:denia_log" }
+    }
+    foliage_provider {
+        type = "simple_state_provider"
+        state { Name = "wwizardry:denia_leaves" }
+    }
+    trunk_placer {
+        type = "straight_trunk_placer"
+        base_height = 4
+        height_rand_a = 2
+        height_rand_b = 0
+    }
+    foliage_placer {
+        type = "blob_foliage_placer"
+        height = 3
+        offset = 0
+        radius = 2
+    }
+}

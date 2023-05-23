@@ -12,6 +12,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.intprovider.IntProvider;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -33,6 +35,10 @@ public class WanderingBlocks {
 	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new PaneBlock(QuiltBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
 
 	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(QuiltBlockSettings.copyOf(Blocks.REDSTONE_LAMP)));
+
+	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new ExperienceDroppingBlock(QuiltBlockSettings.copyOf(Blocks.IRON_ORE), UniformIntProvider.create(1,4)));
+	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new ExperienceDroppingBlock(QuiltBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE), UniformIntProvider.create(1,4)));
+	public static final Block ROSE_QUARTZ_BLOCK = registerBlock("rose_quartz_block", new Block(QuiltBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)));
 
 	public static void init() {
 		registerBlock("altar_pedestal", AltarPedestalBlock.INSTANCE);
