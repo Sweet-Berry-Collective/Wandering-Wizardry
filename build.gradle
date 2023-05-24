@@ -11,6 +11,11 @@ repositories {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/'
 	}
+	// We need this for terrablender
+	maven {
+		name = "ew, forge"
+		url = "https://maven.minecraftforge.net/"
+	}
 	exclusiveContent {
 		forRepository {
 			maven {
@@ -32,6 +37,7 @@ dependencies {
 
 	modImplementation include("com.terraformersmc.terraform-api:terraform-wood-api-v1:6.0.0-beta.2")
 	modImplementation include("maven.modrinth:moremcmeta:v1.19.4-3.0.6-fabric")
+	modImplementation include("com.github.glitchfiend:TerraBlender-fabric:1.19.4-2.2.0.156")
 }
 
 processResources {

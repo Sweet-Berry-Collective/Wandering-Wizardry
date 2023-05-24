@@ -1,0 +1,1 @@
+{"feature":"wwizardry:cool_flower","placement":[{"type":"noise_threshold_count","above_noise":6,"below_noise":16,"noise_level":-0.5},{"type":"rarity_filter","chance":8},{"type":"in_square"},{"type":"heightmap","heightmap":"MOTION_BLOCKING"},{"type":"biome"}]}

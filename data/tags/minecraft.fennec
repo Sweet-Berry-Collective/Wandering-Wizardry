@@ -248,3 +248,22 @@ items {
         "wwizardry:chiseled_basalt_wall"
     ]
 }
+
+worldgen {
+    biome {
+        has_structure {
+            ancient_city [
+                "wwizardry:forgotten_fields"
+            ]
+            village_plains [
+                "wwizardry:forgotten_fields"
+            ]
+            buried_treasure [
+                "wwizardry:forgotten_fields"
+            ]
+            pillager_outpost [
+                "wwizardry:forgotten_fields"
+            ]
+        }
+    }
+}

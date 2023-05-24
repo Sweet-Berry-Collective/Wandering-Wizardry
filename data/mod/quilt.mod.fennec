@@ -30,6 +30,7 @@ quilt_loader {
     entrypoints {
         init = "dev.sweetberry.wwizardry.WanderingMod"
         client_init = "dev.sweetberry.wwizardry.client.WanderingClient"
+        terrablender = "dev.sweetberry.wwizardry.world.TerraBlenderInitializer"
     }
 
     depends [

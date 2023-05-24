@@ -1,0 +1,22 @@
+feature = "wwizardry:rare_sculk_patch"
+
+placement [
+    {
+        type = "count"
+        count = 8
+    }
+    { type = "in_square" }
+    {
+        type = "height_range"
+        height {
+            type = "uniform"
+            max_inclusive {
+                absolute = 320
+            }
+            min_inclusive {
+                absolute = 32
+            }
+        }
+    }
+    { type = "biome" }
+]

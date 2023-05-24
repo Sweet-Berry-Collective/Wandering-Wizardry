@@ -1,6 +1,9 @@
 type = "tree"
 
 config {
+    force_dirt = false
+    ignore_vines = true
+
     decorators []
 
     minimum_size {

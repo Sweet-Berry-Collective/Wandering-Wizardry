@@ -20,10 +20,6 @@ public class WanderingSaplingGenerator extends SaplingGenerator {
 		this(getId(noBees), bees == null ? null : getId(bees));
 	}
 
-	public WanderingSaplingGenerator(String noBees) {
-		this(getId(noBees), null);
-	}
-
 	public static RegistryKey<ConfiguredFeature<?, ?>> getId(String id) {
 		return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, WanderingMod.id("tree/"+id));
 	}
