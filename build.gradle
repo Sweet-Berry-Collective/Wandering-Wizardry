@@ -73,6 +73,7 @@ tasks.register("generateData") {
 		transpile("loot", "data/wwizardry/loot_tables")
 		transpile("world", "data/wwizardry/worldgen")
 		transpile("mod", "")
+		//transpile("archex", "staticdata/architecture_extensions")
 	}
 }
 

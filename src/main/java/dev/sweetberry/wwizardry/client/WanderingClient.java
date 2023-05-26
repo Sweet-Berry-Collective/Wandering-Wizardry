@@ -26,13 +26,16 @@ public class WanderingClient implements ClientModInitializer {
 		BlockEntityRendererFactories.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
 		BlockEntityRendererFactories.register(AltarCatalyzerBlockEntity.TYPE, AltarCatalyzerBlockEntityRenderer::new);
 		ClientWorldTickEvents.END.register((client, world) -> ITEM_ROTATION++);
-		BlockRenderLayerMap.put(RenderLayer.getCutout(), AltarPedestalBlock.INSTANCE);
-		BlockRenderLayerMap.put(RenderLayer.getCutout(), AltarCatalyzerBlock.INSTANCE);
-		BlockRenderLayerMap.put(RenderLayer.getCutout(), SculkflowerBlock.INSTANCE);
-		BlockRenderLayerMap.put(RenderLayer.getCutout(), CameraBlock.INSTANCE);
-		BlockRenderLayerMap.put(RenderLayer.getCutout(), WanderingBlocks.INDIGO_CAERULEUM);
-		BlockRenderLayerMap.put(RenderLayer.getCutout(), WanderingBlocks.REINFORCED_GLASS);
-		BlockRenderLayerMap.put(RenderLayer.getCutout(), WanderingBlocks.REINFORCED_GLASS_PANE);
+		BlockRenderLayerMap.put(RenderLayer.getCutout(),
+			AltarPedestalBlock.INSTANCE,
+			AltarCatalyzerBlock.INSTANCE,
+			SculkflowerBlock.INSTANCE,
+			CameraBlock.INSTANCE,
+			WanderingBlocks.INDIGO_CAERULEUM,
+			WanderingBlocks.REINFORCED_GLASS,
+			WanderingBlocks.REINFORCED_GLASS_PANE,
+			WanderingBlocks.MODULO_COMPARATOR
+		);
 		WanderingDatagen.REGISTRY.forEach(dataGenerator -> {
 			if (dataGenerator instanceof WoodType woodType) {
 				BlockRenderLayerMap.put(RenderLayer.getCutout(), woodType.DOOR, woodType.TRAPDOOR, woodType.SAPLING);

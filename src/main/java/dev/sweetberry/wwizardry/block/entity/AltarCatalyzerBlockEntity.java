@@ -23,13 +23,13 @@ import java.util.ArrayList;
 
 public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
+	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = QuiltBlockEntityTypeBuilder.create(AltarCatalyzerBlockEntity::new, AltarCatalyzerBlock.INSTANCE).build();
+
 	public ItemStack result = ItemStack.EMPTY;
 
 	public boolean keepCatalyst = false;
 	private final SculkBehavior behavior = SculkBehavior.createBehavior();
 	public int bloom = 0;
-
-	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = QuiltBlockEntityTypeBuilder.create(AltarCatalyzerBlockEntity::new, AltarCatalyzerBlock.INSTANCE).build();
 	public boolean shouldUpdateClient = false;
 
 	public AltarCatalyzerBlockEntity(BlockPos pos, BlockState state) {

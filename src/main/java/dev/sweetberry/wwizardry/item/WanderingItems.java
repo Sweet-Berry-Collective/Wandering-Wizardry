@@ -119,6 +119,14 @@ public class WanderingItems {
 		)
 	);
 
+	public static final Item MODULO_COMPARATOR = registerItem(
+		"modulo_comparator",
+		new BlockItem(
+			WanderingBlocks.MODULO_COMPARATOR,
+			new QuiltItemSettings()
+		)
+	);
+
 	public static final List<ItemStack> STACKS;
 
 	// This is here because of 'Illegal forward reference'

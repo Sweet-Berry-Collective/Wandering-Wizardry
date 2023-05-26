@@ -9,6 +9,7 @@
     crystalline_sculk_block = "Crystalline Sculk Block"
     reinforced_glass = "Reinforced Glass"
     reinforced_glass_pane = "Reinforced Glass Pane"
+    modulo_comparator = "Modulo Comparator"
 
     # Tech
     camera = "Camera"

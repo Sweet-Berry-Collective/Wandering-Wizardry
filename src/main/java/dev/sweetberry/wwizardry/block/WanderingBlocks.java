@@ -3,9 +3,11 @@ package dev.sweetberry.wwizardry.block;
 import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.block.entity.AltarPedestalBlockEntity;
+import dev.sweetberry.wwizardry.block.entity.ExtensibleComparatorBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -40,15 +42,30 @@ public class WanderingBlocks {
 	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new ExperienceDroppingBlock(QuiltBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE), UniformIntProvider.create(1,4)));
 	public static final Block ROSE_QUARTZ_BLOCK = registerBlock("rose_quartz_block", new Block(QuiltBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)));
 
+	public static final Block MODULO_COMPARATOR = registerBlock(
+		"modulo_comparator",
+		new ExtensibleComparatorBlock(
+			QuiltBlockSettings.copyOf(Blocks.COMPARATOR),
+			(state, mode, side, back) -> {
+				int value = side == 0 ? 0 : back % side;
+				if (mode == ComparatorMode.SUBTRACT)
+					value = back - value;
+				return value;
+			}
+		)
+	);
+
 	public static void init() {
 		registerBlock("altar_pedestal", AltarPedestalBlock.INSTANCE);
-		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);
 		registerBlock("altar_catalyzer", AltarCatalyzerBlock.INSTANCE);
-		registerBlockEntity("altar_catalyzer", AltarCatalyzerBlockEntity.TYPE);
 		registerBlock("sculkflower", SculkflowerBlock.INSTANCE);
 		registerBlock("crystalline_sculk_block", CrystalSculkBlock.INSTANCE);
 		registerBlock("camera", CameraBlock.INSTANCE);
 		registerBlock("wall_holder", WallHolderBlock.EMPTY);
+
+		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);
+		registerBlockEntity("altar_catalyzer", AltarCatalyzerBlockEntity.TYPE);
+		registerBlockEntity("extensible_comparator", ExtensibleComparatorBlockEntity.TYPE);
 	}
 
 	public static <T extends Block> T registerBlock(String id, T block) {

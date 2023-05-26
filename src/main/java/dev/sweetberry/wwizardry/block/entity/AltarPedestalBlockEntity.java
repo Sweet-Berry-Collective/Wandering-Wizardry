@@ -15,12 +15,11 @@ import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
 import java.util.Optional;
 
 public class AltarPedestalBlockEntity extends AltarBlockEntity {
+	public static final BlockEntityType<AltarPedestalBlockEntity> TYPE = QuiltBlockEntityTypeBuilder.create(AltarPedestalBlockEntity::new, AltarPedestalBlock.INSTANCE).build();
 
 	public Vector3f particlePos;
 	public int particleX;
 	public int particleZ;
-
-	public static final BlockEntityType<AltarPedestalBlockEntity> TYPE = QuiltBlockEntityTypeBuilder.create(AltarPedestalBlockEntity::new, AltarPedestalBlock.INSTANCE).build();
 
 	public AltarPedestalBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
