@@ -9,12 +9,12 @@
     crystalline_sculk_block = "Crystalline Sculk Block"
     reinforced_glass = "Reinforced Glass"
     reinforced_glass_pane = "Reinforced Glass Pane"
-    modulo_comparator = "Modulo Comparator"
 
     # Tech
     camera = "Camera"
     redstone_lantern = "Redstone Lantern"
     wall_holder = "Wall Holder"
+    modulo_comparator = "Modulo Comparator"
 
     # Natural
     sculkflower = "Sculkflower"
