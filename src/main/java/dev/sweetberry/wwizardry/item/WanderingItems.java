@@ -127,6 +127,14 @@ public class WanderingItems {
 		)
 	);
 
+	public static final Item REDSTONE_STEPPER = registerItem(
+		"redstone_stepper",
+		new BlockItem(
+			WanderingBlocks.REDSTONE_STEPPER,
+			new QuiltItemSettings()
+		)
+	);
+
 	public static final List<ItemStack> STACKS;
 
 	// This is here because of 'Illegal forward reference'

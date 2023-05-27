@@ -1,9 +1,8 @@
 package dev.sweetberry.wwizardry.block;
 
-import dev.sweetberry.wwizardry.block.entity.ExtensibleComparatorBlockEntity;
+import dev.sweetberry.wwizardry.block.entity.LogicGateBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.ComparatorBlockEntity;
 import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -22,30 +21,45 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.TickPriority;
 import net.minecraft.world.World;
 
-public class ExtensibleComparatorBlock extends AbstractRedstoneGateBlock implements BlockEntityProvider {
+public class LogicGateBlock extends AbstractRedstoneGateBlock implements BlockEntityProvider {
 	public static final EnumProperty<ComparatorMode> MODE = Properties.COMPARATOR_MODE;
 
 	public final CompareFunction function;
+	public final SideInput inputType;
+	public final boolean multistate;
 
 
-	public ExtensibleComparatorBlock(Settings settings, CompareFunction function) {
+	public LogicGateBlock(Settings settings, SideInput inputType, boolean multistate, CompareFunction function) {
 		super(settings);
+		this.inputType = inputType;
+		this.multistate = multistate;
 		this.function = function;
-		setDefaultState(getDefaultState().with(POWERED, false).with(MODE, ComparatorMode.COMPARE));
+		var state = getDefaultState().with(POWERED, false).with(MODE, ComparatorMode.COMPARE);
+		setDefaultState(state);
 	}
 
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (!player.getAbilities().allowModifyWorld) {
+		if (!multistate)
 			return ActionResult.PASS;
-		} else {
-			state = state.cycle(MODE);
-			float f = state.get(MODE) == ComparatorMode.SUBTRACT ? 0.55F : 0.5F;
-			world.playSound(player, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 0.3F, f);
-			world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);
-			update(world, pos, state);
-			return ActionResult.success(world.isClient);
-		}
+		if (!player.getAbilities().allowModifyWorld)
+			return ActionResult.PASS;
+		state = state.cycle(MODE);
+		float f = state.get(MODE) == ComparatorMode.SUBTRACT ? 0.55F : 0.5F;
+		world.playSound(player, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 0.3F, f);
+		world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);
+		update(world, pos, state);
+		return ActionResult.success(world.isClient);
+	}
+
+	@Override
+	protected boolean isValidInput(BlockState state) {
+		return switch (inputType) {
+			case ALL -> super.isValidInput(state);
+			case GATES -> isRedstoneGate(state);
+			case SELF -> state.isOf(this);
+			default -> false;
+		};
 	}
 
 	@Override
@@ -57,13 +71,14 @@ public class ExtensibleComparatorBlock extends AbstractRedstoneGateBlock impleme
 	protected int getOutputLevel(BlockView world, BlockPos pos, BlockState state) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		assert blockEntity != null;
-		return ((ExtensibleComparatorBlockEntity)blockEntity).getOutputSignal();
+		return ((LogicGateBlockEntity)blockEntity).getOutputSignal();
 	}
 
 	private int calculateOutputSignal(World world, BlockPos pos, BlockState state) {
 		int back = getPower(world, pos, state);
 		int side = getMaxInputLevelSides(world, pos, state);
-		return function.compare(state, state.get(MODE), side, back);
+		var mode = state.get(MODE);
+		return function.compare(state, mode, side, back);
 	}
 
 	@Override
@@ -89,7 +104,7 @@ public class ExtensibleComparatorBlock extends AbstractRedstoneGateBlock impleme
 			int currentPower = calculateOutputSignal(world, pos, state);
 			BlockEntity blockEntity = world.getBlockEntity(pos);
 			assert blockEntity != null;
-			int previousPower = ((ExtensibleComparatorBlockEntity)blockEntity).getOutputSignal();
+			int previousPower = ((LogicGateBlockEntity)blockEntity).getOutputSignal();
 
 			boolean currentlyPowered = currentPower != 0;
 			boolean previouslyPowered = state.get(POWERED);
@@ -105,7 +120,7 @@ public class ExtensibleComparatorBlock extends AbstractRedstoneGateBlock impleme
 		int currentPower = calculateOutputSignal(world, pos, state);
 		boolean currentlyPowered = currentPower != 0;
 
-		var blockEntity = (ExtensibleComparatorBlockEntity)world.getBlockEntity(pos);
+		var blockEntity = (LogicGateBlockEntity)world.getBlockEntity(pos);
 		assert blockEntity != null;
 
 		int previousPower = blockEntity.getOutputSignal();
@@ -135,16 +150,23 @@ public class ExtensibleComparatorBlock extends AbstractRedstoneGateBlock impleme
 
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new ExtensibleComparatorBlockEntity(pos, state);
+		return new LogicGateBlockEntity(pos, state);
 	}
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(FACING, MODE, POWERED);
+		builder.add(FACING, POWERED, MODE);
 	}
 
 	@FunctionalInterface
 	public interface CompareFunction {
 		int compare(BlockState state, ComparatorMode mode, int side, int back);
+	}
+
+	public enum SideInput {
+		ALL,
+		GATES,
+		SELF,
+		NONE
 	}
 }

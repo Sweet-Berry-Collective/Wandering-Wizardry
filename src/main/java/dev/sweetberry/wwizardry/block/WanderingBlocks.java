@@ -3,7 +3,7 @@ package dev.sweetberry.wwizardry.block;
 import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.block.entity.AltarPedestalBlockEntity;
-import dev.sweetberry.wwizardry.block.entity.ExtensibleComparatorBlockEntity;
+import dev.sweetberry.wwizardry.block.entity.LogicGateBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -14,7 +14,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -44,14 +43,26 @@ public class WanderingBlocks {
 
 	public static final Block MODULO_COMPARATOR = registerBlock(
 		"modulo_comparator",
-		new ExtensibleComparatorBlock(
+		new LogicGateBlock(
 			QuiltBlockSettings.copyOf(Blocks.COMPARATOR),
+			LogicGateBlock.SideInput.ALL,
+			true,
 			(state, mode, side, back) -> {
 				int value = side == 0 ? 0 : back % side;
 				if (mode == ComparatorMode.SUBTRACT)
 					value = back - value;
 				return value;
 			}
+		)
+	);
+
+	public static final Block REDSTONE_STEPPER = registerBlock(
+		"redstone_stepper",
+		new LogicGateBlock(
+			QuiltBlockSettings.copyOf(Blocks.REPEATER),
+			LogicGateBlock.SideInput.NONE,
+			false,
+			(state, mode, side, back) -> back > 0 ? 1 : 0
 		)
 	);
 
@@ -65,7 +76,7 @@ public class WanderingBlocks {
 
 		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);
 		registerBlockEntity("altar_catalyzer", AltarCatalyzerBlockEntity.TYPE);
-		registerBlockEntity("extensible_comparator", ExtensibleComparatorBlockEntity.TYPE);
+		registerBlockEntity("extensible_comparator", LogicGateBlockEntity.TYPE);
 	}
 
 	public static <T extends Block> T registerBlock(String id, T block) {

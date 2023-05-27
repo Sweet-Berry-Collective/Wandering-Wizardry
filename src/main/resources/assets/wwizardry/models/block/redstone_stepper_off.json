@@ -1,0 +1,6 @@
+{
+  "parent": "wwizardry:block/comparator/stepper",
+  "textures": {
+    "top": "wwizardry:block/redstone_stepper_off"
+  }
+}

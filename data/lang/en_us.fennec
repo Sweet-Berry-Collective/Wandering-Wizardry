@@ -15,6 +15,7 @@
     redstone_lantern = "Redstone Lantern"
     wall_holder = "Wall Holder"
     modulo_comparator = "Modulo Comparator"
+    redstone_stepper = "Redstone Stepper"
 
     # Natural
     sculkflower = "Sculkflower"
