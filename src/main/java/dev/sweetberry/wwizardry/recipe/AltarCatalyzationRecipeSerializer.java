@@ -24,10 +24,10 @@ public class AltarCatalyzationRecipeSerializer implements QuiltRecipeSerializer<
 		if (schema.result == null) {
 			throw new JsonSyntaxException("Missing field 'result'");
 		}
-		var catalyst = Ingredient.method_52177(schema.catalyst);
+		var catalyst = Ingredient.fromJson(schema.catalyst);
 		var inputs = new Ingredient[4];
 		for (int i = 0; i < inputs.length; i++) {
-			inputs[i] = Ingredient.method_52177(schema.inputs[i]);
+			inputs[i] = Ingredient.fromJson(schema.inputs[i]);
 		}
 
 		var result = ShapedRecipe.outputFromJson(schema.result);
