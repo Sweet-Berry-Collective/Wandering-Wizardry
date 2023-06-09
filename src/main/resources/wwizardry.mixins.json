@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "Accessor_TorchBlock",
+    "Mixin_DefaultLichenSpreadBehavior",
     "Mixin_RedstoneWireBlock",
     "Mixin_SculkVeinSpreadBehavior",
     "Mixin_TerraformBoatTrackedData"

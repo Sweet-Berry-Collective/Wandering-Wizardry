@@ -39,6 +39,16 @@ public class WanderingMod implements ModInitializer {
 	public static final String MODID = "wwizardry";
 	public static final Logger LOGGER = LoggerFactory.getLogger("Wandering Wizardry");
 
+	@Override
+	public void onInitialize(ModContainer mod) {
+		WanderingBlocks.init();
+		WanderingItems.init();
+		WanderingRecipes.init();
+		WanderingDatagen.init();
+		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
+		RegistryMonitor.create(Registries.BLOCK).forAll((ctx) -> onBlockAdded(ctx.value(), ctx.id()));
+	}
+
 	public static ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
 		if (!player.canModifyBlocks()) return ActionResult.PASS;
 		var pos = hitResult.getBlockPos();
@@ -115,16 +125,6 @@ public class WanderingMod implements ModInitializer {
 
 	public static void registerHolderBlock(Block block, Identifier id, ParentType parentType) {
 		WanderingDatagen.registerDataGenerator(WallHolderBlockType.transformId(id), new WallHolderBlockType(id, block, parentType));
-	}
-
-	@Override
-	public void onInitialize(ModContainer mod) {
-		WanderingBlocks.init();
-		WanderingItems.init();
-		WanderingRecipes.init();
-		WanderingDatagen.init();
-		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
-		RegistryMonitor.create(Registries.BLOCK).forAll((ctx) -> onBlockAdded(ctx.value(), ctx.id()));
 	}
 
 	public static Identifier id(String path) {

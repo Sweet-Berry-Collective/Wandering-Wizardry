@@ -1,4 +1,5 @@
 type = "block"
+random_sequence = "wwizardry:blocks/rose_quartz_ore"
 
 pools [{
     rolls = 1
