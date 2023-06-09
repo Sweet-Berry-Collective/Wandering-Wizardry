@@ -14,7 +14,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.util.math.int_provider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;

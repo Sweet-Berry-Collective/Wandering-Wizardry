@@ -21,7 +21,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.TickPriority;
 import net.minecraft.world.World;
 
-public class LogicGateBlock extends AbstractRedstoneGateBlock implements BlockEntityProvider {
+public class LogicGateBlock extends RedstoneDiodeBlock implements BlockEntityProvider {
 	public static final EnumProperty<ComparatorMode> MODE = Properties.COMPARATOR_MODE;
 
 	public final CompareFunction function;
@@ -53,16 +53,6 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock implements BlockEn
 	}
 
 	@Override
-	protected boolean isValidInput(BlockState state) {
-		return switch (inputType) {
-			case ALL -> super.isValidInput(state);
-			case GATES -> isRedstoneGate(state);
-			case SELF -> state.isOf(this);
-			default -> false;
-		};
-	}
-
-	@Override
 	protected int getUpdateDelayInternal(BlockState state) {
 		return 2;
 	}
@@ -75,19 +65,14 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock implements BlockEn
 	}
 
 	private int calculateOutputSignal(World world, BlockPos pos, BlockState state) {
-		int back = getPower(world, pos, state);
+		int back = getInputLevel(world, pos, state);
 		int side = getMaxInputLevelSides(world, pos, state);
 		var mode = state.get(MODE);
 		return function.compare(state, mode, side, back);
 	}
 
 	@Override
-	protected boolean hasPower(World world, BlockPos pos, BlockState state) {
-		return calculateOutputSignal(world, pos, state) != 0;
-	}
-
-	@Override
-	protected int getPower(World world, BlockPos pos, BlockState state) {
+	protected int getInputLevel(World world, BlockPos pos, BlockState state) {
 		Direction direction = state.get(FACING);
 		BlockPos blockPos = pos.offset(direction);
 		BlockState blockState = world.getBlockState(blockPos);
@@ -95,11 +80,11 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock implements BlockEn
 		if (blockState.hasComparatorOutput())
 			return blockState.getComparatorOutput(world, blockPos);
 
-		return super.getPower(world, pos, state);
+		return super.getInputLevel(world, pos, state);
 	}
 
 	@Override
-	protected void updatePowered(World world, BlockPos pos, BlockState state) {
+	protected void checkOutputLevel(World world, BlockPos pos, BlockState state) {
 		if (!world.getBlockTickScheduler().willTick(pos, this)) {
 			int currentPower = calculateOutputSignal(world, pos, state);
 			BlockEntity blockEntity = world.getBlockEntity(pos);

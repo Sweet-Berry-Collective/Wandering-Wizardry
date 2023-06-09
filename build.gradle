@@ -6,6 +6,8 @@ archivesBaseName = project.archives_base_name
 version = "${project.version}+${libs.versions.minecraft.get()}"
 group = project.maven_group
 
+def test_compat = false
+
 repositories {
 	maven {
 		name = 'TerraformersMC'
@@ -35,9 +37,13 @@ dependencies {
 	modImplementation libs.quilt.loader
 	modImplementation libs.quilted.fabric.api
 
-	modImplementation include("com.terraformersmc.terraform-api:terraform-wood-api-v1:6.0.0-beta.2")
-	modImplementation include("maven.modrinth:moremcmeta:v1.19.4-3.0.6-fabric")
-	modImplementation include("com.github.glitchfiend:TerraBlender-fabric:1.19.4-2.2.0.156")
+	modImplementation include("com.terraformersmc.terraform-api:terraform-wood-api-v1:7.0.0-beta.1")
+	//modImplementation include("maven.modrinth:moremcmeta:v1.19.4-3.0.6-fabric")
+	modImplementation include("com.github.glitchfiend:TerraBlender-fabric:1.20-3.0.0.163")
+
+	if (test_compat) {
+		modRuntimeOnly "maven.modrinth:arch-ex:2.1.0+1.19"
+	}
 }
 
 processResources {
@@ -73,7 +79,7 @@ tasks.register("generateData") {
 		transpile("loot", "data/wwizardry/loot_tables")
 		transpile("world", "data/wwizardry/worldgen")
 		transpile("mod", "")
-		//transpile("archex", "staticdata/architecture_extensions")
+//		transpile("archex", "staticdata/architecture_extensions")
 	}
 }
 

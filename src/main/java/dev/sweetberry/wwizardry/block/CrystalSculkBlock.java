@@ -13,7 +13,7 @@ import net.minecraft.world.WorldAccess;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class CrystalSculkBlock extends AmethystBlock implements SculkVeinSpreader {
-	public static final CrystalSculkBlock INSTANCE = new CrystalSculkBlock(QuiltBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).luminance(1).mapColor(MapColor.DARK_AQUA));
+	public static final CrystalSculkBlock INSTANCE = new CrystalSculkBlock(QuiltBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).luminance(1).mapColor(MapColor.ICE));
 
 	public CrystalSculkBlock(Settings settings) {
 		super(settings);

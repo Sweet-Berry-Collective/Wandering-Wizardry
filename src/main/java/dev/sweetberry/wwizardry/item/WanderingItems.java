@@ -5,13 +5,11 @@ import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import dev.sweetberry.wwizardry.block.*;
 import dev.sweetberry.wwizardry.WanderingMod;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.Text;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import java.util.ArrayList;
@@ -142,14 +140,17 @@ public class WanderingItems {
 		return CRYSTALLINE_SCULK_SHARD.getDefaultStack();
 	}
 
-	public static final ItemGroup GROUP = FabricItemGroup.builder(WanderingMod.id("items"))
+	public static final ItemGroup GROUP = FabricItemGroup.builder()
 			.icon(WanderingItems::getIcon)
 			.entries((display, collector) -> collector.addStacks(STACKS))
+			.name(Text.translatable("itemGroup.wwizardry.items"))
 			.build();
 
 	public static void init() {
 		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);
 		registerItem("altar_catalyzer", AltarCatalyzerBlock.ITEM);
+
+		Registry.register(Registries.ITEM_GROUP, WanderingMod.id("items"), GROUP);
 	}
 
 	public static Item registerItem(String id, Item item) {

@@ -9,6 +9,7 @@ import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -47,7 +48,7 @@ public class WallCandleBlock extends WallHolderBlock {
 	}
 
 	@Override
-	public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+	public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
 		var stacks = new ArrayList<>(EMPTY.getDroppedStacks(state, builder));
 		stacks.add(new ItemStack(candleBlock));
 		return stacks;

@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WallHolderBlock extends Block {
-	public static final WallHolderBlock EMPTY = new WallHolderBlock(QuiltBlockSettings.of(Material.STONE));
+	public static final WallHolderBlock EMPTY = new WallHolderBlock(QuiltBlockSettings.create().breakInstantly().mapColor(MapColor.GRAY));
 	public static final HashMap<Block, WallHolderBlock> ITEM_LOOKUP = new HashMap<>();
 
 	public static final VoxelShape NORTH_SHAPE = createCuboidShape(6, 0, 0, 10, 6, 6);

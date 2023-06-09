@@ -172,7 +172,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 	}
 
 	@Override
-	public boolean emitsRedstonePower(BlockState state) {
+	public boolean isRedstonePowerSource(BlockState state) {
 		return true;
 	}
 

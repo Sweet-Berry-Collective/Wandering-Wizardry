@@ -13,7 +13,7 @@ import dev.sweetberry.wwizardry.datagen.WoodType;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.client.resource.Material;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
@@ -39,8 +39,8 @@ public class WanderingClient implements ClientModInitializer {
 		WanderingDatagen.REGISTRY.forEach(dataGenerator -> {
 			if (dataGenerator instanceof WoodType woodType) {
 				BlockRenderLayerMap.put(RenderLayer.getCutout(), woodType.DOOR, woodType.TRAPDOOR, woodType.SAPLING);
-				SpriteIdentifierRegistry.INSTANCE.addIdentifier(new SpriteIdentifier(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, woodType.SIGN.getTexture()));
-				SpriteIdentifierRegistry.INSTANCE.addIdentifier(new SpriteIdentifier(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, woodType.HANGING_SIGN.getTexture()));
+				SpriteIdentifierRegistry.INSTANCE.addIdentifier(new Material(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, woodType.SIGN.getTexture()));
+				SpriteIdentifierRegistry.INSTANCE.addIdentifier(new Material(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, woodType.HANGING_SIGN.getTexture()));
 				if (!woodType.fungus) {
 					BlockRenderLayerMap.put(RenderLayer.getCutout(), woodType.LEAVES);
 					TerraformBoatClientHelper.registerModelLayers(WanderingMod.id(woodType.baseName), false);

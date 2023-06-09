@@ -11,6 +11,7 @@ import dev.sweetberry.wwizardry.WanderingSaplingGenerator;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.item.WanderingItems;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.feature_flags.FeatureFlags;
@@ -26,6 +27,7 @@ import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
@@ -97,8 +99,7 @@ public class WoodType extends AbstractDataGenerator {
 		final var hanging = QuiltBlockSettings
 			.copyOf(Blocks.OAK_HANGING_SIGN)
 			.sounds(sounds)
-			.mapColor(wood)
-			.requiredFlags(FeatureFlags.UPDATE_1_20);
+			.mapColor(wood);
 		final var itemSettings = new QuiltItemSettings();
 		final var singleStack = new QuiltItemSettings().maxCount(1);
 
@@ -111,11 +112,15 @@ public class WoodType extends AbstractDataGenerator {
 		LOG = WanderingBlocks.registerBlock(baseName+"_"+logName, createStrippableLogBlock(STRIPPED_LOG, bark, wood, sounds));
 		LOG_ITEM = WanderingItems.registerItem(baseName+"_"+logName, new BlockItem(LOG, itemSettings));
 
+		BlockContentRegistries.STRIPPABLE.put(LOG, STRIPPED_LOG);
+
 		STRIPPED_WOOD = WanderingBlocks.registerBlock("stripped_"+baseName+"_"+woodName, createLogBlock(wood, wood, sounds));
 		STRIPPED_WOOD_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_"+woodName, new BlockItem(STRIPPED_WOOD, itemSettings));
 
 		WOOD = WanderingBlocks.registerBlock(baseName+"_"+woodName, createStrippableLogBlock(STRIPPED_WOOD, bark, wood, sounds));
 		WOOD_ITEM = WanderingItems.registerItem(baseName+"_"+woodName, new BlockItem(WOOD, itemSettings));
+
+		BlockContentRegistries.STRIPPABLE.put(WOOD, STRIPPED_WOOD);
 
 		PLANKS = WanderingBlocks.registerBlock(baseName+"_planks", new Block(blockSettings));
 		PLANKS_ITEM = WanderingItems.registerItem(baseName+"_planks", new BlockItem(PLANKS, itemSettings));
@@ -184,7 +189,7 @@ public class WoodType extends AbstractDataGenerator {
 	private static FungusBlock createFungusBlock(String generator, Block base) {
 		return new FungusBlock(
 			QuiltBlockSettings
-				.of(Material.PLANT)
+				.copyOf(Blocks.CRIMSON_FUNGUS)
 				.breakInstantly()
 				.noCollision()
 				.sounds(BlockSoundGroup.FUNGUS),
@@ -197,7 +202,7 @@ public class WoodType extends AbstractDataGenerator {
 		return new SaplingBlock(
 			new WanderingSaplingGenerator(noBees, bees),
 			QuiltBlockSettings
-				.of(Material.PLANT)
+				.copyOf(Blocks.OAK_SAPLING)
 				.noCollision()
 				.ticksRandomly()
 				.breakInstantly()
@@ -207,38 +212,33 @@ public class WoodType extends AbstractDataGenerator {
 
 	private static LeavesBlock createLeavesBlock() {
 		return new LeavesBlock(
-				QuiltBlockSettings.of(Material.LEAVES)
-						.strength(0.2F)
-						.ticksRandomly()
-						.sounds(BlockSoundGroup.AZALEA_LEAVES)
-						.nonOpaque()
-						.allowsSpawning((a,b,c, type) -> type == EntityType.OCELOT || type == EntityType.PARROT)
-						.suffocates((a,b,c) -> false)
-						.blockVision((a,b,c) -> false)
+				QuiltBlockSettings
+					.copyOf(Blocks.OAK_LEAVES)
+					.strength(0.2F)
+					.ticksRandomly()
+					.sounds(BlockSoundGroup.AZALEA_LEAVES)
+					.nonOpaque()
+					.allowsSpawning((a,b,c, type) -> type == EntityType.OCELOT || type == EntityType.PARROT)
+					.suffocates((a,b,c) -> false)
+					.blockVision((a,b,c) -> false)
 		);
 	}
 
 	private static Block createLogBlock(MapColor top, MapColor side, BlockSoundGroup sounds) {
 		return new PillarBlock(
-			QuiltBlockSettings.of(
-				Material.WOOD,
-				(state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side
-			)
+			QuiltBlockSettings.copyOf(Blocks.OAK_LOG)
 				.strength(2.0F)
 				.sounds(sounds)
+				.mapColor((state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)
 		);
 	}
 
 	private static Block createStrippableLogBlock(Block stripped, MapColor top, MapColor side, BlockSoundGroup sounds) {
-		return new StrippableLogBlock(
-				() -> stripped,
-				top,
-				QuiltBlockSettings.of(
-						Material.WOOD,
-						(state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side
-				)
+		return new PillarBlock(
+				QuiltBlockSettings.copyOf(Blocks.OAK_LOG)
 					.strength(2.0F)
 					.sounds(sounds)
+					.mapColor((state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)
 		);
 	}
 
