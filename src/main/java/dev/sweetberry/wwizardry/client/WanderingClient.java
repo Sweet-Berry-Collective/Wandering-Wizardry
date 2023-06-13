@@ -29,12 +29,13 @@ public class WanderingClient implements ClientModInitializer {
 		BlockRenderLayerMap.put(RenderLayer.getCutout(),
 			AltarPedestalBlock.INSTANCE,
 			AltarCatalyzerBlock.INSTANCE,
-			SculkflowerBlock.INSTANCE,
 			CameraBlock.INSTANCE,
+			ResonatorBlock.INSTANCE,
+			SculkflowerBlock.INSTANCE,
 			WanderingBlocks.INDIGO_CAERULEUM,
+			WanderingBlocks.MODULO_COMPARATOR,
 			WanderingBlocks.REINFORCED_GLASS,
-			WanderingBlocks.REINFORCED_GLASS_PANE,
-			WanderingBlocks.MODULO_COMPARATOR
+			WanderingBlocks.REINFORCED_GLASS_PANE
 		);
 		WanderingDatagen.REGISTRY.forEach(dataGenerator -> {
 			if (dataGenerator instanceof WoodType woodType) {

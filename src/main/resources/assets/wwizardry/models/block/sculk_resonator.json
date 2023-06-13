@@ -1,0 +1,133 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"textures": {
+		"4": "wwizardry:block/sculk_resonator_input_side",
+		"5": "minecraft:block/sculk_shrieker_side",
+		"particle": "minecraft:block/sculk_shrieker_bottom",
+		"bottom": "minecraft:block/sculk_shrieker_bottom",
+		"side": "wwizardry:block/sculk_resonator_side",
+		"top": "wwizardry:block/sculk_resonator_top",
+		"inner_top": "minecraft:block/sculk_shrieker_inner_top"
+	},
+	"elements": [
+		{
+			"name": "bottom_slab",
+			"from": [0, 0, 0],
+			"to": [16, 8, 16],
+			"faces": {
+				"north": {"uv": [0.032, 8.032, 15.968, 15.968], "texture": "#5"},
+				"east": {"uv": [0.032, 8.032, 15.968, 15.968], "texture": "#5"},
+				"south": {"uv": [0.032, 8.032, 15.968, 15.968], "texture": "#4"},
+				"west": {"uv": [0.032, 8.032, 15.968, 15.968], "texture": "#5"},
+				"up": {"uv": [0.032, 0.032, 15.968, 15.968], "texture": "#inner_top"},
+				"down": {"uv": [0.032, 0.032, 15.968, 15.968], "texture": "#bottom"}
+			}
+		},
+		{
+			"name": "top_slab",
+			"from": [0.99, 7.99, 0.99],
+			"to": [15.01, 20.01, 15.01],
+			"faces": {
+				"north": {"uv": [1.032, 4.064, 14.968, 16], "texture": "#side"},
+				"east": {"uv": [1.032, 4.064, 14.968, 16], "texture": "#side"},
+				"south": {"uv": [1.032, 4.064, 14.968, 16], "texture": "#side"},
+				"west": {"uv": [1.032, 4.064, 14.968, 16], "texture": "#side"}
+			}
+		},
+		{
+			"name": "top_slab inverted",
+			"from": [15, 18, 15],
+			"to": [1, 15, 1],
+			"faces": {
+				"north": {"uv": [1.032, 9, 14.968, 6.064], "texture": "#side"},
+				"east": {"uv": [1.032, 9, 14.968, 6.064], "texture": "#side"},
+				"south": {"uv": [1.032, 9, 14.968, 6.064], "texture": "#side"},
+				"west": {"uv": [1.032, 9, 14.968, 6.064], "texture": "#side"}
+			}
+		},
+		{
+			"name": "top_slab",
+			"from": [1, 15, 1],
+			"to": [15, 15, 15],
+			"faces": {
+				"up": {"uv": [1.032, 1.032, 14.968, 14.968], "texture": "#top"}
+			}
+		},
+		{
+			"name": "up",
+			"from": [1, 14.98, 1],
+			"to": [15, 14.98, 15],
+			"faces": {
+				"down": {"uv": [1.032, 1.032, 14.968, 14.968], "texture": "#top"}
+			}
+		},
+		{
+			"name": "south",
+			"from": [1, 8, 14.98],
+			"to": [15, 15, 14.98],
+			"faces": {
+				"north": {"uv": [1.032, 1.032, 14.968, 7.968], "texture": "#4"}
+			}
+		},
+		{
+			"name": "north",
+			"from": [1, 8, 1.02],
+			"to": [15, 15, 1.02],
+			"faces": {
+				"south": {"uv": [1.032, 1.032, 14.968, 7.968], "texture": "#4"}
+			}
+		},
+		{
+			"name": "east",
+			"from": [14.98, 8, 1],
+			"to": [14.98, 15, 15],
+			"faces": {
+				"west": {"uv": [1.032, 1.032, 14.968, 7.968], "texture": "#4"}
+			}
+		},
+		{
+			"name": "west",
+			"from": [1.02, 8, 1],
+			"to": [1.02, 15, 15],
+			"faces": {
+				"east": {"uv": [1.032, 1.032, 14.968, 7.968], "texture": "#4"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 3.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 3.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 225, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 45, 0],
+			"translation": [0, -0.25, 0],
+			"scale": [0.5918, 0.5918, 0.5918]
+		},
+		"head": {
+			"rotation": [90.75, 0, -180],
+			"translation": [0, -0.25, -8.25]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
+}

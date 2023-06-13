@@ -133,6 +133,14 @@ public class WanderingItems {
 		)
 	);
 
+	public static final Item RESONATOR = registerItem(
+		"sculk_resonator",
+		new BlockItem(
+			ResonatorBlock.INSTANCE,
+			new QuiltItemSettings()
+		)
+	);
+
 	public static final List<ItemStack> STACKS;
 
 	// This is here because of 'Illegal forward reference'

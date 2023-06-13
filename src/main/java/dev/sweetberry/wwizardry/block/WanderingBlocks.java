@@ -69,6 +69,7 @@ public class WanderingBlocks {
 	public static void init() {
 		registerBlock("altar_pedestal", AltarPedestalBlock.INSTANCE);
 		registerBlock("altar_catalyzer", AltarCatalyzerBlock.INSTANCE);
+		registerBlock("sculk_resonator", ResonatorBlock.INSTANCE);
 		registerBlock("sculkflower", SculkflowerBlock.INSTANCE);
 		registerBlock("crystalline_sculk_block", CrystalSculkBlock.INSTANCE);
 		registerBlock("camera", CameraBlock.INSTANCE);
