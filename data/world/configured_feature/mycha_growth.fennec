@@ -1,0 +1,14 @@
+type = "minecraft:simple_block"
+config { to_place {
+    type = "minecraft:weighted_state_provider"
+    entries [
+        {
+            data { Name = "wwizardry:mycha_fungus" }
+            weight = 5
+        }
+        {
+            data { Name = "wwizardry:indigo_caeruleum" }
+            weight = 7
+        }
+    ]
+}}

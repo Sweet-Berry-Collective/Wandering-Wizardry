@@ -8,6 +8,7 @@ import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 import com.terraformersmc.terraform.wood.block.StrippableLogBlock;
 import dev.sweetberry.wwizardry.WanderingSaplingGenerator;
+import dev.sweetberry.wwizardry.block.SpecialMushroomBlock;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.item.WanderingItems;
@@ -19,8 +20,11 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.HangingSignItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SignItem;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resource.MultiPackResourceManager;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.SignType;
@@ -109,7 +113,7 @@ public class WoodType extends AbstractDataGenerator {
 		STRIPPED_LOG = WanderingBlocks.registerBlock("stripped_"+baseName+"_"+logName, createLogBlock(wood, wood, sounds));
 		STRIPPED_LOG_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_"+logName, new BlockItem(STRIPPED_LOG, itemSettings));
 
-		LOG = WanderingBlocks.registerBlock(baseName+"_"+logName, createStrippableLogBlock(STRIPPED_LOG, bark, wood, sounds));
+		LOG = WanderingBlocks.registerBlock(baseName+"_"+logName, createLogBlock(bark, wood, sounds));
 		LOG_ITEM = WanderingItems.registerItem(baseName+"_"+logName, new BlockItem(LOG, itemSettings));
 
 		BlockContentRegistries.STRIPPABLE.put(LOG, STRIPPED_LOG);
@@ -117,10 +121,8 @@ public class WoodType extends AbstractDataGenerator {
 		STRIPPED_WOOD = WanderingBlocks.registerBlock("stripped_"+baseName+"_"+woodName, createLogBlock(wood, wood, sounds));
 		STRIPPED_WOOD_ITEM = WanderingItems.registerItem("stripped_"+baseName+"_"+woodName, new BlockItem(STRIPPED_WOOD, itemSettings));
 
-		WOOD = WanderingBlocks.registerBlock(baseName+"_"+woodName, createStrippableLogBlock(STRIPPED_WOOD, bark, wood, sounds));
+		WOOD = WanderingBlocks.registerBlock(baseName+"_"+woodName, createLogBlock(bark, wood, sounds));
 		WOOD_ITEM = WanderingItems.registerItem(baseName+"_"+woodName, new BlockItem(WOOD, itemSettings));
-
-		BlockContentRegistries.STRIPPABLE.put(WOOD, STRIPPED_WOOD);
 
 		PLANKS = WanderingBlocks.registerBlock(baseName+"_planks", new Block(blockSettings));
 		PLANKS_ITEM = WanderingItems.registerItem(baseName+"_planks", new BlockItem(PLANKS, itemSettings));
@@ -175,7 +177,6 @@ public class WoodType extends AbstractDataGenerator {
 			LEAVES = WanderingBlocks.registerBlock(baseName+"_wart", new Block(QuiltBlockSettings.copyOf(Blocks.NETHER_WART_BLOCK)));
 			LEAVES_ITEM = WanderingItems.registerItem(baseName+"_wart", new BlockItem(LEAVES, itemSettings));
 
-			// TODO: Fungus amongus
 			SAPLING = WanderingBlocks.registerBlock(baseName+"_fungus", createFungusBlock(baseName, fungusBaseBlock));
 			SAPLING_ITEM = WanderingItems.registerItem(baseName+"_fungus", new BlockItem(SAPLING, itemSettings));
 
@@ -186,14 +187,15 @@ public class WoodType extends AbstractDataGenerator {
 		}
 	}
 
-	private static FungusBlock createFungusBlock(String generator, Block base) {
-		return new FungusBlock(
+	private static FungusBlock createFungusBlock(String baseName, Block base) {
+		return new SpecialMushroomBlock(
 			QuiltBlockSettings
 				.copyOf(Blocks.CRIMSON_FUNGUS)
 				.breakInstantly()
 				.noCollision()
-				.sounds(BlockSoundGroup.FUNGUS),
-			WanderingSaplingGenerator.getId(generator),
+				.sounds(BlockSoundGroup.FUNGUS)
+				.offsetType(AbstractBlock.OffsetType.XZ),
+			baseName,
 			base
 		);
 	}
@@ -230,15 +232,6 @@ public class WoodType extends AbstractDataGenerator {
 				.strength(2.0F)
 				.sounds(sounds)
 				.mapColor((state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)
-		);
-	}
-
-	private static Block createStrippableLogBlock(Block stripped, MapColor top, MapColor side, BlockSoundGroup sounds) {
-		return new PillarBlock(
-				QuiltBlockSettings.copyOf(Blocks.OAK_LOG)
-					.strength(2.0F)
-					.sounds(sounds)
-					.mapColor((state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)
 		);
 	}
 

@@ -29,7 +29,7 @@ public class WanderingBlocks {
 			Block.createCuboidShape(4.0, 2.0, 4.0, 12.0, 15.0, 12.0)
 	).simplify();
 
-	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new WanderingFlowerBlock(StatusEffects.INVISIBILITY, 20, QuiltBlockSettings.copyOf(Blocks.POPPY)));
+	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new SpecialFlowerBlock(StatusEffects.INVISIBILITY, 20, "mycha_growable", QuiltBlockSettings.copyOf(Blocks.POPPY)));
 
 	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new GlassBlock(QuiltBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
 
@@ -63,6 +63,15 @@ public class WanderingBlocks {
 			LogicGateBlock.SideInput.NONE,
 			false,
 			(state, mode, side, back) -> back > 0 ? 1 : 0
+		)
+	);
+
+	public static final Block MYCELIAL_SAND = registerBlock(
+		"mycelial_sand",
+		new FallingDecayableBlock(
+			QuiltBlockSettings.copyOf(Blocks.SAND).mapColor(MapColor.ICE),
+			Blocks.SAND,
+			"mycha_spread"
 		)
 	);
 

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class SculkflowerBlock extends FlowerBlock implements Sculkable, SculkVeinSpreader {
-	public static final SculkflowerBlock INSTANCE = new SculkflowerBlock(StatusEffects.DARKNESS, 30, QuiltBlockSettings.copyOf(Blocks.POPPY));
+	public static final SculkflowerBlock INSTANCE = new SculkflowerBlock(StatusEffects.DARKNESS, 30, QuiltBlockSettings.copyOf(Blocks.POPPY).offsetType(OffsetType.NONE));
 
 	public SculkflowerBlock(StatusEffect suspiciousStewEffect, int effectDuration, Settings settings) {
 		super(suspiciousStewEffect, effectDuration, settings);

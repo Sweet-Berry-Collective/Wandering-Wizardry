@@ -117,6 +117,14 @@ public class WanderingItems {
 		)
 	);
 
+	public static final Item MYCELIAL_SAND = registerItem(
+		"mycelial_sand",
+		new BlockItem(
+			WanderingBlocks.MYCELIAL_SAND,
+			new QuiltItemSettings()
+		)
+	);
+
 	public static final Item MODULO_COMPARATOR = registerItem(
 		"modulo_comparator",
 		new BlockItem(

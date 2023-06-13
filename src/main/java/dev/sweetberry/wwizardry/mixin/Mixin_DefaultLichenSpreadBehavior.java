@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.mixin;
 
 import dev.sweetberry.wwizardry.block.AltarBlock;
+import dev.sweetberry.wwizardry.block.Sculkable;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import net.minecraft.block.AbstractLichenBlock;
 import net.minecraft.block.BlockState;
@@ -24,7 +25,7 @@ public class Mixin_DefaultLichenSpreadBehavior {
 	private void wwizardry$checkAltarPlace(BlockView view, BlockPos posA, BlockPos posB, Direction dir, BlockState state, CallbackInfoReturnable<Boolean> cir) {
 		if (!(block instanceof SculkVeinBlock))
 			return;
-		if (!(state.getBlock() instanceof AltarBlock<?>))
+		if (!(state.getBlock() instanceof Sculkable))
 			return;
 		cir.setReturnValue(true);
 	}
@@ -34,7 +35,7 @@ public class Mixin_DefaultLichenSpreadBehavior {
 		if (!(block instanceof SculkVeinBlock))
 			return;
 		var state = view.getBlockState(placement.pos());
-		if (!(state.getBlock() instanceof AltarBlock<?>))
+		if (!(state.getBlock() instanceof Sculkable))
 			return;
 		cir.setReturnValue(!state.get(WanderingBlocks.SCULK_INFESTED));
 	}
@@ -44,7 +45,7 @@ public class Mixin_DefaultLichenSpreadBehavior {
 		if (!(block instanceof SculkVeinBlock))
 			return;
 		var trueState = view.getBlockState(pos);
-		if (!(trueState.getBlock() instanceof AltarBlock<?>))
+		if (!(trueState.getBlock() instanceof Sculkable))
 			return;
 		cir.setReturnValue(trueState.with(WanderingBlocks.SCULK_INFESTED, true));
 	}

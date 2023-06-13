@@ -1,4 +1,13 @@
 blocks {
+    mycha_growable [
+        "sand"
+        "wwizardry:mycelial_sand"
+    ]
+
+    mycha_growth [
+        "sand"
+    ]
+
     brick {
         basalt [
             "#wwizardry:brick/basalt_chiseled"
