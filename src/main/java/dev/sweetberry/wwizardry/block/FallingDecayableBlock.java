@@ -54,7 +54,7 @@ public class FallingDecayableBlock extends NyliumBlock implements LandingBlock {
 	}
 
 	@Override
-	public void grow(ServerWorld world, RandomGenerator random, BlockPos pos, BlockState state) {
+	public void fertilize(ServerWorld world, RandomGenerator random, BlockPos pos, BlockState state) {
 		BlockPos blockPos = pos.up();
 		ChunkGenerator chunkGenerator = world.getChunkManager().getChunkGenerator();
 		Registry<ConfiguredFeature<?, ?>> registry = world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE);
