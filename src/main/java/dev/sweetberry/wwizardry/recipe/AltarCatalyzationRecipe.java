@@ -69,7 +69,7 @@ public record AltarCatalyzationRecipe(
 
 	@Override
 	public Identifier getId() {
-		return WanderingMod.id("altar");
+		return TYPE.id();
 	}
 
 	@Override
