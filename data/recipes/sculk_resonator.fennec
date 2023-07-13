@@ -6,7 +6,7 @@ bloom = 10
 inputs [
     { item = "amethyst_shard" }
     { item = "amethyst_shard" }
-    { item = "redstone_dust" }
+    { item = "redstone" }
     { item = "wwizardry:crystalline_sculk" }
 ]
 

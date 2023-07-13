@@ -6,6 +6,7 @@ import dev.sweetberry.wwizardry.datagen.WallHolderBlockType;
 import dev.sweetberry.wwizardry.datagen.WanderingDatagen;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import dev.sweetberry.wwizardry.recipe.WanderingRecipes;
+import dev.sweetberry.wwizardry.world.WanderingWorldgen;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
@@ -45,6 +46,7 @@ public class WanderingMod implements ModInitializer {
 		WanderingItems.init();
 		WanderingRecipes.init();
 		WanderingDatagen.init();
+		WanderingWorldgen.init();
 		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
 		RegistryMonitor.create(Registries.BLOCK).forAll((ctx) -> onBlockAdded(ctx.value(), ctx.id()));
 	}

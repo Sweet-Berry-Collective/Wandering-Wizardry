@@ -2,14 +2,11 @@ package dev.sweetberry.wwizardry.world.region;
 
 import com.mojang.datafixers.util.Pair;
 import dev.sweetberry.wwizardry.WanderingMod;
-import dev.sweetberry.wwizardry.world.WanderingBiomes;
+import dev.sweetberry.wwizardry.world.WanderingWorldgen;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.biome.OverworldBiomeCreator;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
-import net.minecraft.world.biome.source.util.OverworldBiomeParameters;
 import terrablender.api.Region;
 import terrablender.api.RegionType;
 
@@ -29,13 +26,13 @@ public class OverworldRegion extends Region {
 			MultiNoiseUtil.createNoiseHypercube(
 				MultiNoiseUtil.ParameterRange.of(0.55f, 1.0f),
 				MultiNoiseUtil.ParameterRange.of(0.55f, 1.0f),
-				MultiNoiseUtil.ParameterRange.of(-0.3f, -0.03f),
+				MultiNoiseUtil.ParameterRange.of(0.55f, 0.75f),
 				MultiNoiseUtil.ParameterRange.of(0.55f, 1.0f),
 				MultiNoiseUtil.ParameterRange.of(0.0f, 1.0f),
 				MultiNoiseUtil.ParameterRange.of(0.75f, 1.0f),
 				1f
 			),
-			WanderingBiomes.FORGOTTEN_FIELDS
+			WanderingWorldgen.FORGOTTEN_FIELDS
 		);
 	}
 }

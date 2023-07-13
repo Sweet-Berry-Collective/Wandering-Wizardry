@@ -9,6 +9,7 @@
     crystalline_sculk_block = "Crystalline Sculk Block"
     reinforced_glass = "Reinforced Glass"
     reinforced_glass_pane = "Reinforced Glass Pane"
+    sculk_resonator = "Resonating Sculk Shrieker"
 
     # Tech
     camera = "Camera"
@@ -20,6 +21,7 @@
     # Natural
     sculkflower = "Sculkflower"
     indigo_caeruleum = "Indigo Caeruleum"
+    mycelial_sand = "Mycelial Sand"
 
     # Altar
     altar_pedestal = "Altar Pedestal"
@@ -87,6 +89,9 @@
 "item.wwizardry" {
     crystalline_sculk = "Crystalline Sculk"
     rose_quartz = "Rose Quartz"
+
+    denia_boat = "Denia Boat"
+    denia_chest_boat = "Denia Boat with Chest"
 }
 
 # Compat

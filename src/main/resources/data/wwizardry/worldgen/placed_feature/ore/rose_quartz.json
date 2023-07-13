@@ -1,0 +1,1 @@
+{"feature":"wwizardry:ore/rose_quartz","placement":[{"type":"count","count":13},{"type":"in_square"},{"type":"height_range","height":{"type":"trapezoid","max_inclusive":{"above_bottom":96},"min_inclusive":{"above_bottom":-16}}},{"type":"biome"}]}
