@@ -1,0 +1,5 @@
+kind = "wood"
+name = "mycha"
+id = "wwizardry:mycha_stem"
+color = "purple"
+-stem

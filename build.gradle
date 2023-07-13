@@ -6,7 +6,7 @@ archivesBaseName = project.archives_base_name
 version = "${project.version}+${libs.versions.minecraft.get()}"
 group = project.maven_group
 
-def test_compat = false
+def test_compat = true
 
 repositories {
 	maven {
@@ -42,7 +42,9 @@ dependencies {
 	modImplementation include("com.github.glitchfiend:TerraBlender-fabric:1.20.1-3.0.0.167")
 
 	if (test_compat) {
-		modRuntimeOnly "maven.modrinth:arch-ex:2.1.0+1.19"
+		modRuntimeOnly "maven.modrinth:arch-ex:CjW2XopS"
+		modImplementation "maven.modrinth:static-data:1.0.1+1.20"
+		modImplementation "maven.modrinth:suspicious-shapes:1.0.0+1.20.1"
 	}
 }
 
@@ -70,6 +72,10 @@ def loot(String input, String output) {
 	generate("loot", input, output)
 }
 
+def archex(String output) {
+	generate("archex", output)
+}
+
 tasks.register("generateData") {
 	doFirst {
 		generate("lang", "assets/wwizardry/lang")
@@ -79,7 +85,7 @@ tasks.register("generateData") {
 		transpile("loot", "data/wwizardry/loot_tables")
 		transpile("world", "data/wwizardry/worldgen")
 		transpile("mod", "")
-//		transpile("archex", "staticdata/architecture_extensions")
+		archex("staticdata/architecture_extensions")
 	}
 }
 

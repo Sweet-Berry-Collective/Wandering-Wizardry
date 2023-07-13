@@ -99,3 +99,11 @@
     denia = "Denia"
     mycha = "Mycha"
 }
+
+"architecture_extensions.grouped_block" {
+    denia = "Denia"
+    mycha = "Mycha"
+    basalt_bricks = "Basalt Bricks"
+    basalt_tiles = "Basalt Tiles"
+    chiseled_basalt = "Chiseled Basalt"
+}

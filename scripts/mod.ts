@@ -3,6 +3,7 @@ import generateLang from "./command/lang.ts";
 import genericTranspile from "./command/transpile.ts";
 import generateTags from "./command/tags.ts";
 import loot from "./command/loot.ts";
+import generateArchEx from "./command/archex.ts"
 
 const cli = new CLI();
 
@@ -26,6 +27,11 @@ cli.register(
         args: [literal("loot"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
         call: loot,
         description: "Generates simple loot tables for a list of blocks"
+    },
+    {
+        args: [literal("archex"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
+        call: generateArchEx,
+        description: "Generates arch-ex staticdata"
     }
 )
 
