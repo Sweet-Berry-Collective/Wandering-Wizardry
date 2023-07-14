@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "wwizardry:item/void_bag_unlocked"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "wwizardry:void_bag_closed": 1.0
+      },
+      "model": "wwizardry:item/void_bag_closed"
+    }
+  ]
+}

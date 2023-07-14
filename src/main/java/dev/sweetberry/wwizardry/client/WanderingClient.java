@@ -8,19 +8,54 @@ import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.block.entity.AltarPedestalBlockEntity;
 import dev.sweetberry.wwizardry.client.render.AltarCatalyzerBlockEntityRenderer;
+import dev.sweetberry.wwizardry.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.datagen.WanderingDatagen;
 import dev.sweetberry.wwizardry.datagen.WoodType;
+import dev.sweetberry.wwizardry.item.VoidBagItem;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.resource.Material;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Language;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientWorldTickEvents;
+import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
+import org.quiltmc.qsl.tooltip.api.client.ItemTooltipCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WanderingClient implements ClientModInitializer {
 	public static int ITEM_ROTATION = 0;
+	public static final List<Text> VOID_BAG_LOCKED = List.of(
+		Text.empty(),
+		Text.translatable("wwizardry.void_bag.generic_1").formatted(Formatting.DARK_PURPLE),
+		Text.translatable("wwizardry.void_bag.generic_2").formatted(Formatting.DARK_PURPLE),
+		Text.empty(),
+		Text.translatable("wwizardry.void_bag.locked_1").formatted(Formatting.DARK_PURPLE),
+		Text.translatable("wwizardry.void_bag.locked_2").formatted(Formatting.DARK_PURPLE),
+		Text.translatable("wwizardry.void_bag.locked_3").formatted(Formatting.DARK_PURPLE)
+	);
+	public static final List<Text> VOID_BAG_UNLOCKED = List.of(
+		Text.empty(),
+		Text.translatable("wwizardry.void_bag.generic_1").formatted(Formatting.DARK_PURPLE),
+		Text.translatable("wwizardry.void_bag.generic_2").formatted(Formatting.DARK_PURPLE),
+		Text.empty(),
+		Text.translatable("wwizardry.void_bag.unlocked_1").formatted(Formatting.DARK_PURPLE),
+		Text.translatable("wwizardry.void_bag.unlocked_2").formatted(Formatting.DARK_PURPLE),
+		Text.translatable("wwizardry.void_bag.unlocked_3").formatted(Formatting.DARK_PURPLE)
+	);
+
 	@Override
 	public void onInitializeClient(ModContainer mod) {
 		BlockEntityRendererFactories.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
@@ -48,5 +83,37 @@ public class WanderingClient implements ClientModInitializer {
 				}
 			}
 		});
+
+		ItemTooltipCallback.EVENT.register(((stack, _player, context, lines) -> {
+			if (!stack.isOf(VoidBagItem.INSTANCE))
+				return;
+			var player = _player == null ? MinecraftClient.getInstance().player : _player;
+			if (player == null)
+				return;
+			var bag = VoidBagComponent.getForPlayer(player);
+			lines.addAll(
+				1,
+				bag.locked ? VOID_BAG_LOCKED : VOID_BAG_UNLOCKED
+			);
+		}));
+
+		ModelPredicateProviderRegistry.register(VoidBagItem.INSTANCE, WanderingMod.id("void_bag_closed"), ((itemStack, clientWorld, livingEntity, i) -> {
+			if (!itemStack.isOf(VoidBagItem.INSTANCE)) return 0.0f;
+			var client = MinecraftClient.getInstance();
+			if (client.player == null)
+				return 0.0f;
+			var bag = VoidBagComponent.getForPlayer(client.player);
+			return bag.locked ? 1.0f : 0.0f;
+		}));
+
+		ClientPlayNetworking.registerGlobalReceiver(WanderingMod.VOID_BAG_PACKET, ((client, handler, buf, responseSender) -> {
+			client.execute(() -> {
+				var world = client.world;
+				var player = client.player;
+				if (world == null || player == null)
+					return;
+				world.playSound(player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2f, (world.random.nextFloat() - world.random.nextFloat()) * 1.4f + 2.0f, false);
+			});
+		}));
 	}
 }

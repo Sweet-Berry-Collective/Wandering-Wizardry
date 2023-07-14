@@ -1,5 +1,18 @@
 "itemGroup.wwizardry.items" = "Wandering Wizardry Items"
 
+"wwizardry.void_bag" {
+    generic_1 = "This bag acts as a joint between worlds,"
+    generic_2 = "allowing you to store items across lifetimes."
+
+    locked_1 = "It is currently locked,"
+    locked_2 = "meaning no item will be able to"
+    locked_3 = "enter without explicit conformation."
+
+    unlocked_1 = "It is currently unlocked,"
+    unlocked_2 = "meaning items in the bag will collect"
+    unlocked_3 = "others from the outside world."
+}
+
 "block.wwizardry" {
     rose_quartz_ore = "Rose Quartz Ore"
     deepslate_rose_quartz_ore = "Deepslate Rose Quartz Ore"
@@ -87,6 +100,7 @@
 }
 
 "item.wwizardry" {
+    void_bag = "Void Bag"
     crystalline_sculk = "Crystalline Sculk"
     rose_quartz = "Rose Quartz"
 

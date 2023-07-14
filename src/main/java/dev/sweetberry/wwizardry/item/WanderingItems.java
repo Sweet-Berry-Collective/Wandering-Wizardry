@@ -166,6 +166,8 @@ public class WanderingItems {
 		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);
 		registerItem("altar_catalyzer", AltarCatalyzerBlock.ITEM);
 
+		registerItem("void_bag", VoidBagItem.INSTANCE);
+
 		Registry.register(Registries.ITEM_GROUP, WanderingMod.id("items"), GROUP);
 	}
 

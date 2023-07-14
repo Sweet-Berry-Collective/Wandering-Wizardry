@@ -6,6 +6,7 @@
   "mixins": [
     "Accessor_TorchBlock",
     "Mixin_DefaultLichenSpreadBehavior",
+    "Mixin_ItemEntity",
     "Mixin_RedstoneWireBlock",
     "Mixin_SculkVeinSpreadBehavior",
     "Mixin_TerraformBoatTrackedData"

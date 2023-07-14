@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry;
 
 import dev.sweetberry.wwizardry.block.Sculkable;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
+import dev.sweetberry.wwizardry.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.datagen.WallHolderBlockType;
 import dev.sweetberry.wwizardry.datagen.WanderingDatagen;
 import dev.sweetberry.wwizardry.item.WanderingItems;
@@ -16,11 +17,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.registry.Registries;
-import net.minecraft.resource.ResourceManager;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -30,6 +33,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 import org.quiltmc.qsl.registry.api.event.RegistryMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +42,7 @@ import static dev.sweetberry.wwizardry.datagen.WallHolderBlockType.ParentType;
 
 public class WanderingMod implements ModInitializer {
 	public static final String MODID = "wwizardry";
+	public static final Identifier VOID_BAG_PACKET = id("void_bag");
 	public static final Logger LOGGER = LoggerFactory.getLogger("Wandering Wizardry");
 
 	@Override
@@ -49,6 +54,12 @@ public class WanderingMod implements ModInitializer {
 		WanderingWorldgen.init();
 		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
 		RegistryMonitor.create(Registries.BLOCK).forAll((ctx) -> onBlockAdded(ctx.value(), ctx.id()));
+		ServerPlayNetworking.registerGlobalReceiver(VOID_BAG_PACKET, ((server, player, handler, buf, responseSender) -> {
+			server.execute(() -> {
+				var bag = VoidBagComponent.getForPlayer(player);
+				bag.openScreen();
+			});
+		}));
 	}
 
 	public static ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {

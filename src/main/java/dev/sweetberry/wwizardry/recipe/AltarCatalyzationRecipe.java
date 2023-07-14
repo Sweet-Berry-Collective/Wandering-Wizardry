@@ -69,7 +69,7 @@ public record AltarCatalyzationRecipe(
 
 	@Override
 	public Identifier getId() {
-		return TYPE.id();
+		return id();
 	}
 
 	@Override
