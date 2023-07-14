@@ -36,6 +36,7 @@ quilt_loader {
         client_init = "dev.sweetberry.wwizardry.client.WanderingClient"
         terrablender = "dev.sweetberry.wwizardry.world.TerraBlenderInitializer"
         cardinal-components = "dev.sweetberry.wwizardry.component.CardinalInitializer"
+        emi = "dev.sweetberry.wwizardry.emi.EmiInitializer"
     }
 
     depends [

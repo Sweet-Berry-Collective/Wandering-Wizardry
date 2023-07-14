@@ -13,5 +13,5 @@ inputs [
 catalyst { item = "sculk_shrieker" }
 
 result {
-    item = "wwizardry:crystalline_sculk"
+    item = "wwizardry:sculk_resonator"
 }
