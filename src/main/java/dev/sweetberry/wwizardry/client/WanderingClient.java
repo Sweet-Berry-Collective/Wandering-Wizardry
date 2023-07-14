@@ -105,15 +105,5 @@ public class WanderingClient implements ClientModInitializer {
 			var bag = VoidBagComponent.getForPlayer(client.player);
 			return bag.locked ? 1.0f : 0.0f;
 		}));
-
-		ClientPlayNetworking.registerGlobalReceiver(WanderingMod.VOID_BAG_PACKET, ((client, handler, buf, responseSender) -> {
-			client.execute(() -> {
-				var world = client.world;
-				var player = client.player;
-				if (world == null || player == null)
-					return;
-				world.playSound(player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2f, (world.random.nextFloat() - world.random.nextFloat()) * 1.4f + 2.0f, false);
-			});
-		}));
 	}
 }
