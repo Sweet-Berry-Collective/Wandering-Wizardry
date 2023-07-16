@@ -4,10 +4,10 @@ keepCatalyst = false
 bloom = 15
 
 inputs [
-    { item = "amethyst_shard" }
+    { item = "wwizardry:crystalline_sculk" }
     { item = "gold_ingot" }
     { item = "ender_eye" }
-    { item = "ghast_tear" }
+    { item = "obsidian" }
 ]
 
 catalyst { item = "bundle" }
