@@ -38,6 +38,9 @@ import org.quiltmc.qsl.registry.api.event.RegistryMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import static dev.sweetberry.wwizardry.datagen.WallHolderBlockType.ParentType;
 
 public class WanderingMod implements ModInitializer {
@@ -116,7 +119,19 @@ public class WanderingMod implements ModInitializer {
 		return ActionResult.PASS;
 	}
 
+	private static final String[] modid_exclusions = new String[] {
+		"jello"
+	};
+
 	public static void onBlockAdded(Block block, Identifier id) {
+		// Ignore known broken mods. TODO: Make this configurable
+		if (
+			Arrays.stream(modid_exclusions)
+				.anyMatch(
+					it -> it.equals(id.getNamespace())
+				)
+		)
+			return;
 		if (block instanceof CandleBlock)
 			registerHolderBlock(block, id, ParentType.CANDLE);
 		// Blocked out for now, until I can implement them
