@@ -46,5 +46,10 @@ quilt_loader {
             id = "minecraft"
             versions = ">=1.19.4"
         }
+        { id = "terraform-wood-api-v1" }
+        { id = "terrablender" }
+        { id = "cardinal-components-base" }
+        { id = "cardinal-components-entity" }
+        { id = "moremcmeta" }
     ]
 }
