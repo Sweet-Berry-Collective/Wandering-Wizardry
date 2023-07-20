@@ -6,8 +6,8 @@ effects {
     fog_color = 0xC0D8FF
     water_color = 0x3F76E4
     water_fog_color = 0x050533
-    grass_color = 0x16926D
-    foliage_color = 0x16926D
+    grass_color = 0x26A35D
+    foliage_color = 0x36B44E
     mood_sound {
         sound = "ambient.cave"
         tick_delay = 6000
@@ -73,6 +73,7 @@ features [
     [
          "sculk_vein"
          "wwizardry:rare_sculk_patch"
+         "wwizardry:rare_moss_patch"
     ]
     [
         "spring_water"
