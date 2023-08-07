@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.component;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
+import dev.sweetberry.wwizardry.item.VoidBagItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -39,6 +40,11 @@ public class VoidBagComponent implements Inventory, PlayerComponent<VoidBagCompo
 	public void writeToNbt(NbtCompound tag) {
 		Inventories.writeNbt(tag, inventory);
 		tag.putBoolean("Locked", locked);
+		ItemStack previewStack = VoidBagItem.INSTANCE.getDefaultStack();
+		previewStack.getOrCreateNbt().putBoolean("Locked", locked);
+		NbtCompound previewCompound = new NbtCompound();
+		previewStack.writeNbt(previewCompound);
+		tag.put("PreviewStack", previewCompound);
 	}
 
 	@Override

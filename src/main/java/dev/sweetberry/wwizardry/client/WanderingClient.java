@@ -102,6 +102,8 @@ public class WanderingClient implements ClientModInitializer {
 			var client = MinecraftClient.getInstance();
 			if (client.player == null)
 				return 0.0f;
+			var nbt = itemStack.getNbt();
+			if (nbt != null && nbt.contains("Locked")) return nbt.getBoolean("Locked") ? 1.0f : 0.0f;
 			var bag = VoidBagComponent.getForPlayer(client.player);
 			return bag.locked ? 1.0f : 0.0f;
 		}));
