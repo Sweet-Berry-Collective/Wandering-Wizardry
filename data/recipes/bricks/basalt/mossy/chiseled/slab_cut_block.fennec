@@ -1,0 +1,4 @@
+type = "stonecutting"
+count = 2
+ingredient { item="wwizardry:mossy_chiseled_basalt" }
+result = "wwizardry:mossy_chiseled_basalt_slab"

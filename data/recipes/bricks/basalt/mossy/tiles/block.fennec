@@ -1,0 +1,17 @@
+type = "crafting_shaped"
+
+category = "building"
+-show_notification
+
+key {
+    "#" { item="wwizardry:mossy_basalt_bricks" }
+}
+pattern [
+    "##"
+    "##"
+]
+
+result {
+    count = 4
+    item = "wwizardry:mossy_basalt_tiles"
+}

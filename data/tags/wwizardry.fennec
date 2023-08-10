@@ -13,6 +13,9 @@ blocks {
             "#wwizardry:brick/basalt_chiseled"
             "#wwizardry:brick/basalt_tiles"
             "#wwizardry:brick/basalt_bricks"
+            "#wwizardry:brick/mossy_basalt_chiseled"
+            "#wwizardry:brick/mossy_basalt_tiles"
+            "#wwizardry:brick/mossy_basalt_bricks"
         ]
         basalt_chiseled [
             "wwizardry:chiseled_basalt"
@@ -31,6 +34,24 @@ blocks {
             "wwizardry:basalt_brick_stairs"
             "wwizardry:basalt_brick_slab"
             "wwizardry:basalt_brick_wall"
+        ]
+        mossy_basalt_chiseled [
+            "wwizardry:mossy_chiseled_basalt"
+            "wwizardry:mossy_chiseled_basalt_stairs"
+            "wwizardry:mossy_chiseled_basalt_slab"
+            "wwizardry:mossy_chiseled_basalt_wall"
+        ]
+        mossy_basalt_tiles [
+            "wwizardry:mossy_basalt_tiles"
+            "wwizardry:mossy_basalt_tile_stairs"
+            "wwizardry:mossy_basalt_tile_slab"
+            "wwizardry:mossy_basalt_tile_wall"
+        ]
+        mossy_basalt_bricks [
+            "wwizardry:mossy_basalt_bricks"
+            "wwizardry:mossy_basalt_brick_stairs"
+            "wwizardry:mossy_basalt_brick_slab"
+            "wwizardry:mossy_basalt_brick_wall"
         ]
     }
 
@@ -92,11 +113,19 @@ blocks {
 }
 
 items {
+    mossy_materials [
+        "moss_block"
+        "vine"
+    ]
+
     brick {
         basalt [
             "#wwizardry:brick/basalt_chiseled"
             "#wwizardry:brick/basalt_tiles"
             "#wwizardry:brick/basalt_bricks"
+            "#wwizardry:brick/mossy_basalt_chiseled"
+            "#wwizardry:brick/mossy_basalt_tiles"
+            "#wwizardry:brick/mossy_basalt_bricks"
         ]
         basalt_chiseled [
             "wwizardry:chiseled_basalt"
@@ -115,6 +144,24 @@ items {
             "wwizardry:basalt_brick_stairs"
             "wwizardry:basalt_brick_slab"
             "wwizardry:basalt_brick_wall"
+        ]
+        mossy_basalt_chiseled [
+            "wwizardry:mossy_chiseled_basalt"
+            "wwizardry:mossy_chiseled_basalt_stairs"
+            "wwizardry:mossy_chiseled_basalt_slab"
+            "wwizardry:mossy_chiseled_basalt_wall"
+        ]
+        mossy_basalt_tiles [
+            "wwizardry:mossy_basalt_tiles"
+            "wwizardry:mossy_basalt_tile_stairs"
+            "wwizardry:mossy_basalt_tile_slab"
+            "wwizardry:mossy_basalt_tile_wall"
+        ]
+        mossy_basalt_bricks [
+            "wwizardry:mossy_basalt_bricks"
+            "wwizardry:mossy_basalt_brick_stairs"
+            "wwizardry:mossy_basalt_brick_slab"
+            "wwizardry:mossy_basalt_brick_wall"
         ]
     }
 

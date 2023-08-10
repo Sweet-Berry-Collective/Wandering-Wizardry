@@ -97,6 +97,24 @@
     basalt_tile_stairs = "Basalt Tile Stairs"
     basalt_tile_slab = "Basalt Tile Slab"
     basalt_tile_wall = "Basalt Tile Wall"
+
+    # Mossy Chiseled Basalt
+    mossy_chiseled_basalt = "Mossy Chiseled Basalt"
+    mossy_chiseled_basalt_stairs = "Mossy Chiseled Basalt Stairs"
+    mossy_chiseled_basalt_slab = "Mossy Chiseled Basalt Slab"
+    mossy_chiseled_basalt_wall = "Mossy Chiseled Basalt Wall"
+
+    # Mossy Basalt Bricks
+    mossy_basalt_bricks = "Mossy Basalt Bricks"
+    mossy_basalt_brick_stairs = "Mossy Basalt Brick Stairs"
+    mossy_basalt_brick_slab = "Mossy Basalt Brick Slab"
+    mossy_basalt_brick_wall = "Mossy Basalt Brick Wall"
+
+    # Mossy Basalt Tiles
+    mossy_basalt_tiles = "Mossy Basalt Tiles"
+    mossy_basalt_tile_stairs = "Mossy Basalt Tile Stairs"
+    mossy_basalt_tile_slab = "Mossy Basalt Tile Slab"
+    mossy_basalt_tile_wall = "Mossy Basalt Tile Wall"
 }
 
 "item.wwizardry" {
@@ -123,4 +141,7 @@
     basalt_bricks = "Basalt Bricks"
     basalt_tiles = "Basalt Tiles"
     chiseled_basalt = "Chiseled Basalt"
+    mossy_basalt_bricks = "Mossy Basalt Bricks"
+    mossy_basalt_tiles = "Mossy Basalt Tiles"
+    mossy_chiseled_basalt = "Mossy Chiseled Basalt"
 }

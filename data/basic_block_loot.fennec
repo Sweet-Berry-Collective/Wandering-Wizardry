@@ -32,6 +32,24 @@
     "chiseled_basalt_slab"
     "chiseled_basalt_wall"
 
+    # Mossy Basalt Bricks
+    "mossy_basalt_bricks"
+    "mossy_basalt_brick_stairs"
+    "mossy_basalt_brick_slab"
+    "mossy_basalt_brick_wall"
+
+    # Mossy Basalt Tiles
+    "mossy_basalt_tiles"
+    "mossy_basalt_tile_stairs"
+    "mossy_basalt_tile_slab"
+    "mossy_basalt_tile_wall"
+
+    # Mossy Chiseled Basalt
+    "mossy_chiseled_basalt"
+    "mossy_chiseled_basalt_stairs"
+    "mossy_chiseled_basalt_slab"
+    "mossy_chiseled_basalt_wall"
+
     # Denia
     "denia_log"
     "stripped_denia_log"
