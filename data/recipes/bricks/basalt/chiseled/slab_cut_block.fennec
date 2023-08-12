@@ -1,4 +1,0 @@
-type = "stonecutting"
-count = 2
-ingredient { item="wwizardry:chiseled_basalt" }
-result = "wwizardry:chiseled_basalt_slab"

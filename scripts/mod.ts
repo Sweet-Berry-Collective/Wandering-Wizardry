@@ -1,9 +1,10 @@
 import { CLI, literal, Builtin, named } from "https://oliver-makes-code.github.io/ts-cli/mod.tsx"
-import generateLang from "./command/lang.ts";
-import genericTranspile from "./command/transpile.ts";
-import generateTags from "./command/tags.ts";
+import generateLang from "./command/lang.ts"
+import genericTranspile from "./command/transpile.ts"
+import generateTags from "./command/tags.ts"
 import loot from "./command/loot.ts";
 import generateArchEx from "./command/archex.ts"
+import generateBrickRecipes from "./command/brick.ts"
 
 const cli = new CLI();
 
@@ -31,6 +32,11 @@ cli.register(
     {
         args: [literal("archex"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
         call: generateArchEx,
+        description: "Generates arch-ex staticdata"
+    },
+    {
+        args: [literal("bricks"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
+        call: generateBrickRecipes,
         description: "Generates arch-ex staticdata"
     }
 )

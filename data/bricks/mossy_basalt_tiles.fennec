@@ -1,0 +1,35 @@
+block = "wwizardry:mossy_basalt_tiles"
+slab = "wwizardry:mossy_basalt_tile_slab"
+stairs = "wwizardry:mossy_basalt_tile_stairs"
+wall = "wwizardry:mossy_basalt_tile_wall"
+
+generators [
+    {
+        name = "self_cut"
+        type = "from_self_cut"
+    }
+    {
+        name = "self_crafted"
+        type = "from_self_crafted"
+    }
+    {
+        name = "brick_cut"
+        type = "from_item_cut"
+        item = "wwizardry:mossy_basalt_bricks"
+    }
+    {
+        name = "brick_crafted"
+        type = "from_item_crafted"
+        item = "wwizardry:mossy_basalt_bricks"
+        pattern [
+            "##"
+            "##"
+        ]
+        count = 4
+    }
+    {
+        name = "brick_mossed"
+        type = "from_mossed_item"
+        item = "wwizardry:basalt_tiles"
+    }
+]

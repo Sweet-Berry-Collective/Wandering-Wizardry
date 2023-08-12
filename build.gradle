@@ -87,6 +87,7 @@ tasks.register("generateData") {
 		generate("tags", "data")
 		generate("archex", "staticdata/architecture_extensions")
 		loot("basic_block_loot.fennec", "data/wwizardry/loot_tables/blocks")
+		generate("bricks", "data/wwizardry/recipes")
 		transpile("recipes", "data/wwizardry/recipes")
 		transpile("loot", "data/wwizardry/loot_tables")
 		transpile("world", "data/wwizardry/worldgen")

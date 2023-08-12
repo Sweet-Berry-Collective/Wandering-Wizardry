@@ -1,0 +1,30 @@
+block = "wwizardry:basalt_bricks"
+slab = "wwizardry:basalt_brick_slab"
+stairs = "wwizardry:basalt_brick_stairs"
+wall = "wwizardry:basalt_brick_wall"
+
+generators [
+    {
+        name = "self_cut"
+        type = "from_self_cut"
+    }
+    {
+        name = "self_crafted"
+        type = "from_self_crafted"
+    }
+    {
+        name = "basalt_cut"
+        type = "from_item_cut"
+        item = "smooth_basalt"
+    }
+    {
+        name = "basalt_crafted"
+        type = "from_item_crafted"
+        item = "smooth_basalt"
+        pattern [
+            "##"
+            "##"
+        ]
+        count = 4
+    }
+]
