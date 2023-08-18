@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.client.render;
 
+import dev.sweetberry.wwizardry.block.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.block.entity.AltarPedestalBlockEntity;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -15,7 +16,16 @@ public class AltarPedestalBlockEntityRenderer implements AltarBlockEntityRendere
 	public void beforeRender(AltarPedestalBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		matrices.translate(0.5, 0.9509, 0.5);
 
-		var blockState = entity.getWorld().getBlockState(entity.getPos());
+		var world = entity.getWorld();
+
+		if (world == null)
+			return;
+
+		var blockState = world.getBlockState(entity.getPos());
+
+		if (!blockState.isOf(AltarPedestalBlock.INSTANCE))
+			return;
+
 		var dir = blockState.get(HorizontalFacingBlock.FACING);
 
 		switch (dir) {
