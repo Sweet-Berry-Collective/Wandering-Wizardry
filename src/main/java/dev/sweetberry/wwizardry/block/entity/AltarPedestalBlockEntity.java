@@ -73,7 +73,6 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void tick(World world, BlockPos pos, BlockState state) {
-
 		if (crafting) {
 			if (++craftingTick >= 100) {
 				finishCrafting(null, true);

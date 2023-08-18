@@ -6,12 +6,20 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import net.minecraft.client.render.block.entity.MobSpawnerBlockEntityRenderer;
+import net.minecraft.client.render.entity.EndCrystalEntityRenderer;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.decoration.EndCrystalEntity;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.Axis;
 
 public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends BlockEntityRenderer<T> {
+	BlockEntityRendererFactory.Context context();
 
 	void beforeRender(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay);
 
@@ -27,17 +35,38 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 
 		beforeRender(entity, tickDelta, matrices, vertexConsumers, light, overlay);
 
-		if (shouldHover(entity)) {
-			matrices.translate(0, Math.sin((WanderingClient.ITEM_ROTATION + tickDelta) / 16 + entity.rand) * 0.03125, 0);
-		} else {
+		var shouldHover = shouldHover(entity);
+
+		if (!shouldHover)
 			matrices.translate(0, (entity.craftingTick + tickDelta) / 25, 0);
+
+		if (entity.heldItem.isOf(Items.END_CRYSTAL)) {
+			matrices.scale(0.5f, 0.5f, 0.5f);
+
+			drawEndCrystal(entity, matrices, vertexConsumers, light);
+		} else {
+			if (shouldHover)
+				matrices.translate(0, Math.sin((WanderingClient.ITEM_ROTATION + tickDelta) / 16 + entity.rand) * 0.03125, 0);
+			matrices.multiply(Axis.Y_NEGATIVE.rotationDegrees((WanderingClient.ITEM_ROTATION + tickDelta) / 2));
+
+			drawItem(entity, matrices, vertexConsumers, light);
 		}
 
-		matrices.multiply(Axis.Y_NEGATIVE.rotationDegrees((WanderingClient.ITEM_ROTATION + tickDelta) / 2));
-
-		BakedModel bakedModel = MinecraftClient.getInstance().getItemRenderer().getModels().getModel(entity.heldItem);
-		MinecraftClient.getInstance().getItemRenderer().renderItem(entity.heldItem, ModelTransformationMode.GROUND, true, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, bakedModel);
-
 		matrices.pop();
+	}
+
+	default void drawEndCrystal(T entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+		var endCrystalEntity = entity.getOrCreateEndCrystalEntity();
+
+		if (endCrystalEntity == null)
+			return;
+
+		context().getEntityRendererDispatcher().getRenderer(endCrystalEntity).render(endCrystalEntity, 0, WanderingClient.ITEM_ROTATION, matrices, vertexConsumers, light);
+	}
+
+	default void drawItem(T entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+		BakedModel bakedModel = MinecraftClient.getInstance().getItemRenderer().getModels().getModel(entity.heldItem);
+
+		MinecraftClient.getInstance().getItemRenderer().renderItem(entity.heldItem, ModelTransformationMode.GROUND, true, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, bakedModel);
 	}
 }

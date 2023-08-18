@@ -8,10 +8,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Axis;
 
-public class AltarPedestalBlockEntityRenderer implements AltarBlockEntityRenderer<AltarPedestalBlockEntity> {
-
-	public AltarPedestalBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
-
+public record AltarPedestalBlockEntityRenderer(BlockEntityRendererFactory.Context context) implements AltarBlockEntityRenderer<AltarPedestalBlockEntity> {
 	@Override
 	public void beforeRender(AltarPedestalBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		matrices.translate(0.5, 0.9509, 0.5);

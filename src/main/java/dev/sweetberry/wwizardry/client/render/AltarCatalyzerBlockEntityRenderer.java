@@ -6,10 +6,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 
-public class AltarCatalyzerBlockEntityRenderer implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
-
-	public AltarCatalyzerBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
-
+public record AltarCatalyzerBlockEntityRenderer(BlockEntityRendererFactory.Context context) implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
 	@Override
 	public boolean shouldHover(AltarCatalyzerBlockEntity entity) {
 		return AltarBlockEntityRenderer.super.shouldHover(entity) || entity.keepCatalyst;

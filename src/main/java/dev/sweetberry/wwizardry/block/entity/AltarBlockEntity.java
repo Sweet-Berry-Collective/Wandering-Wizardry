@@ -3,13 +3,22 @@ package dev.sweetberry.wwizardry.block.entity;
 import dev.sweetberry.wwizardry.recipe.AltarCatalyzationRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.BundleItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
@@ -18,7 +27,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.stream.Stream;
+
 public abstract class AltarBlockEntity extends BlockEntity implements Inventory {
+	private EndCrystalEntity endCrystalEntity;
 
 	public float rand = (float) (Math.floor(Math.random() * Math.PI * 4) / 4);
 
@@ -29,6 +41,15 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 
 	public AltarBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
+	}
+
+	public EndCrystalEntity getOrCreateEndCrystalEntity() {
+		if (endCrystalEntity != null)
+			return endCrystalEntity;
+
+		endCrystalEntity = EntityType.END_CRYSTAL.create(world);
+		endCrystalEntity.setShowBottom(false);
+		return endCrystalEntity;
 	}
 
 	public void update() {
@@ -66,9 +87,32 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 		craftingTick = 0;
 		crafting = false;
 		if (removeHeldItem) {
+			dropContainedItems(heldItem);
 			heldItem = ItemStack.EMPTY;
 		}
 		update();
+	}
+
+	public void dropContainedItems(ItemStack stack) {
+		if (world == null)
+			return;
+		getBundledStacks(stack).forEach(it -> {
+			if (it.isEmpty())
+				return;
+			var center = pos.ofCenter();
+			var entity = new ItemEntity(world, center.x, center.y+1, center.z, it);
+			world.spawnEntity(entity);
+		});
+	}
+
+	private static Stream<ItemStack> getBundledStacks(ItemStack stack) {
+		NbtCompound nbtCompound = stack.getNbt();
+		if (nbtCompound == null)
+			return Stream.empty();
+		if (!nbtCompound.contains("Items"))
+			return Stream.empty();
+		NbtList nbtList = nbtCompound.getList("Items", NbtElement.COMPOUND_TYPE);
+		return nbtList.stream().map(NbtCompound.class::cast).map(ItemStack::fromNbt);
 	}
 
 	public abstract Block getBlock();
