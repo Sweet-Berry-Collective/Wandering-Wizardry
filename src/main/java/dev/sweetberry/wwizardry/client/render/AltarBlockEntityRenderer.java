@@ -43,7 +43,7 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 		if (entity.heldItem.isOf(Items.END_CRYSTAL)) {
 			matrices.scale(0.5f, 0.5f, 0.5f);
 
-			drawEndCrystal(entity, matrices, vertexConsumers, light);
+			drawEndCrystal(entity, tickDelta, matrices, vertexConsumers, light);
 		} else {
 			if (shouldHover)
 				matrices.translate(0, Math.sin((WanderingClient.ITEM_ROTATION + tickDelta) / 16 + entity.rand) * 0.03125, 0);
@@ -55,13 +55,13 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 		matrices.pop();
 	}
 
-	default void drawEndCrystal(T entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+	default void drawEndCrystal(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
 		var endCrystalEntity = entity.getOrCreateEndCrystalEntity();
 
 		if (endCrystalEntity == null)
 			return;
 
-		context().getEntityRendererDispatcher().getRenderer(endCrystalEntity).render(endCrystalEntity, 0, WanderingClient.ITEM_ROTATION, matrices, vertexConsumers, light);
+		context().getEntityRendererDispatcher().getRenderer(endCrystalEntity).render(endCrystalEntity, 0, tickDelta + WanderingClient.ITEM_ROTATION, matrices, vertexConsumers, light);
 	}
 
 	default void drawItem(T entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
