@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.recipe;
 
 import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.block.entity.AltarCatalyzerBlockEntity;
+import dev.sweetberry.wwizardry.item.WanderingItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
@@ -32,12 +33,11 @@ public record AltarCatalyzationRecipe(
 		for (var neighbor : neighbors) {
 			for (var j = 0; j < 4; j++) {
 				if (!met[j]) {
-					met[j] = inputs[j].test(neighbor.heldItem);
+					met[j] = inputs[j].test(neighbor.heldItem) || neighbor.heldItem.getItem() == WanderingItems.SLOT_CHARM;
 					if (met[j]) j = 5;
 				}
 			}
 		}
-		WanderingMod.LOGGER.info(Arrays.toString(met));
 		for (var b : met) {
 			if (!b)
 				return false;
