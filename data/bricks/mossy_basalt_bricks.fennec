@@ -17,4 +17,9 @@ generators [
         type = "from_mossed_item"
         item = "wwizardry:basalt_bricks"
     }
+    {
+        name = "basalt_cut"
+        type = "from_item_cut"
+        item = "wwizardry:mossy_cut_basalt"
+    }
 ]

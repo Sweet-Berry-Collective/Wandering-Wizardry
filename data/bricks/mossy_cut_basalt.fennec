@@ -1,0 +1,20 @@
+block = "wwizardry:mossy_cut_basalt"
+slab = "wwizardry:mossy_cut_basalt"
+stairs = "wwizardry:mossy_cut_basalt"
+wall = "wwizardry:mossy_cut_basalt"
+
+generators [
+    {
+        name = "self_cut"
+        type = "from_self_cut"
+    }
+    {
+        name = "self_crafted"
+        type = "from_self_crafted"
+    }
+    {
+        name = "cut_mossed"
+        type = "from_mossed_item"
+        item = "wwizardry:cut_basalt"
+    }
+]

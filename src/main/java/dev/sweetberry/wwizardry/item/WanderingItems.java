@@ -149,6 +149,24 @@ public class WanderingItems {
 		)
 	);
 
+	public static final Item SLOT_CHARM = registerItem(
+		"slot_charm",
+		new Item(
+			new QuiltItemSettings()
+				.recipeRemainder(((original, recipe) -> original))
+				.maxCount(1)
+		)
+	);
+
+	public static final Item CRAFTING_CHARM = registerItem(
+		"crafting_charm",
+		new Item(
+			new QuiltItemSettings()
+				.recipeRemainder(((original, recipe) -> original))
+				.maxCount(1)
+		)
+	);
+
 	public static final List<ItemStack> STACKS;
 
 	// This is here because of 'Illegal forward reference'
@@ -163,10 +181,10 @@ public class WanderingItems {
 			.build();
 
 	public static void init() {
+		registerItem("void_bag", VoidBagItem.INSTANCE);
+
 		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);
 		registerItem("altar_catalyzer", AltarCatalyzerBlock.ITEM);
-
-		registerItem("void_bag", VoidBagItem.INSTANCE);
 
 		Registry.register(Registries.ITEM_GROUP, WanderingMod.id("items"), GROUP);
 	}

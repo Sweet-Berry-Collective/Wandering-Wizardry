@@ -18,9 +18,14 @@ generators [
         item = "smooth_basalt"
     }
     {
+        name = "basalt_cut"
+        type = "from_item_cut"
+        item = "wwizardry:cut_basalt"
+    }
+    {
         name = "basalt_crafted"
         type = "from_item_crafted"
-        item = "smooth_basalt"
+        item = "wwizardry:cut_basalt"
         pattern [
             "##"
             "##"

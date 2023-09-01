@@ -1,7 +1,7 @@
 "itemGroup.wwizardry.items" = "Wandering Wizardry Items"
 
 "wwizardry.void_bag" {
-    generic_1 = "This bag acts as a joint between worlds,"
+    generic_1 = "This bag acts as a joint between dimensions,"
     generic_2 = "allowing you to store items across lifetimes."
 
     locked_1 = "It is currently locked,"
@@ -124,6 +124,9 @@
 
     denia_boat = "Denia Boat"
     denia_chest_boat = "Denia Boat with Chest"
+
+    slot_charm = "Slot Charm"
+    crafting_charm = "Crafting Charm"
 }
 
 # Compat

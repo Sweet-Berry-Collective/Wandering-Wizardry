@@ -88,7 +88,7 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 		crafting = false;
 		if (removeHeldItem) {
 			dropContainedItems(heldItem);
-			heldItem = ItemStack.EMPTY;
+			heldItem = heldItem.getRecipeRemainder();
 		}
 		update();
 	}

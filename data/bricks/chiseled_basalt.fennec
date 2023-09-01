@@ -18,14 +18,14 @@ generators [
         item = "smooth_basalt"
     }
     {
-        name = "brick_cut"
+        name = "basalt_cut"
         type = "from_item_cut"
-        item = "wwizardry:basalt_bricks"
+        item = "wwizardry:cut_basalt"
     }
     {
         name = "brick_crafted"
         type = "from_item_crafted"
-        item = "wwizardry:basalt_brick_slab"
+        item = "wwizardry:cut_basalt_slab"
         pattern [
             "#"
             "#"

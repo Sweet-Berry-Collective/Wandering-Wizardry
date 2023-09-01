@@ -13,14 +13,14 @@ generators [
         type = "from_self_crafted"
     }
     {
-        name = "brick_cut"
+        name = "basalt_cut"
         type = "from_item_cut"
-        item = "wwizardry:mossy_basalt_bricks"
+        item = "wwizardry:mossy_cut_basalt"
     }
     {
         name = "brick_crafted"
         type = "from_item_crafted"
-        item = "wwizardry:mossy_basalt_brick_slab"
+        item = "wwizardry:mossy_cut_basalt_slab"
         pattern [
             "#"
             "#"

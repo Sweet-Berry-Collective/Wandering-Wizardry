@@ -1,1 +1,1 @@
-{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"#":{"item":"wwizardry:mossy_basalt_brick_slab"}},"pattern":["#","#"],"result":{"item":"wwizardry:mossy_chiseled_basalt","count":1}}
+{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"#":{"item":"wwizardry:mossy_cut_basalt_slab"}},"pattern":["#","#"],"result":{"item":"wwizardry:mossy_chiseled_basalt","count":1}}
