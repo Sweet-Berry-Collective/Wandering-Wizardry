@@ -33,13 +33,10 @@ public record AltarCatalyzationRecipe(
 		for (var neighbor : neighbors) {
 			for (var j = 0; j < 4; j++) {
 				var isSlotCharm = neighbor.heldItem.getItem() == WanderingItems.SLOT_CHARM;
-				if (inputs.length > j) {
-					if (!met[j]) {
-						met[j] = inputs[j].test(neighbor.heldItem) || (isSlotCharm && inputs[j].test(ItemStack.EMPTY));
-						if (met[j]) j = 5;
-					}
-				} else if (!met[j]) {
-					met[j] = isSlotCharm;
+				if (!met[j]) {
+					met[j] = inputs.length > j
+						? inputs[j].test(neighbor.heldItem) || (isSlotCharm && inputs[j].test(ItemStack.EMPTY))
+						: isSlotCharm;
 					if (met[j]) j = 5;
 				}
 			}
