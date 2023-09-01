@@ -35,7 +35,7 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 
 		beforeRender(entity, tickDelta, matrices, vertexConsumers, light, overlay);
 
-		var shouldHover = shouldHover(entity);
+		var shouldHover = shouldHover(entity) && !entity.heldItem.getRecipeRemainder().isEmpty();
 
 		if (!shouldHover)
 			matrices.translate(0, (entity.craftingTick + tickDelta) / 25, 0);
