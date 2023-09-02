@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.client.render;
 
+import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.block.entity.AltarBlockEntity;
 import dev.sweetberry.wwizardry.client.WanderingClient;
 import net.minecraft.client.MinecraftClient;
@@ -61,7 +62,9 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 		if (endCrystalEntity == null)
 			return;
 
-		context().getEntityRendererDispatcher().getRenderer(endCrystalEntity).render(endCrystalEntity, 0, tickDelta + WanderingClient.ITEM_ROTATION, matrices, vertexConsumers, light);
+		endCrystalEntity.endCrystalAge = WanderingClient.ITEM_ROTATION;
+
+		context().getEntityRendererDispatcher().getRenderer(endCrystalEntity).render(endCrystalEntity, 0, tickDelta, matrices, vertexConsumers, light);
 	}
 
 	default void drawItem(T entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
