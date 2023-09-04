@@ -1,7 +1,1 @@
-{
-  "variants": {
-    "": {
-      "model": "wwizardry:block/indigo_caeruleum"
-    }
-  }
-}
+{"variants":{"":{"model":"wwizardry:block/indigo_caeruleum"}}}

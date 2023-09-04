@@ -1,0 +1,52 @@
+-multipart
+state [
+    "wwizardry:block/reinforced_glass_pane_post"
+
+    {
+        when { north = "true" }
+        apply = "wwizardry:block/reinforced_glass_pane_side"
+    }
+    {
+        when { north = "false" }
+        apply = "wwizardry:block/reinforced_glass_pane_noside"
+    }
+
+    {
+        when { east = "true" }
+        apply {
+            model = "wwizardry:block/reinforced_glass_pane_side"
+            y = 90
+        }
+    }
+    {
+        when { east = "false" }
+        apply {
+            model = "wwizardry:block/reinforced_glass_pane_noside"
+            y = 90
+        }
+    }
+
+    {
+        when { south = "true" }
+        apply = "wwizardry:block/reinforced_glass_pane_side_alt"
+    }
+    {
+        when { south = "false" }
+        apply = "wwizardry:block/reinforced_glass_pane_noside_alt"
+    }
+
+    {
+        when { west = "true" }
+        apply {
+            model = "wwizardry:block/reinforced_glass_pane_side_alt"
+            y = 90
+        }
+    }
+    {
+        when { west = "false" }
+        apply {
+            model = "wwizardry:block/reinforced_glass_pane_noside_alt"
+            y = 90
+        }
+    }
+]

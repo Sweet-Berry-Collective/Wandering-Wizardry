@@ -1,0 +1,10 @@
+[
+    {
+        when { lit = "false" }
+        apply = "wwizardry:block/redstone_lantern_off"
+    }
+    {
+        when { lit = "true" }
+        apply = "wwizardry:block/redstone_lantern_on"
+    }
+]

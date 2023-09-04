@@ -1,7 +1,1 @@
-{
-  "variants": {
-    "": {
-      "model": "wwizardry:block/deepslate_rose_quartz_ore"
-    }
-  }
-}
+{"variants":{"":{"model":"wwizardry:block/deepslate_rose_quartz_ore"}}}

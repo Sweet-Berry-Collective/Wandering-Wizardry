@@ -1,0 +1,30 @@
+[
+    {
+        when { facing = "north" }
+        apply {
+            model = "wwizardry:block/sculk_resonator"
+            y = 180
+        }
+    }
+
+    {
+        when { facing = "south" }
+        apply = "wwizardry:block/sculk_resonator"
+    }
+
+    {
+        when { facing = "east" }
+        apply {
+            model = "wwizardry:block/sculk_resonator"
+            y = 270
+        }
+    }
+
+    {
+        when { facing = "west" }
+        apply {
+            model = "wwizardry:block/sculk_resonator"
+            y = 90
+        }
+    }
+]

@@ -5,6 +5,7 @@ import generateTags from "./command/tags.ts"
 import loot from "./command/loot.ts";
 import generateArchEx from "./command/archex.ts"
 import generateBrickRecipes from "./command/brick.ts"
+import generateBlockStates from "./command/blockstate.ts"
 
 const cli = new CLI();
 
@@ -38,6 +39,11 @@ cli.register(
         args: [literal("bricks"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
         call: generateBrickRecipes,
         description: "Generates arch-ex staticdata"
+    },
+    {
+        args: [literal("blockstate"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
+        call: generateBlockStates,
+        description: "Generates block state definitions"
     }
 )
 

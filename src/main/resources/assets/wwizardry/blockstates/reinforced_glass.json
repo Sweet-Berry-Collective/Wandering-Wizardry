@@ -1,7 +1,1 @@
-{
-  "variants": {
-    "": {
-      "model": "wwizardry:block/reinforced_glass"
-    }
-  }
-}
+{"variants":{"":{"model":"wwizardry:block/reinforced_glass"}}}

@@ -1,0 +1,20 @@
+-multipart
+state [
+    {
+        when { sculked = "false" }
+        apply = "wwizardry:block/sculkflower"
+    }
+    {
+        when { sculked = "true" }
+        apply = "wwizardry:block/sculkflower_sculk"
+    }
+
+    {
+        when { sculked = "true" sculk_below = "false" }
+        apply {
+            model = "block/sculk_vein"
+            -uvlock
+            x = 90
+        }
+    }
+]

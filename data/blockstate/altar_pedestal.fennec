@@ -1,0 +1,82 @@
+-multipart
+state [
+    # Sculk
+    {
+        when { sculked = "true" sculk_below = "false" }
+        apply {
+            model = "block/sculk_vein"
+            -uvlock
+            x = 90
+        }
+    }
+
+    # North
+    {
+        when { sculked = "false" facing = "north" }
+        apply {
+            model = "wwizardry:block/altar_pedestal"
+            -uvlock
+            y = 180
+        }
+    }
+    {
+        when { sculked = "true" facing = "north" }
+        apply {
+            model = "wwizardry:block/altar_pedestal_sculk"
+            -uvlock
+            y = 180
+        }
+    }
+
+    # South
+    {
+        when { sculked = "false" facing = "south" }
+        apply {
+            model = "wwizardry:block/altar_pedestal"
+            -uvlock
+        }
+    }
+    {
+        when { sculked = "true" facing = "south" }
+        apply {
+            model = "wwizardry:block/altar_pedestal_sculk"
+            -uvlock
+        }
+    }
+
+    # East
+    {
+        when { sculked = "false" facing = "east" }
+        apply {
+            model = "wwizardry:block/altar_pedestal"
+            -uvlock
+            y = 270
+        }
+    }
+    {
+        when { sculked = "true" facing = "east" }
+        apply {
+            model = "wwizardry:block/altar_pedestal_sculk"
+            -uvlock
+            y = 270
+        }
+    }
+
+    # West
+    {
+        when { sculked = "false" facing = "west" }
+        apply {
+            model = "wwizardry:block/altar_pedestal"
+            -uvlock
+            y = 90
+        }
+    }
+    {
+        when { sculked = "true" facing = "west" }
+        apply {
+            model = "wwizardry:block/altar_pedestal_sculk"
+            -uvlock
+            y = 90
+        }
+    }
+]

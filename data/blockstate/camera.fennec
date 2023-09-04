@@ -1,0 +1,30 @@
+[
+    {
+        when { facing = "north" }
+        apply {
+            model = "wwizardry:block/camera"
+            y = 180
+        }
+    }
+
+    {
+        when { facing = "south" }
+        apply = "wwizardry:block/camera"
+    }
+
+    {
+        when { facing = "east" }
+        apply {
+            model = "wwizardry:block/camera"
+            y = 270
+        }
+    }
+
+    {
+        when { facing = "west" }
+        apply {
+            model = "wwizardry:block/camera"
+            y = 90
+        }
+    }
+]
