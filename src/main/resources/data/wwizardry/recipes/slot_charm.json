@@ -1,0 +1,1 @@
+{"type":"wwizardry:altar_catalyzation","keepCatalyst":false,"bloom":5,"inputs":[{"item":"wwizardry:crystalline_sculk"},{"item":"gold_ingot"},{"item":"blaze_powder"},{"item":"blaze_powder"}],"catalyst":{"item":"chest"},"result":{"item":"wwizardry:void_bag"}}

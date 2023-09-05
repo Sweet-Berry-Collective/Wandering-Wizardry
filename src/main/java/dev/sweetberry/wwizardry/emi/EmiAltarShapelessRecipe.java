@@ -5,27 +5,30 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import dev.sweetberry.wwizardry.recipe.AltarCatalyzationRecipe;
+import dev.sweetberry.wwizardry.item.WanderingItems;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.DefaultedList;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public record EmiAltarRecipe(Identifier id, List<EmiIngredient> input, EmiIngredient catalyst, boolean keepCatalyst, int bloom, EmiStack output) implements EmiRecipe {
-	public static EmiAltarRecipe of(AltarCatalyzationRecipe recipe) {
-		var inputs = new ArrayList<EmiIngredient>();
-		for (var input : recipe.inputs()) {
-			inputs.add(EmiIngredient.of(input));
+public record EmiAltarShapelessRecipe(Identifier id, List<EmiIngredient> input, EmiStack output) implements EmiRecipe {
+	public static EmiAltarShapelessRecipe of(ShapelessRecipe recipe, DefaultedList<Ingredient> ingredients, ItemStack output) {
+		var inputs = DefaultedList.ofSize(4, (EmiIngredient)EmiStack.of(WanderingItems.SLOT_CHARM));
+		for (var i = 0; i < ingredients.size(); i++) {
+			inputs.set(i, EmiIngredient.of(ingredients.get(i)));
 		}
 
-		return new EmiAltarRecipe(recipe.id(), inputs, EmiIngredient.of(recipe.catalyst()), recipe.keepCatalyst(), recipe.bloom(), EmiStack.of(recipe.result()));
+		return new EmiAltarShapelessRecipe(recipe.getId(), inputs, EmiStack.of(output.copy()));
 	}
 
 	@Override
 	public EmiRecipeCategory getCategory() {
-		return EmiInitializer.BASE;
+		return EmiInitializer.SHAPELESS;
 	}
 
 	@Override
@@ -35,18 +38,12 @@ public record EmiAltarRecipe(Identifier id, List<EmiIngredient> input, EmiIngred
 
 	@Override
 	public List<EmiIngredient> getInputs() {
-		var inputs = new ArrayList<>(input);
-		inputs.add(catalyst);
-		return inputs;
+		return input;
 	}
 
 	@Override
 	public List<EmiStack> getOutputs() {
-		var outputs = new ArrayList<EmiStack>();
-		outputs.add(output);
-		if (keepCatalyst)
-			outputs.addAll(catalyst.getEmiStacks());
-		return outputs;
+		return List.of(output);
 	}
 
 	@Override
@@ -66,7 +63,7 @@ public record EmiAltarRecipe(Identifier id, List<EmiIngredient> input, EmiIngred
 		widgets.addSlot(input.get(2), 1, 41);
 		widgets.addSlot(input.get(3), 1, 61);
 
-		widgets.addSlot(catalyst, 47, 31).catalyst(keepCatalyst).appendTooltip(Text.translatable("wwizardry.catalyst"));
+		widgets.addSlot(EmiStack.of(WanderingItems.CRAFTING_CHARM), 47, 31).catalyst(true).appendTooltip(Text.translatable("wwizardry.catalyst"));
 
 		widgets.addSlot(output, 92, 28).large(true);
 

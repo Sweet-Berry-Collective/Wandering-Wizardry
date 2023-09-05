@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.block.entity;
 
 import dev.sweetberry.wwizardry.block.AltarCatalyzerBlock;
+import dev.sweetberry.wwizardry.item.WanderingItems;
 import dev.sweetberry.wwizardry.recipe.AltarCatalyzationRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -8,18 +9,29 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.sculk.SculkBehavior;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeMatcher;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
@@ -37,20 +49,62 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	public void startCrafting(AltarCatalyzationRecipe recipe) {
-		result = recipe.result().copy();
-		keepCatalyst = recipe.keepCatalyst();
-		bloom = recipe.bloom();
-		for (var n : getNeighbors()) {
-			n.startCrafting();
+	public void startCrafting(@Nullable Recipe<?> recipe) {
+		if (recipe instanceof AltarCatalyzationRecipe altarRecipe) {
+			result = altarRecipe.result().copy();
+			keepCatalyst = altarRecipe.keepCatalyst();
+			bloom = altarRecipe.bloom();
+			for (var n : getNeighbors()) {
+				n.startCrafting();
+			}
+		}
+		if (recipe instanceof ShapelessRecipe shapelessRecipe) {
+			result = shapelessRecipe.getResult(world.getRegistryManager()).copy();
+			keepCatalyst = true;
+			bloom = 0;
+			for (var n : getNeighbors()) {
+				n.startCrafting();
+			}
 		}
 		super.startCrafting(recipe);
 	}
 
 	@Override
 	public void tryCraft(BlockState state) {
-		var optional = world.getRecipeManager().getFirstMatch(AltarCatalyzationRecipe.TYPE, this, world);
-		optional.ifPresent(this::startCrafting);
+		System.out.println("Test 1");
+
+		if (world == null)
+			return;
+
+		System.out.println("Test 2");
+
+		if (
+			getNeighbors()
+				.stream()
+				.anyMatch(it -> it.heldItem.isEmpty())
+		) return;
+
+		System.out.println("Test 3");
+
+		var optional = (Optional<Recipe<?>>) (Optional<?>) world.getRecipeManager().getFirstMatch(AltarCatalyzationRecipe.TYPE, this, world);
+
+		System.out.println("Test 4");
+
+		var proxy = new ShapelessProxy();
+
+		System.out.println("Test 5");
+
+		var shapeless = world.getRecipeManager()
+			.listAllOfType(RecipeType.CRAFTING)
+			.stream()
+			.filter(it -> it instanceof ShapelessRecipe)
+			.map(it -> (ShapelessRecipe) it)
+			.filter(it -> it.matches(proxy, world))
+			.findFirst();
+
+		System.out.println("Test 6");
+
+		optional.or(() -> shapeless).ifPresent(this::startCrafting);
 	}
 
 	public void cancelCraft() {
@@ -123,5 +177,73 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 			}
 		}
 		return out;
+	}
+
+	public class ShapelessProxy implements RecipeInputInventory {
+
+		@Override
+		public int getWidth() {
+			return 2;
+		}
+
+		@Override
+		public int getHeight() {
+			return 2;
+		}
+
+		@Override
+		public List<ItemStack> getIngredients() {
+			return getNeighbors().stream().map(it -> it.heldItem.isOf(WanderingItems.SLOT_CHARM) ? ItemStack.EMPTY : it.heldItem).toList();
+		}
+
+		@Override
+		public int size() {
+			return 4;
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return getIngredients().isEmpty();
+		}
+
+		@Override
+		public ItemStack getStack(int slot) {
+			return getIngredients().get(slot);
+		}
+
+		@Override
+		public ItemStack removeStack(int slot, int amount) {
+			return getIngredients().get(slot);
+		}
+
+		@Override
+		public ItemStack removeStack(int slot) {
+			return getIngredients().get(slot);
+		}
+
+		@Override
+		public void setStack(int slot, ItemStack stack) {
+
+		}
+
+		@Override
+		public void markDirty() {
+
+		}
+
+		@Override
+		public boolean canPlayerUse(PlayerEntity player) {
+			return false;
+		}
+
+		@Override
+		public void provideRecipeInputs(RecipeMatcher finder) {
+			getIngredients().forEach(finder::addInput);
+		}
+
+		@Override
+		public void clear() {
+
+		}
 	}
 }
