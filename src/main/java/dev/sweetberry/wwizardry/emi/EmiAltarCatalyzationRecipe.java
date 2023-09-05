@@ -4,31 +4,27 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.sweetberry.wwizardry.item.WanderingItems;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.ShapelessRecipe;
+import dev.sweetberry.wwizardry.recipe.AltarCatalyzationRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public record EmiAltarShapelessRecipe(Identifier id, List<EmiIngredient> input, EmiStack output) implements EmiAltarRecipe {
-	public static EmiAltarShapelessRecipe of(ShapelessRecipe recipe) {
-		var ingredients = recipe.getIngredients();
-		var output = recipe.getResult(null);
-
+public record EmiAltarCatalyzationRecipe(Identifier id, List<EmiIngredient> input, EmiIngredient catalyst, boolean keepCatalyst, int bloom, EmiStack output) implements EmiAltarRecipe {
+	public static EmiAltarCatalyzationRecipe of(AltarCatalyzationRecipe recipe) {
 		var inputs = DefaultedList.ofSize(4, (EmiIngredient)EmiStack.of(WanderingItems.SLOT_CHARM));
-		for (var i = 0; i < ingredients.size(); i++) {
-			inputs.set(i, EmiIngredient.of(ingredients.get(i)));
+
+		for (var i = 0; i < recipe.inputs().length; i++) {
+			inputs.set(i, EmiIngredient.of(recipe.inputs()[i]));
 		}
 
-		return new EmiAltarShapelessRecipe(recipe.getId(), inputs, EmiStack.of(output.copy()));
+		return new EmiAltarCatalyzationRecipe(recipe.id(), inputs, EmiIngredient.of(recipe.catalyst()), recipe.keepCatalyst(), recipe.bloom(), EmiStack.of(recipe.result()));
 	}
 
 	@Override
 	public EmiRecipeCategory getCategory() {
-		return EmiInitializer.SHAPELESS;
+		return EmiInitializer.BASE;
 	}
 
 	@Override
@@ -43,7 +39,7 @@ public record EmiAltarShapelessRecipe(Identifier id, List<EmiIngredient> input, 
 
 	@Override
 	public EmiIngredient getInnerIngredient() {
-		return EmiStack.of(WanderingItems.CRAFTING_CHARM);
+		return catalyst;
 	}
 
 	@Override
@@ -53,6 +49,6 @@ public record EmiAltarShapelessRecipe(Identifier id, List<EmiIngredient> input, 
 
 	@Override
 	public boolean shouldKeepCatalyst() {
-		return true;
+		return keepCatalyst;
 	}
 }

@@ -31,7 +31,7 @@ public class EmiInitializer implements EmiPlugin {
 		var manager = registry.getRecipeManager();
 
 		for (var recipe : manager.listAllOfType(AltarCatalyzationRecipe.TYPE)) {
-			registry.addRecipe(EmiAltarRecipe.of(recipe));
+			registry.addRecipe(EmiAltarCatalyzationRecipe.of(recipe));
 		}
 
 		for (
@@ -44,13 +44,7 @@ public class EmiInitializer implements EmiPlugin {
 				.filter(it -> it.getIngredients().size() <= 4)
 				.toList()
 		) {
-			registry.addRecipe(
-				EmiAltarShapelessRecipe.of(
-					recipe,
-					recipe.getIngredients(),
-					recipe.getResult(null)
-				)
-			);
+			registry.addRecipe(EmiAltarShapelessRecipe.of(recipe));
 		}
 	}
 }
