@@ -7,6 +7,8 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Axis;
+import net.minecraft.util.math.Direction;
+import org.joml.Quaternionf;
 
 public record AltarPedestalBlockEntityRenderer(BlockEntityRendererFactory.Context context) implements AltarBlockEntityRenderer<AltarPedestalBlockEntity> {
 	@Override
@@ -25,30 +27,25 @@ public record AltarPedestalBlockEntityRenderer(BlockEntityRendererFactory.Contex
 
 		var dir = blockState.get(HorizontalFacingBlock.FACING);
 
-		switch (dir) {
-			case NORTH -> {
-				matrices.translate(0, 0, 0.09335);
-				matrices.multiply(Axis.X_POSITIVE.rotationDegrees(22.5f));
-				matrices.translate(0, 0, -0.046875);
-			}
-			case SOUTH -> {
-				matrices.translate(0, 0, -0.09335);
-				matrices.multiply(Axis.X_NEGATIVE.rotationDegrees(22.5f));
-				matrices.translate(0, 0, 0.046875);
-			}
-			case EAST -> {
-				matrices.translate(0.09335, 0, 0);
-				matrices.multiply(Axis.Z_POSITIVE.rotationDegrees(22.5f));
-				matrices.translate(-0.125, 0.0859375, 0);
+		var transDir = dir.getUnitVector().mul(-0.09335f);
+		matrices.translate(transDir.x, transDir.y, transDir.z);
 
-			}
-			case WEST -> {
-				matrices.translate(-0.09335, 0, 0);
-				matrices.multiply(Axis.Z_NEGATIVE.rotationDegrees(22.5f));
-				matrices.translate(0.125, 0.0859375, 0);
-			}
-		}
+		matrices.multiply(getAxis(dir.rotateYClockwise()).rotationDegrees(22.5f));
 
-		matrices.translate(0, 0.25, 0);
+		transDir = dir.getUnitVector().mul(0.046875f);
+		matrices.translate(transDir.x, transDir.y + 0.25, transDir.z);
+	}
+
+	public static Axis getAxis(Direction dir) {
+		var mul = dir.getDirection().offset();
+		return (amount) -> {
+			var quat = new Quaternionf();
+			var amp = mul*amount;
+			return switch (dir.getAxis()) {
+				case X -> quat.rotationX(amp);
+				case Y -> quat.rotationY(amp);
+				case Z -> quat.rotationZ(amp);
+			};
+		};
 	}
 }

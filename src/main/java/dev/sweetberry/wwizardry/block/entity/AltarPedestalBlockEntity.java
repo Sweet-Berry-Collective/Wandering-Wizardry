@@ -24,20 +24,18 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 	public AltarPedestalBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
 		Direction dir = state.get(HorizontalFacingBlock.FACING);
-		// TODO deverbosify
-		particlePos = switch (dir) {
-			case NORTH ->
-					new Vector3f((float) (pos.getX() + 0.46645), (float) (pos.getY() + 0.9229), (float) (pos.getZ() + 0.5));
-			case SOUTH ->
-					new Vector3f((float) (pos.getX() + 0.53355), (float) (pos.getY() + 0.9229), (float) (pos.getZ() + 0.5));
-			case EAST ->
-					new Vector3f((float) (pos.getX() + 0.5), (float) (pos.getY() + 0.9229), (float) (pos.getZ() + 0.53355));
-			case WEST ->
-					new Vector3f((float) (pos.getX() + 0.5), (float) (pos.getY() + 0.9229), (float) (pos.getZ() + 0.46645));
-			default -> new Vector3f().zero();
-		};
-		particleX = dir == Direction.EAST ? -1 : dir == Direction.WEST ? 1 : 0;
-		particleZ = dir == Direction.NORTH ? 1 : dir == Direction.SOUTH ? -1 : 0;
+
+		final var offX = dir.getOffsetX();
+		final var offZ = dir.getOffsetZ();
+
+		particlePos = new Vector3f(
+			pos.getX() + 0.5f + (offZ * 0.03355f),
+			pos.getY() + 0.9229f,
+			pos.getZ() + 0.5f + (offX * 0.03355f)
+		);
+
+		particleX = -offX;
+		particleZ = -offZ;
 	}
 
 	public Optional<AltarCatalyzerBlockEntity> findCatalyzer(BlockState state) {
