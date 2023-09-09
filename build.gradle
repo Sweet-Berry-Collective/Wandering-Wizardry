@@ -3,7 +3,9 @@ plugins {
 }
 
 archivesBaseName = project.archives_base_name
-version = "${project.version}+${libs.versions.minecraft.get()}"
+version = "${project.version}+mc.${libs.versions.minecraft.get()}"
+if (!project.classification.isBlank())
+	version += "-${project.classification}"
 group = project.maven_group
 
 def test_compat = true
