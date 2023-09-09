@@ -84,7 +84,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 			}
 			entity.heldItem = ItemStack.EMPTY;
 			entity.markDirty();
-			world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 10f, 0f);
+			world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 7.5f, 0f);
 			world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 			return ActionResult.SUCCESS;
 		}

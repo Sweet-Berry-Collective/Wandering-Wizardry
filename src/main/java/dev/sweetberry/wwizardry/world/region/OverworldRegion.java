@@ -24,11 +24,11 @@ public class OverworldRegion extends Region {
 		addBiome(
 			mapper,
 			MultiNoiseUtil.createNoiseHypercube(
-				MultiNoiseUtil.ParameterRange.of(0.55f, 1.0f),
-				MultiNoiseUtil.ParameterRange.of(0.55f, 1.0f),
 				MultiNoiseUtil.ParameterRange.of(0.55f, 0.75f),
+				MultiNoiseUtil.ParameterRange.of(0.55f, 0.75f),
+				MultiNoiseUtil.ParameterRange.of(0.55f, 0.75f),
+				MultiNoiseUtil.ParameterRange.of(0.75f, 1.0f),
 				MultiNoiseUtil.ParameterRange.of(0.55f, 1.0f),
-				MultiNoiseUtil.ParameterRange.of(0.0f, 1.0f),
 				MultiNoiseUtil.ParameterRange.of(0.75f, 1.0f),
 				1f
 			),

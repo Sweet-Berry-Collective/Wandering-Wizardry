@@ -86,6 +86,12 @@
     chiseled_basalt_slab = "Chiseled Basalt Slab"
     chiseled_basalt_wall = "Chiseled Basalt Wall"
 
+    # Cut Basalt
+    cut_basalt = "Cut Basalt"
+    cut_basalt_stairs = "Cut Basalt Stairs"
+    cut_basalt_slab = "Cut Basalt Slab"
+    cut_basalt_wall = "Cut Basalt Wall"
+
     # Basalt Bricks
     basalt_bricks = "Basalt Bricks"
     basalt_brick_stairs = "Basalt Brick Stairs"
@@ -103,6 +109,12 @@
     mossy_chiseled_basalt_stairs = "Mossy Chiseled Basalt Stairs"
     mossy_chiseled_basalt_slab = "Mossy Chiseled Basalt Slab"
     mossy_chiseled_basalt_wall = "Mossy Chiseled Basalt Wall"
+
+    # Mossy Cut Basalt
+    mossy_cut_basalt = "Mossy Cut Basalt"
+    mossy_cut_basalt_stairs = "Mossy Cut Basalt Stairs"
+    mossy_cut_basalt_slab = "Mossy Cut Basalt Slab"
+    mossy_cut_basalt_wall = "Mossy Cut Basalt Wall"
 
     # Mossy Basalt Bricks
     mossy_basalt_bricks = "Mossy Basalt Bricks"

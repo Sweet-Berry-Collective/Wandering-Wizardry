@@ -153,9 +153,11 @@ blocks {
         "wwizardry:basalt_brick_wall"
         "wwizardry:basalt_tile_wall"
         "wwizardry:chiseled_basalt_wall"
+        "wwizardry:cut_basalt_wall"
         "wwizardry:mossy_basalt_brick_wall"
         "wwizardry:mossy_basalt_tile_wall"
         "wwizardry:mossy_chiseled_basalt_wall"
+        "wwizardry:mossy_cut_basalt_wall"
     ]
 }
 
@@ -271,9 +273,11 @@ items {
         "wwizardry:basalt_brick_wall"
         "wwizardry:basalt_tile_wall"
         "wwizardry:chiseled_basalt_wall"
+        "wwizardry:cut_basalt_wall"
         "wwizardry:mossy_basalt_brick_wall"
         "wwizardry:mossy_basalt_tile_wall"
         "wwizardry:mossy_chiseled_basalt_wall"
+        "wwizardry:mossy_cut_basalt_wall"
     ]
 }
 
