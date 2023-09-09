@@ -71,28 +71,21 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void tryCraft(BlockState state) {
-		System.out.println("Test 1");
-
 		if (world == null)
 			return;
 
-		System.out.println("Test 2");
+		var neighbors = getNeighbors();
 
 		if (
-			getNeighbors()
+			neighbors.size() != 4
+			|| neighbors
 				.stream()
 				.anyMatch(it -> it.heldItem.isEmpty())
 		) return;
 
-		System.out.println("Test 3");
-
 		var optional = (Optional<Recipe<?>>) (Optional<?>) world.getRecipeManager().getFirstMatch(AltarCatalyzationRecipe.TYPE, this, world);
 
-		System.out.println("Test 4");
-
 		var proxy = new ShapelessProxy();
-
-		System.out.println("Test 5");
 
 		var shapeless = world.getRecipeManager()
 			.listAllOfType(RecipeType.CRAFTING)
@@ -101,8 +94,6 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 			.map(it -> (ShapelessRecipe) it)
 			.filter(it -> it.matches(proxy, world))
 			.findFirst();
-
-		System.out.println("Test 6");
 
 		optional.or(() -> shapeless).ifPresent(this::startCrafting);
 	}

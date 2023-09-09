@@ -1,15 +1,5 @@
 -multipart
 state [
-    # Sculk
-    {
-        when { sculked = "true" sculk_below = "false" }
-        apply {
-            model = "block/sculk_vein"
-            -uvlock
-            x = 90
-        }
-    }
-
     # North
     {
         when { sculked = "false" facing = "north" }
@@ -77,6 +67,16 @@ state [
             model = "wwizardry:block/altar_pedestal_sculk"
             -uvlock
             y = 90
+        }
+    }
+
+    # Sculk
+    {
+        when { sculked = "true" sculk_below = "false" }
+        apply {
+            model = "block/sculk_vein"
+            -uvlock
+            x = 90
         }
     }
 ]

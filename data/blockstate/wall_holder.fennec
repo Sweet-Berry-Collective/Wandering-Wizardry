@@ -1,6 +1,11 @@
 [
     {
         when { facing = "north" }
+        apply = "wwizardry:block/wall_holder/base/empty"
+    }
+
+    {
+        when { facing = "south" }
         apply {
             model = "wwizardry:block/wall_holder/base/empty"
             y = 180
@@ -8,15 +13,10 @@
     }
 
     {
-        when { facing = "south" }
-        apply = "wwizardry:block/wall_holder/base/empty"
-    }
-
-    {
         when { facing = "east" }
         apply {
             model = "wwizardry:block/wall_holder/base/empty"
-            y = 270
+            y = 90
         }
     }
 
@@ -24,7 +24,7 @@
         when { facing = "west" }
         apply {
             model = "wwizardry:block/wall_holder/base/empty"
-            y = 90
+            y = 270
         }
     }
 ]
