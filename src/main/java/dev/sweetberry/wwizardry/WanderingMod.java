@@ -12,11 +12,15 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -48,6 +52,8 @@ public class WanderingMod implements ModInitializer {
 	public static final Identifier VOID_BAG_PACKET = id("void_bag");
 	public static final Logger LOGGER = LoggerFactory.getLogger("Wandering Wizardry");
 
+	public static final RegistryKey<PaintingVariant> ALTAR_PAINTING = RegistryKey.of(RegistryKeys.PAINTING_VARIANT, id("altar"));
+
 	@Override
 	public void onInitialize(ModContainer mod) {
 		WanderingBlocks.init();
@@ -55,6 +61,7 @@ public class WanderingMod implements ModInitializer {
 		WanderingRecipes.init();
 		WanderingDatagen.init();
 		WanderingWorldgen.init();
+		Registry.register(Registries.PAINTING_VARIANT, ALTAR_PAINTING, new PaintingVariant(32, 32));
 		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
 		RegistryMonitor.create(Registries.BLOCK).forAll((ctx) -> onBlockAdded(ctx.value(), ctx.id()));
 		ServerPlayNetworking.registerGlobalReceiver(VOID_BAG_PACKET, ((server, player, handler, buf, responseSender) -> {

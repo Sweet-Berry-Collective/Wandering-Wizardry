@@ -141,6 +141,13 @@
     crafting_charm = "Crafting Charm"
 }
 
+"painting.wwizardry" {
+    altar {
+        title = "Altar"
+        author = "Sweet Berry Collective"
+    }
+}
+
 # Compat
 "emi.category.wwizardry.altar_catalyzation" = "Altar Catalyzation"
 "emi.category.wwizardry.altar_shapeless" = "Altar Shapeless Crafting"
