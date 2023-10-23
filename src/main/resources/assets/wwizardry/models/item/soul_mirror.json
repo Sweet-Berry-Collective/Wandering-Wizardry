@@ -1,0 +1,14 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "wwizardry:item/soul_mirror"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "wwizardry:cracked": 1.0
+      },
+      "model": "wwizardry:item/soul_mirror_cracked"
+    }
+  ]
+}

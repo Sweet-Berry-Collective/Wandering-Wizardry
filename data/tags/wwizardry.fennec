@@ -127,6 +127,10 @@ blocks {
 }
 
 items {
+    repairs_sculk [
+        "wwizardry:crystalline_sculk"
+    ]
+
     mossy_materials [
         "moss_block"
         "vine"

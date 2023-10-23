@@ -1,0 +1,1 @@
+{"type":"wwizardry:altar_catalyzation","keepCatalyst":false,"bloom":15,"inputs":[{"item":"wwizardry:crystalline_sculk"},{"item":"gold_ingot"},{"item":"#c:glass_blocks"},{"item":"diamond"}],"catalyst":{"item":"glowstone"},"result":{"item":"wwizardry:soul_mirror"}}

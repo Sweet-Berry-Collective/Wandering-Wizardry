@@ -68,8 +68,8 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 	}
 
 	default void drawItem(T entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-		BakedModel bakedModel = MinecraftClient.getInstance().getItemRenderer().getModels().getModel(entity.heldItem);
-
-		MinecraftClient.getInstance().getItemRenderer().renderItem(entity.heldItem, ModelTransformationMode.GROUND, true, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, bakedModel);
+		var itemRenderer = MinecraftClient.getInstance().getItemRenderer();
+		var model = itemRenderer.getHeldItemModel(entity.heldItem, entity.getWorld(), null, 0);
+		itemRenderer.renderItem(entity.heldItem, ModelTransformationMode.GROUND, true, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, model);
 	}
 }

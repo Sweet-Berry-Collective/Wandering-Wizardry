@@ -11,6 +11,7 @@ import dev.sweetberry.wwizardry.client.render.AltarCatalyzerBlockEntityRenderer;
 import dev.sweetberry.wwizardry.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.datagen.WanderingDatagen;
 import dev.sweetberry.wwizardry.datagen.WoodType;
+import dev.sweetberry.wwizardry.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.item.VoidBagItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
@@ -97,7 +98,7 @@ public class WanderingClient implements ClientModInitializer {
 			);
 		}));
 
-		ModelPredicateProviderRegistry.register(VoidBagItem.INSTANCE, WanderingMod.id("void_bag_closed"), ((itemStack, clientWorld, livingEntity, i) -> {
+		ModelPredicateProviderRegistry.register(VoidBagItem.INSTANCE, WanderingMod.id("void_bag_closed"), (itemStack, clientWorld, livingEntity, i) -> {
 			if (!itemStack.isOf(VoidBagItem.INSTANCE)) return 0.0f;
 			var client = MinecraftClient.getInstance();
 			if (client.player == null)
@@ -105,7 +106,13 @@ public class WanderingClient implements ClientModInitializer {
 			var nbt = itemStack.getNbt();
 			if (nbt != null && nbt.contains("Locked")) return nbt.getBoolean("Locked") ? 1.0f : 0.0f;
 			var bag = VoidBagComponent.getForPlayer(client.player);
-			return bag.locked ? 1.0f : 0.0f;
-		}));
+			return bag.locked ? 1 : 0;
+		});
+
+		ModelPredicateProviderRegistry.register(
+			SoulMirrorItem.INSTANCE,
+			WanderingMod.id("cracked"),
+			(itemStack, clientWorld, livingEntity, i) -> SoulMirrorItem.INSTANCE.isFullyUsed(itemStack) ? 1 : 0
+		);
 	}
 }

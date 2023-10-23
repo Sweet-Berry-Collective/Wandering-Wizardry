@@ -6,6 +6,8 @@ cardinal-components [
 
 mixin = "wwizardry.mixins.json"
 
+access_widener = "wwizardry.accesswidener"
+
 quilt_loader {
     group = "dev.sweetberry"
     id = "wwizardry"

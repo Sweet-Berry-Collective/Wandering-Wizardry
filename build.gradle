@@ -10,6 +10,10 @@ group = project.maven_group
 
 def test_compat = true
 
+loom {
+	accessWidenerPath = file("src/main/resources/wwizardry.accesswidener")
+}
+
 sourceSets {
 	main {
 		resources {

@@ -13,6 +13,14 @@
     unlocked_3 = "others from the outside world."
 }
 
+"wwizardry.soul_mirror" {
+    generic_1 = "Gaze into your reflection, and be"
+    generic_2 = "transported to the last place you dreamt"
+
+    broken_1 = "It is currently broken, meaning you cannot"
+    broken_2 = "see your reflection."
+}
+
 "block.wwizardry" {
     rose_quartz_ore = "Rose Quartz Ore"
     deepslate_rose_quartz_ore = "Deepslate Rose Quartz Ore"
@@ -139,6 +147,8 @@
 
     slot_charm = "Slot Charm"
     crafting_charm = "Crafting Charm"
+
+    soul_mirror = "Soul Mirror"
 }
 
 "painting.wwizardry" {

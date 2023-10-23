@@ -182,6 +182,7 @@ public class WanderingItems {
 
 	public static void init() {
 		registerItem("void_bag", VoidBagItem.INSTANCE);
+		registerItem("soul_mirror", SoulMirrorItem.INSTANCE);
 
 		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);
 		registerItem("altar_catalyzer", AltarCatalyzerBlock.ITEM);
