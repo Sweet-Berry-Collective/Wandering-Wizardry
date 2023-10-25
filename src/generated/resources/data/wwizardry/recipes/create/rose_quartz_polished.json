@@ -1,0 +1,1 @@
+{"type":"create:sandpaper_polishing","ingrediends":[{"item":"wwizardry:rose_quartz"}],"results":[{"item":"create:polished_rose_quartz"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["create"]}]}
