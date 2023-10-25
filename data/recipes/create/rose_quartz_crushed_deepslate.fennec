@@ -1,0 +1,24 @@
+type = "create:crushing"
+
+processingTime = 150
+
+ingrediends [{
+    item = "wwizardry:deepslate_rose_quartz_ore"
+}]
+
+results [
+    { item = "create:polished_rose_quartz" }
+    {
+        item = "create:polished_rose_quartz"
+        chance = 0.25
+    }
+    {
+        item = "create:polished_rose_quartz"
+        chance = 0.125
+    }
+]
+
+"fabric:load_conditions" [{
+    condition "fabric:all_mods_loaded",
+    values [ "create" ]
+}]
