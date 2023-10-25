@@ -19,25 +19,20 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.resource.Material;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Language;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientWorldTickEvents;
-import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 import org.quiltmc.qsl.tooltip.api.client.ItemTooltipCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WanderingClient implements ClientModInitializer {
-	public static int ITEM_ROTATION = 0;
+	public static int tickCounter = 0;
+	public static int useItemTick = -1;
+
 	public static final List<Text> VOID_BAG_LOCKED = List.of(
 		Text.empty(),
 		Text.translatable("wwizardry.void_bag.generic_1").formatted(Formatting.DARK_PURPLE),
@@ -61,7 +56,7 @@ public class WanderingClient implements ClientModInitializer {
 	public void onInitializeClient(ModContainer mod) {
 		BlockEntityRendererFactories.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
 		BlockEntityRendererFactories.register(AltarCatalyzerBlockEntity.TYPE, AltarCatalyzerBlockEntityRenderer::new);
-		ClientWorldTickEvents.END.register((client, world) -> ITEM_ROTATION++);
+		ClientWorldTickEvents.END.register((client, world) -> tickCounter++);
 		BlockRenderLayerMap.put(RenderLayer.getCutout(),
 			AltarPedestalBlock.INSTANCE,
 			AltarCatalyzerBlock.INSTANCE,

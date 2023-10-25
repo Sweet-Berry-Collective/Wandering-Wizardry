@@ -1,6 +1,5 @@
 package dev.sweetberry.wwizardry.client.render;
 
-import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.block.entity.AltarBlockEntity;
 import dev.sweetberry.wwizardry.client.WanderingClient;
 import net.minecraft.client.MinecraftClient;
@@ -8,14 +7,8 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.block.entity.MobSpawnerBlockEntityRenderer;
-import net.minecraft.client.render.entity.EndCrystalEntityRenderer;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.Axis;
 
@@ -47,8 +40,8 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 			drawEndCrystal(entity, tickDelta, matrices, vertexConsumers, light);
 		} else {
 			if (shouldHover)
-				matrices.translate(0, Math.sin((WanderingClient.ITEM_ROTATION + tickDelta) / 16 + entity.rand) * 0.03125, 0);
-			matrices.multiply(Axis.Y_NEGATIVE.rotationDegrees((WanderingClient.ITEM_ROTATION + tickDelta) / 2));
+				matrices.translate(0, Math.sin((WanderingClient.tickCounter + tickDelta) / 16 + entity.rand) * 0.03125, 0);
+			matrices.multiply(Axis.Y_NEGATIVE.rotationDegrees((WanderingClient.tickCounter + tickDelta) / 2));
 
 			drawItem(entity, matrices, vertexConsumers, light);
 		}
@@ -62,7 +55,7 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 		if (endCrystalEntity == null)
 			return;
 
-		endCrystalEntity.endCrystalAge = WanderingClient.ITEM_ROTATION;
+		endCrystalEntity.endCrystalAge = WanderingClient.tickCounter;
 
 		context().getEntityRendererDispatcher().getRenderer(endCrystalEntity).render(endCrystalEntity, 0, tickDelta, matrices, vertexConsumers, light);
 	}

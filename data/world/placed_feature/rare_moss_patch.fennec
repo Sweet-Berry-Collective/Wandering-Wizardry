@@ -1,9 +1,9 @@
-feature = "moss_patch"
+feature = "wwizardry:rare_moss_patch"
 
 placement [
     {
         type = "count"
-        count = 4
+        count = 16
     }
     { type = "in_square" }
     {
@@ -19,4 +19,9 @@ placement [
         }
     }
     { type = "biome" }
+    {
+        type = "random_offset"
+        xz_spread = 3
+        y_spread = 1
+    }
 ]
