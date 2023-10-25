@@ -15,10 +15,9 @@
 
 "wwizardry.soul_mirror" {
     generic_1 = "Gaze into your reflection, and be"
-    generic_2 = "transported to the last place you dreamt"
+    generic_2 = "transported to a land far away"
 
-    broken_1 = "It is currently broken, meaning you cannot"
-    broken_2 = "see your reflection."
+    broken = "It is currently broken, blocking your reflection."
 }
 
 "block.wwizardry" {

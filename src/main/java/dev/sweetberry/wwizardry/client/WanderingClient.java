@@ -52,6 +52,20 @@ public class WanderingClient implements ClientModInitializer {
 		Text.translatable("wwizardry.void_bag.unlocked_3").formatted(Formatting.DARK_PURPLE)
 	);
 
+	public static final List<Text> SOUL_MIRROR = List.of(
+		Text.empty(),
+		Text.translatable("wwizardry.soul_mirror.generic_1").formatted(Formatting.DARK_PURPLE),
+		Text.translatable("wwizardry.soul_mirror.generic_2").formatted(Formatting.DARK_PURPLE)
+	);
+
+	public static final List<Text> SOUL_MIRROR_BROKEN = List.of(
+		Text.empty(),
+		Text.translatable("wwizardry.soul_mirror.generic_1").formatted(Formatting.DARK_PURPLE),
+		Text.translatable("wwizardry.soul_mirror.generic_2").formatted(Formatting.DARK_PURPLE),
+		Text.empty(),
+		Text.translatable("wwizardry.soul_mirror.broken").formatted(Formatting.DARK_PURPLE)
+	);
+
 	@Override
 	public void onInitializeClient(ModContainer mod) {
 		BlockEntityRendererFactories.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
@@ -81,16 +95,23 @@ public class WanderingClient implements ClientModInitializer {
 		});
 
 		ItemTooltipCallback.EVENT.register(((stack, _player, context, lines) -> {
-			if (!stack.isOf(VoidBagItem.INSTANCE))
+			if (stack.isOf(VoidBagItem.INSTANCE)) {
+				var player = _player == null ? MinecraftClient.getInstance().player : _player;
+				if (player == null)
+					return;
+				var bag = VoidBagComponent.getForPlayer(player);
+				lines.addAll(
+					1,
+					bag.locked ? VOID_BAG_LOCKED : VOID_BAG_UNLOCKED
+				);
 				return;
-			var player = _player == null ? MinecraftClient.getInstance().player : _player;
-			if (player == null)
-				return;
-			var bag = VoidBagComponent.getForPlayer(player);
-			lines.addAll(
-				1,
-				bag.locked ? VOID_BAG_LOCKED : VOID_BAG_UNLOCKED
-			);
+			}
+			if (stack.isOf(SoulMirrorItem.INSTANCE)) {
+				lines.addAll(
+					1,
+					SoulMirrorItem.INSTANCE.isFullyUsed(stack) ? SOUL_MIRROR_BROKEN : SOUL_MIRROR
+				);
+			}
 		}));
 
 		ModelPredicateProviderRegistry.register(VoidBagItem.INSTANCE, WanderingMod.id("void_bag_closed"), (itemStack, clientWorld, livingEntity, i) -> {

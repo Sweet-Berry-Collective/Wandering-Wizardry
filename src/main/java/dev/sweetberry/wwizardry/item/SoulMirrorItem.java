@@ -5,6 +5,7 @@ import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.item.material.CrystallineSculkToolMaterial;
 import dev.sweetberry.wwizardry.mixin.Accessor_ServerPlayerEntity;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Dismounting;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -163,9 +164,8 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 
 	@Override
 	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-		if (world.isClient || !(user instanceof ServerPlayerEntity player)) {
+		if (world.isClient || !(user instanceof ServerPlayerEntity player))
 			return stack;
-		}
 
 		var server = world.getServer();
 		if (server == null)
@@ -188,12 +188,25 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 				stack.damage(1, user, a -> {});
 
 			player.teleport(respawnWorld, respawnPos.x, respawnPos.y, respawnPos.z, player.getSpawnAngle(), 0);
+			var block = BlockPos.create(respawnPos.x, respawnPos.y, respawnPos.z);
 
-			respawnWorld.syncWorldEvent(
-				WorldEvents.TRAVEL_THROUGH_PORTAL,
-				BlockPos.create(respawnPos.x, respawnPos.y, respawnPos.z),
-				0
-			);
+			if (respawnWorld.getRegistryKey() != world.getRegistryKey())
+				respawnWorld.syncWorldEvent(
+					WorldEvents.TRAVEL_THROUGH_PORTAL,
+					block,
+					0
+				);
+			else
+				world.playSound(
+					null,
+					respawnPos.getX(),
+					respawnPos.getY(),
+					respawnPos.getZ(),
+					SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+					SoundCategory.PLAYERS,
+					1, 1,
+					0
+				);
 
 			return stack;
 		}
@@ -205,11 +218,23 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 		var respawnWorld = posAndWorld.world == null ? world : posAndWorld.world;
 		var respawnPos = posAndWorld.pos;
 
-		respawnWorld.syncWorldEvent(
-			WorldEvents.TRAVEL_THROUGH_PORTAL,
-			respawnPos,
-			0
-		);
+		if (respawnWorld.getRegistryKey() != world.getRegistryKey())
+			respawnWorld.syncWorldEvent(
+				WorldEvents.TRAVEL_THROUGH_PORTAL,
+				respawnPos,
+				0
+			);
+		else
+			world.playSound(
+				null,
+				respawnPos.getX(),
+				respawnPos.getY(),
+				respawnPos.getZ(),
+				SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+				SoundCategory.PLAYERS,
+				1, 1,
+				0
+			);
 
 		return stack;
 	}
