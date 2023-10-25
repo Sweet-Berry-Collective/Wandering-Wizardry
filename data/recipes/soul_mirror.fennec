@@ -10,7 +10,7 @@ inputs [
     { item = "diamond" }
 ]
 
-catalyst { item = "glowstone" }
+catalyst { item = "lapis_lazuli" }
 
 result {
     item = "wwizardry:soul_mirror"
