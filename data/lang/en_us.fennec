@@ -148,6 +148,9 @@
     crafting_charm = "Crafting Charm"
 
     soul_mirror = "Soul Mirror"
+
+    music_disc_wandering = "Music Disc"
+    "music_disc_wandering.desc" = "Moonkey - Wandering"
 }
 
 "painting.wwizardry" {

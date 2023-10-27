@@ -4,12 +4,14 @@ import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import dev.sweetberry.wwizardry.block.*;
 import dev.sweetberry.wwizardry.WanderingMod;
+import dev.sweetberry.wwizardry.sounds.WanderingSounds;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
+import net.minecraft.util.Rarity;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import java.util.ArrayList;
@@ -164,6 +166,18 @@ public class WanderingItems {
 			new QuiltItemSettings()
 				.recipeRemainder(((original, recipe) -> original))
 				.maxCount(1)
+		)
+	);
+
+	public static final Item MUSIC_DISC_WANDERING = registerItem(
+		"music_disc_wandering",
+		new MusicDiscItem(
+			10,
+			WanderingSounds.DISC_WANDERING,
+			new QuiltItemSettings()
+				.maxCount(1)
+				.rarity(Rarity.RARE),
+			140
 		)
 	);
 

@@ -162,6 +162,10 @@ blocks {
 }
 
 items {
+    music_discs [
+        "wwizardry:music_disc_wandering"
+    ]
+
     flowers [
         "wwizardry:sculkflower"
         "wwizardry:indigo_caeruleum"
@@ -298,4 +302,10 @@ worldgen {
             ]
         }
     }
+}
+
+painting_variant {
+    placeable [
+        "wwizardry:altar"
+    ]
 }

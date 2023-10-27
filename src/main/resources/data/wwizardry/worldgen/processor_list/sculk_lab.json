@@ -1,0 +1,5 @@
+{
+  "processors": [{
+    "processor_type": "wwizardry:water_logging_fix"
+  }]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "wwizardry:item/void_bag_locked"
+  }
+}

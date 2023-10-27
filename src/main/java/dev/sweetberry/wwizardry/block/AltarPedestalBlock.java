@@ -7,6 +7,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -85,5 +87,15 @@ public class AltarPedestalBlock extends AltarBlock<AltarPedestalBlockEntity> {
 			case WEST -> WEST_SHAPE;
 			default -> NORTH_SHAPE;
 		};
+	}
+
+	@Override
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(HorizontalFacingBlock.FACING, rotation.rotate(state.get(HorizontalFacingBlock.FACING)));
+	}
+
+	@Override
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.rotate(mirror.getRotation(state.get(HorizontalFacingBlock.FACING)));
 	}
 }

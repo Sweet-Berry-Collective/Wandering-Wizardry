@@ -1,0 +1,10 @@
+{
+  "music_disc.wandering": {
+    "sounds": [
+      {
+        "name": "wwizardry:records/wandering",
+        "stream": true
+      }
+    ]
+  }
+}

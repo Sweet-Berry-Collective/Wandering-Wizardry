@@ -1,0 +1,77 @@
+{
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/pot/nether_1",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/pot/nether_2",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/pot/nether_3",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/pot/nether_4",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/pot/natural_1",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/pot/natural_2",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/pot/natural_3",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/pot/natural_4",
+        "processors": "wwizardry:sculk_lab"
+      }
+    }
+  ]
+}

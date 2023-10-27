@@ -14,6 +14,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -198,5 +200,15 @@ public class WallHolderBlock extends Block {
 	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
 		if (getDroppedBlock() != null) return getDroppedBlock().getPickStack(world, pos, state);
 		return EMPTY.asItem().getDefaultStack();
+	}
+
+	@Override
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(HorizontalFacingBlock.FACING, rotation.rotate(state.get(HorizontalFacingBlock.FACING)));
+	}
+
+	@Override
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.rotate(mirror.getRotation(state.get(HorizontalFacingBlock.FACING)));
 	}
 }

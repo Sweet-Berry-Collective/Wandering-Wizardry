@@ -7,6 +7,7 @@ import dev.sweetberry.wwizardry.datagen.WallHolderBlockType;
 import dev.sweetberry.wwizardry.datagen.WanderingDatagen;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import dev.sweetberry.wwizardry.recipe.WanderingRecipes;
+import dev.sweetberry.wwizardry.sounds.WanderingSounds;
 import dev.sweetberry.wwizardry.world.WanderingWorldgen;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.advancement.criterion.Criteria;
@@ -61,6 +62,7 @@ public class WanderingMod implements ModInitializer {
 		WanderingRecipes.init();
 		WanderingDatagen.init();
 		WanderingWorldgen.init();
+		WanderingSounds.init();
 		Registry.register(Registries.PAINTING_VARIANT, ALTAR_PAINTING, new PaintingVariant(32, 32));
 		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
 		RegistryMonitor.create(Registries.BLOCK).forAll((ctx) -> onBlockAdded(ctx.value(), ctx.id()));

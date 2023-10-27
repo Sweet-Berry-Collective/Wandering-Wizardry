@@ -19,8 +19,20 @@ quilt_loader {
 
         contributors {
             "Sweet Berry Collective" = "Owner"
-            Octal = "Programmer"
-            Cart3r = "Artist"
+            Octal [
+                "Programming"
+                "Art"
+                "Structure Design"
+            ]
+            Cart3r = "Art"
+            Moonkey = "Music"
+            EtheraelEspeon = "Structure Design"
+            RamblesOnn = "Structure Design"
+
+            SylvKT = "Contributor"
+            Acikek = "Contributor"
+            Sisby-Folk = "Contributor"
+            Ringlings = "Contributor"
         }
 
         contact {

@@ -9,6 +9,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 import terrablender.api.Region;
 import terrablender.api.RegionType;
+import terrablender.api.SurfaceRuleManager;
 
 import java.util.function.Consumer;
 

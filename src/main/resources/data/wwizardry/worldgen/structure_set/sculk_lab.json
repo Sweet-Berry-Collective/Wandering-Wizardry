@@ -1,0 +1,16 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 401373926,
+    "frequency_reduction_method": "default",
+    "spread_type": "linear",
+    "spacing": 30,
+    "separation": 12
+  },
+  "structures": [
+    {
+      "structure": "wwizardry:sculk_lab",
+      "weight": 1
+    }
+  ]
+}

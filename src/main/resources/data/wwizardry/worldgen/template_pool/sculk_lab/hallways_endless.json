@@ -1,0 +1,59 @@
+{
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/hallway/straight",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/hallway/cross",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/hallway/fork",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/hallway/corner/empty",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/hallway/corner/pedestal",
+        "processors": "wwizardry:sculk_lab"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "wwizardry:sculk_lab/hallway/corner/shrieker",
+        "processors": "wwizardry:sculk_lab"
+      }
+    }
+  ]
+}

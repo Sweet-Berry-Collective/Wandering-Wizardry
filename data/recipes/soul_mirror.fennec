@@ -6,7 +6,7 @@ bloom = 15
 inputs [
     { item = "wwizardry:crystalline_sculk" }
     { item = "gold_ingot" }
-    { item = "#c:glass_blocks" }
+    { tag = "c:glass_blocks" }
     { item = "diamond" }
 ]
 
