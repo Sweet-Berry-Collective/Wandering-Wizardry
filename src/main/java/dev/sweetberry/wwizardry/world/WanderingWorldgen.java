@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.world;
 
 import dev.sweetberry.wwizardry.WanderingMod;
+import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import dev.sweetberry.wwizardry.world.processors.WaterLoggingFixProcessor;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -13,13 +14,19 @@ import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.gen.surfacebuilder.SurfaceRules;
 import org.quiltmc.qsl.worldgen.biome.api.BiomeModifications;
 import org.quiltmc.qsl.worldgen.biome.api.BiomeSelectors;
 import org.quiltmc.qsl.worldgen.biome.api.ModificationPhase;
+import org.quiltmc.qsl.worldgen.surface_rule.api.SurfaceRuleEvents;
 import terrablender.api.ModifiedVanillaOverworldBuilder;
+import terrablender.api.SurfaceRuleManager;
 
 public class WanderingWorldgen {
 	public static final RegistryKey<Biome> FORGOTTEN_FIELDS = key("forgotten_fields");
+
+	public static final RegistryKey<Biome> FUNGAL_FOREST = key("fungal_forest");
+
 	public static final RegistryKey<PlacedFeature> ROSE_QUARTZ = RegistryKey.of(RegistryKeys.PLACED_FEATURE, WanderingMod.id("ore/rose_quartz"));
 
 	public static RegistryKey<Biome> key(String path) {
