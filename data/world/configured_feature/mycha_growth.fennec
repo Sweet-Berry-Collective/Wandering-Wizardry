@@ -4,11 +4,15 @@ config { to_place {
     entries [
         {
             data { Name = "wwizardry:mycha_fungus" }
-            weight = 5
+            weight = 2
         }
         {
             data { Name = "wwizardry:indigo_caeruleum" }
-            weight = 7
+            weight = 2
+        }
+        {
+            data { Name = "wwizardry:mycha_roots" }
+            weight = 5
         }
     ]
 }}

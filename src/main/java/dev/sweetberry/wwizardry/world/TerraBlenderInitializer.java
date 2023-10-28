@@ -38,12 +38,12 @@ public class TerraBlenderInitializer implements TerraBlenderApi {
 						SurfaceRules.block(Blocks.SAND.getDefaultState())
 					),
 					SurfaceRules.condition(
-						SurfaceRules.stoneDepth(-2,true, VerticalSurfaceType.FLOOR),
-						SurfaceRules.block(Blocks.SANDSTONE.getDefaultState())
-					),
-					SurfaceRules.condition(
 						SurfaceRules.UNDER_FLOOR,
 						SurfaceRules.block(Blocks.SAND.getDefaultState())
+					),
+					SurfaceRules.condition(
+						SurfaceRules.DEEP_UNDER_FLOOR,
+						SurfaceRules.block(Blocks.SANDSTONE.getDefaultState())
 					)
 				)
 			)

@@ -8,9 +8,11 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.enums.ComparatorMode;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -72,6 +74,21 @@ public class WanderingBlocks {
 			QuiltBlockSettings.copyOf(Blocks.SAND).mapColor(MapColor.ICE),
 			Blocks.SAND,
 			"mycha_spread"
+		)
+	);
+
+	public static final Block MYCHA_ROOTS = registerBlock(
+		"mycha_roots",
+		new SpecialRootsBlock(
+			AbstractBlock.Settings.create()
+				.mapColor(MapColor.NETHER)
+				.replaceable()
+				.noCollision()
+				.breakInstantly()
+				.sounds(BlockSoundGroup.ROOTS)
+				.offsetType(AbstractBlock.OffsetType.XZ)
+				.pistonBehavior(PistonBehavior.DESTROY),
+			"mycha"
 		)
 	);
 

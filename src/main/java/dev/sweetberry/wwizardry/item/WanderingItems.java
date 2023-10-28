@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.item;
 
+import com.mojang.datafixers.optics.Wander;
 import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import dev.sweetberry.wwizardry.block.*;
@@ -50,6 +51,14 @@ public class WanderingItems {
 		new BlockItem(
 			WanderingBlocks.INDIGO_CAERULEUM,
 			new QuiltItemSettings()
+		)
+	);
+
+	public static final Item MYCHA_ROOTS = registerItem(
+		"mycha_roots",
+		new BlockItem(
+			WanderingBlocks.MYCHA_ROOTS,
+			 new QuiltItemSettings()
 		)
 	);
 

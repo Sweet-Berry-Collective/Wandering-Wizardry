@@ -80,7 +80,8 @@ public class WanderingClient implements ClientModInitializer {
 			WanderingBlocks.INDIGO_CAERULEUM,
 			WanderingBlocks.MODULO_COMPARATOR,
 			WanderingBlocks.REINFORCED_GLASS,
-			WanderingBlocks.REINFORCED_GLASS_PANE
+			WanderingBlocks.REINFORCED_GLASS_PANE,
+			WanderingBlocks.MYCHA_ROOTS
 		);
 		WanderingDatagen.REGISTRY.forEach(dataGenerator -> {
 			if (dataGenerator instanceof WoodType woodType) {

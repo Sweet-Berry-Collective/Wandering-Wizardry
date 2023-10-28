@@ -1,1 +1,1 @@
-{"variants":{"":{"model":"wwizardry:block/mycelial_sand"}}}
+{"variants":{"":[{"model":"wwizardry:block/mycelial_sand"},{"model":"wwizardry:block/mycelial_sand","y":90},{"model":"wwizardry:block/mycelial_sand","y":180},{"model":"wwizardry:block/mycelial_sand","y":270}]}}

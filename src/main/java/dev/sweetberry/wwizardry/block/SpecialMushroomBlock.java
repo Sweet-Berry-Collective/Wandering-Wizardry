@@ -19,7 +19,7 @@ public class SpecialMushroomBlock extends FungusBlock {
 
 	public SpecialMushroomBlock(Settings settings, String baseName, Block block) {
 		super(settings, WanderingSaplingGenerator.getId(baseName), block);
-		this.plantable = TagKey.of(RegistryKeys.BLOCK, WanderingMod.id(baseName+"_growable"));
+		plantable = TagKey.of(RegistryKeys.BLOCK, WanderingMod.id(baseName+"_growable"));
 	}
 
 	@Override

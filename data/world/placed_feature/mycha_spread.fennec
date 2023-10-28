@@ -1,27 +1,14 @@
-feature = "wwizardry:mycha_spread"
+feature = "wwizardry:mycha_growth"
 
 placement [
     {
         type = "count"
-        count = 64
+        count = 48
     }
     { type = "in_square" }
     {
-        type = "height_range"
-        height {
-            type = "uniform"
-            max_inclusive {
-                absolute = 320
-            }
-            min_inclusive {
-                absolute = 56
-            }
-        }
+        type = "heightmap"
+        heightmap = "MOTION_BLOCKING"
     }
     { type = "biome" }
-    {
-        type = "random_offset"
-        xz_spread = 4
-        y_spread = 2
-    }
 ]

@@ -170,15 +170,14 @@ features [
 
         "wwizardry:ore/rose_quartz_biome"
     ]
-    [
-        "wwizardry:mycha_spread"
-    ]
+    []
     [
         "spring_water"
         "spring_lava"
     ]
     [
         "wwizardry:tree/mycha"
+        "wwizardry:mycha_spread"
 
         "glow_lichen"
         "flower_default"

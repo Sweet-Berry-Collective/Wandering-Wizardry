@@ -3,6 +3,7 @@
     "sounds": [
       {
         "name": "wwizardry:records/wandering",
+        "volume": 0.5,
         "stream": true
       }
     ]
