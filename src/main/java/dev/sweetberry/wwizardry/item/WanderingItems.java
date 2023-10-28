@@ -178,6 +178,15 @@ public class WanderingItems {
 		)
 	);
 
+	public static final Item BREWING_CHARM = registerItem(
+		"brewing_charm",
+		new BrewingCharmItem(
+			new QuiltItemSettings()
+				.recipeRemainder(((original, recipe) -> original))
+				.maxCount(1)
+		)
+	);
+
 	public static final Item MUSIC_DISC_WANDERING = registerItem(
 		"music_disc_wandering",
 		new MusicDiscItem(

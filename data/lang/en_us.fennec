@@ -146,6 +146,7 @@
 
     slot_charm = "Slot Charm"
     crafting_charm = "Crafting Charm"
+    brewing_charm = "Brewing Charm"
 
     soul_mirror = "Soul Mirror"
 

@@ -6,6 +6,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 
 public interface AltarRecipeView {
@@ -51,14 +52,18 @@ public interface AltarRecipeView {
 		}
 	}
 
-	default void setAllAsRemainders() {
-		setCardinalsAsRemainders();
+	default void keepCenter() {
 		var item = getItemInPedestal(AltarDirection.CENTER);
 		if (item != null)
 			setResultInPedestal(
 				AltarDirection.CENTER,
 				item.getRecipeRemainder()
 			);
+	}
+
+	default void setAllAsRemainders() {
+		setCardinalsAsRemainders();
+		keepCenter();
 	}
 
 	enum AltarDirection {
@@ -86,6 +91,10 @@ public interface AltarRecipeView {
 				EAST,
 				WEST
 			};
+		}
+
+		public static AltarDirection[] cardinalWithout(AltarDirection dir) {
+			return Arrays.stream(cardinals()).filter(it -> it != dir).toArray(AltarDirection[]::new);
 		}
 	}
 }
