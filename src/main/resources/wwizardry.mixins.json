@@ -9,7 +9,6 @@
     "Accessor_TorchBlock",
     "Mixin_DefaultLichenSpreadBehavior",
     "Mixin_ItemEntity",
-    "Mixin_PaintingTagProvider",
     "Mixin_RedstoneWireBlock",
     "Mixin_SculkVeinSpreadBehavior",
     "Mixin_Structure",
