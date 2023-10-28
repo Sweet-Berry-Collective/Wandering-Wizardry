@@ -13,5 +13,5 @@ inputs [
 catalyst { item = "chest" }
 
 result {
-    item = "wwizardry:void_bag"
+    item = "wwizardry:slot_charm"
 }

@@ -10,8 +10,8 @@ inputs [
     { item = "blaze_powder" }
 ]
 
-catalyst { item = "crafting_table" }
+catalyst { item = "brewing_stand" }
 
 result {
-    item = "wwizardry:crafting_charm"
+    item = "wwizardry:brewing_charm"
 }
