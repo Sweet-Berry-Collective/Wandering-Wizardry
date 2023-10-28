@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack;
 public record AltarCatalyzerBlockEntityRenderer(BlockEntityRendererFactory.Context context) implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
 	@Override
 	public boolean shouldHover(AltarCatalyzerBlockEntity entity) {
-		return AltarBlockEntityRenderer.super.shouldHover(entity) || entity.keepCatalyst;
+		return AltarBlockEntityRenderer.super.shouldHover(entity) || !entity.recipeRemainder.isEmpty();
 	}
 
 	@Override

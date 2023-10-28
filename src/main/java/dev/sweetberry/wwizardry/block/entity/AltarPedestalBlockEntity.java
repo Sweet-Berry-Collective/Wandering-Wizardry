@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.block.entity;
 
+import dev.sweetberry.wwizardry.api.AltarRecipeView;
 import dev.sweetberry.wwizardry.block.AltarPedestalBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -51,6 +52,11 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
+	public AltarRecipeView.AltarDirection getDirection(BlockState state) {
+		return AltarRecipeView.AltarDirection.fromDirection(state.get(HorizontalFacingBlock.FACING));
+	}
+
+	@Override
 	public void tryCancelCraft(BlockState state) {
 		findCatalyzer(state).ifPresent(AltarCatalyzerBlockEntity::cancelCraft);
 	}
@@ -73,7 +79,7 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 	public void tick(World world, BlockPos pos, BlockState state) {
 		if (crafting) {
 			if (++craftingTick >= 100) {
-				finishCrafting(null, true);
+				finishCrafting(state);
 			}
 			emitCraftingParticle(world);
 		}

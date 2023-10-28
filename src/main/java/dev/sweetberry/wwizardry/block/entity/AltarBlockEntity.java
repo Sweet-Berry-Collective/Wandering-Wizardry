@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.block.entity;
 
+import dev.sweetberry.wwizardry.api.AltarRecipeView;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -10,6 +11,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -32,6 +34,8 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 
 	public ItemStack heldItem = ItemStack.EMPTY;
 
+	public ItemStack recipeRemainder = ItemStack.EMPTY;
+
 	public boolean crafting = false;
 	public int craftingTick = 0;
 
@@ -53,14 +57,11 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 		world.updateNeighbors(pos, getBlock());
 	}
 
-	public void startCrafting(@Nullable Recipe<?> recipe) {
+	public void startCrafting(AltarRecipeView recipe) {
 		crafting = true;
 		craftingTick = 0;
+		recipeRemainder = recipe.getResultInPedestal(getDirection(world.getBlockState(pos)));
 		update();
-	}
-
-	public void startCrafting() {
-		startCrafting(null);
 	}
 
 	public void tryCraft() {
@@ -68,6 +69,8 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 	}
 
 	public abstract void tryCraft(BlockState state);
+
+	public abstract AltarRecipeView.AltarDirection getDirection(BlockState state);
 
 	public void cancelCraft() {
 		crafting = false;
@@ -79,18 +82,19 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 		cancelCraft();
 	}
 
-	public void finishCrafting(BlockState state, boolean removeHeldItem) {
+	public void finishCrafting(BlockState state) {
 		craftingTick = 0;
 		crafting = false;
-		if (removeHeldItem) {
-			dropContainedItems(heldItem);
-			heldItem = heldItem.getRecipeRemainder();
-		}
+		dropContainedItems(heldItem);
+		heldItem = recipeRemainder;
+		recipeRemainder = ItemStack.EMPTY;
 		update();
 	}
 
 	public void dropContainedItems(ItemStack stack) {
 		if (world == null)
+			return;
+		if (stack.isEmpty())
 			return;
 		getBundledStacks(stack).forEach(it -> {
 			if (it.isEmpty())
@@ -117,16 +121,21 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 
 	@Override
 	protected void writeNbt(NbtCompound nbt) {
-		var compound = new NbtCompound();
-		heldItem.writeNbt(compound);
-		nbt.put("HeldItem", compound);
+		var heldItemNbt = new NbtCompound();
+		heldItem.writeNbt(heldItemNbt);
+		var recipeRemainderNbt = new NbtCompound();
+		recipeRemainder.writeNbt(recipeRemainderNbt);
+		nbt.put("HeldItem", heldItemNbt);
+		nbt.put("RecipeRemainder", recipeRemainderNbt);
 		nbt.putBoolean("crafting", crafting);
 	}
 
 	@Override
 	public void readNbt(NbtCompound nbt) {
-		var compound = nbt.getCompound("HeldItem");
-		heldItem = ItemStack.fromNbt(compound);
+		var heldItemNbt = nbt.getCompound("HeldItem");
+		heldItem = ItemStack.fromNbt(heldItemNbt);
+		var recipeRemainderNbt = nbt.getCompound("RecipeRemainder");
+		recipeRemainder = ItemStack.fromNbt(recipeRemainderNbt);
 		crafting = nbt.getBoolean("crafting");
 	}
 

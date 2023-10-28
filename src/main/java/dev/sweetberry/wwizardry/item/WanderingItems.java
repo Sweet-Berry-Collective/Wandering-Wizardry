@@ -171,7 +171,7 @@ public class WanderingItems {
 
 	public static final Item CRAFTING_CHARM = registerItem(
 		"crafting_charm",
-		new Item(
+		new CraftingCharmItem(
 			new QuiltItemSettings()
 				.recipeRemainder(((original, recipe) -> original))
 				.maxCount(1)

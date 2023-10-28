@@ -1,5 +1,7 @@
 package dev.sweetberry.wwizardry.block.entity;
 
+import dev.sweetberry.wwizardry.api.AltarCraftable;
+import dev.sweetberry.wwizardry.api.AltarRecipeView;
 import dev.sweetberry.wwizardry.block.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import dev.sweetberry.wwizardry.recipe.AltarCatalyzationRecipe;
@@ -30,6 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +41,6 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = QuiltBlockEntityTypeBuilder.create(AltarCatalyzerBlockEntity::new, AltarCatalyzerBlock.INSTANCE).build();
 
 	public ItemStack result = ItemStack.EMPTY;
-
-	public boolean keepCatalyst = false;
 	private final SculkBehavior behavior = SculkBehavior.createBehavior();
 	public int bloom = 0;
 	public boolean shouldUpdateClient = false;
@@ -49,23 +50,11 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	public void startCrafting(@Nullable Recipe<?> recipe) {
-		if (recipe instanceof AltarCatalyzationRecipe altarRecipe) {
-			result = altarRecipe.result().copy();
-			keepCatalyst = altarRecipe.keepCatalyst();
-			bloom = altarRecipe.bloom();
-			for (var n : getNeighbors()) {
-				n.startCrafting();
-			}
-		}
-		if (recipe instanceof ShapelessRecipe shapelessRecipe) {
-			result = shapelessRecipe.getResult(world.getRegistryManager()).copy();
-			keepCatalyst = true;
-			bloom = 0;
-			for (var n : getNeighbors()) {
-				n.startCrafting();
-			}
-		}
+	public void startCrafting(AltarRecipeView recipe) {
+		bloom = recipe.getBloom();
+		result = recipe.getRecipeResult();
+		for (var neighbor : getNeighbors())
+			neighbor.startCrafting(recipe);
 		super.startCrafting(recipe);
 	}
 
@@ -73,6 +62,8 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	public void tryCraft(BlockState state) {
 		if (world == null)
 			return;
+
+		var view = new RecipeView();
 
 		var neighbors = getNeighbors();
 
@@ -83,19 +74,28 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 				.anyMatch(it -> it.heldItem.isEmpty())
 		) return;
 
-		var optional = (Optional<Recipe<?>>) (Optional<?>) world.getRecipeManager().getFirstMatch(AltarCatalyzationRecipe.TYPE, this, world);
+		var optional = world.getRecipeManager().getFirstMatch(AltarCatalyzationRecipe.TYPE, this, world);
 
-		var proxy = new ShapelessProxy();
+		if (optional.isPresent()) {
+			optional.get().tryCraft(view, world);
+			startCrafting(view);
+			return;
+		}
 
-		var shapeless = world.getRecipeManager()
-			.listAllOfType(RecipeType.CRAFTING)
-			.stream()
-			.filter(it -> it instanceof ShapelessRecipe)
-			.map(it -> (ShapelessRecipe) it)
-			.filter(it -> it.matches(proxy, world))
-			.findFirst();
+		view.reset();
 
-		optional.or(() -> shapeless).ifPresent(this::startCrafting);
+		if (
+			heldItem.getItem() instanceof AltarCraftable craftable &&
+			craftable.tryCraft(view, world)
+		) {
+			startCrafting(view);
+			return;
+		}
+	}
+
+	@Override
+	public AltarRecipeView.AltarDirection getDirection(BlockState state) {
+		return AltarRecipeView.AltarDirection.CENTER;
 	}
 
 	public void cancelCraft() {
@@ -108,7 +108,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	public void finishCrafting(BlockState state, boolean removeHeldItem) {
+	public void finishCrafting(BlockState state) {
 		world.addParticle(ParticleTypes.SONIC_BOOM, pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, 0, 0, 0);
 		var stackEntity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, result.copy());
 		result = ItemStack.EMPTY;
@@ -120,7 +120,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		}
 		world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
 		bloom = 0;
-		super.finishCrafting(state, removeHeldItem);
+		super.finishCrafting(state);
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		markDirty();
 		if (crafting) {
 			if (++craftingTick >= 100) {
-				finishCrafting(state, !keepCatalyst);
+				finishCrafting(state);
 			}
 			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0.25 * ((craftingTick + 30) / 100f), 0);
 		} else {
@@ -145,14 +145,12 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	@Override
 	protected void writeNbt(NbtCompound nbt) {
 		super.writeNbt(nbt);
-		nbt.putBoolean("keepCatalyst", keepCatalyst);
 		behavior.write(nbt);
 	}
 
 	@Override
 	public void readNbt(NbtCompound nbt) {
 		super.readNbt(nbt);
-		keepCatalyst = nbt.getBoolean("keepCatalyst");
 		behavior.read(nbt);
 	}
 
@@ -161,80 +159,80 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		// TODO accesswidener
 		Direction[] directions = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST };
 		for (Direction direction : directions) {
-			BlockPos pedestalPos = pos.offset(direction, 2);
-			if (world.getBlockEntity(pedestalPos) instanceof AltarPedestalBlockEntity pedestal
-					&& world.getBlockState(pedestalPos).get(HorizontalFacingBlock.FACING) == direction) {
-				out.add(pedestal);
-			}
+			var neighbor = getNeighbor(direction);
+			if (neighbor != null)
+				out.add(neighbor);
 		}
 		return out;
 	}
 
-	public class ShapelessProxy implements RecipeInputInventory {
+	@Nullable
+	public AltarPedestalBlockEntity getNeighbor(Direction direction) {
+		BlockPos pedestalPos = pos.offset(direction, 2);
+		if (world.getBlockEntity(pedestalPos) instanceof AltarPedestalBlockEntity pedestal
+			&& world.getBlockState(pedestalPos).get(HorizontalFacingBlock.FACING) == direction) {
+			return pedestal;
+		}
+		return null;
+	}
+
+	private class RecipeView implements AltarRecipeView {
+		protected final HashMap<AltarDirection, ItemStack> RESULTS = new HashMap<>();
+		protected ItemStack recipeResult = ItemStack.EMPTY;
+		protected int bloom;
 
 		@Override
-		public int getWidth() {
-			return 2;
+		public void reset() {
+			RESULTS.clear();
+			recipeResult = ItemStack.EMPTY;
+			bloom = 0;
 		}
 
 		@Override
-		public int getHeight() {
-			return 2;
+		public ItemStack getItemInPedestal(AltarDirection direction) {
+			@Nullable AltarBlockEntity entity = switch (direction) {
+				case CENTER -> AltarCatalyzerBlockEntity.this;
+				case NORTH -> getNeighbor(Direction.NORTH);
+				case SOUTH -> getNeighbor(Direction.SOUTH);
+				case EAST -> getNeighbor(Direction.EAST);
+				case WEST -> getNeighbor(Direction.WEST);
+			};
+			if (entity == null)
+				return null;
+			return entity.heldItem;
 		}
 
 		@Override
-		public List<ItemStack> getIngredients() {
-			return getNeighbors().stream().map(it -> it.heldItem.isOf(WanderingItems.SLOT_CHARM) ? ItemStack.EMPTY : it.heldItem).toList();
+		public void setResultInPedestal(AltarDirection direction, ItemStack stack) {
+			RESULTS.put(direction, stack);
 		}
 
 		@Override
-		public int size() {
-			return 4;
+		public ItemStack getResultInPedestal(AltarDirection direction) {
+			var result = RESULTS.get(direction);
+			if (result == null)
+				return ItemStack.EMPTY;
+			return result;
 		}
 
 		@Override
-		public boolean isEmpty() {
-			return getIngredients().isEmpty();
+		public void setRecipeResult(ItemStack stack) {
+			recipeResult = stack;
 		}
 
 		@Override
-		public ItemStack getStack(int slot) {
-			return getIngredients().get(slot);
+		public ItemStack getRecipeResult() {
+			return recipeResult;
 		}
 
 		@Override
-		public ItemStack removeStack(int slot, int amount) {
-			return getIngredients().get(slot);
+		public void setBloom(int bloom) {
+			this.bloom = bloom;
 		}
 
 		@Override
-		public ItemStack removeStack(int slot) {
-			return getIngredients().get(slot);
-		}
-
-		@Override
-		public void setStack(int slot, ItemStack stack) {
-
-		}
-
-		@Override
-		public void markDirty() {
-
-		}
-
-		@Override
-		public boolean canPlayerUse(PlayerEntity player) {
-			return false;
-		}
-
-		@Override
-		public void provideRecipeInputs(RecipeMatcher finder) {
-			getIngredients().forEach(finder::addInput);
-		}
-
-		@Override
-		public void clear() {
-
+		public int getBloom() {
+			return bloom;
 		}
 	}
 }

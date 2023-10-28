@@ -1,13 +1,12 @@
 package dev.sweetberry.wwizardry.recipe;
 
 import dev.sweetberry.wwizardry.WanderingMod;
+import dev.sweetberry.wwizardry.api.AltarCraftable;
+import dev.sweetberry.wwizardry.api.AltarRecipeView;
 import dev.sweetberry.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.*;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
@@ -22,7 +21,7 @@ public record AltarCatalyzationRecipe(
 		ItemStack result,
 		boolean keepCatalyst,
 		int bloom
-) implements Recipe<AltarCatalyzerBlockEntity> {
+) implements Recipe<AltarCatalyzerBlockEntity>, AltarCraftable {
 	public static final WanderingRecipeType<AltarCatalyzationRecipe> TYPE = new WanderingRecipeType<>(WanderingMod.id("altar_catalyzation"));
 
 	@Override
@@ -83,5 +82,28 @@ public record AltarCatalyzationRecipe(
 	@Override
 	public RecipeType<?> getType() {
 		return TYPE;
+	}
+
+	@Override
+	public boolean tryCraft(AltarRecipeView view, World world) {
+		view.setBloom(bloom);
+		view.setRecipeResult(result.copy());
+		if (keepCatalyst)
+			view.setResultInPedestal(
+				AltarRecipeView.AltarDirection.CENTER,
+				view.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER)
+			);
+		else
+			view.setResultInPedestal(
+				AltarRecipeView.AltarDirection.CENTER,
+				view.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER).getRecipeRemainder()
+			);
+		for (var dir : AltarRecipeView.AltarDirection.cardinals()) {
+			view.setResultInPedestal(
+				dir,
+				view.getItemInPedestal(dir).getRecipeRemainder()
+			);
+		}
+		return true;
 	}
 }
