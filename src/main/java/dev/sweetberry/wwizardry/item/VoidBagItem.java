@@ -51,6 +51,8 @@ public class VoidBagItem extends Item {
 			return false;
 		if (!player.getWorld().isClient)
 			return false;
+		if (!otherStack.isEmpty())
+			return false;
 
 		ClientPlayNetworking.send(WanderingMod.VOID_BAG_PACKET, PacketByteBufs.create());
 
