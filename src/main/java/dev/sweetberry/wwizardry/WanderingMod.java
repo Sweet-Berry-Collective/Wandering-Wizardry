@@ -5,6 +5,7 @@ import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import dev.sweetberry.wwizardry.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.datagen.WallHolderBlockType;
 import dev.sweetberry.wwizardry.datagen.WanderingDatagen;
+import dev.sweetberry.wwizardry.gamerule.WanderingGameRules;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import dev.sweetberry.wwizardry.recipe.WanderingRecipes;
 import dev.sweetberry.wwizardry.sounds.WanderingSounds;
@@ -63,6 +64,7 @@ public class WanderingMod implements ModInitializer {
 		WanderingDatagen.init();
 		WanderingWorldgen.init();
 		WanderingSounds.init();
+		WanderingGameRules.init();
 		Registry.register(Registries.PAINTING_VARIANT, ALTAR_PAINTING, new PaintingVariant(32, 32));
 		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
 		RegistryMonitor.create(Registries.BLOCK).forAll((ctx) -> onBlockAdded(ctx.value(), ctx.id()));

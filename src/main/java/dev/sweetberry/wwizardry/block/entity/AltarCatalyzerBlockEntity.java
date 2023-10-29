@@ -3,6 +3,7 @@ package dev.sweetberry.wwizardry.block.entity;
 import dev.sweetberry.wwizardry.api.AltarCraftable;
 import dev.sweetberry.wwizardry.api.AltarRecipeView;
 import dev.sweetberry.wwizardry.block.AltarCatalyzerBlock;
+import dev.sweetberry.wwizardry.gamerule.WanderingGameRules;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import dev.sweetberry.wwizardry.recipe.AltarCatalyzationRecipe;
 import net.minecraft.block.Block;
@@ -51,7 +52,8 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void startCrafting(AltarRecipeView recipe) {
-		bloom = recipe.getBloom();
+		var bloomMultiplier = world.getGameRules().get(WanderingGameRules.ALTAR_SCULK_SPREAD_MULTIPLIER).get();
+		bloom = (int) (recipe.getBloom()*bloomMultiplier/10f);
 		result = recipe.getRecipeResult();
 		for (var neighbor : getNeighbors())
 			neighbor.startCrafting(recipe);
