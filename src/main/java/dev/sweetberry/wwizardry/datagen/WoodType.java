@@ -124,6 +124,8 @@ public class WoodType extends AbstractDataGenerator {
 		WOOD = WanderingBlocks.registerBlock(baseName+"_"+woodName, createLogBlock(bark, wood, sounds));
 		WOOD_ITEM = WanderingItems.registerItem(baseName+"_"+woodName, new BlockItem(WOOD, itemSettings));
 
+		BlockContentRegistries.STRIPPABLE.put(WOOD, STRIPPED_WOOD);
+
 		PLANKS = WanderingBlocks.registerBlock(baseName+"_planks", new Block(blockSettings));
 		PLANKS_ITEM = WanderingItems.registerItem(baseName+"_planks", new BlockItem(PLANKS, itemSettings));
 

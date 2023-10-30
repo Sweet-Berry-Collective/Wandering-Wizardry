@@ -20,10 +20,7 @@ state [
     }
     {
         when { east = "false" }
-        apply {
-            model = "wwizardry:block/reinforced_glass_pane_noside"
-            y = 90
-        }
+        apply = "wwizardry:block/reinforced_glass_pane_noside_alt"
     }
 
     {
@@ -32,7 +29,10 @@ state [
     }
     {
         when { south = "false" }
-        apply = "wwizardry:block/reinforced_glass_pane_noside_alt"
+        apply {
+            model = "wwizardry:block/reinforced_glass_pane_noside_alt"
+            y = 90
+        }
     }
 
     {
@@ -45,8 +45,8 @@ state [
     {
         when { west = "false" }
         apply {
-            model = "wwizardry:block/reinforced_glass_pane_noside_alt"
-            y = 90
+            model = "wwizardry:block/reinforced_glass_pane_noside"
+            y = 270
         }
     }
 ]
