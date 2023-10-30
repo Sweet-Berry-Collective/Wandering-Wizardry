@@ -2,26 +2,22 @@ package dev.sweetberry.wwizardry.world.region;
 
 import com.mojang.datafixers.util.Pair;
 import dev.sweetberry.wwizardry.WanderingMod;
-import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import dev.sweetberry.wwizardry.world.WanderingWorldgen;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
-import net.minecraft.world.biome.source.util.OverworldBiomeParameters;
-import net.minecraft.world.gen.surfacebuilder.SurfaceRules;
 import terrablender.api.Region;
 import terrablender.api.RegionType;
-import terrablender.api.SurfaceRuleManager;
 
 import java.util.function.Consumer;
 
-public class OverworldRegion extends Region {
-	public static final OverworldRegion INSTANCE = new OverworldRegion();
+public class ForgottenFieldsRegion extends Region {
+	public static final ForgottenFieldsRegion INSTANCE = new ForgottenFieldsRegion();
 
-	public OverworldRegion() {
-		super(WanderingMod.id("overworld"), RegionType.OVERWORLD, 3);
+	public ForgottenFieldsRegion() {
+		super(WanderingMod.id("forgotten_fields"), RegionType.OVERWORLD, 1);
 	}
 
 	@Override
@@ -39,9 +35,5 @@ public class OverworldRegion extends Region {
 			),
 			WanderingWorldgen.FORGOTTEN_FIELDS
 		);
-
-		addModifiedVanillaOverworldBiomes(mapper, builder -> {
-			builder.replaceBiome(Biomes.DESERT, WanderingWorldgen.FUNGAL_FOREST);
-		});
 	}
 }
