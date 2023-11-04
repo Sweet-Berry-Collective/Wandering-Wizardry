@@ -3,6 +3,7 @@ package dev.sweetberry.wwizardry.emi;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
@@ -23,7 +24,7 @@ public record EmiAltarShapelessRecipe(Identifier id, List<EmiIngredient> input, 
 			inputs.set(i, EmiIngredient.of(ingredients.get(i)));
 		}
 
-		return new EmiAltarShapelessRecipe(recipe.getId(), inputs, EmiStack.of(output.copy()));
+		return new EmiAltarShapelessRecipe(WanderingMod.id(EmiInitializer.getPrefixedPathedIdentifier(recipe.getId(), "altar_crafting_shapeless")), inputs, EmiStack.of(output.copy()));
 	}
 
 	@Override

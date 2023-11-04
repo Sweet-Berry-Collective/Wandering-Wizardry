@@ -1,1 +1,1 @@
-{"type":"wwizardry:altar_catalyzation","keepCatalyst":false,"bloom":10,"inputs":[{"item":"sculk"},{"item":"redstone"},{"item":"crying_obsidian"},{"item":"lapis_lazuli"}],"catalyst":{"item":"amethyst_shard"},"result":{"item":"wwizardry:crystalline_sculk"}}
+{"type":"wwizardry:altar_catalyzation","keepCatalyst":false,"bloom":10,"inputs":[{"item":"sculk"},{"item":"redstone"},{"item":"crying_obsidian"},{"item":"lapis_lazuli"}],"catalyst":{"item":"amethyst_shard"},"result":{"count":16,"item":"wwizardry:crystalline_sculk"}}

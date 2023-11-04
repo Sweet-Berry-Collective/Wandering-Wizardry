@@ -13,5 +13,6 @@ inputs [
 catalyst { item = "amethyst_shard" }
 
 result {
+    count = 16
     item = "wwizardry:crystalline_sculk"
 }

@@ -13,5 +13,6 @@ inputs [
 catalyst { item = "chest" }
 
 result {
+    count = 4
     item = "wwizardry:slot_charm"
 }
