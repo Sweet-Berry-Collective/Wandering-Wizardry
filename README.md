@@ -1,11 +1,10 @@
 # Wandering Wizardry
-An exploration-focused Minecraft mod.
 
-## This mod uses [FennecConfig](https://github.com/Oliver-makes-code/FennecConfig)
-FennecConfig is a config language designed around readability and user friendliness.
+<p align="center">
+    <img alt="Mod Icon" style="width:200px;" src="src/main/resources/assets/wwizardry/icon_large.png">
+</p>
 
-During the `build` task, it transpiles certain fennec files in the `data` directory to JSON,
-in order for them to load in Minecraft
+A Minecraft mod expanding the scope of sculk, while retaining a vanilla feeling.
 
 ## Contributing
 If you're contributing translations or tags, make sure to use the `data` directory.
