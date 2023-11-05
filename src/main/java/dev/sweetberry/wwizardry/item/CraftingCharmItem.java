@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.item;
 
-import dev.sweetberry.wwizardry.api.AltarRecipeView;
+import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.ShapelessRecipe;
@@ -22,6 +22,7 @@ public class CraftingCharmItem extends AltarCharmItem {
 			if (view.ingredientsMatch(recipe.getIngredients())) {
 				view.setRecipeResult(recipe.getResult(world.getRegistryManager()));
 				view.setAllAsRemainders();
+				view.setBloom(5);
 				return true;
 			}
 		}

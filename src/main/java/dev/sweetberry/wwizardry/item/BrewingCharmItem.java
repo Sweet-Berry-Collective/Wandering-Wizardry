@@ -1,14 +1,9 @@
 package dev.sweetberry.wwizardry.item;
 
-import dev.sweetberry.wwizardry.api.AltarRecipeView;
+import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.BrewingRecipeRegistry;
-import net.minecraft.recipe.RecipeManager;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.world.World;
-
-import java.util.stream.Stream;
 
 public class BrewingCharmItem extends AltarCharmItem {
 	public BrewingCharmItem(Settings settings) {
@@ -43,6 +38,8 @@ public class BrewingCharmItem extends AltarCharmItem {
 			}
 		}
 		view.keepCenter();
+		if (used)
+			view.setBloom(5);
 		return used;
 	}
 }

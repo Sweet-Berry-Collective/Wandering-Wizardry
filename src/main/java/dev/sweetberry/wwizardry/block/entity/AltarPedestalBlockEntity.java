@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.block.entity;
 
-import dev.sweetberry.wwizardry.api.AltarRecipeView;
+import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.block.AltarPedestalBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

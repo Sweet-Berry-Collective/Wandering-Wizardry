@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.api;
+package dev.sweetberry.wwizardry.api.altar;
 
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import net.minecraft.item.ItemStack;

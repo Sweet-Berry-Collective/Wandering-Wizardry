@@ -1,0 +1,12 @@
+type = "crafting_shapeless"
+
+category = "misc"
+
+ingredients [
+    { item="wwizardry:rose_quartz_block" }
+]
+
+result {
+    count = 9
+    item = "wwizardry:rose_quartz_sculk"
+}

@@ -1,0 +1,18 @@
+type = "crafting_shaped"
+
+category = "building"
+-show_notification
+
+key {
+    R { item = "wwizardry:rose_quartz" }
+}
+pattern [
+    "RRR"
+    "RRR"
+    "RRR"
+]
+
+result {
+    count = 1
+    item = "wwizardry:rose_quartz_block"
+}

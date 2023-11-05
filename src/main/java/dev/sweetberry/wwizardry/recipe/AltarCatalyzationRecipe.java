@@ -1,8 +1,8 @@
 package dev.sweetberry.wwizardry.recipe;
 
 import dev.sweetberry.wwizardry.WanderingMod;
-import dev.sweetberry.wwizardry.api.AltarCraftable;
-import dev.sweetberry.wwizardry.api.AltarRecipeView;
+import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
+import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.block.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import net.minecraft.item.ItemStack;
@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 
 import java.util.Arrays;
 
+// TODO: Switch to taking in an AltarCraftable.
 public record AltarCatalyzationRecipe(
 		Identifier id,
 		Ingredient catalyst,

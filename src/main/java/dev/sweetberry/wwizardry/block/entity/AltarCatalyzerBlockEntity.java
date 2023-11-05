@@ -1,10 +1,9 @@
 package dev.sweetberry.wwizardry.block.entity;
 
-import dev.sweetberry.wwizardry.api.AltarCraftable;
-import dev.sweetberry.wwizardry.api.AltarRecipeView;
+import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
+import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.block.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.gamerule.WanderingGameRules;
-import dev.sweetberry.wwizardry.item.WanderingItems;
 import dev.sweetberry.wwizardry.recipe.AltarCatalyzationRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -12,17 +11,9 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.sculk.SculkBehavior;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeMatcher;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -34,8 +25,6 @@ import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 
 public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
@@ -53,7 +42,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	@Override
 	public void startCrafting(AltarRecipeView recipe) {
 		var bloomMultiplier = world.getGameRules().get(WanderingGameRules.ALTAR_SCULK_SPREAD_MULTIPLIER).get();
-		bloom = (int) (recipe.getBloom()*bloomMultiplier/10f);
+		bloom = (int) Math.floor(recipe.getBloom() * bloomMultiplier);
 		result = recipe.getRecipeResult();
 		for (var neighbor : getNeighbors())
 			neighbor.startCrafting(recipe);
@@ -84,15 +73,8 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 			return;
 		}
 
-		view.reset();
-
-		if (
-			heldItem.getItem() instanceof AltarCraftable craftable &&
-			craftable.tryCraft(view, world)
-		) {
+		if (AltarCraftable.EVENT.invoker().tryCraft(view, world))
 			startCrafting(view);
-			return;
-		}
 	}
 
 	@Override

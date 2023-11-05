@@ -1,5 +1,7 @@
 package dev.sweetberry.wwizardry;
 
+import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
+import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.block.Sculkable;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import dev.sweetberry.wwizardry.component.VoidBagComponent;
@@ -23,13 +25,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -45,7 +44,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 import static dev.sweetberry.wwizardry.datagen.WallHolderBlockType.ParentType;
 
@@ -74,6 +72,12 @@ public class WanderingMod implements ModInitializer {
 				bag.openScreen();
 			});
 		}));
+
+		AltarCraftable.EVENT.register((view, world) -> {
+			if (view.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER).getItem() instanceof AltarCraftable craftable)
+				return craftable.tryCraft(view, world);
+			return false;
+		});
 	}
 
 	public static ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
