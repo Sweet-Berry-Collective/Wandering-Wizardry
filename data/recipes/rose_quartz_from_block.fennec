@@ -8,5 +8,5 @@ ingredients [
 
 result {
     count = 9
-    item = "wwizardry:rose_quartz_sculk"
+    item = "wwizardry:rose_quartz"
 }

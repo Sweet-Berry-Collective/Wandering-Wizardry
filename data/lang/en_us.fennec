@@ -161,6 +161,12 @@
     }
 }
 
+"wwizardry.badge" {
+    developer = "Developer for the Sweet Berry Collective"
+    artist = "Worked on art for Wandering Wizardry"
+    contributor = "Contributed code to Wandering Wizardry"
+}
+
 # Compat
 "emi.category.wwizardry.altar_catalyzation" = "Altar Catalyzation"
 "emi.category.wwizardry.altar_shapeless" = "Altar Shapeless Crafting"

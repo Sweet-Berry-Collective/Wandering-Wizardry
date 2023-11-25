@@ -46,5 +46,8 @@ cli.register(
         description: "Generates block state definitions"
     }
 )
-
-cli.execute()
+try {
+    cli.execute()
+} catch (e) {
+    console.log(e)
+}

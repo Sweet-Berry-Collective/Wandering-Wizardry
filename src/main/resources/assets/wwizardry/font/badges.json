@@ -1,0 +1,31 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "wwizardry:badges/developer.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [
+        "D"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "wwizardry:badges/artist.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [
+        "A"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "wwizardry:badges/contributor.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": [
+        "C"
+      ]
+    }
+  ]
+}
