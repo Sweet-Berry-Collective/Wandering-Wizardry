@@ -168,8 +168,11 @@
 }
 
 # Compat
-"emi.category.wwizardry.altar_catalyzation" = "Altar Catalyzation"
-"emi.category.wwizardry.altar_shapeless" = "Altar Shapeless Crafting"
+"emi.category.wwizardry" {
+    altar_catalyzation = "Altar Catalyzation"
+    altar_shapeless = "Altar Shapeless Crafting"
+    altar_brewing = "Altar Brewing"
+}
 "wwizardry.catalyst" = "Catalyst"
 
 "aurorasdeco.wood_type.wwizardry" {
