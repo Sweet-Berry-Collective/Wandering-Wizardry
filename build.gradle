@@ -63,7 +63,7 @@ dependencies {
 	modImplementation libs.quilted.fabric.api
 
 	modImplementation libs.bundles.include
-	libs.bundles.include.every { include(it) }
+	include libs.bundles.include
 
 	modCompileOnly classify(libs.emi, "api")
 
@@ -108,7 +108,7 @@ tasks.register("generateData") {
 			transpile("world", "data/wwizardry/worldgen")
 			transpile("mod", "")
 			generate("blockstate", "assets/wwizardry/blockstates")
-		} catch (ignored)
+		} catch (ignored) {}
 	}
 }
 
