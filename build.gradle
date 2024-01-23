@@ -80,7 +80,8 @@ processResources {
 }
 
 def generate(String type, String input, String output) {
-	println("deno run -A ./scripts/mod.ts ${type} ./data/${input} ./src/generated/resources/${output}".execute().text)
+	var exec = "deno run -A ./scripts/mod.ts ${type} ./data/${input} ./src/generated/resources/${output}".execute()
+	println(exec.text)
 }
 
 def generate(String type, String output) {

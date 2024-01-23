@@ -13,4 +13,8 @@ items {
     glass_panes [
         "wwizardry:reinforced_glass_pane"
     ]
+    rose_quartzes [
+        "wwizardry:rose_quartz"
+        "create:rose_quartz"
+    ]
 }

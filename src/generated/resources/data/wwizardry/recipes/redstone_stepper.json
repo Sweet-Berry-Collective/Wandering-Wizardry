@@ -1,0 +1,1 @@
+{"type":"crafting_shaped","category":"redstone","show_notification":true,"key":{"R":{"item":"redstone"},"S":{"item":"stone"}},"pattern":["RRR","SSS"],"result":{"count":1,"item":"wwizardry:redstone_stepper"}}
