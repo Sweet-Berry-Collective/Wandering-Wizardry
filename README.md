@@ -1,7 +1,7 @@
 # Wandering Wizardry
 
 <p align="center">
-    <img alt="Mod Icon" style="width:200px;" src="src/main/resources/assets/wwizardry/icon_large.png">
+    <img alt="Mod Icon" style="width:200px;" src="icon_large.png">
 </p>
 
 A Minecraft mod expanding the scope of sculk, while retaining a vanilla feeling.
