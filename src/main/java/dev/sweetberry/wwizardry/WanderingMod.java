@@ -8,6 +8,7 @@ import dev.sweetberry.wwizardry.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.datagen.WallHolderBlockType;
 import dev.sweetberry.wwizardry.datagen.WanderingDatagen;
 import dev.sweetberry.wwizardry.gamerule.WanderingGameRules;
+import dev.sweetberry.wwizardry.item.VoidBagItem;
 import dev.sweetberry.wwizardry.item.WanderingItems;
 import dev.sweetberry.wwizardry.recipe.WanderingRecipes;
 import dev.sweetberry.wwizardry.sounds.WanderingSounds;
@@ -34,16 +35,20 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.village.TradeOffers;
+import net.minecraft.world.WanderingTraderManager;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 import org.quiltmc.qsl.registry.api.event.RegistryMonitor;
+import org.quiltmc.qsl.villager.api.TradeOfferHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static dev.sweetberry.wwizardry.datagen.WallHolderBlockType.ParentType;
 
@@ -63,6 +68,43 @@ public class WanderingMod implements ModInitializer {
 		WanderingWorldgen.init();
 		WanderingSounds.init();
 		WanderingGameRules.init();
+
+		TradeOfferHelper.registerWanderingTraderOffers(
+			1,
+			offers -> {
+				offers.addAll(List.of(
+					new TradeOffers.SellItemFactory(
+						WanderingDatagen.DENIA_WOOD.SAPLING_ITEM,
+						5, 1, 8, 1
+					),
+					new TradeOffers.SellItemFactory(
+						WanderingDatagen.MYCHA_WOOD.SAPLING_ITEM,
+						5, 1, 8, 1
+					),
+					new TradeOffers.SellItemFactory(
+						WanderingItems.INDIGO_CAERULEUM,
+						1, 1, 12, 1
+					),
+					new TradeOffers.SellItemFactory(
+						WanderingItems.SCULKFLOWER,
+						1, 1, 12, 1
+					)
+				));
+			}
+		);
+
+		TradeOfferHelper.registerWanderingTraderOffers(
+			2,
+			offers -> {
+				offers.add(
+					new TradeOffers.SellItemFactory(
+						WanderingItems.CRYSTALLINE_SCULK_SHARD,
+						3, 1, 12, 5
+					)
+				);
+			}
+		);
+
 		Registry.register(Registries.PAINTING_VARIANT, ALTAR_PAINTING, new PaintingVariant(32, 32));
 		UseBlockCallback.EVENT.register(WanderingMod::onBlockUse);
 		RegistryMonitor.create(Registries.BLOCK).forAll((ctx) -> onBlockAdded(ctx.value(), ctx.id()));
