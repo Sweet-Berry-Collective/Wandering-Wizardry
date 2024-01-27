@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -54,7 +55,7 @@ public class Badges {
 			BADGES_CACHE.put(player, badge);
 
 			return badge;
-		} catch (IOException | InterruptedException ignored) {}
+		} catch (IOException | InterruptedException | JsonSyntaxException ignored) {}
 
 		BADGES_CACHE.put(player, null);
 
