@@ -6,7 +6,7 @@
       "ascent": 8,
       "height": 8,
       "chars": [
-        "D"
+        "D", "\u2000"
       ]
     },
     {
@@ -15,7 +15,7 @@
       "ascent": 8,
       "height": 8,
       "chars": [
-        "A"
+        "A", "\u2001"
       ]
     },
     {
@@ -24,7 +24,7 @@
       "ascent": 8,
       "height": 8,
       "chars": [
-        "C"
+        "C", "\u2002"
       ]
     }
   ]
