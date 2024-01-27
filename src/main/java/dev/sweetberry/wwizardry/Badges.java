@@ -28,11 +28,11 @@ public class Badges {
 
 	private static final Style FONT = Style.EMPTY.withFont(WanderingMod.id("badges"));
 	private static final Style STYLE_DEV = FONT.withHoverEvent(translated("wwizardry.badge.developer"));
-	private static final Text DEV = Text.literal("\u2000").setStyle(STYLE_DEV);
+	private static final Text DEV = Text.literal("\u200B").setStyle(STYLE_DEV);
 	private static final Style STYLE_ARTIST = FONT.withHoverEvent(translated("wwizardry.badge.artist"));
-	private static final Text ARTIST = Text.literal("\u2001").setStyle(STYLE_ARTIST);
+	private static final Text ARTIST = Text.literal("\u200C").setStyle(STYLE_ARTIST);
 	private static final Style STYLE_CONTRIBUTOR = FONT.withHoverEvent(translated("wwizardry.badge.contributor"));
-	private static final Text CONTRIBUTOR = Text.literal("\u2002").setStyle(STYLE_CONTRIBUTOR);
+	private static final Text CONTRIBUTOR = Text.literal("\u200D").setStyle(STYLE_CONTRIBUTOR);
 
 	private static final Map<String, Text> MAP = Map.of(
 		"D", DEV,
