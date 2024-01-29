@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
@@ -11,10 +12,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class CameraBlock extends Block implements Waterloggable {
-	public static final CameraBlock INSTANCE = new CameraBlock(QuiltBlockSettings.create().mapColor(MapColor.GRAY));
+	public static final CameraBlock INSTANCE = new CameraBlock(FabricBlockSettings.create().mapColor(MapColor.GRAY));
 
 	public static final VoxelShape SHAPE = createCuboidShape(4, 3, 4, 12, 16, 12);
 

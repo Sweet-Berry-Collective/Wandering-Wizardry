@@ -11,6 +11,9 @@ import dev.sweetberry.wwizardry.content.world.sapling.BeeHoldingSaplingGenerator
 import dev.sweetberry.wwizardry.content.block.nature.RootedMushroomBlock;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.sapling.SaplingBlock;
 import net.minecraft.block.sign.SignType;
@@ -26,9 +29,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 import org.quiltmc.qsl.resource.loader.api.InMemoryPack;
 import org.quiltmc.qsl.resource.loader.api.PackRegistrationContext;
 
@@ -92,15 +92,15 @@ public class WoodType extends AbstractDataGenerator {
 
 		fungus = fungusBaseBlock != null;
 
-		final var blockSettings = QuiltBlockSettings.copyOf(Blocks.OAK_PLANKS).sounds(sounds).mapColor(wood);
-		final var nonCollidable = QuiltBlockSettings.copyOf(blockSettings).collidable(false);
-		final var nonOpaque = QuiltBlockSettings.copyOf(blockSettings).nonOpaque();
-		final var hanging = QuiltBlockSettings
+		final var blockSettings = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).sounds(sounds).mapColor(wood);
+		final var nonCollidable = FabricBlockSettings.copyOf(blockSettings).collidable(false);
+		final var nonOpaque = FabricBlockSettings.copyOf(blockSettings).nonOpaque();
+		final var hanging = FabricBlockSettings
 			.copyOf(Blocks.OAK_HANGING_SIGN)
 			.sounds(sounds)
 			.mapColor(wood);
-		final var itemSettings = new QuiltItemSettings();
-		final var singleStack = new QuiltItemSettings().maxCount(1);
+		final var itemSettings = new FabricItemSettings();
+		final var singleStack = new FabricItemSettings().maxCount(1);
 
 		final var logName = fungus ? "stem" : "log";
 		final var woodName = fungus ? "hyphae" : "wood";
@@ -111,7 +111,7 @@ public class WoodType extends AbstractDataGenerator {
 		LOG = BlockInitializer.registerBlock(baseName+"_"+logName, createLogBlock(bark, wood, sounds));
 		LOG_ITEM = ItemInitializer.registerItem(baseName+"_"+logName, new BlockItem(LOG, itemSettings));
 
-		BlockContentRegistries.STRIPPABLE.put(LOG, STRIPPED_LOG);
+		StrippableBlockRegistry.register(LOG, STRIPPED_LOG);
 
 		STRIPPED_WOOD = BlockInitializer.registerBlock("stripped_"+baseName+"_"+woodName, createLogBlock(wood, wood, sounds));
 		STRIPPED_WOOD_ITEM = ItemInitializer.registerItem("stripped_"+baseName+"_"+woodName, new BlockItem(STRIPPED_WOOD, itemSettings));
@@ -119,7 +119,7 @@ public class WoodType extends AbstractDataGenerator {
 		WOOD = BlockInitializer.registerBlock(baseName+"_"+woodName, createLogBlock(bark, wood, sounds));
 		WOOD_ITEM = ItemInitializer.registerItem(baseName+"_"+woodName, new BlockItem(WOOD, itemSettings));
 
-		BlockContentRegistries.STRIPPABLE.put(WOOD, STRIPPED_WOOD);
+		StrippableBlockRegistry.register(WOOD, STRIPPED_WOOD);
 
 		PLANKS = BlockInitializer.registerBlock(baseName+"_planks", new Block(blockSettings));
 		PLANKS_ITEM = ItemInitializer.registerItem(baseName+"_planks", new BlockItem(PLANKS, itemSettings));
@@ -171,7 +171,7 @@ public class WoodType extends AbstractDataGenerator {
 			BOAT_CHEST_ITEM = ItemInitializer.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, singleStack);
 			BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, BOAT_KEY, new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
 		} else {
-			LEAVES = BlockInitializer.registerBlock(baseName+"_wart", new Block(QuiltBlockSettings.copyOf(Blocks.NETHER_WART_BLOCK)));
+			LEAVES = BlockInitializer.registerBlock(baseName+"_wart", new Block(FabricBlockSettings.copyOf(Blocks.NETHER_WART_BLOCK)));
 			LEAVES_ITEM = ItemInitializer.registerItem(baseName+"_wart", new BlockItem(LEAVES, itemSettings));
 
 			SAPLING = BlockInitializer.registerBlock(baseName+"_fungus", createFungusBlock(baseName, fungusBaseBlock));
@@ -186,7 +186,7 @@ public class WoodType extends AbstractDataGenerator {
 
 	private static FungusBlock createFungusBlock(String baseName, Block base) {
 		return new RootedMushroomBlock(
-			QuiltBlockSettings
+			FabricBlockSettings
 				.copyOf(Blocks.CRIMSON_FUNGUS)
 				.breakInstantly()
 				.noCollision()
@@ -200,7 +200,7 @@ public class WoodType extends AbstractDataGenerator {
 	private static SaplingBlock createSaplingBlock(String noBees, @Nullable String bees) {
 		return new SaplingBlock(
 			new BeeHoldingSaplingGenerator(noBees, bees),
-			QuiltBlockSettings
+			FabricBlockSettings
 				.copyOf(Blocks.OAK_SAPLING)
 				.noCollision()
 				.ticksRandomly()
@@ -211,7 +211,7 @@ public class WoodType extends AbstractDataGenerator {
 
 	private static LeavesBlock createLeavesBlock() {
 		return new LeavesBlock(
-				QuiltBlockSettings
+				FabricBlockSettings
 					.copyOf(Blocks.OAK_LEAVES)
 					.strength(0.2F)
 					.ticksRandomly()
@@ -225,7 +225,7 @@ public class WoodType extends AbstractDataGenerator {
 
 	private static Block createLogBlock(MapColor top, MapColor side, BlockSoundGroup sounds) {
 		return new PillarBlock(
-			QuiltBlockSettings.copyOf(Blocks.OAK_LOG)
+			FabricBlockSettings.copyOf(Blocks.OAK_LOG)
 				.strength(2.0F)
 				.sounds(sounds)
 				.mapColor((state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)

@@ -11,6 +11,7 @@ import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
 import dev.sweetberry.wwizardry.content.item.charm.BrewingCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.CraftingCharmItem;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
@@ -18,7 +19,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Rarity;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ItemInitializer {
 	public static final Item CRYSTALLINE_SCULK_SHARD = registerItem(
 			"crystalline_sculk",
 			new Item(
-					new QuiltItemSettings()
+					new FabricItemSettings()
 			)
 	);
 
@@ -39,7 +39,7 @@ public class ItemInitializer {
 			"crystalline_sculk_block",
 			new BlockItem(
 					CrystalSculkBlock.INSTANCE,
-					new QuiltItemSettings()
+					new FabricItemSettings()
 			)
 	);
 
@@ -47,7 +47,7 @@ public class ItemInitializer {
 			"sculkflower",
 			new BlockItem(
 					SculkflowerBlock.INSTANCE,
-					new QuiltItemSettings()
+					new FabricItemSettings()
 			)
 	);
 
@@ -55,7 +55,7 @@ public class ItemInitializer {
 		"indigo_caeruleum",
 		new BlockItem(
 			BlockInitializer.INDIGO_CAERULEUM,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
@@ -63,7 +63,7 @@ public class ItemInitializer {
 		"mycha_roots",
 		new BlockItem(
 			BlockInitializer.MYCHA_ROOTS,
-			 new QuiltItemSettings()
+			 new FabricItemSettings()
 		)
 	);
 
@@ -71,7 +71,7 @@ public class ItemInitializer {
 		"camera",
 		new BlockItem(
 			CameraBlock.INSTANCE,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
@@ -79,7 +79,7 @@ public class ItemInitializer {
 		"reinforced_glass",
 		new BlockItem(
 			BlockInitializer.REINFORCED_GLASS,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
@@ -87,7 +87,7 @@ public class ItemInitializer {
 		"reinforced_glass_pane",
 		new BlockItem(
 			BlockInitializer.REINFORCED_GLASS_PANE,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
@@ -95,7 +95,7 @@ public class ItemInitializer {
 		"redstone_lantern",
 		new BlockItem(
 			BlockInitializer.REDSTONE_LANTERN,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
@@ -103,33 +103,33 @@ public class ItemInitializer {
 		"wall_holder",
 		new BlockItem(
 			WallHolderBlock.EMPTY,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
 	public static final Item ROSE_QUARTZ = registerItem(
 		"rose_quartz",
-		new Item(new QuiltItemSettings())
+		new Item(new FabricItemSettings())
 	);
 	public static final Item ROSE_QUARTZ_ORE = registerItem(
 		"rose_quartz_ore",
 		new BlockItem(
 			BlockInitializer.ROSE_QUARTZ_ORE,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 	public static final Item DEEPSLATE_ROSE_QUARTZ_ORE = registerItem(
 		"deepslate_rose_quartz_ore",
 		new BlockItem(
 			BlockInitializer.DEEPSLATE_ROSE_QUARTZ_ORE,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 	public static final Item ROSE_QUARTZ_BLOCK = registerItem(
 		"rose_quartz_block",
 		new BlockItem(
 			BlockInitializer.ROSE_QUARTZ_BLOCK,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
@@ -137,7 +137,7 @@ public class ItemInitializer {
 		"mycelial_sand",
 		new BlockItem(
 			BlockInitializer.MYCELIAL_SAND,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
@@ -145,7 +145,7 @@ public class ItemInitializer {
 		"modulo_comparator",
 		new BlockItem(
 			BlockInitializer.MODULO_COMPARATOR,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
@@ -153,7 +153,7 @@ public class ItemInitializer {
 		"redstone_stepper",
 		new BlockItem(
 			BlockInitializer.REDSTONE_STEPPER,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
@@ -161,14 +161,14 @@ public class ItemInitializer {
 		"sculk_resonator",
 		new BlockItem(
 			ResonatorBlock.INSTANCE,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 		)
 	);
 
 	public static final Item SLOT_CHARM = registerItem(
 		"slot_charm",
 		new Item(
-			new QuiltItemSettings()
+			new FabricItemSettings()
 				.recipeRemainder(((original, recipe) -> original))
 				.maxCount(1)
 		)
@@ -177,7 +177,7 @@ public class ItemInitializer {
 	public static final Item CRAFTING_CHARM = registerItem(
 		"crafting_charm",
 		new CraftingCharmItem(
-			new QuiltItemSettings()
+			new FabricItemSettings()
 				.recipeRemainder(((original, recipe) -> original))
 				.maxCount(1)
 		)
@@ -186,7 +186,7 @@ public class ItemInitializer {
 	public static final Item BREWING_CHARM = registerItem(
 		"brewing_charm",
 		new BrewingCharmItem(
-			new QuiltItemSettings()
+			new FabricItemSettings()
 				.recipeRemainder(((original, recipe) -> original))
 				.maxCount(1)
 		)
@@ -197,7 +197,7 @@ public class ItemInitializer {
 		new MusicDiscItem(
 			10,
 			SoundInitializer.DISC_WANDERING,
-			new QuiltItemSettings()
+			new FabricItemSettings()
 				.maxCount(1)
 				.rarity(Rarity.RARE),
 			140
@@ -232,7 +232,7 @@ public class ItemInitializer {
 		return Registry.register(Registries.ITEM, Mod.id(id), item);
 	}
 
-	public static Item registerBoatItem(String id, RegistryKey<TerraformBoatType> boatTypeKey, boolean chest, QuiltItemSettings itemSettings) {
+	public static Item registerBoatItem(String id, RegistryKey<TerraformBoatType> boatTypeKey, boolean chest, FabricItemSettings itemSettings) {
 		Item item = TerraformBoatItemHelper.registerBoatItem(Mod.id(id), boatTypeKey, chest, itemSettings);
 		STACKS.add(new ItemStack(item));
 		return item;

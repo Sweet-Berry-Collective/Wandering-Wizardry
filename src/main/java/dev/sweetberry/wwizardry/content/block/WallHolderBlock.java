@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,12 +26,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 import java.util.HashMap;
 
 public class WallHolderBlock extends Block {
-	public static final WallHolderBlock EMPTY = new WallHolderBlock(QuiltBlockSettings.create().breakInstantly().mapColor(MapColor.GRAY));
+	public static final WallHolderBlock EMPTY = new WallHolderBlock(FabricBlockSettings.create().breakInstantly().mapColor(MapColor.GRAY));
 	public static final HashMap<Block, WallHolderBlock> ITEM_LOOKUP = new HashMap<>();
 
 	public static final VoxelShape NORTH_SHAPE = createCuboidShape(6, 0, 0, 10, 6, 6);

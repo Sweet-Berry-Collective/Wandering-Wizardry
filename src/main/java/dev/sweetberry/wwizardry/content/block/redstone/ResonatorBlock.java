@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.redstone;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -18,10 +19,9 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.vibration.VibrationManager;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class ResonatorBlock extends HorizontalFacingBlock implements Waterloggable {
-	public static final ResonatorBlock INSTANCE = new ResonatorBlock(QuiltBlockSettings.create().sounds(BlockSoundGroup.SCULK_SHRIEKER));
+	public static final ResonatorBlock INSTANCE = new ResonatorBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.SCULK_SHRIEKER));
 	static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
 
 	protected ResonatorBlock(Settings settings) {

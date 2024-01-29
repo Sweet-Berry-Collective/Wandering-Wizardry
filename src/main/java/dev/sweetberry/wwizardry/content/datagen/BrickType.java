@@ -2,14 +2,14 @@ package dev.sweetberry.wwizardry.content.datagen;
 
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.resource.MultiPackResourceManager;
 import net.minecraft.sound.BlockSoundGroup;
 import org.jetbrains.annotations.NotNull;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 import org.quiltmc.qsl.resource.loader.api.InMemoryPack;
 import org.quiltmc.qsl.resource.loader.api.PackRegistrationContext;
 
@@ -32,8 +32,8 @@ public class BrickType extends AbstractDataGenerator {
 		this.baseName = baseName;
 		this.plural = plural;
 
-		final var blockSettings = QuiltBlockSettings.copyOf(Blocks.STONE_BRICKS).sounds(sounds).mapColor(color).requiresTool();
-		final var itemSettings = new QuiltItemSettings();
+		final var blockSettings = FabricBlockSettings.copyOf(Blocks.STONE_BRICKS).sounds(sounds).mapColor(color).requiresTool();
+		final var itemSettings = new FabricItemSettings();
 
 		BASE = BlockInitializer.registerBlock(baseName+(plural?"s":""), new Block(blockSettings));
 		BASE_ITEM = ItemInitializer.registerItem(baseName+(plural?"s":""), new BlockItem(BASE, itemSettings));

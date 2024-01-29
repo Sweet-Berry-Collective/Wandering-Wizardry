@@ -3,13 +3,13 @@ package dev.sweetberry.wwizardry.content.datagen;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.WallCandleBlock;
 import dev.sweetberry.wwizardry.content.block.WallHolderBlock;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.resource.MultiPackResourceManager;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.resource.loader.api.InMemoryPack;
 import org.quiltmc.qsl.resource.loader.api.PackRegistrationContext;
 
@@ -24,7 +24,7 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		this.block = block;
 		this.parent = parent;
 		wallBlock = switch (parent) {
-			case CANDLE -> new WallCandleBlock(QuiltBlockSettings.copyOf(WallHolderBlock.EMPTY), (CandleBlock) block);
+			case CANDLE -> new WallCandleBlock(FabricBlockSettings.copyOf(WallHolderBlock.EMPTY), (CandleBlock) block);
 			// TODO!
 			default -> throw new NotImplementedException("Type "+ parent.name +" is not implemented.");
 		};

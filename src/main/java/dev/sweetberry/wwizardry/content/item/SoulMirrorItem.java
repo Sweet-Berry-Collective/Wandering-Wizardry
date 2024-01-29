@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.content.item.material.CrystallineToolMaterial;
 import dev.sweetberry.wwizardry.mixin.Accessor_ServerPlayerEntity;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Dismounting;
 import net.minecraft.entity.Entity;
@@ -34,13 +35,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.poi.PointOfInterestTypes;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import java.util.Optional;
 
 public class SoulMirrorItem extends ToolItem implements Vanishable {
 	public static final SoulMirrorItem INSTANCE = new SoulMirrorItem(
-		new QuiltItemSettings()
+		new FabricItemSettings()
 			.maxCount(1)
 	);
 

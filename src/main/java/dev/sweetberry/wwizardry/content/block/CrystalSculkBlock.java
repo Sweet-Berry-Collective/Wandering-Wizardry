@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.sculk.SculkBehavior;
 import net.minecraft.block.sculk.SculkShriekerBlock;
@@ -11,10 +12,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.world.WorldAccess;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class CrystalSculkBlock extends AmethystBlock implements SculkVeinSpreader {
-	public static final CrystalSculkBlock INSTANCE = new CrystalSculkBlock(QuiltBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).luminance(1).mapColor(MapColor.ICE));
+	public static final CrystalSculkBlock INSTANCE = new CrystalSculkBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).luminance(1).mapColor(MapColor.ICE));
 
 	public CrystalSculkBlock(Settings settings) {
 		super(settings);

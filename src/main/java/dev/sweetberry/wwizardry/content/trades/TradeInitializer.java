@@ -2,8 +2,8 @@ package dev.sweetberry.wwizardry.content.trades;
 
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
+import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.village.TradeOffers;
-import org.quiltmc.qsl.entity.extensions.api.TradeOfferHelper;
 
 import java.util.List;
 

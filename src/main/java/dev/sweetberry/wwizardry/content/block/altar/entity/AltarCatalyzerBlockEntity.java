@@ -5,6 +5,7 @@ import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -21,14 +22,13 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
-	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = QuiltBlockEntityTypeBuilder.create(AltarCatalyzerBlockEntity::new, AltarCatalyzerBlock.INSTANCE).build();
+	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = FabricBlockEntityTypeBuilder.create(AltarCatalyzerBlockEntity::new, AltarCatalyzerBlock.INSTANCE).build();
 
 	public ItemStack result = ItemStack.EMPTY;
 	private final SculkBehavior behavior = SculkBehavior.createBehavior();

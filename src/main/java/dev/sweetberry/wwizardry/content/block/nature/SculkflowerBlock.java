@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.block.nature;
 
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.Sculkable;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -20,10 +21,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class SculkflowerBlock extends FlowerBlock implements Sculkable, SculkVeinSpreader {
-	public static final SculkflowerBlock INSTANCE = new SculkflowerBlock(StatusEffects.DARKNESS, 30, QuiltBlockSettings.copyOf(Blocks.POPPY).offsetType(OffsetType.NONE));
+	public static final SculkflowerBlock INSTANCE = new SculkflowerBlock(StatusEffects.DARKNESS, 30, FabricBlockSettings.copyOf(Blocks.POPPY).offsetType(OffsetType.NONE));
 
 	public SculkflowerBlock(StatusEffect suspiciousStewEffect, int effectDuration, Settings settings) {
 		super(suspiciousStewEffect, effectDuration, settings);

@@ -8,10 +8,10 @@ import dev.sweetberry.wwizardry.client.render.AltarCatalyzerBlockEntityRenderer;
 import dev.sweetberry.wwizardry.client.render.AltarPedestalBlockEntityRenderer;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.client.ItemTooltipCallback;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import org.quiltmc.qsl.lifecycle.api.client.event.ClientWorldTickEvents;
 
 public class ClientEvents {
 	public static void init() {
@@ -32,6 +32,6 @@ public class ClientEvents {
 			ModelPredicates::getSoulMirror
 		);
 
-		ClientWorldTickEvents.END.register((client, world) -> ModClient.tickCounter++);
+		ClientTickEvents.END_CLIENT_TICK.register(client -> ModClient.tickCounter++);
 	}
 }

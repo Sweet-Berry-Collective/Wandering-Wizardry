@@ -2,10 +2,10 @@ package dev.sweetberry.wwizardry.mixin;
 
 import com.mojang.authlib.GameProfile;
 import dev.sweetberry.wwizardry.api.Badges;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import org.quiltmc.loader.api.QuiltLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +26,7 @@ public abstract class Mixin_PlayerEntity {
 	)
 	private void wwizardry$getBadge(CallbackInfoReturnable<Text> cir) {
 		// TODO: don't hardcode
-		if (QuiltLoader.isModLoaded("styled-nicknames") || QuiltLoader.isModLoaded("styledchat"))
+		if (FabricLoader.getInstance().isModLoaded("styled-nicknames") || FabricLoader.getInstance().isModLoaded("styledchat"))
 			return;
 		if (!(cir.getReturnValue() instanceof MutableText mutableText))
 			return;

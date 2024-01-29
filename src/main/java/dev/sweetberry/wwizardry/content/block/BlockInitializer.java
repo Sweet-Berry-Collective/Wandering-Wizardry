@@ -12,6 +12,7 @@ import dev.sweetberry.wwizardry.content.block.nature.RootedPlantBlock;
 import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.LogicGateBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -29,7 +30,6 @@ import net.minecraft.util.math.int_provider.UniformIntProvider;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class BlockInitializer {
 	public static final BooleanProperty SCULK_INFESTED = BooleanProperty.of("sculked");
@@ -40,22 +40,22 @@ public class BlockInitializer {
 			Block.createCuboidShape(4.0, 2.0, 4.0, 12.0, 15.0, 12.0)
 	).simplify();
 
-	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new RootedFlowerBlock(StatusEffects.INVISIBILITY, 20, "mycha_growable", QuiltBlockSettings.copyOf(Blocks.POPPY)));
+	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new RootedFlowerBlock(StatusEffects.INVISIBILITY, 20, "mycha_growable", FabricBlockSettings.copyOf(Blocks.POPPY)));
 
-	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new GlassBlock(QuiltBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
+	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new GlassBlock(FabricBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
 
-	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new PaneBlock(QuiltBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
+	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new PaneBlock(FabricBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
 
-	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(QuiltBlockSettings.copyOf(Blocks.REDSTONE_LAMP)));
+	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(FabricBlockSettings.copyOf(Blocks.REDSTONE_LAMP)));
 
-	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new ExperienceDroppingBlock(QuiltBlockSettings.copyOf(Blocks.IRON_ORE), UniformIntProvider.create(1,4)));
-	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new ExperienceDroppingBlock(QuiltBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE), UniformIntProvider.create(1,4)));
-	public static final Block ROSE_QUARTZ_BLOCK = registerBlock("rose_quartz_block", new Block(QuiltBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)));
+	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new ExperienceDroppingBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE), UniformIntProvider.create(1,4)));
+	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new ExperienceDroppingBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE), UniformIntProvider.create(1,4)));
+	public static final Block ROSE_QUARTZ_BLOCK = registerBlock("rose_quartz_block", new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)));
 
 	public static final Block MODULO_COMPARATOR = registerBlock(
 		"modulo_comparator",
 		new LogicGateBlock(
-			QuiltBlockSettings.copyOf(Blocks.COMPARATOR),
+			FabricBlockSettings.copyOf(Blocks.COMPARATOR),
 			LogicGateBlock.SideInput.ALL,
 			true,
 			(state, mode, side, back) -> {
@@ -70,7 +70,7 @@ public class BlockInitializer {
 	public static final Block REDSTONE_STEPPER = registerBlock(
 		"redstone_stepper",
 		new LogicGateBlock(
-			QuiltBlockSettings.copyOf(Blocks.REPEATER),
+			FabricBlockSettings.copyOf(Blocks.REPEATER),
 			LogicGateBlock.SideInput.NONE,
 			false,
 			(state, mode, side, back) -> back > 0 ? 1 : 0
@@ -80,7 +80,7 @@ public class BlockInitializer {
 	public static final Block MYCELIAL_SAND = registerBlock(
 		"mycelial_sand",
 		new FallingDecayableBlock(
-			QuiltBlockSettings.copyOf(Blocks.SAND).mapColor(MapColor.ICE),
+			FabricBlockSettings.copyOf(Blocks.SAND).mapColor(MapColor.ICE),
 			Blocks.SAND,
 			"mycha_spread"
 		)

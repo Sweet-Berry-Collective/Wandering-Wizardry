@@ -2,6 +2,9 @@ package dev.sweetberry.wwizardry.content.world;
 
 import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.content.world.processors.WaterLoggingFixProcessor;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -11,9 +14,6 @@ import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
-import org.quiltmc.qsl.worldgen.biome.api.BiomeModifications;
-import org.quiltmc.qsl.worldgen.biome.api.BiomeSelectors;
-import org.quiltmc.qsl.worldgen.biome.api.ModificationPhase;
 
 public class WorldgenInitializer {
 	public static final RegistryKey<Biome> FORGOTTEN_FIELDS = key("forgotten_fields");

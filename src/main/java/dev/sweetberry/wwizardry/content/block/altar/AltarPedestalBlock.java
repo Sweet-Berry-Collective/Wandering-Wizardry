@@ -2,6 +2,8 @@ package dev.sweetberry.wwizardry.content.block.altar;
 
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarPedestalBlockEntity;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -16,12 +18,10 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 public class AltarPedestalBlock extends AltarBlock<AltarPedestalBlockEntity> {
-	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(QuiltBlockSettings.copyOf(Blocks.REDSTONE_BLOCK));
-	public static final BlockItem ITEM = new BlockItem(INSTANCE, new QuiltItemSettings());
+	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(FabricBlockSettings.copyOf(Blocks.REDSTONE_BLOCK));
+	public static final BlockItem ITEM = new BlockItem(INSTANCE, new FabricItemSettings());
 	public static final VoxelShape NORTH_SHAPE = VoxelShapes.union(
 			BlockInitializer.ALTAR_BASE_SHAPE,
 

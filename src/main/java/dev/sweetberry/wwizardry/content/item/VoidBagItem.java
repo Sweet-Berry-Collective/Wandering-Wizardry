@@ -2,6 +2,9 @@ package dev.sweetberry.wwizardry.content.item;
 
 import dev.sweetberry.wwizardry.compat.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.content.net.packet.VoidBagPayload;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
@@ -13,13 +16,10 @@ import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
-import org.quiltmc.qsl.networking.api.PacketByteBufs;
-import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 
 public class VoidBagItem extends Item {
 	public static final VoidBagItem INSTANCE = new VoidBagItem(
-		new QuiltItemSettings()
+		new FabricItemSettings()
 			.maxCount(1)
 	);
 
