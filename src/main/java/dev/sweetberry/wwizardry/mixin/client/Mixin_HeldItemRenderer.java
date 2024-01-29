@@ -25,11 +25,11 @@ public abstract class Mixin_HeldItemRenderer {
 		)
 	)
 	private void wwizardry$renderFirstPersonItem(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
-		if (!(
-			item.getItem() instanceof SoulMirrorItem
-			&& player.isUsingItem()
-			&& player.getItemUseTimeLeft() > 0
-			&& player.getActiveHand() == hand)
+		if (
+			!(item.getItem() instanceof SoulMirrorItem)
+			|| !player.isUsingItem()
+			|| player.getItemUseTimeLeft() <= 0
+			|| player.getActiveHand() != hand
 		) {
 			ModClient.useItemTick = -1;
 			return;
