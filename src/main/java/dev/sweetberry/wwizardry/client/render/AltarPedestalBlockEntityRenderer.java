@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.client.render;
 
-import dev.sweetberry.wwizardry.block.AltarPedestalBlock;
-import dev.sweetberry.wwizardry.block.entity.AltarPedestalBlockEntity;
+import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
+import dev.sweetberry.wwizardry.content.block.altar.entity.AltarPedestalBlockEntity;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;

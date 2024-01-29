@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.client.render;
 
-import dev.sweetberry.wwizardry.block.entity.AltarCatalyzerBlockEntity;
+import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;

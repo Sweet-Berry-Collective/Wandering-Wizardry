@@ -1,8 +1,7 @@
 package dev.sweetberry.wwizardry.mixin;
 
-import dev.sweetberry.wwizardry.block.WanderingBlocks;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.sculk.SculkVeinBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -16,7 +15,7 @@ public class Mixin_SculkVeinSpreadBehavior {
 	@Inject(method = "canPlace", at = @At("RETURN"), cancellable = true)
 	private void checkAltar(BlockView view, BlockPos posA, BlockPos posB, Direction dir, BlockState state, CallbackInfoReturnable<Boolean> cir) {
 
-		if (view.getBlockState(posB.offset(dir)).contains(WanderingBlocks.SCULK_INFESTED)) {
+		if (view.getBlockState(posB.offset(dir)).contains(BlockInitializer.SCULK_INFESTED)) {
 			cir.setReturnValue(true);
 		}
 	}

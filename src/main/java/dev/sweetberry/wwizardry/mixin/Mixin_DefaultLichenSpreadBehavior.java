@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.mixin;
 
-import dev.sweetberry.wwizardry.block.Sculkable;
-import dev.sweetberry.wwizardry.block.WanderingBlocks;
+import dev.sweetberry.wwizardry.content.block.Sculkable;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import net.minecraft.block.AbstractLichenBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LichenSpreadBehavior;
@@ -36,7 +36,7 @@ public class Mixin_DefaultLichenSpreadBehavior {
 		var state = view.getBlockState(placement.pos());
 		if (!(state.getBlock() instanceof Sculkable))
 			return;
-		cir.setReturnValue(!state.get(WanderingBlocks.SCULK_INFESTED));
+		cir.setReturnValue(!state.get(BlockInitializer.SCULK_INFESTED));
 	}
 
 	@Inject(at = @At("HEAD"), method = "getPlacementState", cancellable = true)
@@ -46,6 +46,6 @@ public class Mixin_DefaultLichenSpreadBehavior {
 		var trueState = view.getBlockState(pos);
 		if (!(trueState.getBlock() instanceof Sculkable))
 			return;
-		cir.setReturnValue(trueState.with(WanderingBlocks.SCULK_INFESTED, true));
+		cir.setReturnValue(trueState.with(BlockInitializer.SCULK_INFESTED, true));
 	}
 }

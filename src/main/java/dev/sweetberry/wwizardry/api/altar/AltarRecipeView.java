@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.api.altar;
 
-import dev.sweetberry.wwizardry.item.WanderingItems;
+import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.math.Direction;
@@ -25,7 +25,7 @@ public interface AltarRecipeView {
 		for (var dir : AltarDirection.cardinals()) {
 			for (var j = 0; j < 4; j++) {
 				var heldItem = getItemInPedestal(dir);
-				var isSlotCharm = heldItem.getItem() == WanderingItems.SLOT_CHARM;
+				var isSlotCharm = heldItem.getItem() == ItemInitializer.SLOT_CHARM;
 				if (!met[j]) {
 					met[j] = inputs.size() > j
 						? inputs.get(j).test(heldItem) || (isSlotCharm && inputs.get(j).test(ItemStack.EMPTY))

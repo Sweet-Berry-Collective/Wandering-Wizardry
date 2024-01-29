@@ -12,8 +12,7 @@
     "Mixin_PlayerEntity",
     "Mixin_RedstoneWireBlock",
     "Mixin_SculkVeinSpreadBehavior",
-    "Mixin_Structure",
-    "Mixin_TerraformBoatTrackedData"
+    "Mixin_Structure"
   ],
   "injectors": {
     "defaultRequire": 1

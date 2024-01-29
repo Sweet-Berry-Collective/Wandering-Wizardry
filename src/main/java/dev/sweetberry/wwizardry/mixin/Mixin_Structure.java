@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.mixin;
 
-import dev.sweetberry.wwizardry.world.processors.WaterLoggingFixProcessor;
+import dev.sweetberry.wwizardry.content.world.processors.WaterLoggingFixProcessor;
 import net.minecraft.structure.Structure;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.util.math.BlockPos;

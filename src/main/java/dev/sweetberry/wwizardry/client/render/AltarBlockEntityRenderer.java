@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.client.render;
 
-import dev.sweetberry.wwizardry.block.entity.AltarBlockEntity;
-import dev.sweetberry.wwizardry.client.WanderingClient;
+import dev.sweetberry.wwizardry.content.block.altar.entity.AltarBlockEntity;
+import dev.sweetberry.wwizardry.client.ModClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -40,8 +40,8 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 			drawEndCrystal(entity, tickDelta, matrices, vertexConsumers, light);
 		} else {
 			if (shouldHover)
-				matrices.translate(0, Math.sin((WanderingClient.tickCounter + tickDelta) / 16 + entity.rand) * 0.03125, 0);
-			matrices.multiply(Axis.Y_NEGATIVE.rotationDegrees((WanderingClient.tickCounter + tickDelta) / 2));
+				matrices.translate(0, Math.sin((ModClient.tickCounter + tickDelta) / 16 + entity.rand) * 0.03125, 0);
+			matrices.multiply(Axis.Y_NEGATIVE.rotationDegrees((ModClient.tickCounter + tickDelta) / 2));
 
 			drawItem(entity, matrices, vertexConsumers, light);
 		}
@@ -55,7 +55,7 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 		if (endCrystalEntity == null)
 			return;
 
-		endCrystalEntity.endCrystalAge = WanderingClient.tickCounter;
+		endCrystalEntity.endCrystalAge = ModClient.tickCounter;
 
 		context().getEntityRendererDispatcher().getRenderer(endCrystalEntity).render(endCrystalEntity, 0, tickDelta, matrices, vertexConsumers, light);
 	}

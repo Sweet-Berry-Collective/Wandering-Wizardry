@@ -1,0 +1,38 @@
+package dev.sweetberry.wwizardry.compat.terrablender.region;
+
+import com.mojang.datafixers.util.Pair;
+import dev.sweetberry.wwizardry.Mod;
+import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.source.util.MultiNoiseUtil;
+import terrablender.api.Region;
+import terrablender.api.RegionType;
+
+import java.util.function.Consumer;
+
+public class ForgottenFieldsRegion extends Region {
+	public static final ForgottenFieldsRegion INSTANCE = new ForgottenFieldsRegion();
+
+	public ForgottenFieldsRegion() {
+		super(Mod.id("forgotten_fields"), RegionType.OVERWORLD, 1);
+	}
+
+	@Override
+	public void addBiomes(Registry<Biome> registry, Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> mapper) {
+		addBiome(
+			mapper,
+			MultiNoiseUtil.createNoiseHypercube(
+				MultiNoiseUtil.ParameterRange.of(0.55f, 0.75f),
+				MultiNoiseUtil.ParameterRange.of(0.55f, 0.75f),
+				MultiNoiseUtil.ParameterRange.of(0.55f, 0.75f),
+				MultiNoiseUtil.ParameterRange.of(0.75f, 1.0f),
+				MultiNoiseUtil.ParameterRange.of(0.55f, 1.0f),
+				MultiNoiseUtil.ParameterRange.of(0.75f, 1.0f),
+				1f
+			),
+			WorldgenInitializer.FORGOTTEN_FIELDS
+		);
+	}
+}

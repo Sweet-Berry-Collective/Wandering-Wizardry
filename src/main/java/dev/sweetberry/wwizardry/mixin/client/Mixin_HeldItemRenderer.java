@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.mixin.client;
 
-import dev.sweetberry.wwizardry.client.WanderingClient;
-import dev.sweetberry.wwizardry.item.SoulMirrorItem;
+import dev.sweetberry.wwizardry.client.ModClient;
+import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;
@@ -26,8 +26,8 @@ public abstract class Mixin_HeldItemRenderer {
 	)
 	private void wwizardry$renderFirstPersonItem(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
 		if (item.getItem() instanceof SoulMirrorItem && player.isUsingItem() && player.getItemUseTimeLeft() > 0 && player.getActiveHand() == hand) {
-			if (WanderingClient.useItemTick == -1)
-				WanderingClient.useItemTick = WanderingClient.tickCounter;
+			if (ModClient.useItemTick == -1)
+				ModClient.useItemTick = ModClient.tickCounter;
 			Arm arm = (hand == Hand.MAIN_HAND) ? player.getMainArm() : player.getMainArm().getOpposite();
 
 			int i = arm == Arm.RIGHT ? 1 : -1;
@@ -38,7 +38,7 @@ public abstract class Mixin_HeldItemRenderer {
 				-0.7f
 			);
 
-			int timeSinceUse = WanderingClient.tickCounter - WanderingClient.useItemTick;
+			int timeSinceUse = ModClient.tickCounter - ModClient.useItemTick;
 
 			float time = (float)timeSinceUse + tickDelta;
 
@@ -66,7 +66,7 @@ public abstract class Mixin_HeldItemRenderer {
 
 			matrices.scale(1, 1, stretch);
 		} else {
-			WanderingClient.useItemTick = -1;
+			ModClient.useItemTick = -1;
 		}
 	}
 }

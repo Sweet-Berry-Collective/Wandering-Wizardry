@@ -46,11 +46,11 @@ quilt_loader {
     intermediate_mappings = "net.fabricmc:intermediary"
 
     entrypoints {
-        init = "dev.sweetberry.wwizardry.WanderingMod"
-        client_init = "dev.sweetberry.wwizardry.client.WanderingClient"
-        terrablender = "dev.sweetberry.wwizardry.world.TerraBlenderInitializer"
-        cardinal-components = "dev.sweetberry.wwizardry.component.CardinalInitializer"
-        emi = "dev.sweetberry.wwizardry.emi.EmiInitializer"
+        main = "dev.sweetberry.wwizardry.Mod"
+        client = "dev.sweetberry.wwizardry.client.ModClient"
+        terrablender = "dev.sweetberry.wwizardry.compat.terrablender.TerraBlenderInitializer"
+        cardinal-components = "dev.sweetberry.wwizardry.compat.component.CardinalInitializer"
+        emi = "dev.sweetberry.wwizardry.compat.emi.EmiInitializer"
     }
 
     depends [
@@ -58,7 +58,7 @@ quilt_loader {
         { id = "quilted_fabric_api" }
         {
             id = "minecraft"
-            versions = ">=1.19.4"
+            versions = "1.20.2"
         }
         { id = "terraform-wood-api-v1" }
         { id = "terrablender" }
