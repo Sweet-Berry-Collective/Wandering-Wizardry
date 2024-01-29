@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.content.net.packet;
 
 import dev.sweetberry.wwizardry.Mod;
-import dev.sweetberry.wwizardry.compat.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
 import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PacketType;

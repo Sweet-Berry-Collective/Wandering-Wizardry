@@ -1,8 +1,9 @@
-package dev.sweetberry.wwizardry.compat.emi;
+package dev.sweetberry.wwizardry.compat.emi.recipe;
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.sweetberry.wwizardry.compat.emi.EmiInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;

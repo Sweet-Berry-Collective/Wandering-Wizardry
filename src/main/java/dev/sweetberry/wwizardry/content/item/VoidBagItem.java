@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.content.item;
 
-import dev.sweetberry.wwizardry.compat.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;

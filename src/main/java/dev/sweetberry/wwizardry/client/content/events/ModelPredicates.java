@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.client.content.events;
 
-import dev.sweetberry.wwizardry.compat.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import net.minecraft.client.MinecraftClient;

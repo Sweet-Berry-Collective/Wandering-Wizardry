@@ -49,7 +49,7 @@ quilt_loader {
         main = "dev.sweetberry.wwizardry.Mod"
         client = "dev.sweetberry.wwizardry.client.ModClient"
         terrablender = "dev.sweetberry.wwizardry.compat.terrablender.TerraBlenderInitializer"
-        cardinal-components = "dev.sweetberry.wwizardry.compat.component.CardinalInitializer"
+        cardinal-components = "dev.sweetberry.wwizardry.compat.cardinal.CardinalInitializer"
         emi = "dev.sweetberry.wwizardry.compat.emi.EmiInitializer"
     }
 

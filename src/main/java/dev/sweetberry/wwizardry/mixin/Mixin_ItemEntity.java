@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.mixin;
 
-import dev.sweetberry.wwizardry.compat.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

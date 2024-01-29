@@ -1,7 +1,8 @@
-package dev.sweetberry.wwizardry.compat.component;
+package dev.sweetberry.wwizardry.compat.cardinal.component;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
+import dev.sweetberry.wwizardry.compat.cardinal.CardinalInitializer;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;

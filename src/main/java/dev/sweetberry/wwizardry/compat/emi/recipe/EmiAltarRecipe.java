@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.compat.emi;
+package dev.sweetberry.wwizardry.compat.emi.recipe;
 
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
