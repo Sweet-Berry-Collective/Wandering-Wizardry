@@ -14,7 +14,7 @@ public class RegistryMonitorHandler {
 		"jello"
 	};
 
-	public static void onBlockAdded(Block block, Identifier id) {
+	public static void onBlockAdded(Identifier id, Block block) {
 		// Ignore known broken mods. TODO: Make this configurable
 		if (
 			Arrays.stream(modid_exclusions)
