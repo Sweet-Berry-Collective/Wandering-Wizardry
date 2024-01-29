@@ -13,7 +13,10 @@ import net.minecraft.registry.Holder;
 
 public class DatagenRegistryAttachment {
 	public static void init() {
-		DatagenInitializer.REGISTRY.holders().map(Holder.Reference::value).forEach(DatagenRegistryAttachment::checkGenerator);
+		DatagenInitializer.REGISTRY
+			.holders()
+			.map(Holder.Reference::value)
+			.forEach(DatagenRegistryAttachment::checkGenerator);
 	}
 
 	public static void checkGenerator(AbstractDataGenerator dataGenerator) {
