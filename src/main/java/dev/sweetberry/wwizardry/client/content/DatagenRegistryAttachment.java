@@ -9,10 +9,11 @@ import dev.sweetberry.wwizardry.content.datagen.WoodType;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.resource.Material;
+import net.minecraft.registry.Holder;
 
 public class DatagenRegistryAttachment {
 	public static void init() {
-		DatagenInitializer.REGISTRY.forEach(DatagenRegistryAttachment::checkGenerator);
+		DatagenInitializer.REGISTRY.holders().map(Holder.Reference::value).forEach(DatagenRegistryAttachment::checkGenerator);
 	}
 
 	public static void checkGenerator(AbstractDataGenerator dataGenerator) {
