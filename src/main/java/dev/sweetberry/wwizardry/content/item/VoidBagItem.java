@@ -46,12 +46,13 @@ public class VoidBagItem extends Item {
 	public boolean onClicked(ItemStack thisStack, ItemStack otherStack, Slot thisSlot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
 		if (clickType != ClickType.RIGHT)
 			return false;
-		if (!player.getWorld().isClient)
-			return false;
 		if (!otherStack.isEmpty())
 			return false;
+		if (player.getWorld().isClient)
+			return true;
 
-		ClientPlayNetworking.send(VoidBagPayload.ID, PacketByteBufs.create());
+		var bag = VoidBagComponent.getForPlayer(player);
+		bag.openScreen();
 
 		return true;
 	}
