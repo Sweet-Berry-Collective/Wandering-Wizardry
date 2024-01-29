@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:denia_stairs","wwizardry:mycha_stairs"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:denia_stairs"},{"required":false,"id":"wwizardry:mycha_stairs"}]}

@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.block;
 
 import net.minecraft.block.*;
 import net.minecraft.block.sculk.SculkBehavior;
+import net.minecraft.block.sculk.SculkShriekerBlock;
 import net.minecraft.block.sculk.SculkVeinSpreader;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.sound.SoundCategory;

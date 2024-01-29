@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:altar_pedestal","wwizardry:altar_catalyzer"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:altar_pedestal"},{"required":false,"id":"wwizardry:altar_catalyzer"}]}

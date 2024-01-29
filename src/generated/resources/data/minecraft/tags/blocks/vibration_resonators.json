@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:crystalline_sculk_block","wwizardry:rose_quartz_block"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:crystalline_sculk_block"},{"required":false,"id":"wwizardry:rose_quartz_block"}]}

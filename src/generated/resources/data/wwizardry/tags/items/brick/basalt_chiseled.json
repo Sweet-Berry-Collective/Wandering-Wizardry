@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:chiseled_basalt","wwizardry:chiseled_basalt_stairs","wwizardry:chiseled_basalt_slab","wwizardry:chiseled_basalt_wall"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:chiseled_basalt"},{"required":false,"id":"wwizardry:chiseled_basalt_stairs"},{"required":false,"id":"wwizardry:chiseled_basalt_slab"},{"required":false,"id":"wwizardry:chiseled_basalt_wall"}]}

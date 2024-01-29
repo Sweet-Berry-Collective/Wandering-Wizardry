@@ -25,7 +25,13 @@ export default function generateTags(inputDir: string, outputDir: string) {
         for (const path in paths) {
             const outputFile = outputDir+"/"+file+"/tags/"+path+".json"
             const values = paths[path]
-            Deno.writeTextFileSync(outputFile, JSON.stringify({replace: false, required: false, values}))
+            Deno.writeTextFileSync(outputFile, JSON.stringify({
+                replace: false,
+                values: values.map(it => ({
+                    required: false,
+                    id: it
+                }))
+            }))
             console.log("    "+outputFile)
         }
     }

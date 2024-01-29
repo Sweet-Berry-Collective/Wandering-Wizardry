@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:denia_sign","wwizardry:mycha_sign"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:denia_sign"},{"required":false,"id":"wwizardry:mycha_sign"}]}

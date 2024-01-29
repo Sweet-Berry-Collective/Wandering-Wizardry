@@ -1,12 +1,11 @@
 package dev.sweetberry.wwizardry.mixin;
 
-import dev.sweetberry.wwizardry.block.AltarBlock;
 import dev.sweetberry.wwizardry.block.Sculkable;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import net.minecraft.block.AbstractLichenBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LichenSpreadBehavior;
-import net.minecraft.block.SculkVeinBlock;
+import net.minecraft.block.sculk.SculkVeinBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;

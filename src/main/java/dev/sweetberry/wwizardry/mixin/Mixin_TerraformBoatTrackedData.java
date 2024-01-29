@@ -4,7 +4,7 @@ import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
 import com.terraformersmc.terraform.boat.impl.TerraformBoatTrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
-import org.quiltmc.qsl.entity.networking.api.tracked_data.QuiltTrackedDataHandlerRegistry;
+import org.quiltmc.qsl.entity.extensions.api.networking.QuiltTrackedDataHandlerRegistry;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,7 +26,7 @@ public final class Mixin_TerraformBoatTrackedData {
 
 	@Inject(method = "register", at = @At("HEAD"), cancellable = true)
 	private static void register(CallbackInfo ci) {
-		ci.cancel();
-		QuiltTrackedDataHandlerRegistry.register(TerraformBoatTypeRegistry.INSTANCE.getKey().getRegistry(), HANDLER);
+//		ci.cancel();
+//		QuiltTrackedDataHandlerRegistry.register(TerraformBoatTypeRegistry.INSTANCE.getKey().getRegistry(), HANDLER);
 	}
 }

@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:mycha_stem","wwizardry:mycha_hyphae","wwizardry:stripped_mycha_stem","wwizardry:stripped_mycha_hyphae"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:mycha_stem"},{"required":false,"id":"wwizardry:mycha_hyphae"},{"required":false,"id":"wwizardry:stripped_mycha_stem"},{"required":false,"id":"wwizardry:stripped_mycha_hyphae"}]}

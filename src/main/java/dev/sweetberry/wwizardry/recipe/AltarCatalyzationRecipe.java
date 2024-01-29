@@ -13,12 +13,12 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
+import java.util.List;
 
 // TODO: Switch to taking in an AltarCraftable.
 public record AltarCatalyzationRecipe(
-		Identifier id,
 		Ingredient catalyst,
-		Ingredient[] inputs,
+		List<Ingredient> inputs,
 		ItemStack result,
 		boolean keepCatalyst,
 		int bloom
@@ -34,8 +34,8 @@ public record AltarCatalyzationRecipe(
 			for (var j = 0; j < 4; j++) {
 				var isSlotCharm = neighbor.heldItem.getItem() == WanderingItems.SLOT_CHARM;
 				if (!met[j]) {
-					met[j] = inputs.length > j
-						? inputs[j].test(neighbor.heldItem) || (isSlotCharm && inputs[j].test(ItemStack.EMPTY))
+					met[j] = inputs.size() > j
+						? inputs.get(j).test(neighbor.heldItem) || (isSlotCharm && inputs.get(j).test(ItemStack.EMPTY))
 						: isSlotCharm;
 					if (met[j]) j = 5;
 				}
@@ -61,23 +61,19 @@ public record AltarCatalyzationRecipe(
 	@Override
 	public DefaultedList<Ingredient> getIngredients() {
 		DefaultedList<Ingredient> list = DefaultedList.of();
-		list.addAll(Arrays.asList(inputs));
+		list.addAll(inputs);
 		return list;
+	}
+
+
+	@Override
+	public RecipeSerializer<?> getSerializer() {
+		return AltarCatalyzationRecipeSerializer.INSTANCE;
 	}
 
 	@Override
 	public ItemStack getResult(DynamicRegistryManager registryManager) {
 		return result;
-	}
-
-	@Override
-	public Identifier getId() {
-		return id();
-	}
-
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return AltarCatalyzationRecipeSerializer.INSTANCE;
 	}
 
 	@Override

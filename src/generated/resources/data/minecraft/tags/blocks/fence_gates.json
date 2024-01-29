@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:denia_fence_gate","wwizardry:mycha_fence_gate"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:denia_fence_gate"},{"required":false,"id":"wwizardry:mycha_fence_gate"}]}

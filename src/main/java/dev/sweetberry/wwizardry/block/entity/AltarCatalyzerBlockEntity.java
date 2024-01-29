@@ -68,7 +68,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		var optional = world.getRecipeManager().getFirstMatch(AltarCatalyzationRecipe.TYPE, this, world);
 
 		if (optional.isPresent()) {
-			optional.get().tryCraft(view, world);
+			optional.get().value().tryCraft(view, world);
 			startCrafting(view);
 			return;
 		}

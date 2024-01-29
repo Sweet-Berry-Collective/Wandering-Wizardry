@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:denia_trapdoor","wwizardry:mycha_trapdoor"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:denia_trapdoor"},{"required":false,"id":"wwizardry:mycha_trapdoor"}]}

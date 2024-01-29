@@ -10,8 +10,8 @@ import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
-import org.quiltmc.qsl.resource.loader.api.ResourcePackRegistrationContext;
+import org.quiltmc.qsl.resource.loader.api.InMemoryPack;
+import org.quiltmc.qsl.resource.loader.api.PackRegistrationContext;
 
 public class WallHolderBlockType extends AbstractDataGenerator {
 	public final Identifier id;
@@ -39,7 +39,7 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 	}
 
 	@Override
-	public void onRegisterPack(@NotNull ResourcePackRegistrationContext context) {
+	public void onRegisterPack(@NotNull PackRegistrationContext context) {
 		var manager = context.resourceManager();
 		if (!(manager instanceof MultiPackResourceManager)) return;
 		var pack = WanderingDatagen.pack;
@@ -80,14 +80,14 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 	public static class BlockstateDataApplier extends AbstractDataGenerator.AbstractBlockstateDataApplier {
 		public final String blockState;
 
-		public BlockstateDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, WallHolderBlockType type) {
+		public BlockstateDataApplier(@NotNull PackRegistrationContext context, String baseName, WallHolderBlockType type) {
 			super(context, baseName, "wall_holder");
 
 			blockState = getResource(type.parent.isToggleable ? "bistate" : "monostate");
 		}
 
 		@Override
-		void addToResourcePack(InMemoryResourcePack pack) {
+		void addToResourcePack(InMemoryPack pack) {
 			put(pack, baseName, blockState);
 		}
 	}
@@ -96,7 +96,7 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		public final String model;
 		public final WallHolderBlockType type;
 
-		public BlockModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, WallHolderBlockType type) {
+		public BlockModelDataApplier(@NotNull PackRegistrationContext context, String baseName, WallHolderBlockType type) {
 			super(context, baseName, "wall_holder");
 
 			model = getResource(type.parent.name);
@@ -104,7 +104,7 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		}
 
 		@Override
-		void addToResourcePack(InMemoryResourcePack pack) {
+		void addToResourcePack(InMemoryPack pack) {
 			if (type.parent.isToggleable) {
 				put(pack, baseName, model.replaceAll("#", type.getExpectedTexturePath(type.parent)));
 				put(pack, baseName+"_lit", model.replaceAll("#", type.getExpectedTexturePathLit(type.parent)));

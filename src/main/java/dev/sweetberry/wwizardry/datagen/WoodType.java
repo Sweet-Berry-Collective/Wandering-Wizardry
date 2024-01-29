@@ -6,36 +6,31 @@ import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
-import com.terraformersmc.terraform.wood.block.StrippableLogBlock;
 import dev.sweetberry.wwizardry.WanderingSaplingGenerator;
 import dev.sweetberry.wwizardry.block.SpecialMushroomBlock;
 import dev.sweetberry.wwizardry.block.WanderingBlocks;
 import dev.sweetberry.wwizardry.WanderingMod;
 import dev.sweetberry.wwizardry.item.WanderingItems;
-import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.*;
+import net.minecraft.block.sapling.SaplingBlock;
+import net.minecraft.block.sign.SignType;
 import net.minecraft.entity.EntityType;
-import net.minecraft.feature_flags.FeatureFlags;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.HangingSignItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.SignItem;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resource.MultiPackResourceManager;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
-import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
-import org.quiltmc.qsl.resource.loader.api.ResourcePackRegistrationContext;
+import org.quiltmc.qsl.resource.loader.api.InMemoryPack;
+import org.quiltmc.qsl.resource.loader.api.PackRegistrationContext;
 
 public class WoodType extends AbstractDataGenerator {
 	public final String baseName;
@@ -135,7 +130,7 @@ public class WoodType extends AbstractDataGenerator {
 		SLAB = WanderingBlocks.registerBlock(baseName+"_slab", new SlabBlock(blockSettings));
 		SLAB_ITEM = WanderingItems.registerItem(baseName+"_slab", new BlockItem(SLAB, itemSettings));
 
-		BUTTON = WanderingBlocks.registerBlock(baseName+"_button", new AbstractButtonBlock(nonCollidable, BlockSetType.OAK, 30, true));
+		BUTTON = WanderingBlocks.registerBlock(baseName+"_button", new ButtonBlock(nonCollidable, BlockSetType.OAK, 30, true));
 		BUTTON_ITEM = WanderingItems.registerItem(baseName+"_button", new BlockItem(BUTTON, itemSettings));
 
 		PRESSURE_PLATE = WanderingBlocks.registerBlock(baseName+"_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, nonCollidable, BlockSetType.OAK));
@@ -238,7 +233,7 @@ public class WoodType extends AbstractDataGenerator {
 	}
 
 	@Override
-	public void onRegisterPack(@NotNull ResourcePackRegistrationContext context) {
+	public void onRegisterPack(@NotNull PackRegistrationContext context) {
 		var manager = context.resourceManager();
 		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
 		var pack = WanderingDatagen.pack;
@@ -270,7 +265,7 @@ public class WoodType extends AbstractDataGenerator {
 
 		final boolean fungus;
 
-		public BlockstateDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, boolean fungus) {
+		public BlockstateDataApplier(@NotNull PackRegistrationContext context, String baseName, boolean fungus) {
 			super(context, baseName, "wood");
 
 			this.fungus = fungus;
@@ -294,7 +289,7 @@ public class WoodType extends AbstractDataGenerator {
 		}
 
 		@Override
-		public void addToResourcePack(InMemoryResourcePack pack) {
+		public void addToResourcePack(InMemoryPack pack) {
 			final var logName = fungus ? "stem" : "log";
 			final var woodName = fungus ? "hyphae" : "wood";
 			final var leavesName = fungus ? "wart" : "leaves";
@@ -343,7 +338,7 @@ public class WoodType extends AbstractDataGenerator {
 
 		final boolean fungus;
 
-		public BlockModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, boolean fungus) {
+		public BlockModelDataApplier(@NotNull PackRegistrationContext context, String baseName, boolean fungus) {
 			super(context, baseName, "wood");
 
 			this.fungus = fungus;
@@ -368,7 +363,7 @@ public class WoodType extends AbstractDataGenerator {
 		}
 
 		@Override
-		public void addToResourcePack(InMemoryResourcePack pack) {
+		public void addToResourcePack(InMemoryPack pack) {
 			final var logName = fungus ? "stem" : "log";
 			final var woodName = fungus ? "hyphae" : "wood";
 			final var leavesName = fungus ? "wart" : "leaves";
@@ -440,7 +435,7 @@ public class WoodType extends AbstractDataGenerator {
 
 		final boolean fungus;
 
-		public ItemModelDataApplier(@NotNull ResourcePackRegistrationContext context, String baseName, boolean fungus) {
+		public ItemModelDataApplier(@NotNull PackRegistrationContext context, String baseName, boolean fungus) {
 			super(context, baseName, "wood");
 			this.fungus = fungus;
 
@@ -465,7 +460,7 @@ public class WoodType extends AbstractDataGenerator {
 		}
 
 		@Override
-		public void addToResourcePack(InMemoryResourcePack pack) {
+		public void addToResourcePack(InMemoryPack pack) {
 			final var logName = fungus ? "stem" : "log";
 			final var woodName = fungus ? "hyphae" : "wood";
 			final var leavesName = fungus ? "wart" : "leaves";

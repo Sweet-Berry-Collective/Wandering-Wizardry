@@ -41,9 +41,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.quiltmc.qsl.entity.extensions.api.TradeOfferHelper;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 import org.quiltmc.qsl.registry.api.event.RegistryMonitor;
-import org.quiltmc.qsl.villager.api.TradeOfferHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

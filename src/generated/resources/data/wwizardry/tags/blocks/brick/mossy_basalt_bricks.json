@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:mossy_basalt_bricks","wwizardry:mossy_basalt_brick_stairs","wwizardry:mossy_basalt_brick_slab","wwizardry:mossy_basalt_brick_wall"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:mossy_basalt_bricks"},{"required":false,"id":"wwizardry:mossy_basalt_brick_stairs"},{"required":false,"id":"wwizardry:mossy_basalt_brick_slab"},{"required":false,"id":"wwizardry:mossy_basalt_brick_wall"}]}

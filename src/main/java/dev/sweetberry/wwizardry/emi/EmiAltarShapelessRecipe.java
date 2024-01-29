@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public record EmiAltarShapelessRecipe(Identifier id, List<EmiIngredient> input, EmiStack output) implements EmiAltarRecipe {
-	public static EmiAltarShapelessRecipe of(ShapelessRecipe recipe) {
+	public static EmiAltarShapelessRecipe of(Identifier id, ShapelessRecipe recipe) {
 		var ingredients = recipe.getIngredients();
 		var output = recipe.getResult(null);
 
@@ -24,7 +24,7 @@ public record EmiAltarShapelessRecipe(Identifier id, List<EmiIngredient> input, 
 			inputs.set(i, EmiIngredient.of(ingredients.get(i)));
 		}
 
-		return new EmiAltarShapelessRecipe(WanderingMod.id(EmiInitializer.getPrefixedPathedIdentifier(recipe.getId(), "altar_crafting_shapeless")), inputs, EmiStack.of(output.copy()));
+		return new EmiAltarShapelessRecipe(WanderingMod.id(EmiInitializer.getPrefixedPathedIdentifier(id, "altar_crafting_shapeless")), inputs, EmiStack.of(output.copy()));
 	}
 
 	@Override

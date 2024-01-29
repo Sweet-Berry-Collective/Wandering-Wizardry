@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["moss_block","vine"]}
+{"replace":false,"values":[{"required":false,"id":"moss_block"},{"required":false,"id":"vine"}]}

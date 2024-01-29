@@ -14,6 +14,7 @@ import dev.sweetberry.wwizardry.recipe.AltarCatalyzationRecipe;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.recipe.BrewingRecipeRegistry;
+import net.minecraft.recipe.RecipeHolder;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.registry.Registries;
@@ -58,7 +59,7 @@ public class EmiInitializer implements EmiPlugin {
 		var manager = registry.getRecipeManager();
 
 		for (var recipe : manager.listAllOfType(AltarCatalyzationRecipe.TYPE)) {
-			registry.addRecipe(EmiAltarCatalyzationRecipe.of(recipe));
+			registry.addRecipe(EmiAltarCatalyzationRecipe.of(recipe.id(), recipe.value()));
 		}
 
 		for (
@@ -66,12 +67,12 @@ public class EmiInitializer implements EmiPlugin {
 			manager
 				.listAllOfType(RecipeType.CRAFTING)
 				.stream()
-				.filter(it -> it instanceof ShapelessRecipe)
-				.map(it -> (ShapelessRecipe) it)
-				.filter(it -> it.getIngredients().size() <= 4)
+				.filter(it -> it.value() instanceof ShapelessRecipe)
+				.map(it -> (RecipeHolder<ShapelessRecipe>) (RecipeHolder<?>) it)
+				.filter(it -> it.value().getIngredients().size() <= 4)
 				.toList()
 		) {
-			registry.addRecipe(EmiAltarShapelessRecipe.of(recipe));
+			registry.addRecipe(EmiAltarShapelessRecipe.of(recipe.id(), recipe.value()));
 		}
 
 		for (var ingredient : BrewingRecipeRegistry.POTION_TYPES) {

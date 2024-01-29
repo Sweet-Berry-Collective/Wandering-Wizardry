@@ -56,6 +56,13 @@ def classify(module, classifier) {
 	return "${m.module.group}:${m.module.name}:${m.version}:$classifier"
 }
 
+// TODO: Remove when quilt loom fixes the bug
+project.configurations.configureEach {
+	exclude group: "net.fabricmc", module: "fabric-loader"
+	exclude group: "net.fabricmc.fabric-api"
+	exclude group: "io.github.llamalad7"
+}
+
 dependencies {
 	minecraft libs.minecraft
 	mappings variantOf(libs.quilt.mappings) { classifier 'intermediary-v2' }

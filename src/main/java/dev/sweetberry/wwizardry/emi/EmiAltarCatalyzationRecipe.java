@@ -12,14 +12,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public record EmiAltarCatalyzationRecipe(Identifier id, List<EmiIngredient> input, EmiIngredient catalyst, boolean keepCatalyst, int bloom, EmiStack output) implements EmiAltarRecipe {
-	public static EmiAltarCatalyzationRecipe of(AltarCatalyzationRecipe recipe) {
+	public static EmiAltarCatalyzationRecipe of(Identifier id, AltarCatalyzationRecipe recipe) {
 		var inputs = DefaultedList.ofSize(4, (EmiIngredient)EmiStack.of(WanderingItems.SLOT_CHARM));
 
-		for (var i = 0; i < recipe.inputs().length; i++) {
-			inputs.set(i, EmiIngredient.of(recipe.inputs()[i]));
+		for (var i = 0; i < recipe.inputs().size(); i++) {
+			inputs.set(i, EmiIngredient.of(recipe.inputs().get(i)));
 		}
 
-		return new EmiAltarCatalyzationRecipe(recipe.id(), inputs, EmiIngredient.of(recipe.catalyst()), recipe.keepCatalyst(), recipe.bloom(), EmiStack.of(recipe.result()));
+		return new EmiAltarCatalyzationRecipe(id, inputs, EmiIngredient.of(recipe.catalyst()), recipe.keepCatalyst(), recipe.bloom(), EmiStack.of(recipe.result()));
 	}
 
 	@Override

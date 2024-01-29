@@ -1,1 +1,1 @@
-{"replace":false,"required":false,"values":["wwizardry:denia_button","wwizardry:mycha_button"]}
+{"replace":false,"values":[{"required":false,"id":"wwizardry:denia_button"},{"required":false,"id":"wwizardry:mycha_button"}]}
