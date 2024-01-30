@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.redstone;
 
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
@@ -21,12 +22,19 @@ import net.minecraft.world.event.vibration.VibrationManager;
 import org.jetbrains.annotations.Nullable;
 
 public class ResonatorBlock extends HorizontalFacingBlock implements Waterloggable {
+	public static final MapCodec<ResonatorBlock> CODEC = AbstractBlock.method_54094(ResonatorBlock::new);
+
 	public static final ResonatorBlock INSTANCE = new ResonatorBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.SCULK_SHRIEKER));
 	static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
 
 	protected ResonatorBlock(Settings settings) {
 		super(settings);
 		setDefaultState(getDefaultState().with(Properties.WATERLOGGED, false).with(Properties.SHRIEKING, false).with(Properties.POWERED, false));
+	}
+
+	@Override
+	protected MapCodec<ResonatorBlock> getCodec() {
+		return CODEC;
 	}
 
 	public int getPower(World world, BlockPos pos, Direction dir) {

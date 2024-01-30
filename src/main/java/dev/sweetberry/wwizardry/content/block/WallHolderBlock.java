@@ -193,7 +193,7 @@ public class WallHolderBlock extends Block {
 	}
 
 	@Override
-	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+	public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
 		if (getDroppedBlock() != null) return getDroppedBlock().getPickStack(world, pos, state);
 		return EMPTY.asItem().getDefaultStack();
 	}

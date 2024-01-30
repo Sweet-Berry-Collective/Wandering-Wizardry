@@ -130,16 +130,16 @@ public class WoodType extends AbstractDataGenerator {
 		SLAB = BlockInitializer.registerBlock(baseName+"_slab", new SlabBlock(blockSettings));
 		SLAB_ITEM = ItemInitializer.registerItem(baseName+"_slab", new BlockItem(SLAB, itemSettings));
 
-		BUTTON = BlockInitializer.registerBlock(baseName+"_button", new ButtonBlock(nonCollidable, BlockSetType.OAK, 30, true));
+		BUTTON = BlockInitializer.registerBlock(baseName+"_button", new ButtonBlock(BlockSetType.OAK, 30, nonCollidable));
 		BUTTON_ITEM = ItemInitializer.registerItem(baseName+"_button", new BlockItem(BUTTON, itemSettings));
 
-		PRESSURE_PLATE = BlockInitializer.registerBlock(baseName+"_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, nonCollidable, BlockSetType.OAK));
+		PRESSURE_PLATE = BlockInitializer.registerBlock(baseName+"_pressure_plate", new PressurePlateBlock(BlockSetType.OAK, nonCollidable));
 		PRESSURE_PLATE_ITEM = ItemInitializer.registerItem(baseName+"_pressure_plate", new BlockItem(PRESSURE_PLATE, itemSettings));
 
-		DOOR = BlockInitializer.registerBlock(baseName+"_door", new DoorBlock(nonOpaque, BlockSetType.OAK));
+		DOOR = BlockInitializer.registerBlock(baseName+"_door", new DoorBlock(BlockSetType.OAK, nonOpaque));
 		DOOR_ITEM = ItemInitializer.registerItem(baseName+"_door", new BlockItem(DOOR, itemSettings));
 
-		TRAPDOOR = BlockInitializer.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(nonOpaque, BlockSetType.OAK));
+		TRAPDOOR = BlockInitializer.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(BlockSetType.OAK, nonOpaque));
 		TRAPDOOR_ITEM = ItemInitializer.registerItem(baseName+"_trapdoor", new BlockItem(TRAPDOOR, itemSettings));
 
 		var sign_id = Mod.id("entity/signs/"+baseName);
@@ -156,14 +156,14 @@ public class WoodType extends AbstractDataGenerator {
 		FENCE = BlockInitializer.registerBlock(baseName+"_fence", new FenceBlock(blockSettings));
 		FENCE_ITEM = ItemInitializer.registerItem(baseName+"_fence", new BlockItem(FENCE, itemSettings));
 
-		FENCE_GATE = BlockInitializer.registerBlock(baseName+"_fence_gate", new FenceGateBlock(blockSettings, SignType.OAK));
+		FENCE_GATE = BlockInitializer.registerBlock(baseName+"_fence_gate", new FenceGateBlock(SignType.OAK, blockSettings));
 		FENCE_GATE_ITEM = ItemInitializer.registerItem(baseName+"_fence_gate", new BlockItem(FENCE_GATE, itemSettings));
 
 		if (!fungus) {
 			LEAVES = BlockInitializer.registerBlock(baseName+"_leaves", createLeavesBlock());
 			LEAVES_ITEM = ItemInitializer.registerItem(baseName+"_leaves", new BlockItem(LEAVES, itemSettings));
 
-			SAPLING = BlockInitializer.registerBlock(baseName+"_sapling", createSaplingBlock(baseName, baseName+"_bees"));
+			SAPLING = BlockInitializer.registerBlock(baseName+"_sapling", createSaplingBlock(Mod.id(baseName).toString(), baseName, baseName+"_bees"));
 			SAPLING_ITEM = ItemInitializer.registerItem(baseName+"_sapling", new BlockItem(SAPLING, itemSettings));
 
 			BOAT_KEY = TerraformBoatTypeRegistry.createKey(Mod.id(baseName));
@@ -197,9 +197,9 @@ public class WoodType extends AbstractDataGenerator {
 		);
 	}
 
-	private static SaplingBlock createSaplingBlock(String noBees, @Nullable String bees) {
+	private static SaplingBlock createSaplingBlock(String name, String noBees, @Nullable String bees) {
 		return new SaplingBlock(
-			new BeeHoldingSaplingGenerator(noBees, bees),
+			BeeHoldingSaplingGenerator.create(name, noBees, bees),
 			FabricBlockSettings
 				.copyOf(Blocks.OAK_SAPLING)
 				.noCollision()

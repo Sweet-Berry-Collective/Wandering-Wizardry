@@ -16,7 +16,7 @@ public class RootedMushroomBlock extends FungusBlock {
 	public final TagKey<Block> plantable;
 
 	public RootedMushroomBlock(Settings settings, String baseName, Block block) {
-		super(settings, BeeHoldingSaplingGenerator.getId(baseName), block);
+		super(BeeHoldingSaplingGenerator.getId(baseName), block, settings);
 		plantable = TagKey.of(RegistryKeys.BLOCK, Mod.id(baseName+"_growable"));
 	}
 

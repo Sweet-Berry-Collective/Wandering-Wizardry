@@ -1,19 +1,18 @@
 [versions]
 # The latest versions are available at https://lambdaurora.dev/tools/import_quilt.html
-minecraft = "1.20.2"
-quilt_mappings = "1.20.2+build.3"
+minecraft = "1.20.4"
+quilt_mappings = "1.20.4+build.3"
 quilt_loader = "0.23.1"
-fabric_loader = "0.15.0"
 
-fabric_api = "0.91.6+1.20.2"
+fabric_api = "0.95.3+1.20.4"
 
-terraform = "8.0.2"
-moremcmeta = "v1.20.2-4.4.7-fabric"
-terrablender = "1.20.2-3.2.0.14"
-ccapi = "5.3.0"
+terraform = "9.0.0"
+moremcmeta = "v1.20.4-4.4.7-fabric"
+terrablender = "1.20.4-3.3.0.12"
+ccapi = "5.4.0"
 
-emi = "1.1.0+1.20.2"
-modmenu = "7.2.2"
+emi = "1.1.0+1.20.4"
+modmenu = "9.0.0"
 
 qsl = "7.0.0-alpha.9+1.20.2"
 arch_ex = "3.1.1+1.20.1"
@@ -25,8 +24,6 @@ minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 quilt_mappings = { module = "org.quiltmc:quilt-mappings", version.ref = "quilt_mappings" }
 
 quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
-
-fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 
 fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
 

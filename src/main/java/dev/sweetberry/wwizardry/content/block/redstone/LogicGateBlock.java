@@ -1,5 +1,7 @@
 package dev.sweetberry.wwizardry.content.block.redstone;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import dev.sweetberry.wwizardry.content.block.altar.entity.LogicGateBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -21,12 +23,16 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.TickPriority;
 import net.minecraft.world.World;
 
+import java.util.function.Function;
+
 public class LogicGateBlock extends RedstoneDiodeBlock implements BlockEntityProvider {
 	public static final EnumProperty<ComparatorMode> MODE = Properties.COMPARATOR_MODE;
 
 	public final CompareFunction function;
 	public final SideInput inputType;
 	public final boolean multistate;
+
+	public final MapCodec<LogicGateBlock> codec;
 
 
 	public LogicGateBlock(Settings settings, SideInput inputType, boolean multistate, CompareFunction function) {
@@ -36,6 +42,7 @@ public class LogicGateBlock extends RedstoneDiodeBlock implements BlockEntityPro
 		this.function = function;
 		var state = getDefaultState().with(POWERED, false).with(MODE, ComparatorMode.COMPARE);
 		setDefaultState(state);
+		codec = AbstractBlock.method_54094(settings1 -> LogicGateBlock.this);
 	}
 
 	@Override
@@ -119,6 +126,11 @@ public class LogicGateBlock extends RedstoneDiodeBlock implements BlockEntityPro
 
 			updateTarget(world, pos, state);
 		}
+	}
+
+	@Override
+	protected MapCodec<? extends RedstoneDiodeBlock> getCodec() {
+		return codec;
 	}
 
 	@Override

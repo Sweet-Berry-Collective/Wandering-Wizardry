@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.altar;
 
+import com.mojang.serialization.MapCodec;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.Sculkable;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarBlockEntity;
@@ -37,6 +38,8 @@ import java.util.Collection;
 import java.util.function.Function;
 
 public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEntity implements Waterloggable, SculkVeinSpreader, Sculkable {
+	private final MapCodec<AltarBlock<T>> codec;
+
 	protected AltarBlock(Settings settings) {
 		super(settings);
 		setDefaultState(
@@ -45,9 +48,15 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 						.with(BlockInitializer.SCULK_INFESTED, false)
 						.with(BlockInitializer.SCULK_BELOW, false)
 		);
+		codec = AbstractBlock.method_54094(settings1 -> AltarBlock.this);
 	}
 
 	public abstract BlockEntityType<T> getBlockEntityType();
+
+	@Override
+	protected MapCodec<? extends BlockWithEntity> getCodec() {
+		return codec;
+	}
 
 	public void handleInput(PlayerEntity player, Hand hand, AltarBlockEntity entity) {
 		boolean inserted = false;
@@ -126,13 +135,14 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 	}
 
 	@Override
-	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
 		var e = world.getBlockEntity(pos);
-		if (!(e instanceof AltarBlockEntity entity)) return;
+		if (!(e instanceof AltarBlockEntity entity)) return state;
 		entity.tryCancelCraft(state);
 		var stackEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), entity.heldItem);
 		world.spawnEntity(stackEntity);
 		super.onBreak(world, pos, state, player);
+		return Blocks.AIR.getDefaultState();
 	}
 
 	@Override

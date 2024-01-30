@@ -46,7 +46,7 @@ mixins [ "wwizardry.mixins.json" ]
 depends {
     fabricloader = "*"
     "fabric-api" = "*"
-    minecraft = "1.20.2"
+    minecraft = ">=1.20.3 <=1.20.4"
 }
 
 custom {

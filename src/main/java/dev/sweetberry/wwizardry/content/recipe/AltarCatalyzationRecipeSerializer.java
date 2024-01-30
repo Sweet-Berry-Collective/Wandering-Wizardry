@@ -3,7 +3,7 @@ package dev.sweetberry.wwizardry.content.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.class_8785;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
@@ -36,14 +36,14 @@ public class AltarCatalyzationRecipeSerializer implements RecipeSerializer<Altar
 					DataResult::success
 				)
 				.forGetter(AltarCatalyzationRecipe::inputs),
-			class_8785.field_46092.fieldOf("result").forGetter(AltarCatalyzationRecipe::result),
+			ItemStack.field_47309.fieldOf("result").forGetter(AltarCatalyzationRecipe::result),
 			Codecs.method_53049(Codec.BOOL, "keepCatalyst", true).forGetter(AltarCatalyzationRecipe::keepCatalyst),
 			Codecs.method_53049(Codec.INT, "bloom", 0).forGetter(AltarCatalyzationRecipe::bloom)
 		).apply(instance, AltarCatalyzationRecipe::new)
 	);
 
 	@Override
-	public Codec<AltarCatalyzationRecipe> method_53736() {
+	public Codec<AltarCatalyzationRecipe> getCodec() {
 		return CODEC;
 	}
 

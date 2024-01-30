@@ -48,8 +48,8 @@ public class BlockInitializer {
 
 	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(FabricBlockSettings.copyOf(Blocks.REDSTONE_LAMP)));
 
-	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new ExperienceDroppingBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE), UniformIntProvider.create(1,4)));
-	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new ExperienceDroppingBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE), UniformIntProvider.create(1,4)));
+	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new ExperienceDroppingBlock(UniformIntProvider.create(1,4), FabricBlockSettings.copyOf(Blocks.IRON_ORE)));
+	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new ExperienceDroppingBlock(UniformIntProvider.create(1,4), FabricBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE)));
 	public static final Block ROSE_QUARTZ_BLOCK = registerBlock("rose_quartz_block", new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)));
 
 	public static final Block MODULO_COMPARATOR = registerBlock(
