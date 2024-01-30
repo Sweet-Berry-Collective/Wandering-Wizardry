@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.datagen;
 
+import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -8,10 +9,9 @@ import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.resource.MultiPackResourceManager;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.sound.BlockSoundGroup;
 import org.jetbrains.annotations.NotNull;
-import org.quiltmc.qsl.resource.loader.api.InMemoryPack;
-import org.quiltmc.qsl.resource.loader.api.PackRegistrationContext;
 
 public class BrickType extends AbstractDataGenerator {
 	public final String baseName;
@@ -49,13 +49,12 @@ public class BrickType extends AbstractDataGenerator {
 	}
 
 	@Override
-	public void onRegisterPack(@NotNull PackRegistrationContext context) {
-		var manager = context.resourceManager();
+	public void onRegisterPack(@NotNull ResourceManager manager) {
 		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
 		var pack = DatagenInitializer.pack;
-		var blockstates = new BlockstateDataApplier(context, baseName, plural);
-		var blockModels = new BlockModelDataApplier(context, baseName, plural);
-		var itemModels = new ItemModelDataApplier(context, baseName, plural);
+		var blockstates = new BlockstateDataApplier(manager, baseName, plural);
+		var blockModels = new BlockModelDataApplier(manager, baseName, plural);
+		var itemModels = new ItemModelDataApplier(manager, baseName, plural);
 		blockstates.addToResourcePack(pack);
 		blockModels.addToResourcePack(pack);
 		itemModels.addToResourcePack(pack);
@@ -69,8 +68,8 @@ public class BrickType extends AbstractDataGenerator {
 
 		public final boolean plural;
 
-		public BlockstateDataApplier(@NotNull PackRegistrationContext context, String baseName, boolean plural) {
-			super(context, baseName, "brick");
+		public BlockstateDataApplier(@NotNull ResourceManager manager, String baseName, boolean plural) {
+			super(manager, baseName, "brick");
 			this.plural = plural;
 			BRICKS = getResource("bricks").replace("?", (plural?"s":""));
 			SLAB = getResource("slab").replace("?", (plural?"s":""));
@@ -79,7 +78,7 @@ public class BrickType extends AbstractDataGenerator {
 		}
 
 		@Override
-		public void addToResourcePack(InMemoryPack pack) {
+		public void addToResourcePack(MapBackedPack pack) {
 			put(pack, baseName+(plural?"s":""), BRICKS);
 			put(pack, baseName+"_slab", SLAB);
 			put(pack, baseName+"_stairs", STAIRS);
@@ -95,8 +94,8 @@ public class BrickType extends AbstractDataGenerator {
 
 		public final boolean plural;
 
-		public BlockModelDataApplier(@NotNull PackRegistrationContext context, String baseName, boolean plural) {
-			super(context, baseName, "brick");
+		public BlockModelDataApplier(@NotNull ResourceManager manager, String baseName, boolean plural) {
+			super(manager, baseName, "brick");
 			this.plural = plural;
 			WALL = getResource("wall").replace("?", (plural?"s":""));
 			BRICKS = getResource("bricks").replace("?", (plural?"s":""));
@@ -105,7 +104,7 @@ public class BrickType extends AbstractDataGenerator {
 		}
 
 		@Override
-		public void addToResourcePack(InMemoryPack pack) {
+		public void addToResourcePack(MapBackedPack pack) {
 			put(pack, baseName+(plural?"s":""), BRICKS);
 			put(pack, baseName+"_slab", SLAB, null);
 			put(pack, baseName+"_slab", SLAB, "top");
@@ -127,8 +126,8 @@ public class BrickType extends AbstractDataGenerator {
 
 		public final boolean plural;
 
-		public ItemModelDataApplier(@NotNull PackRegistrationContext context, String baseName, boolean plural) {
-			super(context, baseName, "brick");
+		public ItemModelDataApplier(@NotNull ResourceManager manager, String baseName, boolean plural) {
+			super(manager, baseName, "brick");
 			this.plural = plural;
 			WALL = getResource("wall").replace("?", (plural?"s":""));
 			BRICKS = getResource("bricks").replace("?", (plural?"s":""));
@@ -137,7 +136,7 @@ public class BrickType extends AbstractDataGenerator {
 		}
 
 		@Override
-		public void addToResourcePack(InMemoryPack pack) {
+		public void addToResourcePack(MapBackedPack pack) {
 			put(pack, baseName+(plural?"s":""), BRICKS);
 			put(pack, baseName+"_slab", SLAB);
 			put(pack, baseName+"_stairs", STAIRS);

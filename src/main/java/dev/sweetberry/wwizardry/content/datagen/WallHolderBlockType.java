@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.datagen;
 
+import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.WallCandleBlock;
 import dev.sweetberry.wwizardry.content.block.WallHolderBlock;
@@ -7,11 +8,10 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.resource.MultiPackResourceManager;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
-import org.quiltmc.qsl.resource.loader.api.InMemoryPack;
-import org.quiltmc.qsl.resource.loader.api.PackRegistrationContext;
 
 public class WallHolderBlockType extends AbstractDataGenerator {
 	public final Identifier id;
@@ -39,12 +39,11 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 	}
 
 	@Override
-	public void onRegisterPack(@NotNull PackRegistrationContext context) {
-		var manager = context.resourceManager();
+	public void onRegisterPack(@NotNull ResourceManager manager) {
 		if (!(manager instanceof MultiPackResourceManager)) return;
 		var pack = DatagenInitializer.pack;
-		var blockstates = new BlockstateDataApplier(context, transformId(id), this);
-		var blockModels = new BlockModelDataApplier(context, transformId(id), this);
+		var blockstates = new BlockstateDataApplier(manager, transformId(id), this);
+		var blockModels = new BlockModelDataApplier(manager, transformId(id), this);
 		blockstates.addToResourcePack(pack);
 		blockModels.addToResourcePack(pack);
 	}
@@ -80,14 +79,14 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 	public static class BlockstateDataApplier extends AbstractDataGenerator.AbstractBlockstateDataApplier {
 		public final String blockState;
 
-		public BlockstateDataApplier(@NotNull PackRegistrationContext context, String baseName, WallHolderBlockType type) {
-			super(context, baseName, "wall_holder");
+		public BlockstateDataApplier(@NotNull ResourceManager manager, String baseName, WallHolderBlockType type) {
+			super(manager, baseName, "wall_holder");
 
 			blockState = getResource(type.parent.isToggleable ? "bistate" : "monostate");
 		}
 
 		@Override
-		void addToResourcePack(InMemoryPack pack) {
+		void addToResourcePack(MapBackedPack pack) {
 			put(pack, baseName, blockState);
 		}
 	}
@@ -96,15 +95,15 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		public final String model;
 		public final WallHolderBlockType type;
 
-		public BlockModelDataApplier(@NotNull PackRegistrationContext context, String baseName, WallHolderBlockType type) {
-			super(context, baseName, "wall_holder");
+		public BlockModelDataApplier(@NotNull ResourceManager manager, String baseName, WallHolderBlockType type) {
+			super(manager, baseName, "wall_holder");
 
 			model = getResource(type.parent.name);
 			this.type = type;
 		}
 
 		@Override
-		void addToResourcePack(InMemoryPack pack) {
+		void addToResourcePack(MapBackedPack pack) {
 			if (type.parent.isToggleable) {
 				put(pack, baseName, model.replaceAll("#", type.getExpectedTexturePath(type.parent)));
 				put(pack, baseName+"_lit", model.replaceAll("#", type.getExpectedTexturePathLit(type.parent)));

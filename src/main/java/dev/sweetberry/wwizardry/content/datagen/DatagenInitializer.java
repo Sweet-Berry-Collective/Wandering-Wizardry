@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.datagen;
 
 import com.mojang.serialization.Lifecycle;
 import dev.sweetberry.wwizardry.Mod;
+import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import net.minecraft.block.MapColor;
 import net.minecraft.registry.Registry;
@@ -9,14 +10,13 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import org.quiltmc.qsl.resource.loader.api.InMemoryPack;
 
 public class DatagenInitializer {
 	public static final Identifier REGISTRY_ID = Mod.id("data_generators");
 	public static final RegistryKey<Registry<AbstractDataGenerator>> REGISTRY_KEY = RegistryKey.ofRegistry(REGISTRY_ID);
 	public static final Registry<AbstractDataGenerator> REGISTRY = new SimpleRegistry<>(REGISTRY_KEY, Lifecycle.stable(), false);
 
-	public static final InMemoryPack pack = new InMemoryPack.Named("Wandering Wizardry resources");
+	public static final MapBackedPack pack = new MapBackedPack();
 
 	public static final WoodType DENIA_WOOD = registerDataGenerator("denia_wood", new WoodType("denia", MapColor.ICE, MapColor.DEEPSLATE, BlockSoundGroup.WOOD));
 	public static final WoodType MYCHA_WOOD = registerDataGenerator("mycha_wood", new WoodType("mycha", MapColor.PURPLE, MapColor.BLUE, BlockSoundGroup.NETHER_WOOD, BlockInitializer.MYCELIAL_SAND));

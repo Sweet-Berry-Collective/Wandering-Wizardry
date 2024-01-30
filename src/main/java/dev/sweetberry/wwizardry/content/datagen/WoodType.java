@@ -7,6 +7,7 @@ import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
 import dev.sweetberry.wwizardry.Mod;
+import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import dev.sweetberry.wwizardry.content.world.sapling.BeeHoldingSaplingGenerator;
 import dev.sweetberry.wwizardry.content.block.nature.RootedMushroomBlock;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
@@ -25,11 +26,11 @@ import net.minecraft.item.SignItem;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.resource.MultiPackResourceManager;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.resource.loader.api.InMemoryPack;
 import org.quiltmc.qsl.resource.loader.api.PackRegistrationContext;
 
 public class WoodType extends AbstractDataGenerator {
@@ -233,13 +234,12 @@ public class WoodType extends AbstractDataGenerator {
 	}
 
 	@Override
-	public void onRegisterPack(@NotNull PackRegistrationContext context) {
-		var manager = context.resourceManager();
+	public void onRegisterPack(@NotNull ResourceManager manager) {
 		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
 		var pack = DatagenInitializer.pack;
-		var blockstates = new BlockstateDataApplier(context, baseName, fungus);
-		var blockModels = new BlockModelDataApplier(context, baseName, fungus);
-		var itemModels = new ItemModelDataApplier(context, baseName, fungus);
+		var blockstates = new BlockstateDataApplier(manager, baseName, fungus);
+		var blockModels = new BlockModelDataApplier(manager, baseName, fungus);
+		var itemModels = new ItemModelDataApplier(manager, baseName, fungus);
 		blockstates.addToResourcePack(pack);
 		blockModels.addToResourcePack(pack);
 		itemModels.addToResourcePack(pack);
@@ -265,8 +265,8 @@ public class WoodType extends AbstractDataGenerator {
 
 		final boolean fungus;
 
-		public BlockstateDataApplier(@NotNull PackRegistrationContext context, String baseName, boolean fungus) {
-			super(context, baseName, "wood");
+		public BlockstateDataApplier(@NotNull ResourceManager manager, String baseName, boolean fungus) {
+			super(manager, baseName, "wood");
 
 			this.fungus = fungus;
 
@@ -289,7 +289,7 @@ public class WoodType extends AbstractDataGenerator {
 		}
 
 		@Override
-		public void addToResourcePack(InMemoryPack pack) {
+		public void addToResourcePack(MapBackedPack pack) {
 			final var logName = fungus ? "stem" : "log";
 			final var woodName = fungus ? "hyphae" : "wood";
 			final var leavesName = fungus ? "wart" : "leaves";
@@ -338,8 +338,8 @@ public class WoodType extends AbstractDataGenerator {
 
 		final boolean fungus;
 
-		public BlockModelDataApplier(@NotNull PackRegistrationContext context, String baseName, boolean fungus) {
-			super(context, baseName, "wood");
+		public BlockModelDataApplier(@NotNull ResourceManager manager, String baseName, boolean fungus) {
+			super(manager, baseName, "wood");
 
 			this.fungus = fungus;
 
@@ -363,7 +363,7 @@ public class WoodType extends AbstractDataGenerator {
 		}
 
 		@Override
-		public void addToResourcePack(InMemoryPack pack) {
+		public void addToResourcePack(MapBackedPack pack) {
 			final var logName = fungus ? "stem" : "log";
 			final var woodName = fungus ? "hyphae" : "wood";
 			final var leavesName = fungus ? "wart" : "leaves";
@@ -435,8 +435,8 @@ public class WoodType extends AbstractDataGenerator {
 
 		final boolean fungus;
 
-		public ItemModelDataApplier(@NotNull PackRegistrationContext context, String baseName, boolean fungus) {
-			super(context, baseName, "wood");
+		public ItemModelDataApplier(@NotNull ResourceManager manager, String baseName, boolean fungus) {
+			super(manager, baseName, "wood");
 			this.fungus = fungus;
 
 			BUTTON = getResource("button");
@@ -460,7 +460,7 @@ public class WoodType extends AbstractDataGenerator {
 		}
 
 		@Override
-		public void addToResourcePack(InMemoryPack pack) {
+		public void addToResourcePack(MapBackedPack pack) {
 			final var logName = fungus ? "stem" : "log";
 			final var woodName = fungus ? "hyphae" : "wood";
 			final var leavesName = fungus ? "wart" : "leaves";
