@@ -2,7 +2,8 @@
   "providers": [
     {
       "type": "bitmap",
-      "file": "wwizardry:badges/developer.png",
+      "file": "wwizardry:include/developer.png",
+
       "ascent": 8,
       "height": 8,
       "chars": [
@@ -11,7 +12,8 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:badges/developer.png",
+      "file": "wwizardry:include/developer.png",
+
       "ascent": 8,
       "height": 8,
       "chars": [
@@ -20,7 +22,8 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:badges/developer.png",
+      "file": "wwizardry:include/developer.png",
+
       "ascent": 8,
       "height": 8,
       "chars": [
@@ -29,7 +32,8 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:badges/artist.png",
+      "file": "wwizardry:include/artist.png",
+
       "ascent": 8,
       "height": 8,
       "chars": [
@@ -38,7 +42,8 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:badges/artist.png",
+      "file": "wwizardry:include/artist.png",
+
       "ascent": 8,
       "height": 8,
       "chars": [
@@ -47,7 +52,8 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:badges/artist.png",
+      "file": "wwizardry:include/artist.png",
+
       "ascent": 8,
       "height": 8,
       "chars": [
@@ -56,7 +62,8 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:badges/contributor.png",
+      "file": "wwizardry:include/contributor.png",
+
       "ascent": 8,
       "height": 8,
       "chars": [
@@ -65,7 +72,8 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:badges/contributor.png",
+      "file": "wwizardry:include/contributor.png",
+
       "ascent": 8,
       "height": 8,
       "chars": [
@@ -74,7 +82,8 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:badges/contributor.png",
+      "file": "wwizardry:include/contributor.png",
+
       "ascent": 8,
       "height": 8,
       "chars": [

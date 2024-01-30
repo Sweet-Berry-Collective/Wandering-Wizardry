@@ -83,17 +83,18 @@ public class EmiInitializer implements EmiPlugin {
 				var basePath = getPrefixedPathedIdentifier(Registries.ITEM.getId(stack.getItem()), "altar_brewing");
 				for (BrewingRecipeRegistry.Recipe<Potion> recipe : BrewingRecipeRegistry.POTION_RECIPES) {
 					try {
-						var recipeIngredient = ((Accessor_BrewingRecipeRegistry_Recipe)recipe).getIngredient();
+						var accessor = (Accessor_BrewingRecipeRegistry_Recipe<Potion>)recipe;
+						var recipeIngredient = accessor.getIngredient();
 						if (recipeIngredient.getMatchingStacks().length > 0) {
 							var ingredientPath = getPrefixedPathedIdentifier(Registries.ITEM.getId(recipeIngredient.getMatchingStacks()[0].getItem()), basePath);
-							var inputPath = getPrefixedPathedIdentifier(Registries.POTION.getId(recipe.input), ingredientPath);
-							var outputPath = getPrefixedPathedIdentifier(Registries.POTION.getId(recipe.output), inputPath);
+							var inputPath = getPrefixedPathedIdentifier(Registries.POTION.getId(accessor.getInput()), ingredientPath);
+							var outputPath = getPrefixedPathedIdentifier(Registries.POTION.getId(accessor.getOutput()), inputPath);
 							var id = Mod.id(outputPath);
 
 							registry.addRecipe(new EmiAltarBrewingRecipe(
-							    EmiStack.of(PotionUtil.setPotion(stack.copy(), recipe.input)),
+							    EmiStack.of(PotionUtil.setPotion(stack.copy(), accessor.getInput())),
 								EmiIngredient.of(recipeIngredient),
-								EmiStack.of(PotionUtil.setPotion(stack.copy(), recipe.output)),
+								EmiStack.of(PotionUtil.setPotion(stack.copy(), accessor.getOutput())),
 								id
 							));
 						}
