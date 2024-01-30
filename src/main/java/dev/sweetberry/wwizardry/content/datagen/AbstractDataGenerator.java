@@ -2,26 +2,27 @@ package dev.sweetberry.wwizardry.content.datagen;
 
 import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.registry.Holder;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public abstract class AbstractDataGenerator {
-	static {
-		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).getRegisterDefaultPackEvent().register(context -> {
-			DatagenInitializer.pack.clear(ResourceType.CLIENT_RESOURCES);
-			DatagenInitializer.REGISTRY.holders().map(Holder.Reference::value).forEach(generator -> generator.onRegisterPack(context.resourceManager()));
-			context.addResourcePack(DatagenInitializer.pack);
-		});
+	public AbstractDataGenerator() {
 	}
 
-	public AbstractDataGenerator() {
+	public static void reloadPack(ResourceManager manager) {
+		DatagenInitializer.pack.clear(ResourceType.CLIENT_RESOURCES);
+		DatagenInitializer.REGISTRY
+			.holders()
+			.map(Holder.Reference::value)
+			.forEach(generator -> generator.onRegisterPack(manager));
 	}
 
 	public abstract void onRegisterPack(@NotNull ResourceManager manager);

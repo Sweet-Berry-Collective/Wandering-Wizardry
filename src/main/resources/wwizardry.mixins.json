@@ -9,8 +9,10 @@
     "Accessor_TorchBlock",
     "Mixin_DefaultLichenSpreadBehavior",
     "Mixin_ItemEntity",
+    "Mixin_PackManager",
     "Mixin_PlayerEntity",
     "Mixin_RedstoneWireBlock",
+    "Mixin_ReloadableResourceManager",
     "Mixin_SculkVeinSpreadBehavior",
     "Mixin_Structure"
   ],

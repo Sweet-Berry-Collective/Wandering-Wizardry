@@ -103,6 +103,8 @@ public class MapBackedPack implements ResourcePack {
 
 	private <T> ResourceIoSupplier<InputStream> open(Map<T, byte[]> map, T path) {
 		var bytes = map.get(path);
+		if (bytes == null)
+			return () -> null;
 		return () -> new ByteArrayInputStream(bytes);
 	}
 }

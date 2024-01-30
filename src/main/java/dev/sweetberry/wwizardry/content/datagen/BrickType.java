@@ -50,7 +50,6 @@ public class BrickType extends AbstractDataGenerator {
 
 	@Override
 	public void onRegisterPack(@NotNull ResourceManager manager) {
-		if (!(manager instanceof MultiPackResourceManager multiManager)) return;
 		var pack = DatagenInitializer.pack;
 		var blockstates = new BlockstateDataApplier(manager, baseName, plural);
 		var blockModels = new BlockModelDataApplier(manager, baseName, plural);

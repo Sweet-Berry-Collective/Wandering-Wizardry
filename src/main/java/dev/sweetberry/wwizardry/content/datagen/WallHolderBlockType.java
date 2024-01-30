@@ -40,7 +40,6 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 
 	@Override
 	public void onRegisterPack(@NotNull ResourceManager manager) {
-		if (!(manager instanceof MultiPackResourceManager)) return;
 		var pack = DatagenInitializer.pack;
 		var blockstates = new BlockstateDataApplier(manager, transformId(id), this);
 		var blockModels = new BlockModelDataApplier(manager, transformId(id), this);

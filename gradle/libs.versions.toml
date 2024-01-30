@@ -2,9 +2,9 @@
 # The latest versions are available at https://lambdaurora.dev/tools/import_quilt.html
 minecraft = "1.20.2"
 quilt_mappings = "1.20.2+build.3"
-quilt_loader = "0.23.1"
+fabric_loader = "0.15.0"
 
-quilted_fabric_api = "8.0.0-alpha.3+0.91.2-1.20.2"
+fabric_api = "0.91.6+1.20.2"
 
 terraform = "8.0.2"
 moremcmeta = "v1.20.2-4.4.6-fabric"
@@ -22,10 +22,10 @@ suspicious_shapes = "1.0.0+1.20.1"
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 quilt_mappings = { module = "org.quiltmc:quilt-mappings", version.ref = "quilt_mappings" }
-quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
 
-quilted_fabric_api = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "quilted_fabric_api" }
-quilted_fabric_api_deprecated = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api-deprecated", version.ref = "quilted_fabric_api" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
+
+fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
 
 terraform_wood = { module = "com.terraformersmc.terraform-api:terraform-wood-api-v1", version.ref = "terraform" }
 moremcmeta = { module = "maven.modrinth:moremcmeta", version.ref = "moremcmeta" }
@@ -48,4 +48,4 @@ compat = ["emi", "modmenu"]
 # compat = ["emi", "arch_ex", "staticdata", "suspicious_shapes", "modmenu"]
 
 [plugins]
-quilt_loom = { id = "org.quiltmc.loom", version = "1.4.+" }
+loom = { id = "fabric-loom", version = "1.5-SNAPSHOT" }

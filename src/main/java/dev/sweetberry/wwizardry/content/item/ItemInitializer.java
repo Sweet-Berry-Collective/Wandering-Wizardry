@@ -167,9 +167,8 @@ public class ItemInitializer {
 
 	public static final Item SLOT_CHARM = registerItem(
 		"slot_charm",
-		new Item(
+		new SelfRemainderingItem(
 			new FabricItemSettings()
-				.recipeRemainder(((original, recipe) -> original))
 				.maxCount(1)
 		)
 	);
@@ -178,7 +177,6 @@ public class ItemInitializer {
 		"crafting_charm",
 		new CraftingCharmItem(
 			new FabricItemSettings()
-				.recipeRemainder(((original, recipe) -> original))
 				.maxCount(1)
 		)
 	);
@@ -187,7 +185,6 @@ public class ItemInitializer {
 		"brewing_charm",
 		new BrewingCharmItem(
 			new FabricItemSettings()
-				.recipeRemainder(((original, recipe) -> original))
 				.maxCount(1)
 		)
 	);

@@ -1,7 +1,7 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
 plugins {
-	alias libs.plugins.quilt.loom
+	alias libs.plugins.loom
 }
 
 archivesBaseName = project.archives_base_name
@@ -26,12 +26,15 @@ sourceSets {
 
 repositories {
 	maven {
+		name = 'Quilt'
+		url = 'https://maven.quiltmc.org/repository/release'
+	}
+	maven {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/'
 	}
-	// We need this for terrablender
 	maven {
-		name = "ew, forge"
+		name = "Forge"
 		url = "https://maven.minecraftforge.net/"
 	}
 	maven {
@@ -58,16 +61,14 @@ def classify(module, classifier) {
 
 // TODO: Remove when quilt loom fixes the bug
 project.configurations.configureEach {
-	exclude group: "net.fabricmc", module: "fabric-loader"
-	exclude group: "net.fabricmc.fabric-api"
 	exclude group: "io.github.llamalad7"
 }
 
 dependencies {
 	minecraft libs.minecraft
 	mappings variantOf(libs.quilt.mappings) { classifier 'intermediary-v2' }
-	modImplementation libs.quilt.loader
-	modImplementation libs.quilted.fabric.api
+	modImplementation libs.fabric.loader
+	modImplementation libs.fabric.api
 
 	modImplementation libs.bundles.include
 	include libs.bundles.include
@@ -81,7 +82,7 @@ dependencies {
 processResources {
 	inputs.property 'version', version
 
-	filesMatching('quilt.mod.json') {
+	filesMatching('fabric.mod.json') {
 		expand "version": version
 	}
 }
