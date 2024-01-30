@@ -13,6 +13,7 @@ import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
+import dev.sweetberry.wwizardry.mixin.Accessor_BrewingRecipeRegistry_Recipe;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.recipe.BrewingRecipeRegistry;
@@ -82,7 +83,7 @@ public class EmiInitializer implements EmiPlugin {
 				var basePath = getPrefixedPathedIdentifier(Registries.ITEM.getId(stack.getItem()), "altar_brewing");
 				for (BrewingRecipeRegistry.Recipe<Potion> recipe : BrewingRecipeRegistry.POTION_RECIPES) {
 					try {
-						var recipeIngredient = recipe.ingredient;
+						var recipeIngredient = ((Accessor_BrewingRecipeRegistry_Recipe)recipe).getIngredient();
 						if (recipeIngredient.getMatchingStacks().length > 0) {
 							var ingredientPath = getPrefixedPathedIdentifier(Registries.ITEM.getId(recipeIngredient.getMatchingStacks()[0].getItem()), basePath);
 							var inputPath = getPrefixedPathedIdentifier(Registries.POTION.getId(recipe.input), ingredientPath);
