@@ -8,6 +8,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -73,7 +74,7 @@ public class MapBackedPack implements ResourcePack {
 
 	@Nullable
 	@Override
-	public <T> T parseMetadata(ResourceMetadataSectionReader<T> metaReader) {
+	public <T> T parseMetadata(ResourceMetadataSectionReader<T> metaReader) throws IOException {
 		return null;
 	}
 

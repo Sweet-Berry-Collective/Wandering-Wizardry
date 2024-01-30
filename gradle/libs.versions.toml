@@ -2,19 +2,20 @@
 # The latest versions are available at https://lambdaurora.dev/tools/import_quilt.html
 minecraft = "1.20.2"
 quilt_mappings = "1.20.2+build.3"
+quilt_loader = "0.23.1"
 fabric_loader = "0.15.0"
 
 fabric_api = "0.91.6+1.20.2"
 
 terraform = "8.0.2"
-moremcmeta = "v1.20.2-4.4.6-fabric"
+moremcmeta = "v1.20.2-4.4.7-fabric"
 terrablender = "1.20.2-3.2.0.14"
 ccapi = "5.3.0"
 
 emi = "1.1.0+1.20.2"
-
 modmenu = "7.2.2"
 
+qsl = "7.0.0-alpha.9+1.20.2"
 arch_ex = "3.1.1+1.20.1"
 staticdata = "1.0.1+1.20"
 suspicious_shapes = "1.0.0+1.20.1"
@@ -22,6 +23,8 @@ suspicious_shapes = "1.0.0+1.20.1"
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 quilt_mappings = { module = "org.quiltmc:quilt-mappings", version.ref = "quilt_mappings" }
+
+quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
 
 fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 
@@ -34,11 +37,12 @@ ccapi_base = { module = "dev.onyxstudios.cardinal-components-api:cardinal-compon
 ccapi_entity = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-entity", version.ref = "ccapi" }
 
 emi = { module = "dev.emi:emi-fabric", version.ref = "emi" }
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 
+quilt_resource_loader = { module = "org.quiltmc.qsl.core:resource_loader", version.ref = "qsl" }
 arch_ex = { module = "maven.modrinth:arch-ex", version.ref = "arch_ex" }
 staticdata = { module = "maven.modrinth:static-data", version.ref = "staticdata" }
 suspicious_shapes = { module = "maven.modrinth:suspicious-shapes", version.ref = "suspicious_shapes" }
-modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 
 # If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
 [bundles]
@@ -48,4 +52,4 @@ compat = ["emi", "modmenu"]
 # compat = ["emi", "arch_ex", "staticdata", "suspicious_shapes", "modmenu"]
 
 [plugins]
-loom = { id = "fabric-loom", version = "1.5-SNAPSHOT" }
+loom = { id = "org.quiltmc.loom", version = "1.4.+" }

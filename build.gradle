@@ -62,18 +62,20 @@ def classify(module, classifier) {
 // TODO: Remove when quilt loom fixes the bug
 project.configurations.configureEach {
 	exclude group: "io.github.llamalad7"
+	exclude group: "net.fabricmc", module: "fabric-loader"
 }
 
 dependencies {
 	minecraft libs.minecraft
 	mappings variantOf(libs.quilt.mappings) { classifier 'intermediary-v2' }
-	modImplementation libs.fabric.loader
+	modImplementation libs.quilt.loader
 	modImplementation libs.fabric.api
 
 	modImplementation libs.bundles.include
 	include libs.bundles.include
 
 	modCompileOnly classify(libs.emi, "api")
+	modCompileOnly libs.quilt.resource.loader
 
 	if (test_compat)
 		modRuntimeOnly libs.bundles.compat

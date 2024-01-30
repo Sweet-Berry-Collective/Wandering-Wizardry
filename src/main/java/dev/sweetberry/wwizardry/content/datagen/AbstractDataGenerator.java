@@ -19,6 +19,19 @@ public abstract class AbstractDataGenerator {
 
 	public static void reloadPack(ResourceManager manager) {
 		DatagenInitializer.pack.clear(ResourceType.CLIENT_RESOURCES);
+		DatagenInitializer.pack.put("pack.mcmeta", """
+			{
+				"pack": {
+					"pack_format": 15,
+					"description": "Wandering Wizardry Resources"
+				}
+			}
+			""");
+		try {
+			DatagenInitializer.pack.put("pack.png", manager.getResource(Mod.id("icon.png")).get().open().readAllBytes());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		DatagenInitializer.REGISTRY
 			.holders()
 			.map(Holder.Reference::value)
