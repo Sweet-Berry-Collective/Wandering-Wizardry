@@ -4,6 +4,7 @@
   "package": "dev.sweetberry.wwizardry.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "Accessor_BrewingRecipeRegistry_Recipe",
     "Accessor_ServerPlayerEntity",
     "Accessor_StructureProcessor",
     "Accessor_TorchBlock",
