@@ -59,6 +59,8 @@ public class MapBackedPack implements ResourcePack {
 				&& entry.getKey().getPath().startsWith(startingPath)
 			).forEach(entry -> {
 				var bytes = entry.getValue();
+				if (bytes == null)
+					return;
                 consumer.accept(entry.getKey(), () -> new ByteArrayInputStream(bytes));
             });
 	}
@@ -105,7 +107,7 @@ public class MapBackedPack implements ResourcePack {
 	private <T> ResourceIoSupplier<InputStream> open(Map<T, byte[]> map, T path) {
 		var bytes = map.get(path);
 		if (bytes == null)
-			return () -> null;
+			return null;
 		return () -> new ByteArrayInputStream(bytes);
 	}
 }

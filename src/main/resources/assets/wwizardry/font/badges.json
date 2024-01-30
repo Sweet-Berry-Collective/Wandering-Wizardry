@@ -2,7 +2,7 @@
   "providers": [
     {
       "type": "bitmap",
-      "file": "wwizardry:include/developer.png",
+      "file": "wwizardry:font/developer.png",
 
       "ascent": 8,
       "height": 8,
@@ -12,7 +12,7 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:include/developer.png",
+      "file": "wwizardry:font/developer.png",
 
       "ascent": 8,
       "height": 8,
@@ -22,7 +22,7 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:include/developer.png",
+      "file": "wwizardry:font/developer.png",
 
       "ascent": 8,
       "height": 8,
@@ -32,7 +32,7 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:include/artist.png",
+      "file": "wwizardry:font/artist.png",
 
       "ascent": 8,
       "height": 8,
@@ -42,7 +42,7 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:include/artist.png",
+      "file": "wwizardry:font/artist.png",
 
       "ascent": 8,
       "height": 8,
@@ -52,7 +52,7 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:include/artist.png",
+      "file": "wwizardry:font/artist.png",
 
       "ascent": 8,
       "height": 8,
@@ -62,7 +62,7 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:include/contributor.png",
+      "file": "wwizardry:font/contributor.png",
 
       "ascent": 8,
       "height": 8,
@@ -72,7 +72,7 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:include/contributor.png",
+      "file": "wwizardry:font/contributor.png",
 
       "ascent": 8,
       "height": 8,
@@ -82,7 +82,7 @@
     },
     {
       "type": "bitmap",
-      "file": "wwizardry:include/contributor.png",
+      "file": "wwizardry:font/contributor.png",
 
       "ascent": 8,
       "height": 8,
