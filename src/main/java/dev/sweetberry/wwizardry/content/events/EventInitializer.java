@@ -8,7 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 public class EventInitializer {
 	public static void init() {
 		UseBlockCallback.EVENT.register(UseBlockHandler::onBlockUse);
-		AltarCraftable.EVENT.register(AltarCraftableHandler::tryCraft);
+		AltarCraftable.EVENT.listen(AltarCraftableHandler::tryCraft);
 		new RegistryEntryWatcher<>(BuiltInRegistries.BLOCK).apply(RegistryMonitorHandler::onBlockAdded);
 	}
 }

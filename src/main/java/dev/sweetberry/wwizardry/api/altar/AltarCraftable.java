@@ -1,12 +1,11 @@
 package dev.sweetberry.wwizardry.api.altar;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import dev.sweetberry.wwizardry.api.event.Event;
 import net.minecraft.world.level.Level;
 
 @FunctionalInterface
 public interface AltarCraftable {
-	Event<AltarCraftable> EVENT = EventFactory.createArrayBacked(AltarCraftable.class, events -> (view, world) -> {
+	Event<AltarCraftable> EVENT = new Event<>(events -> (view, world) -> {
 		for (var event : events) {
 			view.reset();
 			if (event.tryCraft(view, world))
