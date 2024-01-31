@@ -4,10 +4,9 @@ import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.text.Text;
-
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.network.chat.Component;
 
 public interface EmiAltarRecipe extends EmiRecipe {
 	List<EmiIngredient> getOuterIngredients();
@@ -52,7 +51,7 @@ public interface EmiAltarRecipe extends EmiRecipe {
 		widgets.addSlot(inputs.get(2), 1, 41);
 		widgets.addSlot(inputs.get(3), 1, 61);
 
-		widgets.addSlot(getInnerIngredient(), 47, 31).catalyst(shouldKeepCatalyst()).appendTooltip(Text.translatable("wwizardry.catalyst"));
+		widgets.addSlot(getInnerIngredient(), 47, 31).catalyst(shouldKeepCatalyst()).appendTooltip(Component.translatable("wwizardry.catalyst"));
 
 		widgets.addSlot(getOutput(), 92, 28).large(true);
 

@@ -1,43 +1,43 @@
 package dev.sweetberry.wwizardry.client.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarPedestalBlockEntity;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Axis;
-import net.minecraft.util.math.Direction;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import org.joml.Quaternionf;
 
-public record AltarPedestalBlockEntityRenderer(BlockEntityRendererFactory.Context context) implements AltarBlockEntityRenderer<AltarPedestalBlockEntity> {
+public record AltarPedestalBlockEntityRenderer(BlockEntityRendererProvider.Context context) implements AltarBlockEntityRenderer<AltarPedestalBlockEntity> {
 	@Override
-	public void beforeRender(AltarPedestalBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+	public void beforeRender(AltarPedestalBlockEntity entity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
 		matrices.translate(0.5, 0.9509, 0.5);
 
-		var world = entity.getWorld();
+		var world = entity.getLevel();
 
 		if (world == null)
 			return;
 
-		var blockState = world.getBlockState(entity.getPos());
+		var blockState = world.getBlockState(entity.getBlockPos());
 
-		if (!blockState.isOf(AltarPedestalBlock.INSTANCE))
+		if (!blockState.is(AltarPedestalBlock.INSTANCE))
 			return;
 
-		var dir = blockState.get(HorizontalFacingBlock.FACING);
+		var dir = blockState.getValue(HorizontalDirectionalBlock.FACING);
 
-		var transDir = dir.getUnitVector().mul(-0.09335f);
+		var transDir = dir.step().mul(-0.09335f);
 		matrices.translate(transDir.x, transDir.y, transDir.z);
 
-		matrices.multiply(getAxis(dir.rotateYClockwise()).rotationDegrees(22.5f));
+		matrices.mulPose(getAxis(dir.getClockWise()).rotationDegrees(22.5f));
 
-		transDir = dir.getUnitVector().mul(0.046875f);
+		transDir = dir.step().mul(0.046875f);
 		matrices.translate(transDir.x, transDir.y + 0.25, transDir.z);
 	}
 
 	public static Axis getAxis(Direction dir) {
-		var mul = dir.getDirection().offset();
+		var mul = dir.getAxisDirection().getStep();
 		return (amount) -> {
 			var quat = new Quaternionf();
 			var amp = mul*amount;

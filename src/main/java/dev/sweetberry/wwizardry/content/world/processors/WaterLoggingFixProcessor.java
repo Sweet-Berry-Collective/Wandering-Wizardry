@@ -1,15 +1,15 @@
 package dev.sweetberry.wwizardry.content.world.processors;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.structure.Structure;
-import net.minecraft.structure.StructurePlacementData;
-import net.minecraft.structure.processor.StructureProcessor;
-import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.Nullable;
 
 public class WaterLoggingFixProcessor extends StructureProcessor {
@@ -18,19 +18,19 @@ public class WaterLoggingFixProcessor extends StructureProcessor {
 
 	@Nullable
 	@Override
-	public Structure.StructureBlockInfo process(WorldView world, BlockPos pos, BlockPos pivot, Structure.StructureBlockInfo localBlockInfo, Structure.StructureBlockInfo absoluteBlockInfo, StructurePlacementData placementData) {
+	public StructureTemplate.StructureBlockInfo processBlock(LevelReader world, BlockPos pos, BlockPos pivot, StructureTemplate.StructureBlockInfo localBlockInfo, StructureTemplate.StructureBlockInfo absoluteBlockInfo, StructurePlaceSettings placementData) {
 		if (localBlockInfo.state().getFluidState().isEmpty())
 			return absoluteBlockInfo;
-		if (world instanceof ChunkRegion region && region.getCenterPos().equals(new ChunkPos(localBlockInfo.pos())))
+		if (world instanceof WorldGenRegion region && region.getCenter().equals(new ChunkPos(localBlockInfo.pos())))
 			return absoluteBlockInfo;
 		var chunk = world.getChunk(absoluteBlockInfo.pos());
-		var minY = chunk.getBottomY();
-		var maxY = chunk.getTopY();
+		var minY = chunk.getMinBuildHeight();
+		var maxY = chunk.getMaxBuildHeight();
 		var currentY = absoluteBlockInfo.pos().getY();
 		if (currentY < minY || currentY > maxY)
 			return absoluteBlockInfo;
 
-		((WorldAccess)world).scheduleBlockTick(absoluteBlockInfo.pos(), absoluteBlockInfo.state().getBlock(), 0);
+		((LevelAccessor)world).scheduleTick(absoluteBlockInfo.pos(), absoluteBlockInfo.state().getBlock(), 0);
 
 		return absoluteBlockInfo;
 	}

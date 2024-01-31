@@ -2,7 +2,7 @@ package dev.sweetberry.wwizardry.api.altar;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 @FunctionalInterface
 public interface AltarCraftable {
@@ -15,5 +15,5 @@ public interface AltarCraftable {
 		return false;
 	});
 
-	boolean tryCraft(AltarRecipeView view, World world);
+	boolean tryCraft(AltarRecipeView view, Level world);
 }

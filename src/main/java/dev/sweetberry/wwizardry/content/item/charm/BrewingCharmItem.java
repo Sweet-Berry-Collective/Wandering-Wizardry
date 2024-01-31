@@ -1,22 +1,23 @@
 package dev.sweetberry.wwizardry.content.item.charm;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.BrewingRecipeRegistry;
-import net.minecraft.world.World;
+import dev.sweetberry.wwizardry.api.altar.AltarRecipeView.AltarDirection;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionBrewing;
+import net.minecraft.world.level.Level;
 
 public class BrewingCharmItem extends AltarCharmItem {
-	public BrewingCharmItem(Settings settings) {
+	public BrewingCharmItem(Properties settings) {
 		super(settings);
 	}
 
 	@Override
-	public boolean tryCraft(AltarRecipeView view, World world) {
+	public boolean tryCraft(AltarRecipeView view, Level world) {
 		AltarRecipeView.AltarDirection ingredientSlot = null;
 		ItemStack ingredientStack = null;
 		for (var dir : AltarRecipeView.AltarDirection.cardinals()) {
 			var stack = view.getItemInPedestal(dir);
-			if (stack != null && BrewingRecipeRegistry.isValidIngredient(stack)) {
+			if (stack != null && PotionBrewing.isIngredient(stack)) {
 				ingredientSlot = dir;
 				ingredientStack = stack;
 				break;
@@ -30,9 +31,9 @@ public class BrewingCharmItem extends AltarCharmItem {
 			var stack = view.getItemInPedestal(dir);
 			if (stack == null)
 				continue;
-			if (BrewingRecipeRegistry.hasRecipe(stack, ingredientStack)) {
+			if (PotionBrewing.hasMix(stack, ingredientStack)) {
 				used = true;
-				view.setResultInPedestal(dir, BrewingRecipeRegistry.craft(ingredientStack, stack));
+				view.setResultInPedestal(dir, PotionBrewing.mix(ingredientStack, stack));
 			} else {
 				view.setResultInPedestal(dir, stack);
 			}

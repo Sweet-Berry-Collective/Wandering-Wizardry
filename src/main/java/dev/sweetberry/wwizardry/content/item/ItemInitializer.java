@@ -13,13 +13,16 @@ import dev.sweetberry.wwizardry.content.item.charm.CraftingCharmItem;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.text.Text;
-import net.minecraft.util.Rarity;
-
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.RecordItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,7 +172,7 @@ public class ItemInitializer {
 		"slot_charm",
 		new SelfRemainderingItem(
 			new FabricItemSettings()
-				.maxCount(1)
+				.stacksTo(1)
 		)
 	);
 
@@ -177,7 +180,7 @@ public class ItemInitializer {
 		"crafting_charm",
 		new CraftingCharmItem(
 			new FabricItemSettings()
-				.maxCount(1)
+				.stacksTo(1)
 		)
 	);
 
@@ -185,17 +188,17 @@ public class ItemInitializer {
 		"brewing_charm",
 		new BrewingCharmItem(
 			new FabricItemSettings()
-				.maxCount(1)
+				.stacksTo(1)
 		)
 	);
 
 	public static final Item MUSIC_DISC_WANDERING = registerItem(
 		"music_disc_wandering",
-		new MusicDiscItem(
+		new RecordItem(
 			10,
 			SoundInitializer.DISC_WANDERING,
 			new FabricItemSettings()
-				.maxCount(1)
+				.stacksTo(1)
 				.rarity(Rarity.RARE),
 			140
 		)
@@ -205,13 +208,13 @@ public class ItemInitializer {
 
 	// This is here because of 'Illegal forward reference'
 	public static ItemStack getIcon() {
-		return CRYSTALLINE_SCULK_SHARD.getDefaultStack();
+		return CRYSTALLINE_SCULK_SHARD.getDefaultInstance();
 	}
 
-	public static final ItemGroup GROUP = FabricItemGroup.builder()
+	public static final CreativeModeTab GROUP = FabricItemGroup.builder()
 			.icon(ItemInitializer::getIcon)
-			.entries((display, collector) -> collector.addStacks(STACKS))
-			.name(Text.translatable("itemGroup.wwizardry.items"))
+			.displayItems((display, collector) -> collector.acceptAll(STACKS))
+			.title(Component.translatable("itemGroup.wwizardry.items"))
 			.build();
 
 	public static void init() {
@@ -221,15 +224,15 @@ public class ItemInitializer {
 		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);
 		registerItem("altar_catalyzer", AltarCatalyzerBlock.ITEM);
 
-		Registry.register(Registries.ITEM_GROUP, Mod.id("items"), GROUP);
+		Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Mod.id("items"), GROUP);
 	}
 
 	public static Item registerItem(String id, Item item) {
 		STACKS.add(new ItemStack(item));
-		return Registry.register(Registries.ITEM, Mod.id(id), item);
+		return Registry.register(BuiltInRegistries.ITEM, Mod.id(id), item);
 	}
 
-	public static Item registerBoatItem(String id, RegistryKey<TerraformBoatType> boatTypeKey, boolean chest, FabricItemSettings itemSettings) {
+	public static Item registerBoatItem(String id, ResourceKey<TerraformBoatType> boatTypeKey, boolean chest, FabricItemSettings itemSettings) {
 		Item item = TerraformBoatItemHelper.registerBoatItem(Mod.id(id), boatTypeKey, chest, itemSettings);
 		STACKS.add(new ItemStack(item));
 		return item;

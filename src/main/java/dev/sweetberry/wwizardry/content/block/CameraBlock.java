@@ -1,51 +1,55 @@
 package dev.sweetberry.wwizardry.content.block;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class CameraBlock extends Block implements Waterloggable {
-	public static final CameraBlock INSTANCE = new CameraBlock(FabricBlockSettings.create().mapColor(MapColor.GRAY));
+public class CameraBlock extends Block implements SimpleWaterloggedBlock {
+	public static final CameraBlock INSTANCE = new CameraBlock(FabricBlockSettings.of().mapColor(MapColor.COLOR_GRAY));
 
-	public static final VoxelShape SHAPE = createCuboidShape(4, 3, 4, 12, 16, 12);
+	public static final VoxelShape SHAPE = box(4, 3, 4, 12, 16, 12);
 
-	public CameraBlock(Settings settings) {
+	public CameraBlock(Properties settings) {
 		super(settings);
-		setDefaultState(getDefaultState().with(Properties.WATERLOGGED, false));
+		registerDefaultState(defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
 	}
 
 	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(Properties.WATERLOGGED, HorizontalFacingBlock.FACING);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(BlockStateProperties.WATERLOGGED, HorizontalDirectionalBlock.FACING);
 	}
 
 	@Nullable
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return getDefaultState().with(HorizontalFacingBlock.FACING, ctx.getPlayerFacing());
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+		return defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, ctx.getHorizontalDirection());
 	}
 
 	@Override
-	public BlockState rotate(BlockState state, BlockRotation rotation) {
-		return state.with(HorizontalFacingBlock.FACING, rotation.rotate(state.get(HorizontalFacingBlock.FACING)));
+	public BlockState rotate(BlockState state, Rotation rotation) {
+		return state.setValue(HorizontalDirectionalBlock.FACING, rotation.rotate(state.getValue(HorizontalDirectionalBlock.FACING)));
 	}
 
 	@Override
-	public BlockState mirror(BlockState state, BlockMirror mirror) {
-		return state.rotate(mirror.getRotation(state.get(HorizontalFacingBlock.FACING)));
+	public BlockState mirror(BlockState state, Mirror mirror) {
+		return state.rotate(mirror.getRotation(state.getValue(HorizontalDirectionalBlock.FACING)));
 	}
 }

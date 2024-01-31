@@ -6,19 +6,18 @@ import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEn
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarPedestalBlockEntity;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -26,16 +25,16 @@ import java.util.ArrayList;
 public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
 	public static final AltarCatalyzerBlock INSTANCE = new AltarCatalyzerBlock(FabricBlockSettings.copyOf(Blocks.REDSTONE_BLOCK));
 	public static final BlockItem ITEM = new BlockItem(INSTANCE, new FabricItemSettings());
-	public static final VoxelShape SHAPE = VoxelShapes.union(
+	public static final VoxelShape SHAPE = Shapes.or(
 			BlockInitializer.ALTAR_BASE_SHAPE,
 
-			createCuboidShape(0.0, 14.0, 0.0, 16.0, 16.0, 16.0),
-			createCuboidShape(3.0, 16.0, 3.0, 13.0, 17.0, 13.0)
-	).simplify();
+			box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0),
+			box(3.0, 16.0, 3.0, 13.0, 17.0, 13.0)
+	).optimize();
 
-	public AltarCatalyzerBlock(Settings settings) {
+	public AltarCatalyzerBlock(Properties settings) {
 		super(settings);
-		setDefaultState(getDefaultState());
+		registerDefaultState(defaultBlockState());
 	}
 
 	@Override
@@ -44,13 +43,13 @@ public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
 	}
 
 	@Override
-	public boolean isComplete(BlockView world, BlockState state, BlockPos pos) {
+	public boolean isComplete(BlockGetter world, BlockState state, BlockPos pos) {
 		Direction[] directions = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST };
 		for (var direction : directions) {
-			var neighbor = world.getBlockState(pos.offset(direction, 2));
-			if (!neighbor.isOf(AltarPedestalBlock.INSTANCE))
+			var neighbor = world.getBlockState(pos.relative(direction, 2));
+			if (!neighbor.is(AltarPedestalBlock.INSTANCE))
 				return false;
-			if (neighbor.get(HorizontalFacingBlock.FACING) != direction)
+			if (neighbor.getValue(HorizontalDirectionalBlock.FACING) != direction)
 				return false;
 		}
 		return true;
@@ -58,12 +57,12 @@ public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
 
 	@Nullable
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new AltarCatalyzerBlockEntity(pos, state);
 	}
 
 	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 }

@@ -3,14 +3,14 @@ package dev.sweetberry.wwizardry.content.block.altar.entity;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3f;
 
 import java.util.Optional;
@@ -24,10 +24,10 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 
 	public AltarPedestalBlockEntity(BlockPos pos, BlockState state) {
 		super(TYPE, pos, state);
-		Direction dir = state.get(HorizontalFacingBlock.FACING);
+		Direction dir = state.getValue(HorizontalDirectionalBlock.FACING);
 
-		final var offX = dir.getOffsetX();
-		final var offZ = dir.getOffsetZ();
+		final var offX = dir.getStepX();
+		final var offZ = dir.getStepZ();
 
 		particlePos = new Vector3f(
 			pos.getX() + 0.5f + (offZ * 0.03355f),
@@ -40,9 +40,9 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 	}
 
 	public Optional<AltarCatalyzerBlockEntity> findCatalyzer(BlockState state) {
-		var dir = state.get(HorizontalFacingBlock.FACING);
-		var pos = this.pos.offset(dir, -2);
-		return world.getBlockEntity(pos) instanceof AltarCatalyzerBlockEntity catalyzer
+		var dir = state.getValue(HorizontalDirectionalBlock.FACING);
+		var pos = this.worldPosition.relative(dir, -2);
+		return level.getBlockEntity(pos) instanceof AltarCatalyzerBlockEntity catalyzer
 				? Optional.of(catalyzer)
 				: Optional.empty();
 	}
@@ -53,7 +53,7 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public AltarRecipeView.AltarDirection getDirection(BlockState state) {
-		return AltarRecipeView.AltarDirection.fromDirection(state.get(HorizontalFacingBlock.FACING));
+		return AltarRecipeView.AltarDirection.fromDirection(state.getValue(HorizontalDirectionalBlock.FACING));
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 		return AltarPedestalBlock.INSTANCE;
 	}
 
-	public void emitCraftingParticle(World world) {
+	public void emitCraftingParticle(Level world) {
 		world.addParticle(
 				ParticleTypes.SOUL_FIRE_FLAME, particlePos.x, particlePos.y, particlePos.z,
 				0.10355 * particleX * ((craftingTick + 30) / 100f),
@@ -76,7 +76,7 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	public void tick(World world, BlockPos pos, BlockState state) {
+	public void tick(Level world, BlockPos pos, BlockState state) {
 		if (crafting) {
 			if (++craftingTick >= 100) {
 				finishCrafting(state);

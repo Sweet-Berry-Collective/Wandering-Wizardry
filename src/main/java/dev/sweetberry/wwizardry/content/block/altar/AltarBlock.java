@@ -6,115 +6,120 @@ import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.Sculkable;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarBlockEntity;
 import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.sculk.SculkBehavior;
-import net.minecraft.block.sculk.SculkVeinSpreader;
-import net.minecraft.client.multiplayer.report.AbuseReportEnvironment;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.random.RandomGenerator;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SculkBehaviour;
+import net.minecraft.world.level.block.SculkSpreader;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.function.Function;
 
-public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEntity implements Waterloggable, SculkVeinSpreader, Sculkable {
+public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityBlock implements SimpleWaterloggedBlock, SculkBehaviour, Sculkable {
 	private final MapCodec<AltarBlock<T>> codec;
 
-	protected AltarBlock(Settings settings) {
+	protected AltarBlock(Properties settings) {
 		super(settings);
-		setDefaultState(
-				getDefaultState()
-						.with(Properties.WATERLOGGED, false)
-						.with(BlockInitializer.SCULK_INFESTED, false)
-						.with(BlockInitializer.SCULK_BELOW, false)
+		registerDefaultState(
+				defaultBlockState()
+						.setValue(BlockStateProperties.WATERLOGGED, false)
+						.setValue(BlockInitializer.SCULK_INFESTED, false)
+						.setValue(BlockInitializer.SCULK_BELOW, false)
 		);
-		codec = AbstractBlock.method_54094(settings1 -> AltarBlock.this);
+		codec = BlockBehaviour.simpleCodec(settings1 -> AltarBlock.this);
 	}
 
 	public abstract BlockEntityType<T> getBlockEntityType();
 
 	@Override
-	protected MapCodec<? extends BlockWithEntity> getCodec() {
+	protected MapCodec<? extends BaseEntityBlock> codec() {
 		return codec;
 	}
 
-	public void handleInput(PlayerEntity player, Hand hand, AltarBlockEntity entity) {
+	public void handleInput(Player player, InteractionHand hand, AltarBlockEntity entity) {
 		boolean inserted = false;
-		for (int i = 0; i < player.getInventory().size(); i++) {
-			var invStack = player.getInventory().getStack(i);
-			if (invStack.getCount() == invStack.getMaxCount()) continue;
+		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+			var invStack = player.getInventory().getItem(i);
+			if (invStack.getCount() == invStack.getMaxStackSize()) continue;
 			if (invStack.getItem() != entity.heldItem.getItem()) continue;
 			inserted = true;
-			invStack.increment(1);
-			player.getInventory().setStack(i, invStack);
-			player.getInventory().markDirty();
+			invStack.grow(1);
+			player.getInventory().setItem(i, invStack);
+			player.getInventory().setChanged();
 			break;
 		}
 		if (!inserted)
-			player.setStackInHand(hand, entity.heldItem);
+			player.setItemInHand(hand, entity.heldItem);
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (player.isSneaking()) return ActionResult.PASS;
-		var stack = player.getStackInHand(hand);
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (player.isShiftKeyDown()) return InteractionResult.PASS;
+		var stack = player.getItemInHand(hand);
 		var entity = (AltarBlockEntity) world.getBlockEntity(pos);
 		assert entity != null;
-		if (entity.crafting) return ActionResult.PASS;
-		if (stack.isEmpty() && entity.heldItem.isEmpty()) return ActionResult.PASS;
-		if (world.isClient) return ActionResult.SUCCESS;
-		var newstack = stack.copy().withCount(1);
+		if (entity.crafting) return InteractionResult.PASS;
+		if (stack.isEmpty() && entity.heldItem.isEmpty()) return InteractionResult.PASS;
+		if (world.isClientSide) return InteractionResult.SUCCESS;
+		var newstack = stack.copy().copyWithCount(1);
 
 		if (stack.getItem() == entity.heldItem.getItem()) {
-			if (stack.getCount() == stack.getMaxCount()) {
-				if (!player.giveItemStack(entity.heldItem)) return ActionResult.SUCCESS;
+			if (stack.getCount() == stack.getMaxStackSize()) {
+				if (!player.addItem(entity.heldItem)) return InteractionResult.SUCCESS;
 			} else {
-				stack.increment(1);
-				player.setStackInHand(hand, stack);
+				stack.grow(1);
+				player.setItemInHand(hand, stack);
 			}
 			entity.heldItem = ItemStack.EMPTY;
-			entity.markDirty();
-			world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 7.5f, 0f);
-			world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
-			return ActionResult.SUCCESS;
+			entity.setChanged();
+			world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 7.5f, 0f);
+			world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(state));
+			return InteractionResult.SUCCESS;
 		}
 
 		if (!stack.isEmpty()) {
-			if (stack.isOf(Items.END_CRYSTAL) && player instanceof ServerPlayerEntity serverPlayerEntity)
+			if (stack.is(Items.END_CRYSTAL) && player instanceof ServerPlayer serverPlayerEntity)
 				CriterionInitializer.ALTAR_END_CRYSTAL.trigger(serverPlayerEntity);
 
 			if (!entity.heldItem.isEmpty())
 				if (stack.getCount() == 1)
 					handleInput(player, hand, entity);
-				else if (!player.giveItemStack(entity.heldItem))
-					return ActionResult.SUCCESS;
+				else if (!player.addItem(entity.heldItem))
+					return InteractionResult.SUCCESS;
 
-			stack.decrement(1);
+			stack.shrink(1);
 			entity.heldItem = newstack;
 			entity.tryCraft(state);
 		} else {
@@ -122,117 +127,117 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 			entity.heldItem = ItemStack.EMPTY;
 		}
 
-		((ServerWorld) world).getChunkManager().markForUpdate(pos);
-		world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
+		((ServerLevel) world).getChunkSource().blockChanged(pos);
+		world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(state));
 
-		entity.markDirty();
-		world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 10f, 0f);
-		return ActionResult.SUCCESS;
+		entity.setChanged();
+		world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 10f, 0f);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-		return state.with(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.down()));
+	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+		return state.setValue(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.below()));
 	}
 
 	@Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-		world.setBlockState(pos, state.with(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.down())));
-		if (isComplete(world, state, pos) && placer instanceof ServerPlayerEntity serverPlayerEntity)
+	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+		world.setBlockAndUpdate(pos, state.setValue(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.below())));
+		if (isComplete(world, state, pos) && placer instanceof ServerPlayer serverPlayerEntity)
 			CriterionInitializer.COMPLETE_ALTAR.trigger(serverPlayerEntity);
 	}
 
 	@Override
-	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
 		var e = world.getBlockEntity(pos);
 		if (!(e instanceof AltarBlockEntity entity)) return state;
 		entity.tryCancelCraft(state);
 		var stackEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), entity.heldItem);
-		world.spawnEntity(stackEntity);
-		super.onBreak(world, pos, state, player);
-		return Blocks.AIR.getDefaultState();
+		world.addFreshEntity(stackEntity);
+		super.playerWillDestroy(world, pos, state, player);
+		return Blocks.AIR.defaultBlockState();
 	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.MODEL;
+	public RenderShape getRenderShape(BlockState state) {
+		return RenderShape.MODEL;
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(Properties.WATERLOGGED, BlockInitializer.SCULK_INFESTED, BlockInitializer.SCULK_BELOW);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(BlockStateProperties.WATERLOGGED, BlockInitializer.SCULK_INFESTED, BlockInitializer.SCULK_BELOW);
 	}
 
 	@Nullable
 	@Override
-	public <BE extends BlockEntity> BlockEntityTicker<BE> getTicker(World world, BlockState state, BlockEntityType<BE> type) {
-		return checkType(type, getBlockEntityType(), (world1, pos, state1, be) -> be.tick(world1, pos, state1));
+	public <BE extends BlockEntity> BlockEntityTicker<BE> getTicker(Level world, BlockState state, BlockEntityType<BE> type) {
+		return createTickerHelper(type, getBlockEntityType(), (world1, pos, state1, be) -> be.tick(world1, pos, state1));
 	}
 
 	@Override
 	public FluidState getFluidState(BlockState state) {
-		return state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+		return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
-	public int getPower(BlockView world, BlockPos pos, Function<AltarBlockEntity, Boolean> func) {
+	public int getPower(BlockGetter world, BlockPos pos, Function<AltarBlockEntity, Boolean> func) {
 		var be = world.getBlockEntity(pos);
 		if (!(be instanceof AltarBlockEntity abe)) return 0;
 		return func.apply(abe) ? 15 : 0;
 	}
 
 	@Override
-	public boolean hasComparatorOutput(BlockState state) {
+	public boolean hasAnalogOutputSignal(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+	public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
 		return getPower(world, pos, abe -> !abe.heldItem.isEmpty());
 	}
 
 	@Override
-	public boolean isRedstonePowerSource(BlockState state) {
+	public boolean isSignalSource(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
+	public int getSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
 		return getPower(world, pos, abe -> abe.crafting);
 	}
 
 	@Override
-	public boolean trySpreadVein(WorldAccess world, BlockPos pos, BlockState state, @Nullable Collection<Direction> directions, boolean postProcess) {
-		var posDown = pos.down();
+	public boolean attemptSpreadVein(LevelAccessor world, BlockPos pos, BlockState state, @Nullable Collection<Direction> directions, boolean postProcess) {
+		var posDown = pos.below();
 		var stateDown = world.getBlockState(posDown);
 
-		if (!state.get(BlockInitializer.SCULK_INFESTED)) {
-			world.setBlockState(pos, state.with(BlockInitializer.SCULK_INFESTED, true).with(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.down())), NOTIFY_ALL | FORCE_STATE);
-			world.playSound(null, pos, SoundEvents.BLOCK_SCULK_SPREAD, SoundCategory.BLOCKS, 1, 1);
+		if (!state.getValue(BlockInitializer.SCULK_INFESTED)) {
+			world.setBlock(pos, state.setValue(BlockInitializer.SCULK_INFESTED, true).setValue(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.below())), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
+			world.playSound(null, pos, SoundEvents.SCULK_BLOCK_SPREAD, SoundSource.BLOCKS, 1, 1);
 			return true;
 		}
 
-		if (!state.get(BlockInitializer.SCULK_BELOW) && stateDown.isIn(BlockTags.SCULK_REPLACEABLE)) {
-			world.setBlockState(posDown, Blocks.SCULK.getDefaultState(), NOTIFY_ALL | FORCE_STATE);
-			world.setBlockState(pos, state.with(BlockInitializer.SCULK_BELOW, true), NOTIFY_ALL | FORCE_STATE);
-			world.playSound(null, pos, SoundEvents.BLOCK_SCULK_SPREAD, SoundCategory.BLOCKS, 1, 1);
+		if (!state.getValue(BlockInitializer.SCULK_BELOW) && stateDown.is(BlockTags.SCULK_REPLACEABLE)) {
+			world.setBlock(posDown, Blocks.SCULK.defaultBlockState(), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
+			world.setBlock(pos, state.setValue(BlockInitializer.SCULK_BELOW, true), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
+			world.playSound(null, pos, SoundEvents.SCULK_BLOCK_SPREAD, SoundSource.BLOCKS, 1, 1);
 			return true;
 		}
 
-		return SculkVeinSpreader.super.trySpreadVein(world, pos, state, directions, postProcess);
+		return SculkBehaviour.super.attemptSpreadVein(world, pos, state, directions, postProcess);
 	}
 
 	@Override
-	public int tryUseCharge(SculkBehavior.ChargeCursor charge, WorldAccess world, BlockPos pos, RandomGenerator random, SculkBehavior sculkChargeHandler, boolean spread) {
+	public int attemptUseCharge(SculkSpreader.ChargeCursor charge, LevelAccessor world, BlockPos pos, RandomSource random, SculkSpreader sculkChargeHandler, boolean spread) {
 		var state = world.getBlockState(pos);
-		var stateDown = world.getBlockState(pos.down());
+		var stateDown = world.getBlockState(pos.below());
 		if (stateDown.getBlock() == Blocks.SCULK || stateDown.getBlock() == Blocks.AIR) {
-			world.setBlockState(pos, state.with(BlockInitializer.SCULK_BELOW, true), NOTIFY_ALL | FORCE_STATE);
+			world.setBlock(pos, state.setValue(BlockInitializer.SCULK_BELOW, true), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
 		}
 		return charge.getCharge();
 	}
 
 	@Override
-	public boolean canUpdateOnSpread() {
+	public boolean canChangeBlockStateOnSpread() {
 		return true;
 	}
 
@@ -241,5 +246,5 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 		return true;
 	}
 
-	public abstract boolean isComplete(BlockView world, BlockState state, BlockPos pos);
+	public abstract boolean isComplete(BlockGetter world, BlockState state, BlockPos pos);
 }

@@ -1,11 +1,6 @@
 package dev.sweetberry.wwizardry.mixin;
 
 import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.s2c.play.ItemPickupAnimationS2CPacket;
-import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,6 +8,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.UUID;
+import net.minecraft.network.protocol.game.ClientboundTakeItemEntityPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 @Mixin(ItemEntity.class)
 public abstract class Mixin_ItemEntity {
@@ -20,26 +20,26 @@ public abstract class Mixin_ItemEntity {
 	private int pickupDelay;
 
 	@Shadow
-	private @Nullable UUID owner;
+	private @Nullable UUID thrower;
 
 	@ModifyVariable(
-		method = "onPlayerCollision",
+		method = "playerTouch",
 		at = @At("STORE"),
 		ordinal = 0
 	)
-	private ItemStack wwizardry$insertVoidBag(ItemStack original, PlayerEntity player) {
+	private ItemStack wwizardry$insertVoidBag(ItemStack original, Player player) {
 		var bag = VoidBagComponent.getForPlayer(player);
 		var self = (ItemEntity) (Object) this;
 		if (
 			pickupDelay != 0 ||
-			(owner != null && !owner.equals(player.getUuid())) ||
+			(thrower != null && !thrower.equals(player.getUUID())) ||
 			bag.locked ||
 			!bag.contains(original.getItem())
 		)
 			return original;
 
 		if (bag.tryAddStack(original) == 0)
-			((ServerWorld) self.getWorld()).getChunkManager().sendToOtherNearbyPlayers(self, new ItemPickupAnimationS2CPacket(self.getId(), player.getId(), 0));
+			((ServerLevel) self.level()).getChunkSource().broadcast(self, new ClientboundTakeItemEntityPacket(self.getId(), player.getId(), 0));
 
 		return original;
 	}

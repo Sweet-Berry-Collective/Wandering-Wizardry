@@ -10,23 +10,23 @@ import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.client.ItemTooltipCallback;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.item.ItemProperties;
 
 public class ClientEvents {
 	public static void init() {
 		ItemTooltipCallback.EVENT.register(ItemTooltipHandler::addTooltips);
 
-		BlockEntityRendererFactories.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
-		BlockEntityRendererFactories.register(AltarCatalyzerBlockEntity.TYPE, AltarCatalyzerBlockEntityRenderer::new);
+		BlockEntityRenderers.register(AltarPedestalBlockEntity.TYPE, AltarPedestalBlockEntityRenderer::new);
+		BlockEntityRenderers.register(AltarCatalyzerBlockEntity.TYPE, AltarCatalyzerBlockEntityRenderer::new);
 
-		ModelPredicateProviderRegistry.register(
+		ItemProperties.register(
 			VoidBagItem.INSTANCE,
 			Mod.id("void_bag_closed"),
 			ModelPredicates::getVoidBag
 		);
 
-		ModelPredicateProviderRegistry.register(
+		ItemProperties.register(
 			SoulMirrorItem.INSTANCE,
 			Mod.id("cracked"),
 			ModelPredicates::getSoulMirror

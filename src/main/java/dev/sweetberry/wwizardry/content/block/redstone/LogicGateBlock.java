@@ -1,32 +1,34 @@
 package dev.sweetberry.wwizardry.content.block.redstone;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.sweetberry.wwizardry.content.block.altar.entity.LogicGateBlockEntity;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.enums.ComparatorMode;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.random.RandomGenerator;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.TickPriority;
-import net.minecraft.world.World;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DiodeBlock;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.ComparatorMode;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.ticks.TickPriority;
 import java.util.function.Function;
 
-public class LogicGateBlock extends RedstoneDiodeBlock implements BlockEntityProvider {
-	public static final EnumProperty<ComparatorMode> MODE = Properties.COMPARATOR_MODE;
+public class LogicGateBlock extends DiodeBlock implements EntityBlock {
+	public static final EnumProperty<ComparatorMode> MODE = BlockStateProperties.MODE_COMPARATOR;
 
 	public final CompareFunction function;
 	public final SideInput inputType;
@@ -35,80 +37,80 @@ public class LogicGateBlock extends RedstoneDiodeBlock implements BlockEntityPro
 	public final MapCodec<LogicGateBlock> codec;
 
 
-	public LogicGateBlock(Settings settings, SideInput inputType, boolean multistate, CompareFunction function) {
+	public LogicGateBlock(Properties settings, SideInput inputType, boolean multistate, CompareFunction function) {
 		super(settings);
 		this.inputType = inputType;
 		this.multistate = multistate;
 		this.function = function;
-		var state = getDefaultState().with(POWERED, false).with(MODE, ComparatorMode.COMPARE);
-		setDefaultState(state);
-		codec = AbstractBlock.method_54094(settings1 -> LogicGateBlock.this);
+		var state = defaultBlockState().setValue(POWERED, false).setValue(MODE, ComparatorMode.COMPARE);
+		registerDefaultState(state);
+		codec = BlockBehaviour.simpleCodec(settings1 -> LogicGateBlock.this);
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (!multistate)
-			return ActionResult.PASS;
-		if (!player.getAbilities().allowModifyWorld)
-			return ActionResult.PASS;
+			return InteractionResult.PASS;
+		if (!player.getAbilities().mayBuild)
+			return InteractionResult.PASS;
 		state = state.cycle(MODE);
-		float f = state.get(MODE) == ComparatorMode.SUBTRACT ? 0.55F : 0.5F;
-		world.playSound(player, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 0.3F, f);
-		world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);
+		float f = state.getValue(MODE) == ComparatorMode.SUBTRACT ? 0.55F : 0.5F;
+		world.playSound(player, pos, SoundEvents.COMPARATOR_CLICK, SoundSource.BLOCKS, 0.3F, f);
+		world.setBlock(pos, state, Block.UPDATE_CLIENTS);
 		update(world, pos, state);
-		return ActionResult.success(world.isClient);
+		return InteractionResult.sidedSuccess(world.isClientSide);
 	}
 
 	@Override
-	protected int getUpdateDelayInternal(BlockState state) {
+	protected int getDelay(BlockState state) {
 		return 2;
 	}
 
 	@Override
-	protected int getOutputLevel(BlockView world, BlockPos pos, BlockState state) {
+	protected int getOutputSignal(BlockGetter world, BlockPos pos, BlockState state) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		assert blockEntity != null;
 		return ((LogicGateBlockEntity)blockEntity).getOutputSignal();
 	}
 
-	private int calculateOutputSignal(World world, BlockPos pos, BlockState state) {
-		int back = getInputLevel(world, pos, state);
-		int side = getMaxInputLevelSides(world, pos, state);
-		var mode = state.get(MODE);
+	private int calculateOutputSignal(Level world, BlockPos pos, BlockState state) {
+		int back = getInputSignal(world, pos, state);
+		int side = getAlternateSignal(world, pos, state);
+		var mode = state.getValue(MODE);
 		return function.compare(state, mode, side, back);
 	}
 
 	@Override
-	protected int getInputLevel(World world, BlockPos pos, BlockState state) {
-		Direction direction = state.get(FACING);
-		BlockPos blockPos = pos.offset(direction);
+	protected int getInputSignal(Level world, BlockPos pos, BlockState state) {
+		Direction direction = state.getValue(FACING);
+		BlockPos blockPos = pos.relative(direction);
 		BlockState blockState = world.getBlockState(blockPos);
 
-		if (blockState.hasComparatorOutput())
-			return blockState.getComparatorOutput(world, blockPos);
+		if (blockState.hasAnalogOutputSignal())
+			return blockState.getAnalogOutputSignal(world, blockPos);
 
-		return super.getInputLevel(world, pos, state);
+		return super.getInputSignal(world, pos, state);
 	}
 
 	@Override
-	protected void checkOutputLevel(World world, BlockPos pos, BlockState state) {
-		if (!world.getBlockTickScheduler().willTick(pos, this)) {
+	protected void checkTickOnNeighbor(Level world, BlockPos pos, BlockState state) {
+		if (!world.getBlockTicks().willTickThisTick(pos, this)) {
 			int currentPower = calculateOutputSignal(world, pos, state);
 			BlockEntity blockEntity = world.getBlockEntity(pos);
 			assert blockEntity != null;
 			int previousPower = ((LogicGateBlockEntity)blockEntity).getOutputSignal();
 
 			boolean currentlyPowered = currentPower != 0;
-			boolean previouslyPowered = state.get(POWERED);
+			boolean previouslyPowered = state.getValue(POWERED);
 
 			if (currentPower != previousPower || currentlyPowered != previouslyPowered) {
-				TickPriority tickPriority = isTargetNotAligned(world, pos, state) ? TickPriority.HIGH : TickPriority.NORMAL;
-				world.scheduleBlockTick(pos, this, 2, tickPriority);
+				TickPriority tickPriority = shouldPrioritize(world, pos, state) ? TickPriority.HIGH : TickPriority.NORMAL;
+				world.scheduleTick(pos, this, 2, tickPriority);
 			}
 		}
 	}
 
-	private void update(World world, BlockPos pos, BlockState state) {
+	private void update(Level world, BlockPos pos, BlockState state) {
 		int currentPower = calculateOutputSignal(world, pos, state);
 		boolean currentlyPowered = currentPower != 0;
 
@@ -117,41 +119,41 @@ public class LogicGateBlock extends RedstoneDiodeBlock implements BlockEntityPro
 
 		int previousPower = blockEntity.getOutputSignal();
 		blockEntity.setOutputSignal(currentPower);
-		boolean previouslyPowered = state.get(POWERED);
+		boolean previouslyPowered = state.getValue(POWERED);
 
 		if (previousPower != currentPower) {
 			if (previouslyPowered != currentlyPowered) {
-				world.setBlockState(pos, state.with(POWERED, currentlyPowered), Block.NOTIFY_LISTENERS);
+				world.setBlock(pos, state.setValue(POWERED, currentlyPowered), Block.UPDATE_CLIENTS);
 			}
 
-			updateTarget(world, pos, state);
+			updateNeighborsInFront(world, pos, state);
 		}
 	}
 
 	@Override
-	protected MapCodec<? extends RedstoneDiodeBlock> getCodec() {
+	protected MapCodec<? extends DiodeBlock> codec() {
 		return codec;
 	}
 
 	@Override
-	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, RandomGenerator random) {
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 		update(world, pos, state);
 	}
 
 	@Override
-	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
-		super.onSyncedBlockEvent(state, world, pos, type, data);
+	public boolean triggerEvent(BlockState state, Level world, BlockPos pos, int type, int data) {
+		super.triggerEvent(state, world, pos, type, data);
 		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity != null && blockEntity.onSyncedBlockEvent(type, data);
+		return blockEntity != null && blockEntity.triggerEvent(type, data);
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new LogicGateBlockEntity(pos, state);
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING, POWERED, MODE);
 	}
 

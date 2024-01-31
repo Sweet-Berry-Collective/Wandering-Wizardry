@@ -6,15 +6,15 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.sweetberry.wwizardry.compat.emi.EmiInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 
-public record EmiAltarCatalyzationRecipe(Identifier id, List<EmiIngredient> input, EmiIngredient catalyst, boolean keepCatalyst, int bloom, EmiStack output) implements EmiAltarRecipe {
-	public static EmiAltarCatalyzationRecipe of(Identifier id, AltarCatalyzationRecipe recipe) {
-		var inputs = DefaultedList.ofSize(4, (EmiIngredient)EmiStack.of(ItemInitializer.SLOT_CHARM));
+public record EmiAltarCatalyzationRecipe(ResourceLocation id, List<EmiIngredient> input, EmiIngredient catalyst, boolean keepCatalyst, int bloom, EmiStack output) implements EmiAltarRecipe {
+	public static EmiAltarCatalyzationRecipe of(ResourceLocation id, AltarCatalyzationRecipe recipe) {
+		var inputs = NonNullList.withSize(4, (EmiIngredient)EmiStack.of(ItemInitializer.SLOT_CHARM));
 
 		for (var i = 0; i < recipe.inputs().size(); i++) {
 			inputs.set(i, EmiIngredient.of(recipe.inputs().get(i)));
@@ -29,7 +29,7 @@ public record EmiAltarCatalyzationRecipe(Identifier id, List<EmiIngredient> inpu
 	}
 
 	@Override
-	public @Nullable Identifier getId() {
+	public @Nullable ResourceLocation getId() {
 		return id();
 	}
 

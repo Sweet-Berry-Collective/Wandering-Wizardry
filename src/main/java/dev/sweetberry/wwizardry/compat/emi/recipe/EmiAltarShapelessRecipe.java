@@ -6,19 +6,19 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.compat.emi.EmiInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
-import net.minecraft.recipe.ShapelessRecipe;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 
-public record EmiAltarShapelessRecipe(Identifier id, List<EmiIngredient> input, EmiStack output) implements EmiAltarRecipe {
-	public static EmiAltarShapelessRecipe of(Identifier id, ShapelessRecipe recipe) {
+public record EmiAltarShapelessRecipe(ResourceLocation id, List<EmiIngredient> input, EmiStack output) implements EmiAltarRecipe {
+	public static EmiAltarShapelessRecipe of(ResourceLocation id, ShapelessRecipe recipe) {
 		var ingredients = recipe.getIngredients();
-		var output = recipe.getResult(null);
+		var output = recipe.getResultItem(null);
 
-		var inputs = DefaultedList.ofSize(4, (EmiIngredient)EmiStack.of(ItemInitializer.SLOT_CHARM));
+		var inputs = NonNullList.withSize(4, (EmiIngredient)EmiStack.of(ItemInitializer.SLOT_CHARM));
 		for (var i = 0; i < ingredients.size(); i++) {
 			inputs.set(i, EmiIngredient.of(ingredients.get(i)));
 		}
@@ -32,7 +32,7 @@ public record EmiAltarShapelessRecipe(Identifier id, List<EmiIngredient> input, 
 	}
 
 	@Override
-	public @Nullable Identifier getId() {
+	public @Nullable ResourceLocation getId() {
 		return id();
 	}
 

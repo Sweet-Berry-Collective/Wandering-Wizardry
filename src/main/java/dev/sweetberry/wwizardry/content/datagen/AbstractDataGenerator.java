@@ -4,10 +4,10 @@ import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.minecraft.registry.Holder;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ public abstract class AbstractDataGenerator {
 	}
 
 	public static void reloadPack(ResourceManager manager) {
-		DatagenInitializer.pack.clear(ResourceType.CLIENT_RESOURCES);
+		DatagenInitializer.pack.clear(PackType.CLIENT_RESOURCES);
 		DatagenInitializer.pack.put("pack.mcmeta", """
 			{
 				"pack": {
@@ -64,7 +64,7 @@ public abstract class AbstractDataGenerator {
 			}
 		}
 
-		private Identifier path(String file) {
+		private ResourceLocation path(String file) {
 			return Mod.id("datagen/"+inputPath+"/"+file+".json");
 		}
 
@@ -72,7 +72,7 @@ public abstract class AbstractDataGenerator {
 			var id = Mod.id(outputPath+"/"+path+".json");
 			if (manager.getResource(id).isPresent()) return;
 
-			pack.put(ResourceType.CLIENT_RESOURCES, Mod.id(outputPath+"/"+path+".json"), text.replaceAll("%", baseName));
+			pack.put(PackType.CLIENT_RESOURCES, Mod.id(outputPath+"/"+path+".json"), text.replaceAll("%", baseName));
 		}
 
 		public void put(MapBackedPack pack, String path, String text, String type) {

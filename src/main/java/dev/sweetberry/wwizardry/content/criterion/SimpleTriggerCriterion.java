@@ -2,36 +2,29 @@ package dev.sweetberry.wwizardry.content.criterion;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancement.criterion.AbstractCriterionTrigger;
-import net.minecraft.predicate.ContextAwarePredicate;
-import net.minecraft.predicate.entity.EntityPredicate;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.dynamic.Codecs;
-
 import java.util.Optional;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ExtraCodecs;
 
-public class SimpleTriggerCriterion extends AbstractCriterionTrigger<SimpleTriggerCriterion.Condition> {
+public class SimpleTriggerCriterion extends SimpleCriterionTrigger<SimpleTriggerCriterion.Condition> {
 	public static final Codec<Condition> CODEC = RecordCodecBuilder.create(
 		instance -> instance.group(
-			Codecs.method_53048(EntityPredicate.field_47250, "player")
-				.forGetter(Condition::comp_2029)
+			ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player")
+				.forGetter(Condition::player)
 		).apply(instance, Condition::new)
 	);
 
 	@Override
-	public Codec<Condition> method_54937/*getCodec*/() {
+	public Codec<Condition> codec() {
 		return CODEC;
 	}
 
-	public void trigger(ServerPlayerEntity player) {
+	public void trigger(ServerPlayer player) {
 		trigger(player, conditions -> true);
 	}
 
-	public record Condition(Optional<ContextAwarePredicate> player) implements Conditions {
-
-		@Override
-		public Optional<ContextAwarePredicate> comp_2029/*getTriggeringPredicate*/() {
-			return player;
-		}
-	}
+	public record Condition(Optional<ContextAwarePredicate> player) implements SimpleInstance {}
 }

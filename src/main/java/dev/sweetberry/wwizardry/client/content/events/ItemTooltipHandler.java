@@ -3,52 +3,52 @@ package dev.sweetberry.wwizardry.client.content.events;
 import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-
 import java.util.List;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 
 public class ItemTooltipHandler {
 
-	public static final List<Text> VOID_BAG_LOCKED = List.of(
-		Text.empty(),
-		Text.translatable("wwizardry.void_bag.generic_1").formatted(Formatting.DARK_PURPLE),
-		Text.translatable("wwizardry.void_bag.generic_2").formatted(Formatting.DARK_PURPLE),
-		Text.empty(),
-		Text.translatable("wwizardry.void_bag.locked_1").formatted(Formatting.DARK_PURPLE),
-		Text.translatable("wwizardry.void_bag.locked_2").formatted(Formatting.DARK_PURPLE),
-		Text.translatable("wwizardry.void_bag.locked_3").formatted(Formatting.DARK_PURPLE)
+	public static final List<Component> VOID_BAG_LOCKED = List.of(
+		Component.empty(),
+		Component.translatable("wwizardry.void_bag.generic_1").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.translatable("wwizardry.void_bag.generic_2").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.empty(),
+		Component.translatable("wwizardry.void_bag.locked_1").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.translatable("wwizardry.void_bag.locked_2").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.translatable("wwizardry.void_bag.locked_3").withStyle(ChatFormatting.DARK_PURPLE)
 	);
-	public static final List<Text> VOID_BAG_UNLOCKED = List.of(
-		Text.empty(),
-		Text.translatable("wwizardry.void_bag.generic_1").formatted(Formatting.DARK_PURPLE),
-		Text.translatable("wwizardry.void_bag.generic_2").formatted(Formatting.DARK_PURPLE),
-		Text.empty(),
-		Text.translatable("wwizardry.void_bag.unlocked_1").formatted(Formatting.DARK_PURPLE),
-		Text.translatable("wwizardry.void_bag.unlocked_2").formatted(Formatting.DARK_PURPLE),
-		Text.translatable("wwizardry.void_bag.unlocked_3").formatted(Formatting.DARK_PURPLE)
-	);
-
-	public static final List<Text> SOUL_MIRROR = List.of(
-		Text.empty(),
-		Text.translatable("wwizardry.soul_mirror.generic_1").formatted(Formatting.DARK_PURPLE),
-		Text.translatable("wwizardry.soul_mirror.generic_2").formatted(Formatting.DARK_PURPLE)
+	public static final List<Component> VOID_BAG_UNLOCKED = List.of(
+		Component.empty(),
+		Component.translatable("wwizardry.void_bag.generic_1").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.translatable("wwizardry.void_bag.generic_2").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.empty(),
+		Component.translatable("wwizardry.void_bag.unlocked_1").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.translatable("wwizardry.void_bag.unlocked_2").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.translatable("wwizardry.void_bag.unlocked_3").withStyle(ChatFormatting.DARK_PURPLE)
 	);
 
-	public static final List<Text> SOUL_MIRROR_BROKEN = List.of(
-		Text.empty(),
-		Text.translatable("wwizardry.soul_mirror.generic_1").formatted(Formatting.DARK_PURPLE),
-		Text.translatable("wwizardry.soul_mirror.generic_2").formatted(Formatting.DARK_PURPLE),
-		Text.empty(),
-		Text.translatable("wwizardry.soul_mirror.broken").formatted(Formatting.DARK_PURPLE)
+	public static final List<Component> SOUL_MIRROR = List.of(
+		Component.empty(),
+		Component.translatable("wwizardry.soul_mirror.generic_1").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.translatable("wwizardry.soul_mirror.generic_2").withStyle(ChatFormatting.DARK_PURPLE)
 	);
 
-	public static void addTooltips(ItemStack stack, TooltipContext context, List<Text> lines) {
-		if (stack.isOf(VoidBagItem.INSTANCE)) {
-			var player = MinecraftClient.getInstance().player;
+	public static final List<Component> SOUL_MIRROR_BROKEN = List.of(
+		Component.empty(),
+		Component.translatable("wwizardry.soul_mirror.generic_1").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.translatable("wwizardry.soul_mirror.generic_2").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.empty(),
+		Component.translatable("wwizardry.soul_mirror.broken").withStyle(ChatFormatting.DARK_PURPLE)
+	);
+
+	public static void addTooltips(ItemStack stack, TooltipFlag context, List<Component> lines) {
+		if (stack.is(VoidBagItem.INSTANCE)) {
+			var player = Minecraft.getInstance().player;
 			if (player == null)
 				return;
 			var bag = VoidBagComponent.getForPlayer(player);
@@ -58,7 +58,7 @@ public class ItemTooltipHandler {
 			);
 			return;
 		}
-		if (stack.isOf(SoulMirrorItem.INSTANCE)) {
+		if (stack.is(SoulMirrorItem.INSTANCE)) {
 			lines.addAll(
 				1,
 				SoulMirrorItem.INSTANCE.isFullyUsed(stack) ? SOUL_MIRROR_BROKEN : SOUL_MIRROR

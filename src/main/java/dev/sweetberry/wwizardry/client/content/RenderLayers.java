@@ -6,12 +6,12 @@ import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.minecraft.block.Block;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.level.block.Block;
 
 public class RenderLayers {
 	public static void init() {
-		put(RenderLayer.getCutout(),
+		put(RenderType.cutout(),
 			AltarPedestalBlock.INSTANCE,
 			AltarCatalyzerBlock.INSTANCE,
 			CameraBlock.INSTANCE,
@@ -25,7 +25,7 @@ public class RenderLayers {
 		);
 	}
 
-	public static void put(RenderLayer layer, Block... blocks) {
+	public static void put(RenderType layer, Block... blocks) {
 		BlockRenderLayerMap.INSTANCE.putBlocks(layer, blocks);
 	}
 }

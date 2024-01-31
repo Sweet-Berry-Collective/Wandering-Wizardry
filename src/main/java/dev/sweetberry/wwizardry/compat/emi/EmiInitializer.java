@@ -13,15 +13,15 @@ import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
-import dev.sweetberry.wwizardry.mixin.Accessor_BrewingRecipeRegistry_Recipe;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.recipe.BrewingRecipeRegistry;
-import net.minecraft.recipe.RecipeHolder;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.ShapelessRecipe;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
+import dev.sweetberry.wwizardry.mixin.Accessor_PotionBrewing_Mix;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionBrewing;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 
 public class EmiInitializer implements EmiPlugin {
 	public static final EmiStack BASE_ICON = EmiStack.of(ItemInitializer.CRYSTALLINE_SCULK_SHARD);
@@ -61,14 +61,14 @@ public class EmiInitializer implements EmiPlugin {
 
 		var manager = registry.getRecipeManager();
 
-		for (var recipe : manager.listAllOfType(AltarCatalyzationRecipe.TYPE)) {
+		for (var recipe : manager.getAllRecipesFor(AltarCatalyzationRecipe.TYPE)) {
 			registry.addRecipe(EmiAltarCatalyzationRecipe.of(recipe.id(), recipe.value()));
 		}
 
 		for (
 			var recipe :
 			manager
-				.listAllOfType(RecipeType.CRAFTING)
+				.getAllRecipesFor(RecipeType.CRAFTING)
 				.stream()
 				.filter(it -> it.value() instanceof ShapelessRecipe)
 				.map(it -> (RecipeHolder<ShapelessRecipe>) (RecipeHolder<?>) it)
@@ -78,23 +78,23 @@ public class EmiInitializer implements EmiPlugin {
 			registry.addRecipe(EmiAltarShapelessRecipe.of(recipe.id(), recipe.value()));
 		}
 
-		for (var ingredient : BrewingRecipeRegistry.POTION_TYPES) {
-			for (var stack : ingredient.getMatchingStacks()) {
-				var basePath = getPrefixedPathedIdentifier(Registries.ITEM.getId(stack.getItem()), "altar_brewing");
-				for (BrewingRecipeRegistry.Recipe<Potion> recipe : BrewingRecipeRegistry.POTION_RECIPES) {
+		for (var ingredient : PotionBrewing.ALLOWED_CONTAINERS) {
+			for (var stack : ingredient.getItems()) {
+				var basePath = getPrefixedPathedIdentifier(BuiltInRegistries.ITEM.getKey(stack.getItem()), "altar_brewing");
+				for (PotionBrewing.Mix<Potion> recipe : PotionBrewing.POTION_MIXES) {
 					try {
-						var accessor = (Accessor_BrewingRecipeRegistry_Recipe<Potion>)recipe;
+						var accessor = (Accessor_PotionBrewing_Mix<Potion>)recipe;
 						var recipeIngredient = accessor.getIngredient();
-						if (recipeIngredient.getMatchingStacks().length > 0) {
-							var ingredientPath = getPrefixedPathedIdentifier(Registries.ITEM.getId(recipeIngredient.getMatchingStacks()[0].getItem()), basePath);
-							var inputPath = getPrefixedPathedIdentifier(Registries.POTION.getId(accessor.getInput()), ingredientPath);
-							var outputPath = getPrefixedPathedIdentifier(Registries.POTION.getId(accessor.getOutput()), inputPath);
+						if (recipeIngredient.getItems().length > 0) {
+							var ingredientPath = getPrefixedPathedIdentifier(BuiltInRegistries.ITEM.getKey(recipeIngredient.getItems()[0].getItem()), basePath);
+							var inputPath = getPrefixedPathedIdentifier(BuiltInRegistries.POTION.getKey(accessor.getFrom()), ingredientPath);
+							var outputPath = getPrefixedPathedIdentifier(BuiltInRegistries.POTION.getKey(accessor.getTo()), inputPath);
 							var id = Mod.id(outputPath);
 
 							registry.addRecipe(new EmiAltarBrewingRecipe(
-							    EmiStack.of(PotionUtil.setPotion(stack.copy(), accessor.getInput())),
+							    EmiStack.of(PotionUtils.setPotion(stack.copy(), accessor.getFrom())),
 								EmiIngredient.of(recipeIngredient),
-								EmiStack.of(PotionUtil.setPotion(stack.copy(), accessor.getOutput())),
+								EmiStack.of(PotionUtils.setPotion(stack.copy(), accessor.getTo())),
 								id
 							));
 						}
@@ -106,11 +106,11 @@ public class EmiInitializer implements EmiPlugin {
 		}
 	}
 
-	public static String getPathedIdentifier(Identifier id) {
+	public static String getPathedIdentifier(ResourceLocation id) {
 		return id.getNamespace() + "/" + id.getPath();
 	}
 
-	public static String getPrefixedPathedIdentifier(Identifier id, String prefix) {
+	public static String getPrefixedPathedIdentifier(ResourceLocation id, String prefix) {
 		return prefix + "/" + getPathedIdentifier(id);
 	}
 }

@@ -4,45 +4,52 @@ import com.google.common.collect.ImmutableList;
 import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import dev.sweetberry.wwizardry.content.item.material.CrystallineToolMaterial;
-import dev.sweetberry.wwizardry.mixin.Accessor_ServerPlayerEntity;
+import dev.sweetberry.wwizardry.mixin.Accessor_ServerPlayer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Dismounting;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.network.SpawnLocating;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
-import net.minecraft.util.dynamic.GlobalPos;
-import net.minecraft.util.math.*;
-import net.minecraft.util.random.RandomGenerator;
-import net.minecraft.world.CollisionView;
-import net.minecraft.world.GameMode;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
-import net.minecraft.world.poi.PointOfInterestTypes;
+import net.minecraft.server.level.PlayerRespawnLogic;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.village.poi.PoiTypes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.DismountHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.Vanishable;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.CollisionGetter;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class SoulMirrorItem extends ToolItem implements Vanishable {
+public class SoulMirrorItem extends TieredItem implements Vanishable {
 	public static final SoulMirrorItem INSTANCE = new SoulMirrorItem(
 		new FabricItemSettings()
-			.maxCount(1)
+			.stacksTo(1)
 	);
 
 	public static final String LODESTONE_POS_KEY = "LodestonePos";
@@ -61,27 +68,27 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 	);
 	private static final ImmutableList<Vec3i> VALID_SPAWN_OFFSETS = new ImmutableList.Builder<Vec3i>()
 		.addAll(VALID_HORIZONTAL_SPAWN_OFFSETS)
-		.addAll(VALID_HORIZONTAL_SPAWN_OFFSETS.stream().map(Vec3i::down).iterator())
-		.addAll(VALID_HORIZONTAL_SPAWN_OFFSETS.stream().map(Vec3i::up).iterator())
+		.addAll(VALID_HORIZONTAL_SPAWN_OFFSETS.stream().map(Vec3i::below).iterator())
+		.addAll(VALID_HORIZONTAL_SPAWN_OFFSETS.stream().map(Vec3i::above).iterator())
 		.add(new Vec3i(0, 1, 0))
 		.build();
 
-	public SoulMirrorItem(Settings settings) {
+	public SoulMirrorItem(Properties settings) {
 		super(CrystallineToolMaterial.INSTANCE, settings);
 	}
 
 	public static boolean hasLodestone(ItemStack stack) {
-		NbtCompound nbtCompound = stack.getNbt();
+		CompoundTag nbtCompound = stack.getTag();
 		return nbtCompound != null && (nbtCompound.contains("LodestoneDimension") || nbtCompound.contains("LodestonePos"));
 	}
 
 	@Nullable
-	private static RegistryKey<World> getLodestoneDimension(NbtCompound nbt) {
-		return World.CODEC.parse(NbtOps.INSTANCE, nbt.get("LodestoneDimension")).result().orElse(null);
+	private static ResourceKey<Level> getLodestoneDimension(CompoundTag nbt) {
+		return Level.RESOURCE_KEY_CODEC.parse(NbtOps.INSTANCE, nbt.get("LodestoneDimension")).result().orElse(null);
 	}
 
 	@Nullable
-	public static GlobalPos getLodestonePosition(@Nullable NbtCompound nbt) {
+	public static GlobalPos getLodestonePosition(@Nullable CompoundTag nbt) {
 		if (nbt == null)
 			return null;
 
@@ -95,21 +102,21 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 		if (dim == null)
 			return null;
 
-		BlockPos blockPos = NbtHelper.toBlockPos(nbt.getCompound("LodestonePos"));
-		return GlobalPos.create(dim, blockPos);
+		BlockPos blockPos = NbtUtils.readBlockPos(nbt.getCompound("LodestonePos"));
+		return GlobalPos.of(dim, blockPos);
 	}
 
-	public static Optional<Vec3d> findRespawnPosition(EntityType<?> entity, CollisionView world, BlockPos pos) {
-		Optional<Vec3d> optional = findRespawnPosition(entity, world, pos, true);
+	public static Optional<Vec3> findRespawnPosition(EntityType<?> entity, CollisionGetter world, BlockPos pos) {
+		Optional<Vec3> optional = findRespawnPosition(entity, world, pos, true);
 		return optional.isPresent() ? optional : findRespawnPosition(entity, world, pos, false);
 	}
 
-	private static Optional<Vec3d> findRespawnPosition(EntityType<?> entity, CollisionView world, BlockPos pos, boolean ignoreInvalidPos) {
-		BlockPos.Mutable mutable = new BlockPos.Mutable();
+	private static Optional<Vec3> findRespawnPosition(EntityType<?> entity, CollisionGetter world, BlockPos pos, boolean ignoreInvalidPos) {
+		BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
 		for(Vec3i vec3i : VALID_SPAWN_OFFSETS) {
 			mutable.set(pos).move(vec3i);
-			Vec3d vec3d = Dismounting.findRespawnPos(entity, world, mutable, ignoreInvalidPos);
+			Vec3 vec3d = DismountHelper.findSafeDismountLocation(entity, world, mutable, ignoreInvalidPos);
 			if (vec3d != null) {
 				return Optional.of(vec3d);
 			}
@@ -119,18 +126,18 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 	}
 
 	public boolean isFullyUsed(ItemStack stack) {
-		return stack.getDamage() >= stack.getMaxDamage() - 1;
+		return stack.getDamageValue() >= stack.getMaxDamage() - 1;
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-		if (world.isClient)
+	public void inventoryTick(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
+		if (world.isClientSide)
 			return;
 
 		if (!hasLodestone(stack))
 			return;
 
-		NbtCompound nbtCompound = stack.getOrCreateNbt();
+		CompoundTag nbtCompound = stack.getOrCreateTag();
 		if (nbtCompound.contains("LodestoneTracked") && !nbtCompound.getBoolean("LodestoneTracked"))
 			return;
 
@@ -138,71 +145,71 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 		if (dim == null || !nbtCompound.contains("LodestonePos"))
 			return;
 
-		var dimWorld = ((ServerWorld)world).getServer().getWorld(dim);
+		var dimWorld = ((ServerLevel)world).getServer().getLevel(dim);
 		if (dimWorld == null) {
 			nbtCompound.remove("LodestonePos");
 			return;
 		}
 
-		BlockPos blockPos = NbtHelper.toBlockPos(nbtCompound.getCompound("LodestonePos"));
-		if (dimWorld.isInBuildLimit(blockPos) && dimWorld.getPointOfInterestStorage().hasTypeAt(PointOfInterestTypes.LODESTONE, blockPos))
+		BlockPos blockPos = NbtUtils.readBlockPos(nbtCompound.getCompound("LodestonePos"));
+		if (dimWorld.isInWorldBounds(blockPos) && dimWorld.getPoiManager().existsAtPosition(PoiTypes.LODESTONE, blockPos))
 			return;
 
 		nbtCompound.remove("LodestonePos");
 	}
 
 	@Override
-	public boolean hasGlint(ItemStack stack) {
-		return hasLodestone(stack) || super.hasGlint(stack);
+	public boolean isFoil(ItemStack stack) {
+		return hasLodestone(stack) || super.isFoil(stack);
 	}
 
 	@Override
-	public UseAction getUseAction(ItemStack stack) {
-		return isFullyUsed(stack) ? UseAction.NONE : UseAction.CROSSBOW;
+	public UseAnim getUseAnimation(ItemStack stack) {
+		return isFullyUsed(stack) ? UseAnim.NONE : UseAnim.CROSSBOW;
 	}
 
 	@Override
-	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-		if (world.isClient || !(user instanceof ServerPlayerEntity player))
+	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
+		if (world.isClientSide || !(user instanceof ServerPlayer player))
 			return stack;
 
 		var server = world.getServer();
 		if (server == null)
 			return stack;
 
-		player.getItemCooldownManager().set(INSTANCE, 20);
+		player.getCooldowns().addCooldown(INSTANCE, 20);
 
-		var pos = getLodestonePosition(stack.getNbt());
+		var pos = getLodestonePosition(stack.getTag());
 		if (pos != null) {
-			var respawnWorld = server.getWorld(pos.getDimension());
+			var respawnWorld = server.getLevel(pos.dimension());
 			if (respawnWorld == null) {
 				return stack;
 			}
-			var respawnPos = findRespawnPosition(EntityType.PLAYER, respawnWorld, pos.getPos()).orElse(null);
+			var respawnPos = findRespawnPosition(EntityType.PLAYER, respawnWorld, pos.pos()).orElse(null);
 
 			if (respawnPos == null)
 				return stack;
 
 			if (!player.isCreative())
-				stack.damage(1, user, a -> {});
+				stack.hurtAndBreak(1, user, a -> {});
 
-			player.teleport(respawnWorld, respawnPos.x, respawnPos.y, respawnPos.z, player.getSpawnAngle(), 0);
-			var block = BlockPos.create(respawnPos.x, respawnPos.y, respawnPos.z);
+			player.teleportTo(respawnWorld, respawnPos.x, respawnPos.y, respawnPos.z, player.getRespawnAngle(), 0);
+			var block = BlockPos.containing(respawnPos.x, respawnPos.y, respawnPos.z);
 
-			if (respawnWorld.getRegistryKey() != world.getRegistryKey())
-				respawnWorld.syncWorldEvent(
-					WorldEvents.TRAVEL_THROUGH_PORTAL,
+			if (respawnWorld.dimension() != world.dimension())
+				respawnWorld.levelEvent(
+					LevelEvent.SOUND_PORTAL_TRAVEL,
 					block,
 					0
 				);
 			else
-				world.playSound(
+				world.playSeededSound(
 					null,
-					respawnPos.getX(),
-					respawnPos.getY(),
-					respawnPos.getZ(),
-					SoundEvents.ENTITY_ENDERMAN_TELEPORT,
-					SoundCategory.PLAYERS,
+					respawnPos.x(),
+					respawnPos.y(),
+					respawnPos.z(),
+					SoundEvents.ENDERMAN_TELEPORT,
+					SoundSource.PLAYERS,
 					1, 1,
 					0
 				);
@@ -211,26 +218,26 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 		}
 
 		if (!player.isCreative())
-			stack.damage(1, user, a -> {});
+			stack.hurtAndBreak(1, user, a -> {});
 
 		var posAndWorld = moveToSpawnPoint(server, player);
 		var respawnWorld = posAndWorld.world == null ? world : posAndWorld.world;
 		var respawnPos = posAndWorld.pos;
 
-		if (respawnWorld.getRegistryKey() != world.getRegistryKey())
-			respawnWorld.syncWorldEvent(
-				WorldEvents.TRAVEL_THROUGH_PORTAL,
+		if (respawnWorld.dimension() != world.dimension())
+			respawnWorld.levelEvent(
+				LevelEvent.SOUND_PORTAL_TRAVEL,
 				respawnPos,
 				0
 			);
 		else
-			world.playSound(
+			world.playSeededSound(
 				null,
 				respawnPos.getX(),
 				respawnPos.getY(),
 				respawnPos.getZ(),
-				SoundEvents.ENTITY_ENDERMAN_TELEPORT,
-				SoundCategory.PLAYERS,
+				SoundEvents.ENDERMAN_TELEPORT,
+				SoundSource.PLAYERS,
 				1, 1,
 				0
 			);
@@ -239,76 +246,76 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		var stack = user.getStackInHand(hand);
+	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+		var stack = user.getItemInHand(hand);
 		if (isFullyUsed(stack))
-			return TypedActionResult.fail(stack);
+			return InteractionResultHolder.fail(stack);
 
-		user.setCurrentHand(hand);
+		user.startUsingItem(hand);
 
-		return TypedActionResult.consume(stack);
+		return InteractionResultHolder.consume(stack);
 	}
 
 	@Override
-	public int getMaxUseTime(ItemStack stack) {
+	public int getUseDuration(ItemStack stack) {
 		return 30;
 	}
 
 	@Override
-	public ActionResult useOnBlock(ItemUsageContext context) {
-		BlockPos blockPos = context.getBlockPos();
-		World world = context.getWorld();
-		if (!world.getBlockState(blockPos).isOf(Blocks.LODESTONE))
-			return super.useOnBlock(context);
+	public InteractionResult useOn(UseOnContext context) {
+		BlockPos blockPos = context.getClickedPos();
+		Level world = context.getLevel();
+		if (!world.getBlockState(blockPos).is(Blocks.LODESTONE))
+			return super.useOn(context);
 
-		world.playSound(null, blockPos, SoundEvents.ITEM_LODESTONE_COMPASS_LOCK, SoundCategory.PLAYERS, 1.0F, 1.0F);
-		PlayerEntity playerEntity = context.getPlayer();
+		world.playSound(null, blockPos, SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.PLAYERS, 1.0F, 1.0F);
+		Player playerEntity = context.getPlayer();
 
-		if (playerEntity instanceof ServerPlayerEntity serverPlayerEntity)
+		if (playerEntity instanceof ServerPlayer serverPlayerEntity)
 			CriterionInitializer.LODESTONE_MIRROR.trigger(serverPlayerEntity);
 
-		ItemStack itemStack = context.getStack();
-		var shouldKeepItem = !playerEntity.getAbilities().creativeMode && itemStack.getCount() == 1;
+		ItemStack itemStack = context.getItemInHand();
+		var shouldKeepItem = !playerEntity.getAbilities().instabuild && itemStack.getCount() == 1;
 		if (shouldKeepItem) {
-			writeNbt(world.getRegistryKey(), blockPos, itemStack.getOrCreateNbt());
-			return ActionResult.success(world.isClient);
+			writeNbt(world.dimension(), blockPos, itemStack.getOrCreateTag());
+			return InteractionResult.sidedSuccess(world.isClientSide);
 		}
 
 		ItemStack itemStack2 = new ItemStack(INSTANCE, 1);
-		NbtCompound nbtCompound = itemStack.hasNbt() ? itemStack.getNbt().copy() : new NbtCompound();
-		itemStack2.setNbt(nbtCompound);
-		if (!playerEntity.getAbilities().creativeMode)
-			itemStack.decrement(1);
+		CompoundTag nbtCompound = itemStack.hasTag() ? itemStack.getTag().copy() : new CompoundTag();
+		itemStack2.setTag(nbtCompound);
+		if (!playerEntity.getAbilities().instabuild)
+			itemStack.shrink(1);
 
-		writeNbt(world.getRegistryKey(), blockPos, nbtCompound);
-		if (!playerEntity.getInventory().insertStack(itemStack2))
-			playerEntity.dropItem(itemStack2, false);
+		writeNbt(world.dimension(), blockPos, nbtCompound);
+		if (!playerEntity.getInventory().add(itemStack2))
+			playerEntity.drop(itemStack2, false);
 
-		return ActionResult.success(world.isClient);
+		return InteractionResult.sidedSuccess(world.isClientSide);
 	}
 
-	public static PosAndWorld moveToSpawnPoint(MinecraftServer server, ServerPlayerEntity player) {
-		var pos = player.getSpawnPointPosition();
+	public static PosAndWorld moveToSpawnPoint(MinecraftServer server, ServerPlayer player) {
+		var pos = player.getRespawnPosition();
 		if (pos == null)
 			return moveToWorldSpawn(server, player);
-		var world = server.getWorld(player.getSpawnPointDimension());
+		var world = server.getLevel(player.getRespawnDimension());
 		if (world == null)
 			return moveToWorldSpawn(server, player);
-		var _respawnPos = PlayerEntity.findRespawnPosition(world, pos, player.getSpawnAngle(), player.isSpawnPointSet(), true);
+		var _respawnPos = Player.findRespawnPositionAndUseSpawnBlock(world, pos, player.getRespawnAngle(), player.isRespawnForced(), true);
 		if (_respawnPos.isEmpty())
 			return moveToWorldSpawn(server, player);
 		var respawnPos = _respawnPos.get();
-		player.teleport(world, respawnPos.x, respawnPos.y, respawnPos.z, player.getSpawnAngle(), 0);
-		return new PosAndWorld(BlockPos.create(respawnPos.x, respawnPos.y, respawnPos.z), world);
+		player.teleportTo(world, respawnPos.x, respawnPos.y, respawnPos.z, player.getRespawnAngle(), 0);
+		return new PosAndWorld(BlockPos.containing(respawnPos.x, respawnPos.y, respawnPos.z), world);
 	}
 
-	private static PosAndWorld moveToWorldSpawn(MinecraftServer server, ServerPlayerEntity player) {
-		var world = server.getOverworld();
-		var access = (Accessor_ServerPlayerEntity)player;
-		BlockPos blockPos = world.getSpawnPos();
-		if (world.getDimension().hasSkyLight() && world.getServer().getSaveProperties().getGameMode() != GameMode.ADVENTURE) {
+	private static PosAndWorld moveToWorldSpawn(MinecraftServer server, ServerPlayer player) {
+		var world = server.overworld();
+		var access = (Accessor_ServerPlayer)player;
+		BlockPos blockPos = world.getSharedSpawnPos();
+		if (world.dimensionType().hasSkyLight() && world.getServer().getWorldData().getGameType() != GameType.ADVENTURE) {
 			int i = Math.max(0, server.getSpawnRadius(world));
-			int j = MathHelper.floor(world.getWorldBorder().getDistanceInsideBorder(blockPos.getX(), blockPos.getZ()));
+			int j = Mth.floor(world.getWorldBorder().getDistanceToBorder(blockPos.getX(), blockPos.getZ()));
 			if (j < i) {
 				i = j;
 			}
@@ -320,19 +327,19 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 			long l = i * 2L + 1;
 			long m = l * l;
 			int k = m > 2147483647L ? Integer.MAX_VALUE : (int)m;
-			int n = access.invokeCalculateSpawnOffsetMultiplier(k);
-			int o = RandomGenerator.createLegacy().nextInt(k);
+			int n = access.invokeGetCoprime(k);
+			int o = RandomSource.create().nextInt(k);
 
 			for(int p = 0; p < k; ++p) {
 				int q = (o + n * p) % k;
 				int r = q % (i * 2 + 1);
 				int s = q / (i * 2 + 1);
-				BlockPos blockPos2 = SpawnLocating.findOverworldSpawn(world, blockPos.getX() + r - i, blockPos.getZ() + s - i);
+				BlockPos blockPos2 = PlayerRespawnLogic.getOverworldRespawnPos(world, blockPos.getX() + r - i, blockPos.getZ() + s - i);
 				if (blockPos2 != null) {
-					var box = new Box(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ(), blockPos2.getX()+1, blockPos2.getY()+2, blockPos2.getZ()+1);
-					if (world.isSpaceEmpty(box)) {
-						var center = blockPos2.ofCenter();
-						player.teleport(world, center.x, blockPos2.getY(), center.z, 0, 0);
+					var box = new AABB(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ(), blockPos2.getX()+1, blockPos2.getY()+2, blockPos2.getZ()+1);
+					if (world.noCollision(box)) {
+						var center = blockPos2.getCenter();
+						player.teleportTo(world, center.x, blockPos2.getY(), center.z, 0, 0);
 						return new PosAndWorld(blockPos2, world);
 					}
 				}
@@ -341,22 +348,22 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 			var addY = 0;
 			do {
 				addY++;
-				var box = new Box(blockPos.getX(), blockPos.getY() + addY, blockPos.getZ(), blockPos.getX()+1, blockPos.getY()+2 + addY, blockPos.getZ()+1);
-				if (world.isSpaceEmpty(box))
+				var box = new AABB(blockPos.getX(), blockPos.getY() + addY, blockPos.getZ(), blockPos.getX()+1, blockPos.getY()+2 + addY, blockPos.getZ()+1);
+				if (world.noCollision(box))
 					break;
-			} while (blockPos.getY() + addY < world.getTopY() - 1);
-			var center = blockPos.ofCenter();
-			player.teleport(center.x, blockPos.getY() + addY, center.z);
-			return new PosAndWorld(BlockPos.create(center.x, blockPos.getY() + addY, center.z), world);
+			} while (blockPos.getY() + addY < world.getMaxBuildHeight() - 1);
+			var center = blockPos.getCenter();
+			player.teleportToWithTicket(center.x, blockPos.getY() + addY, center.z);
+			return new PosAndWorld(BlockPos.containing(center.x, blockPos.getY() + addY, center.z), world);
 		}
 		return new PosAndWorld(blockPos, null);
 	}
 
-	private void writeNbt(RegistryKey<World> worldKey, BlockPos pos, NbtCompound nbt) {
-		nbt.put("LodestonePos", NbtHelper.fromBlockPos(pos));
-		World.CODEC.encodeStart(NbtOps.INSTANCE, worldKey).resultOrPartial(Mod.LOGGER::error).ifPresent(element -> nbt.put("LodestoneDimension", element));
+	private void writeNbt(ResourceKey<Level> worldKey, BlockPos pos, CompoundTag nbt) {
+		nbt.put("LodestonePos", NbtUtils.writeBlockPos(pos));
+		Level.RESOURCE_KEY_CODEC.encodeStart(NbtOps.INSTANCE, worldKey).resultOrPartial(Mod.LOGGER::error).ifPresent(element -> nbt.put("LodestoneDimension", element));
 		nbt.putBoolean("LodestoneTracked", true);
 	}
 
-	public record PosAndWorld(BlockPos pos, @Nullable ServerWorld world) {}
+	public record PosAndWorld(BlockPos pos, @Nullable ServerLevel world) {}
 }

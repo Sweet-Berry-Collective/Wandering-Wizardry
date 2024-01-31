@@ -15,20 +15,34 @@ import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
-import net.minecraft.block.*;
-import net.minecraft.block.sapling.SaplingBlock;
-import net.minecraft.block.sign.SignType;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.HangingSignItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.SignItem;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.resource.MultiPackResourceManager;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.HangingSignItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SignItem;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.FungusBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -76,28 +90,28 @@ public class WoodType extends AbstractDataGenerator {
 
 	public final TerraformBoatType BOAT;
 
-	public final RegistryKey<TerraformBoatType> BOAT_KEY;
+	public final ResourceKey<TerraformBoatType> BOAT_KEY;
 
 	public final Item BOAT_ITEM;
 
 	public final Item BOAT_CHEST_ITEM;
-	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds) {
+	public WoodType(String baseName, MapColor wood, MapColor bark, SoundType sounds) {
 		this(baseName, wood, bark, sounds, null);
 	}
 
 
-	public WoodType(String baseName, MapColor wood, MapColor bark, BlockSoundGroup sounds, @Nullable Block fungusBaseBlock) {
+	public WoodType(String baseName, MapColor wood, MapColor bark, SoundType sounds, @Nullable Block fungusBaseBlock) {
 		super();
 		this.baseName = baseName;
 
 		fungus = fungusBaseBlock != null;
 
-		final var blockSettings = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).sounds(sounds).mapColor(wood);
+		final var blockSettings = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood);
 		final var nonCollidable = FabricBlockSettings.copyOf(blockSettings).collidable(false);
-		final var nonOpaque = FabricBlockSettings.copyOf(blockSettings).nonOpaque();
+		final var nonOpaque = FabricBlockSettings.copyOf(blockSettings).noOcclusion();
 		final var hanging = FabricBlockSettings
 			.copyOf(Blocks.OAK_HANGING_SIGN)
-			.sounds(sounds)
+			.sound(sounds)
 			.mapColor(wood);
 		final var itemSettings = new FabricItemSettings();
 		final var singleStack = new FabricItemSettings().maxCount(1);
@@ -124,7 +138,7 @@ public class WoodType extends AbstractDataGenerator {
 		PLANKS = BlockInitializer.registerBlock(baseName+"_planks", new Block(blockSettings));
 		PLANKS_ITEM = ItemInitializer.registerItem(baseName+"_planks", new BlockItem(PLANKS, itemSettings));
 
-		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", new StairsBlock(PLANKS.getDefaultState(), blockSettings));
+		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", new StairBlock(PLANKS.defaultBlockState(), blockSettings));
 		STAIRS_ITEM = ItemInitializer.registerItem(baseName+"_stairs", new BlockItem(STAIRS, itemSettings));
 
 		SLAB = BlockInitializer.registerBlock(baseName+"_slab", new SlabBlock(blockSettings));
@@ -139,7 +153,7 @@ public class WoodType extends AbstractDataGenerator {
 		DOOR = BlockInitializer.registerBlock(baseName+"_door", new DoorBlock(BlockSetType.OAK, nonOpaque));
 		DOOR_ITEM = ItemInitializer.registerItem(baseName+"_door", new BlockItem(DOOR, itemSettings));
 
-		TRAPDOOR = BlockInitializer.registerBlock(baseName+"_trapdoor", new TrapdoorBlock(BlockSetType.OAK, nonOpaque));
+		TRAPDOOR = BlockInitializer.registerBlock(baseName+"_trapdoor", new TrapDoorBlock(BlockSetType.OAK, nonOpaque));
 		TRAPDOOR_ITEM = ItemInitializer.registerItem(baseName+"_trapdoor", new BlockItem(TRAPDOOR, itemSettings));
 
 		var sign_id = Mod.id("entity/signs/"+baseName);
@@ -156,7 +170,7 @@ public class WoodType extends AbstractDataGenerator {
 		FENCE = BlockInitializer.registerBlock(baseName+"_fence", new FenceBlock(blockSettings));
 		FENCE_ITEM = ItemInitializer.registerItem(baseName+"_fence", new BlockItem(FENCE, itemSettings));
 
-		FENCE_GATE = BlockInitializer.registerBlock(baseName+"_fence_gate", new FenceGateBlock(SignType.OAK, blockSettings));
+		FENCE_GATE = BlockInitializer.registerBlock(baseName+"_fence_gate", new FenceGateBlock(net.minecraft.world.level.block.state.properties.WoodType.OAK, blockSettings));
 		FENCE_GATE_ITEM = ItemInitializer.registerItem(baseName+"_fence_gate", new BlockItem(FENCE_GATE, itemSettings));
 
 		if (!fungus) {
@@ -188,10 +202,10 @@ public class WoodType extends AbstractDataGenerator {
 		return new RootedMushroomBlock(
 			FabricBlockSettings
 				.copyOf(Blocks.CRIMSON_FUNGUS)
-				.breakInstantly()
-				.noCollision()
-				.sounds(BlockSoundGroup.FUNGUS)
-				.offsetType(AbstractBlock.OffsetType.XZ),
+				.instabreak()
+				.noCollission()
+				.sound(SoundType.FUNGUS)
+				.offsetType(BlockBehaviour.OffsetType.XZ),
 			baseName,
 			base
 		);
@@ -202,10 +216,10 @@ public class WoodType extends AbstractDataGenerator {
 			BeeHoldingSaplingGenerator.create(name, noBees, bees),
 			FabricBlockSettings
 				.copyOf(Blocks.OAK_SAPLING)
-				.noCollision()
-				.ticksRandomly()
-				.breakInstantly()
-				.sounds(BlockSoundGroup.GRASS)
+				.noCollission()
+				.randomTicks()
+				.instabreak()
+				.sound(SoundType.GRASS)
 		);
 	}
 
@@ -214,21 +228,21 @@ public class WoodType extends AbstractDataGenerator {
 				FabricBlockSettings
 					.copyOf(Blocks.OAK_LEAVES)
 					.strength(0.2F)
-					.ticksRandomly()
-					.sounds(BlockSoundGroup.AZALEA_LEAVES)
-					.nonOpaque()
-					.allowsSpawning((a,b,c, type) -> type == EntityType.OCELOT || type == EntityType.PARROT)
-					.suffocates((a,b,c) -> false)
-					.blockVision((a,b,c) -> false)
+					.randomTicks()
+					.sound(SoundType.AZALEA_LEAVES)
+					.noOcclusion()
+					.isValidSpawn((a,b,c, type) -> type == EntityType.OCELOT || type == EntityType.PARROT)
+					.isSuffocating((a,b,c) -> false)
+					.isViewBlocking((a,b,c) -> false)
 		);
 	}
 
-	private static Block createLogBlock(MapColor top, MapColor side, BlockSoundGroup sounds) {
-		return new PillarBlock(
+	private static Block createLogBlock(MapColor top, MapColor side, SoundType sounds) {
+		return new RotatedPillarBlock(
 			FabricBlockSettings.copyOf(Blocks.OAK_LOG)
 				.strength(2.0F)
-				.sounds(sounds)
-				.mapColor((state) -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? top : side)
+				.sound(sounds)
+				.mapColor((state) -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? top : side)
 		);
 	}
 

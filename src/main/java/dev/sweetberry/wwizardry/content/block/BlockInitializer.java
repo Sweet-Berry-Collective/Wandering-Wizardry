@@ -13,43 +13,50 @@ import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.LogicGateBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.enums.ComparatorMode;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.block.sculk.SculkBlock;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.int_provider.UniformIntProvider;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.RedstoneLampBlock;
+import net.minecraft.world.level.block.SculkBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TransparentBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.ComparatorMode;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BlockInitializer {
-	public static final BooleanProperty SCULK_INFESTED = BooleanProperty.of("sculked");
-	public static final BooleanProperty SCULK_BELOW = BooleanProperty.of("sculk_below");
+	public static final BooleanProperty SCULK_INFESTED = BooleanProperty.create("sculked");
+	public static final BooleanProperty SCULK_BELOW = BooleanProperty.create("sculk_below");
 
-	public static final VoxelShape ALTAR_BASE_SHAPE = VoxelShapes.union(
-			Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 2.0, 14.0),
-			Block.createCuboidShape(4.0, 2.0, 4.0, 12.0, 15.0, 12.0)
-	).simplify();
+	public static final VoxelShape ALTAR_BASE_SHAPE = Shapes.or(
+			Block.box(2.0, 0.0, 2.0, 14.0, 2.0, 14.0),
+			Block.box(4.0, 2.0, 4.0, 12.0, 15.0, 12.0)
+	).optimize();
 
-	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new RootedFlowerBlock(StatusEffects.INVISIBILITY, 20, "mycha_growable", FabricBlockSettings.copyOf(Blocks.POPPY)));
+	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new RootedFlowerBlock(MobEffects.INVISIBILITY, 20, "mycha_growable", FabricBlockSettings.copyOf(Blocks.POPPY)));
 
-	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new GlassBlock(FabricBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
+	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new TransparentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).requiresCorrectToolForDrops()));
 
-	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new PaneBlock(FabricBlockSettings.copyOf(Blocks.GLASS).requiresTool()));
+	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new IronBarsBlock(FabricBlockSettings.copyOf(Blocks.GLASS).requiresCorrectToolForDrops()));
 
 	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(FabricBlockSettings.copyOf(Blocks.REDSTONE_LAMP)));
 
-	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new ExperienceDroppingBlock(UniformIntProvider.create(1,4), FabricBlockSettings.copyOf(Blocks.IRON_ORE)));
-	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new ExperienceDroppingBlock(UniformIntProvider.create(1,4), FabricBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE)));
+	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new DropExperienceBlock(UniformInt.of(1,4), FabricBlockSettings.copyOf(Blocks.IRON_ORE)));
+	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new DropExperienceBlock(UniformInt.of(1,4), FabricBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE)));
 	public static final Block ROSE_QUARTZ_BLOCK = registerBlock("rose_quartz_block", new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)));
 
 	public static final Block MODULO_COMPARATOR = registerBlock(
@@ -89,14 +96,14 @@ public class BlockInitializer {
 	public static final Block MYCHA_ROOTS = registerBlock(
 		"mycha_roots",
 		new RootedPlantBlock(
-			AbstractBlock.Settings.create()
+			BlockBehaviour.Properties.of()
 				.mapColor(MapColor.NETHER)
 				.replaceable()
-				.noCollision()
-				.breakInstantly()
-				.sounds(BlockSoundGroup.ROOTS)
-				.offsetType(AbstractBlock.OffsetType.XZ)
-				.pistonBehavior(PistonBehavior.DESTROY),
+				.noCollission()
+				.instabreak()
+				.sound(SoundType.ROOTS)
+				.offsetType(BlockBehaviour.OffsetType.XZ)
+				.pushReaction(PushReaction.DESTROY),
 			"mycha"
 		)
 	);
@@ -116,15 +123,15 @@ public class BlockInitializer {
 	}
 
 	public static <T extends Block> T registerBlock(String id, T block) {
-		return Registry.register(Registries.BLOCK, Mod.id(id), block);
+		return Registry.register(BuiltInRegistries.BLOCK, Mod.id(id), block);
 	}
 
 	public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String id, BlockEntityType<T> blockEntity) {
-		return Registry.register(Registries.BLOCK_ENTITY_TYPE, Mod.id(id), blockEntity);
+		return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Mod.id(id), blockEntity);
 	}
 
-	public static boolean testForSculk(BlockView world, BlockPos pos) {
+	public static boolean testForSculk(BlockGetter world, BlockPos pos) {
 		var state = world.getBlockState(pos);
-		return state.getBlock() instanceof SculkBlock || state.getBlock() == Blocks.AIR || !state.isSideSolidFullSquare(world, pos, Direction.UP);
+		return state.getBlock() instanceof SculkBlock || state.getBlock() == Blocks.AIR || !state.isFaceSturdy(world, pos, Direction.UP);
 	}
 }

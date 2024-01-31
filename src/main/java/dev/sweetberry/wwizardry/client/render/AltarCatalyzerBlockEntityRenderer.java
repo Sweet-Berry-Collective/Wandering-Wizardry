@@ -1,22 +1,23 @@
 package dev.sweetberry.wwizardry.client.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.core.BlockPos;
 
-public record AltarCatalyzerBlockEntityRenderer(BlockEntityRendererFactory.Context context) implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
+public record AltarCatalyzerBlockEntityRenderer(BlockEntityRendererProvider.Context context) implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
 	@Override
 	public boolean shouldHover(AltarCatalyzerBlockEntity entity) {
 		return AltarBlockEntityRenderer.super.shouldHover(entity) || !entity.recipeRemainder.isEmpty();
 	}
 
 	@Override
-	public void beforeRender(AltarCatalyzerBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-		var pos = entity.getPos();
+	public void beforeRender(AltarCatalyzerBlockEntity entity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+		var pos = entity.getBlockPos();
 		if (entity.shouldUpdateClient)
-			MinecraftClient.getInstance().worldRenderer.scheduleBlockRenders(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
+			Minecraft.getInstance().levelRenderer.setBlocksDirty(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
 
 		matrices.translate(0.5, 1.1875, 0.5);
 	}

@@ -1,32 +1,33 @@
 package dev.sweetberry.wwizardry.content.block.altar.entity;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.decoration.EndCrystalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
-public abstract class AltarBlockEntity extends BlockEntity implements Inventory {
-	private EndCrystalEntity endCrystalEntity;
+public abstract class AltarBlockEntity extends BlockEntity implements Container {
+	private EndCrystal endCrystalEntity;
 
 	public float rand = (float) (Math.floor(Math.random() * Math.PI * 4) / 4);
 
@@ -41,29 +42,29 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 		super(type, pos, state);
 	}
 
-	public EndCrystalEntity getOrCreateEndCrystalEntity() {
+	public EndCrystal getOrCreateEndCrystalEntity() {
 		if (endCrystalEntity != null)
 			return endCrystalEntity;
 
-		endCrystalEntity = EntityType.END_CRYSTAL.create(world);
+		endCrystalEntity = EntityType.END_CRYSTAL.create(level);
 		endCrystalEntity.setShowBottom(false);
 		return endCrystalEntity;
 	}
 
 	public void update() {
-		markDirty();
-		world.updateNeighbors(pos, getBlock());
+		setChanged();
+		level.blockUpdated(worldPosition, getBlock());
 	}
 
 	public void startCrafting(AltarRecipeView recipe) {
 		crafting = true;
 		craftingTick = 0;
-		recipeRemainder = recipe.getResultInPedestal(getDirection(world.getBlockState(pos)));
+		recipeRemainder = recipe.getResultInPedestal(getDirection(level.getBlockState(worldPosition)));
 		update();
 	}
 
 	public void tryCraft() {
-		tryCraft(world.getBlockState(pos));
+		tryCraft(level.getBlockState(worldPosition));
 	}
 
 	public abstract void tryCraft(BlockState state);
@@ -73,7 +74,7 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 	public void cancelCraft() {
 		crafting = false;
 		craftingTick = 0;
-		world.updateNeighbors(pos, getBlock());
+		level.blockUpdated(worldPosition, getBlock());
 	}
 
 	public void tryCancelCraft(BlockState state) {
@@ -90,66 +91,66 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 	}
 
 	public void dropContainedItems(ItemStack stack) {
-		if (world == null)
+		if (level == null)
 			return;
 		if (stack.isEmpty())
 			return;
 		getBundledStacks(stack).forEach(it -> {
 			if (it.isEmpty())
 				return;
-			var center = pos.ofCenter();
-			var entity = new ItemEntity(world, center.x, center.y+1, center.z, it);
-			world.spawnEntity(entity);
+			var center = worldPosition.getCenter();
+			var entity = new ItemEntity(level, center.x, center.y+1, center.z, it);
+			level.addFreshEntity(entity);
 		});
 	}
 
 	private static Stream<ItemStack> getBundledStacks(ItemStack stack) {
-		NbtCompound nbtCompound = stack.getNbt();
+		CompoundTag nbtCompound = stack.getTag();
 		if (nbtCompound == null)
 			return Stream.empty();
 		if (!nbtCompound.contains("Items"))
 			return Stream.empty();
-		NbtList nbtList = nbtCompound.getList("Items", NbtElement.COMPOUND_TYPE);
-		return nbtList.stream().map(NbtCompound.class::cast).map(ItemStack::fromNbt);
+		ListTag nbtList = nbtCompound.getList("Items", Tag.TAG_COMPOUND);
+		return nbtList.stream().map(CompoundTag.class::cast).map(ItemStack::of);
 	}
 
 	public abstract Block getBlock();
 
-	public abstract void tick(World world, BlockPos pos, BlockState state);
+	public abstract void tick(Level world, BlockPos pos, BlockState state);
 
 	@Override
-	protected void writeNbt(NbtCompound nbt) {
-		var heldItemNbt = new NbtCompound();
-		heldItem.writeNbt(heldItemNbt);
-		var recipeRemainderNbt = new NbtCompound();
-		recipeRemainder.writeNbt(recipeRemainderNbt);
+	protected void saveAdditional(CompoundTag nbt) {
+		var heldItemNbt = new CompoundTag();
+		heldItem.save(heldItemNbt);
+		var recipeRemainderNbt = new CompoundTag();
+		recipeRemainder.save(recipeRemainderNbt);
 		nbt.put("HeldItem", heldItemNbt);
 		nbt.put("RecipeRemainder", recipeRemainderNbt);
 		nbt.putBoolean("crafting", crafting);
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
+	public void load(CompoundTag nbt) {
 		var heldItemNbt = nbt.getCompound("HeldItem");
-		heldItem = ItemStack.fromNbt(heldItemNbt);
+		heldItem = ItemStack.of(heldItemNbt);
 		var recipeRemainderNbt = nbt.getCompound("RecipeRemainder");
-		recipeRemainder = ItemStack.fromNbt(recipeRemainderNbt);
+		recipeRemainder = ItemStack.of(recipeRemainderNbt);
 		crafting = nbt.getBoolean("crafting");
 	}
 
 	@Override
-	public NbtCompound toSyncedNbt() {
-		return toNbt();
+	public CompoundTag getUpdateTag() {
+		return saveWithoutMetadata();
 	}
 
 	@Nullable
 	@Override
-	public Packet<ClientPlayPacketListener> toUpdatePacket() {
-		return BlockEntityUpdateS2CPacket.of(this);
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
-	public int size() {
+	public int getContainerSize() {
 		return 1;
 	}
 
@@ -159,7 +160,7 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 	}
 
 	@Override
-	public ItemStack getStack(int slot) {
+	public ItemStack getItem(int slot) {
 		if (crafting) return ItemStack.EMPTY;
 		var item = heldItem.copy();
 		item.setCount(64);
@@ -167,50 +168,50 @@ public abstract class AltarBlockEntity extends BlockEntity implements Inventory 
 	}
 
 	@Override
-	public ItemStack removeStack(int slot, int amount) {
+	public ItemStack removeItem(int slot, int amount) {
 		if (crafting) return ItemStack.EMPTY;
 		var item = heldItem.copy();
 		heldItem = ItemStack.EMPTY;
-		markDirty();
+		setChanged();
 		return item;
 	}
 
 	@Override
-	public ItemStack removeStack(int slot) {
+	public ItemStack removeItemNoUpdate(int slot) {
 		if (crafting) return ItemStack.EMPTY;
 		var item = heldItem.copy();
 		heldItem = ItemStack.EMPTY;
-		markDirty();
+		setChanged();
 		return item;
 	}
 
 	@Override
-	public void setStack(int slot, ItemStack stack) {
+	public void setItem(int slot, ItemStack stack) {
 		if (crafting) return;
 		heldItem = stack.copy();
 		heldItem.setCount(1);
 		tryCraft();
-		markDirty();
+		setChanged();
 	}
 
 	@Override
-	public void markDirty() {
-		if (world == null) return;
-		if (world.isClient()) {
-			MinecraftClient.getInstance().worldRenderer.scheduleBlockRenders(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
+	public void setChanged() {
+		if (level == null) return;
+		if (level.isClientSide()) {
+			Minecraft.getInstance().levelRenderer.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
 		} else {
-			((ServerWorld) world).getChunkManager().markForUpdate(pos);
+			((ServerLevel) level).getChunkSource().blockChanged(worldPosition);
 		}
-		super.markDirty();
+		super.setChanged();
 	}
 
 	@Override
-	public boolean canPlayerUse(PlayerEntity player) {
+	public boolean stillValid(Player player) {
 		return false;
 	}
 
 	@Override
-	public void clear() {
+	public void clearContent() {
 		heldItem = ItemStack.EMPTY;
 	}
 }

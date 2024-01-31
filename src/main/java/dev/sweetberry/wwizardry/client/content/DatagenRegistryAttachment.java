@@ -6,10 +6,10 @@ import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.content.datagen.AbstractDataGenerator;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import dev.sweetberry.wwizardry.content.datagen.WoodType;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.TexturedRenderLayers;
-import net.minecraft.client.resource.Material;
-import net.minecraft.registry.Holder;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.core.Holder;
 
 public class DatagenRegistryAttachment {
 	public static void init() {
@@ -21,12 +21,12 @@ public class DatagenRegistryAttachment {
 
 	public static void checkGenerator(AbstractDataGenerator dataGenerator) {
 		if (dataGenerator instanceof WoodType woodType) {
-			RenderLayers.put(RenderLayer.getCutout(), woodType.DOOR, woodType.TRAPDOOR, woodType.SAPLING);
-			SpriteIdentifierRegistry.INSTANCE.addIdentifier(new Material(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, woodType.SIGN.getTexture()));
-			SpriteIdentifierRegistry.INSTANCE.addIdentifier(new Material(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, woodType.HANGING_SIGN.getTexture()));
+			RenderLayers.put(RenderType.cutout(), woodType.DOOR, woodType.TRAPDOOR, woodType.SAPLING);
+			SpriteIdentifierRegistry.INSTANCE.addIdentifier(new Material(Sheets.SIGN_SHEET, woodType.SIGN.getTexture()));
+			SpriteIdentifierRegistry.INSTANCE.addIdentifier(new Material(Sheets.SIGN_SHEET, woodType.HANGING_SIGN.getTexture()));
 			if (woodType.fungus)
 				return;
-			RenderLayers.put(RenderLayer.getCutout(), woodType.LEAVES);
+			RenderLayers.put(RenderType.cutout(), woodType.LEAVES);
 			TerraformBoatClientHelper.registerModelLayers(Mod.id(woodType.baseName), false);
 		}
 	}

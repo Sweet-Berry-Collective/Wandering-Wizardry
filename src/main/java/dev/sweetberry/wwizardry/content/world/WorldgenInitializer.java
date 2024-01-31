@@ -5,25 +5,25 @@ import dev.sweetberry.wwizardry.content.world.processors.WaterLoggingFixProcesso
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.structure.processor.StructureProcessor;
-import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 
 public class WorldgenInitializer {
-	public static final RegistryKey<Biome> FORGOTTEN_FIELDS = key("forgotten_fields");
+	public static final ResourceKey<Biome> FORGOTTEN_FIELDS = key("forgotten_fields");
 
-	public static final RegistryKey<Biome> FUNGAL_FOREST = key("fungal_forest");
+	public static final ResourceKey<Biome> FUNGAL_FOREST = key("fungal_forest");
 
-	public static final RegistryKey<PlacedFeature> ROSE_QUARTZ = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Mod.id("ore/rose_quartz"));
+	public static final ResourceKey<PlacedFeature> ROSE_QUARTZ = ResourceKey.create(Registries.PLACED_FEATURE, Mod.id("ore/rose_quartz"));
 
-	public static RegistryKey<Biome> key(String path) {
-		return RegistryKey.of(RegistryKeys.BIOME, Mod.id(path));
+	public static ResourceKey<Biome> key(String path) {
+		return ResourceKey.create(Registries.BIOME, Mod.id(path));
 	}
 
 	public static void init() {
@@ -32,11 +32,11 @@ public class WorldgenInitializer {
 		var modification = BiomeModifications.create(Mod.id("modifications"));
 
 		modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.foundInOverworld(), (ctx, modifications) -> {
-			modifications.getGenerationSettings().addFeature(GenerationStep.Feature.UNDERGROUND_ORES, ROSE_QUARTZ);
+			modifications.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ROSE_QUARTZ);
 		});
 	}
 
 	private static <T extends StructureProcessor> StructureProcessorType<T> registerStructureProcessor(StructureProcessorType<T> type, String id) {
-		return Registry.register(Registries.STRUCTURE_PROCESSOR_TYPE, Mod.id(id), type);
+		return Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, Mod.id(id), type);
 	}
 }

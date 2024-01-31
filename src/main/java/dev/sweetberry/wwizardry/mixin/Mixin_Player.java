@@ -3,9 +3,9 @@ package dev.sweetberry.wwizardry.mixin;
 import com.mojang.authlib.GameProfile;
 import dev.sweetberry.wwizardry.api.Badges;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,10 +13,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(
-	value = PlayerEntity.class,
+	value = Player.class,
 	priority = 2000
 )
-public abstract class Mixin_PlayerEntity {
+public abstract class Mixin_Player {
 	@Shadow
 	public abstract GameProfile getGameProfile();
 
@@ -24,11 +24,11 @@ public abstract class Mixin_PlayerEntity {
 		method = "getDisplayName",
 		at = @At("RETURN")
 	)
-	private void wwizardry$getBadge(CallbackInfoReturnable<Text> cir) {
+	private void wwizardry$getBadge(CallbackInfoReturnable<Component> cir) {
 		// TODO: don't hardcode
 		if (FabricLoader.getInstance().isModLoaded("styled-nicknames") || FabricLoader.getInstance().isModLoaded("styledchat"))
 			return;
-		if (!(cir.getReturnValue() instanceof MutableText mutableText))
+		if (!(cir.getReturnValue() instanceof MutableComponent mutableText))
 			return;
 		var badge = Badges.getBadgeFor(getGameProfile().getId());
 		if (badge == null)

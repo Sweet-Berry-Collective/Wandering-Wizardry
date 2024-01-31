@@ -2,32 +2,33 @@ package dev.sweetberry.wwizardry.content.block.nature;
 
 import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.content.world.sapling.BeeHoldingSaplingGenerator;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FungusBlock;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FungusBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class RootedMushroomBlock extends FungusBlock {
 	public final TagKey<Block> plantable;
 
-	public RootedMushroomBlock(Settings settings, String baseName, Block block) {
+	public RootedMushroomBlock(Properties settings, String baseName, Block block) {
 		super(BeeHoldingSaplingGenerator.getId(baseName), block, settings);
-		plantable = TagKey.of(RegistryKeys.BLOCK, Mod.id(baseName+"_growable"));
+		plantable = TagKey.create(Registries.BLOCK, Mod.id(baseName+"_growable"));
 	}
 
 	@Override
-	protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
-		return floor.isIn(plantable) || super.canPlantOnTop(floor, world, pos);
+	protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
+		return floor.is(plantable) || super.mayPlaceOn(floor, world, pos);
 	}
 
 	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		var v = state.getModelOffset(world, pos);
-		return super.getOutlineShape(state, world, pos, context).offset(v.x, v.y, v.z);
+	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+		var v = state.getOffset(world, pos);
+		return super.getShape(state, world, pos, context).move(v.x, v.y, v.z);
 	}
 }

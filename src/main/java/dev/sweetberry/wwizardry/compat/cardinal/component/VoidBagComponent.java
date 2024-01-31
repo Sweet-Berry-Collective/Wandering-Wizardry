@@ -4,47 +4,47 @@ import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
 import dev.sweetberry.wwizardry.compat.cardinal.CardinalInitializer;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
-public class VoidBagComponent implements Inventory, PlayerComponent<VoidBagComponent>, AutoSyncedComponent {
-	public final PlayerEntity player;
-	public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
+public class VoidBagComponent implements Container, PlayerComponent<VoidBagComponent>, AutoSyncedComponent {
+	public final Player player;
+	public NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
 	public boolean locked = false;
 
-	public VoidBagComponent(PlayerEntity player) {
+	public VoidBagComponent(Player player) {
 		this.player = player;
 	}
 
 	@Override
-	public boolean shouldSyncWith(ServerPlayerEntity player) {
+	public boolean shouldSyncWith(ServerPlayer player) {
 		return this.player.equals(player);
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
-		inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
-		Inventories.readNbt(tag, inventory);
+	public void readFromNbt(CompoundTag tag) {
+		inventory = NonNullList.withSize(27, ItemStack.EMPTY);
+		ContainerHelper.loadAllItems(tag, inventory);
 		locked = tag.getBoolean("Locked");
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
-		Inventories.writeNbt(tag, inventory);
+	public void writeToNbt(CompoundTag tag) {
+		ContainerHelper.saveAllItems(tag, inventory);
 		tag.putBoolean("Locked", locked);
-		ItemStack previewStack = VoidBagItem.INSTANCE.getDefaultStack();
-		previewStack.getOrCreateNbt().putBoolean("Locked", locked);
-		NbtCompound previewCompound = new NbtCompound();
-		previewStack.writeNbt(previewCompound);
+		ItemStack previewStack = VoidBagItem.INSTANCE.getDefaultInstance();
+		previewStack.getOrCreateTag().putBoolean("Locked", locked);
+		CompoundTag previewCompound = new CompoundTag();
+		previewStack.save(previewCompound);
 		tag.put("PreviewStack", previewCompound);
 	}
 
@@ -54,7 +54,7 @@ public class VoidBagComponent implements Inventory, PlayerComponent<VoidBagCompo
 	}
 
 	@Override
-	public int size() {
+	public int getContainerSize() {
 		return 27;
 	}
 
@@ -67,44 +67,44 @@ public class VoidBagComponent implements Inventory, PlayerComponent<VoidBagCompo
 	}
 
 	@Override
-	public ItemStack getStack(int slot) {
+	public ItemStack getItem(int slot) {
 		return inventory.get(slot);
 	}
 
 	@Override
-	public ItemStack removeStack(int slot, int amount) {
-		ItemStack stack = Inventories.splitStack(inventory, slot, amount);
+	public ItemStack removeItem(int slot, int amount) {
+		ItemStack stack = ContainerHelper.removeItem(inventory, slot, amount);
 		if (!stack.isEmpty()) {
-			markDirty();
+			setChanged();
 		}
 		return stack;
 	}
 
 	@Override
-	public ItemStack removeStack(int slot) {
-		return Inventories.removeStack(inventory, slot);
+	public ItemStack removeItemNoUpdate(int slot) {
+		return ContainerHelper.takeItem(inventory, slot);
 	}
 
 	@Override
-	public void setStack(int slot, ItemStack stack) {
+	public void setItem(int slot, ItemStack stack) {
 		inventory.set(slot, stack.copy());
 
-		this.markDirty();
+		this.setChanged();
 	}
 
 	@Override
-	public void markDirty() {
+	public void setChanged() {
 	}
 
 	@Override
-	public boolean canPlayerUse(PlayerEntity player) {
+	public boolean stillValid(Player player) {
 		return true;
 	}
 
 	@Override
-	public void clear() {
-		inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
-		markDirty();
+	public void clearContent() {
+		inventory = NonNullList.withSize(27, ItemStack.EMPTY);
+		setChanged();
 	}
 
 	public boolean contains(Item item) {
@@ -118,22 +118,22 @@ public class VoidBagComponent implements Inventory, PlayerComponent<VoidBagCompo
 		for (var i = 0; i < inventory.size(); i++) {
 			var inv_stack = inventory.get(i);
 			if (inv_stack.isEmpty()) {
-				setStack(i, stack);
+				setItem(i, stack);
 				stack.setCount(0);
 				return 0;
 			}
 
-			if (!ItemStack.canCombine(inv_stack, stack))
+			if (!ItemStack.isSameItemSameTags(inv_stack, stack))
 				continue;
 
-			var count_to_fill = inv_stack.getMaxCount() - inv_stack.getCount();
+			var count_to_fill = inv_stack.getMaxStackSize() - inv_stack.getCount();
 
 			if (count_to_fill == 0)
 				continue;
 
 			var amount = Math.min(count_to_fill, stack.getCount());
-			stack.decrement(amount);
-			inv_stack.increment(amount);
+			stack.shrink(amount);
+			inv_stack.grow(amount);
 
 			if (stack.isEmpty()) {
 				return 0;
@@ -143,12 +143,12 @@ public class VoidBagComponent implements Inventory, PlayerComponent<VoidBagCompo
 	}
 
 	public void openScreen() {
-		var factory = new SimpleNamedScreenHandlerFactory((syncid, inventory, _player) -> GenericContainerScreenHandler.createGeneric9x3(syncid, inventory, this), Text.translatable("item.wwizardry.void_bag"));
+		var factory = new SimpleMenuProvider((syncid, inventory, _player) -> ChestMenu.threeRows(syncid, inventory, this), Component.translatable("item.wwizardry.void_bag"));
 
-		player.openHandledScreen(factory);
+		player.openMenu(factory);
 	}
 
-	public static VoidBagComponent getForPlayer(PlayerEntity player) {
+	public static VoidBagComponent getForPlayer(Player player) {
 		return player.getComponent(CardinalInitializer.VOID_BAG);
 	}
 }

@@ -1,12 +1,6 @@
 package dev.sweetberry.wwizardry.api.resource;
 
-import net.minecraft.resource.ResourceIoSupplier;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.resource.pack.ResourcePack;
-import net.minecraft.resource.pack.metadata.ResourceMetadataSectionReader;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,13 +9,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
+import net.minecraft.server.packs.resources.IoSupplier;
 
-public class MapBackedPack implements ResourcePack {
-	private final Map<Identifier, byte[]> assets = new ConcurrentHashMap<>();
-	private final Map<Identifier, byte[]> data = new ConcurrentHashMap<>();
+public class MapBackedPack implements PackResources {
+	private final Map<ResourceLocation, byte[]> assets = new ConcurrentHashMap<>();
+	private final Map<ResourceLocation, byte[]> data = new ConcurrentHashMap<>();
 	private final Map<String, byte[]> root = new ConcurrentHashMap<>();
 
-	public void put(ResourceType type, Identifier id, byte[] bytes) {
+	public void put(PackType type, ResourceLocation id, byte[] bytes) {
 		getForType(type).put(id, bytes);
 	}
 
@@ -29,7 +28,7 @@ public class MapBackedPack implements ResourcePack {
 		root.put(path, bytes);
 	}
 
-	public void put(ResourceType type, Identifier id, String text) {
+	public void put(PackType type, ResourceLocation id, String text) {
 		put(type, id, text.getBytes(StandardCharsets.UTF_8));
 	}
 
@@ -39,18 +38,18 @@ public class MapBackedPack implements ResourcePack {
 
 	@Nullable
 	@Override
-	public ResourceIoSupplier<InputStream> openRoot(String... path) {
+	public IoSupplier<InputStream> getRootResource(String... path) {
 		return open(root, String.join("/", path));
 	}
 
 	@Nullable
 	@Override
-	public ResourceIoSupplier<InputStream> open(ResourceType type, Identifier id) {
+	public IoSupplier<InputStream> getResource(PackType type, ResourceLocation id) {
 		return open(getForType(type), id);
 	}
 
 	@Override
-	public void listResources(ResourceType type, String namespace, String startingPath, ResourceConsumer consumer) {
+	public void listResources(PackType type, String namespace, String startingPath, ResourceOutput consumer) {
 		getForType(type)
 			.entrySet()
 			.stream()
@@ -66,22 +65,22 @@ public class MapBackedPack implements ResourcePack {
 	}
 
 	@Override
-	public Set<String> getNamespaces(ResourceType type) {
+	public Set<String> getNamespaces(PackType type) {
 		return getForType(type)
 			.keySet()
 			.stream()
-			.map(Identifier::getNamespace)
+			.map(ResourceLocation::getNamespace)
 			.collect(Collectors.toUnmodifiableSet());
 	}
 
 	@Nullable
 	@Override
-	public <T> T parseMetadata(ResourceMetadataSectionReader<T> metaReader) throws IOException {
+	public <T> T getMetadataSection(MetadataSectionSerializer<T> metaReader) throws IOException {
 		return null;
 	}
 
 	@Override
-	public String getName() {
+	public String packId() {
 		return "Wandering Wizardry Resources";
 	}
 
@@ -94,17 +93,17 @@ public class MapBackedPack implements ResourcePack {
 		data.clear();
 	}
 
-	public void clear(ResourceType type) {
+	public void clear(PackType type) {
 		getForType(type).clear();
 	}
 
-	private Map<Identifier, byte[]> getForType(ResourceType type) {
-		if (type == ResourceType.CLIENT_RESOURCES)
+	private Map<ResourceLocation, byte[]> getForType(PackType type) {
+		if (type == PackType.CLIENT_RESOURCES)
 			return assets;
 		return data;
 	}
 
-	private <T> ResourceIoSupplier<InputStream> open(Map<T, byte[]> map, T path) {
+	private <T> IoSupplier<InputStream> open(Map<T, byte[]> map, T path) {
 		var bytes = map.get(path);
 		if (bytes == null)
 			return null;

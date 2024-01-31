@@ -5,12 +5,16 @@ import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.resource.MultiPackResourceManager;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 
 public class BrickType extends AbstractDataGenerator {
@@ -26,19 +30,19 @@ public class BrickType extends AbstractDataGenerator {
 	public final Block WALL;
 	public final Item WALL_ITEM;
 
-	public BrickType(String baseName, boolean plural, MapColor color, BlockSoundGroup sounds) {
+	public BrickType(String baseName, boolean plural, MapColor color, SoundType sounds) {
 		super();
 
 		this.baseName = baseName;
 		this.plural = plural;
 
-		final var blockSettings = FabricBlockSettings.copyOf(Blocks.STONE_BRICKS).sounds(sounds).mapColor(color).requiresTool();
+		final var blockSettings = FabricBlockSettings.copyOf(Blocks.STONE_BRICKS).sound(sounds).mapColor(color).requiresCorrectToolForDrops();
 		final var itemSettings = new FabricItemSettings();
 
 		BASE = BlockInitializer.registerBlock(baseName+(plural?"s":""), new Block(blockSettings));
 		BASE_ITEM = ItemInitializer.registerItem(baseName+(plural?"s":""), new BlockItem(BASE, itemSettings));
 
-		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", new StairsBlock(BASE.getDefaultState(), blockSettings));
+		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", new StairBlock(BASE.defaultBlockState(), blockSettings));
 		STAIRS_ITEM = ItemInitializer.registerItem(baseName+"_stairs", new BlockItem(STAIRS, itemSettings));
 
 		SLAB = BlockInitializer.registerBlock(baseName+"_slab", new SlabBlock(blockSettings));

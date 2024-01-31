@@ -1,22 +1,21 @@
 package dev.sweetberry.wwizardry.content.world.sapling;
 
 import dev.sweetberry.wwizardry.Mod;
-import net.minecraft.block.WoodTypes;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.random.RandomGenerator;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 public class BeeHoldingSaplingGenerator {
-	public static WoodTypes create(
+	public static TreeGrower create(
 		String name,
-		RegistryKey<ConfiguredFeature<?, ?>> noBees,
-		@Nullable RegistryKey<ConfiguredFeature<?, ?>> bees
+		ResourceKey<ConfiguredFeature<?, ?>> noBees,
+		@Nullable ResourceKey<ConfiguredFeature<?, ?>> bees
 	) {
-		return new WoodTypes(
+		return new TreeGrower(
 			name,
 			Optional.empty(),
 			Optional.of(noBees),
@@ -24,11 +23,11 @@ public class BeeHoldingSaplingGenerator {
 		);
 	}
 
-	public static WoodTypes create(String name, String bees, String noBees) {
+	public static TreeGrower create(String name, String bees, String noBees) {
 		return create(name, getId(bees), getId(noBees));
 	}
 
-	public static RegistryKey<ConfiguredFeature<?, ?>> getId(String id) {
-		return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Mod.id("tree/"+id));
+	public static ResourceKey<ConfiguredFeature<?, ?>> getId(String id) {
+		return ResourceKey.create(Registries.CONFIGURED_FEATURE, Mod.id("tree/"+id));
 	}
 }

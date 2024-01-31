@@ -1,9 +1,9 @@
 package dev.sweetberry.wwizardry.content.criterion;
 
 import dev.sweetberry.wwizardry.Mod;
-import net.minecraft.advancement.criterion.AbstractCriterionTrigger;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class CriterionInitializer {
 	public static final SimpleTriggerCriterion LODESTONE_MIRROR = simple(
@@ -25,9 +25,9 @@ public class CriterionInitializer {
 	}
 
 	public static
-	<T extends AbstractCriterionTrigger.Conditions, C extends AbstractCriterionTrigger<T>>
+	<T extends SimpleCriterionTrigger.SimpleInstance, C extends SimpleCriterionTrigger<T>>
 	C register(String id, C criterion) {
-		Registry.register(Registries.TRIGGER_TYPE, Mod.id(id), criterion);
+		Registry.register(BuiltInRegistries.TRIGGER_TYPES, Mod.id(id), criterion);
 		return criterion;
 	}
 }

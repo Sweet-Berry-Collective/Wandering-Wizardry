@@ -1,43 +1,43 @@
 package dev.sweetberry.wwizardry.content.item.material;
 
 import dev.sweetberry.wwizardry.Mod;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.crafting.Ingredient;
 
-public class CrystallineToolMaterial implements ToolMaterial {
+public class CrystallineToolMaterial implements Tier {
 	public static final CrystallineToolMaterial INSTANCE = new CrystallineToolMaterial();
 
 	private CrystallineToolMaterial() {}
 
 	@Override
-	public int getDurability() {
+	public int getUses() {
 		return 129;
 	}
 
 	@Override
-	public float getMiningSpeedMultiplier() {
+	public float getSpeed() {
 		return 1;
 	}
 
 	@Override
-	public float getAttackDamage() {
+	public float getAttackDamageBonus() {
 		return 0;
 	}
 
 	@Override
-	public int getMiningLevel() {
+	public int getLevel() {
 		return 0;
 	}
 
 	@Override
-	public int getEnchantability() {
+	public int getEnchantmentValue() {
 		return 10;
 	}
 
 	@Override
 	public Ingredient getRepairIngredient() {
-		return Ingredient.ofTag(TagKey.of(RegistryKeys.ITEM, Mod.id("repairs_sculk")));
+		return Ingredient.of(TagKey.create(Registries.ITEM, Mod.id("repairs_sculk")));
 	}
 }

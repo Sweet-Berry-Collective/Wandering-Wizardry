@@ -1,26 +1,27 @@
 package dev.sweetberry.wwizardry.content.block.altar.entity;
 
+import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.sculk.SculkBehavior;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SculkSpreader;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = FabricBlockEntityTypeBuilder.create(AltarCatalyzerBlockEntity::new, AltarCatalyzerBlock.INSTANCE).build();
 
 	public ItemStack result = ItemStack.EMPTY;
-	private final SculkBehavior behavior = SculkBehavior.createBehavior();
+	private final SculkSpreader behavior = SculkSpreader.createLevelSpreader();
 	public int bloom = 0;
 	public boolean shouldUpdateClient = false;
 
@@ -41,7 +42,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void startCrafting(AltarRecipeView recipe) {
-		var bloomMultiplier = world.getGameRules().get(GameruleInitializer.ALTAR_SCULK_SPREAD_MULTIPLIER).get();
+		var bloomMultiplier = level.getGameRules().getRule(GameruleInitializer.ALTAR_SCULK_SPREAD_MULTIPLIER).get();
 		bloom = (int) Math.floor(recipe.getBloom() * bloomMultiplier);
 		result = recipe.getRecipeResult();
 		for (var neighbor : getNeighbors())
@@ -51,7 +52,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void tryCraft(BlockState state) {
-		if (world == null)
+		if (level == null)
 			return;
 
 		var view = new RecipeView();
@@ -65,15 +66,15 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 				.anyMatch(it -> it.heldItem.isEmpty())
 		) return;
 
-		var optional = world.getRecipeManager().getFirstMatch(AltarCatalyzationRecipe.TYPE, this, world);
+		var optional = level.getRecipeManager().getRecipeFor(AltarCatalyzationRecipe.TYPE, this, level);
 
 		if (optional.isPresent()) {
-			optional.get().value().tryCraft(view, world);
+			optional.get().value().tryCraft(view, level);
 			startCrafting(view);
 			return;
 		}
 
-		if (AltarCraftable.EVENT.invoker().tryCraft(view, world))
+		if (AltarCraftable.EVENT.invoker().tryCraft(view, level))
 			startCrafting(view);
 	}
 
@@ -93,16 +94,16 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void finishCrafting(BlockState state) {
-		world.addParticle(ParticleTypes.SONIC_BOOM, pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, 0, 0, 0);
-		var stackEntity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, result.copy());
+		level.addParticle(ParticleTypes.SONIC_BOOM, worldPosition.getX() + 0.5, worldPosition.getY() + 5.5, worldPosition.getZ() + 0.5, 0, 0, 0);
+		var stackEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 5.5, worldPosition.getZ() + 0.5, result.copy());
 		result = ItemStack.EMPTY;
-		world.spawnEntity(stackEntity);
-		world.playSound(pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.BLOCKS, 1, 1, true);
-		if (!world.isClient && bloom > 0) {
-			world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_SCULK_CATALYST_BLOOM, SoundCategory.BLOCKS, 1, 1, true);
-			behavior.addCharge(pos, bloom);
+		level.addFreshEntity(stackEntity);
+		level.playLocalSound(worldPosition.getX() + 0.5, worldPosition.getY() + 5.5, worldPosition.getZ() + 0.5, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1, 1, true);
+		if (!level.isClientSide && bloom > 0) {
+			level.playLocalSound(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, SoundEvents.SCULK_CATALYST_BLOOM, SoundSource.BLOCKS, 1, 1, true);
+			behavior.addCursors(worldPosition, bloom);
 		}
-		world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.create(state));
+		level.gameEvent(GameEvent.BLOCK_CHANGE, worldPosition, GameEvent.Context.of(state));
 		bloom = 0;
 		super.finishCrafting(state);
 	}
@@ -113,9 +114,9 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	public void tick(World world, BlockPos pos, BlockState state) {
-		behavior.updateCharges(world, pos, world.random, true);
-		markDirty();
+	public void tick(Level world, BlockPos pos, BlockState state) {
+		behavior.updateCursors(world, pos, world.random, true);
+		setChanged();
 		if (crafting) {
 			if (++craftingTick >= 100) {
 				finishCrafting(state);
@@ -127,15 +128,15 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	protected void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
-		behavior.write(nbt);
+	protected void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
+		behavior.save(nbt);
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
-		behavior.read(nbt);
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
+		behavior.load(nbt);
 	}
 
 	public ArrayList<AltarPedestalBlockEntity> getNeighbors() {
@@ -152,9 +153,9 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Nullable
 	public AltarPedestalBlockEntity getNeighbor(Direction direction) {
-		BlockPos pedestalPos = pos.offset(direction, 2);
-		if (world.getBlockEntity(pedestalPos) instanceof AltarPedestalBlockEntity pedestal
-			&& world.getBlockState(pedestalPos).get(HorizontalFacingBlock.FACING) == direction) {
+		BlockPos pedestalPos = worldPosition.relative(direction, 2);
+		if (level.getBlockEntity(pedestalPos) instanceof AltarPedestalBlockEntity pedestal
+			&& level.getBlockState(pedestalPos).getValue(HorizontalDirectionalBlock.FACING) == direction) {
 			return pedestal;
 		}
 		return null;

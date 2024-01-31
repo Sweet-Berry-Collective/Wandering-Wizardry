@@ -2,50 +2,50 @@ package dev.sweetberry.wwizardry.content.item;
 
 import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.StackReference;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ClickType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.SlotAccess;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class VoidBagItem extends Item {
 	public static final VoidBagItem INSTANCE = new VoidBagItem(
 		new FabricItemSettings()
-			.maxCount(1)
+			.stacksTo(1)
 	);
 
-	public VoidBagItem(Settings settings) {
+	public VoidBagItem(Properties settings) {
 		super(settings);
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
 		var bag = VoidBagComponent.getForPlayer(user);
-		if (user.isSneaking()) {
+		if (user.isShiftKeyDown()) {
 			bag.locked = !bag.locked;
-			if (world.isClient)
-				world.playSound(user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1.0f, 1.0f, false);
-			return TypedActionResult.success(user.getStackInHand(hand), world.isClient);
+			if (world.isClientSide)
+				world.playLocalSound(user.getX(), user.getY(), user.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0f, 1.0f, false);
+			return InteractionResultHolder.sidedSuccess(user.getItemInHand(hand), world.isClientSide);
 		}
-		if (!world.isClient)
+		if (!world.isClientSide)
 			bag.openScreen();
 
-		return TypedActionResult.success(user.getStackInHand(hand), world.isClient);
+		return InteractionResultHolder.sidedSuccess(user.getItemInHand(hand), world.isClientSide);
 	}
 
 	@Override
-	public boolean onClicked(ItemStack thisStack, ItemStack otherStack, Slot thisSlot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-		if (clickType != ClickType.RIGHT)
+	public boolean overrideOtherStackedOnMe(ItemStack thisStack, ItemStack otherStack, Slot thisSlot, ClickAction clickType, Player player, SlotAccess cursorStackReference) {
+		if (clickType != ClickAction.SECONDARY)
 			return false;
 		if (!otherStack.isEmpty())
 			return false;
-		if (player.getWorld().isClient)
+		if (player.level().isClientSide)
 			return true;
 
 		var bag = VoidBagComponent.getForPlayer(player);

@@ -1,15 +1,15 @@
 package dev.sweetberry.wwizardry.content.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class SelfRemainderingItem extends Item {
-	public SelfRemainderingItem(Settings settings) {
+	public SelfRemainderingItem(Properties settings) {
 		super(settings);
 	}
 
 	@Override
-	public boolean hasRecipeRemainder() {
+	public boolean hasCraftingRemainingItem() {
 		return true;
 	}
 

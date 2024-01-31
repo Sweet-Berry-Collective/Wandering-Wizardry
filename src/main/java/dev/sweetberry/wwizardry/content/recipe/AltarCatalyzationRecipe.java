@@ -5,12 +5,15 @@ import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.*;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
-
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import java.util.ArrayList;
 import java.util.List;
 
 // TODO: Switch to taking in an AltarCraftable.
@@ -24,7 +27,7 @@ public record AltarCatalyzationRecipe(
 	public static final IdentifiableRecipeType<AltarCatalyzationRecipe> TYPE = new IdentifiableRecipeType<>(Mod.id("altar_catalyzation"));
 
 	@Override
-	public boolean matches(AltarCatalyzerBlockEntity inventory, World world) {
+	public boolean matches(AltarCatalyzerBlockEntity inventory, Level world) {
 		if (!catalyst.test(inventory.heldItem)) return false;
 		var met = new boolean[]{false, false, false, false};
 		var neighbors = inventory.getNeighbors();
@@ -47,18 +50,18 @@ public record AltarCatalyzationRecipe(
 	}
 
 	@Override
-	public ItemStack craft(AltarCatalyzerBlockEntity inventory, DynamicRegistryManager registryManager) {
+	public ItemStack assemble(AltarCatalyzerBlockEntity container, RegistryAccess registryAccess) {
 		return result.copy();
 	}
 
 	@Override
-	public boolean fits(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return width == 1 && height == 1;
 	}
 
 	@Override
-	public DefaultedList<Ingredient> getIngredients() {
-		DefaultedList<Ingredient> list = DefaultedList.of();
+	public NonNullList<Ingredient> getIngredients() {
+		NonNullList<Ingredient> list = NonNullList.create();
 		list.addAll(inputs);
 		return list;
 	}
@@ -70,7 +73,7 @@ public record AltarCatalyzationRecipe(
 	}
 
 	@Override
-	public ItemStack getResult(DynamicRegistryManager registryManager) {
+	public ItemStack getResultItem(RegistryAccess registryManager) {
 		return result;
 	}
 
@@ -80,7 +83,7 @@ public record AltarCatalyzationRecipe(
 	}
 
 	@Override
-	public boolean tryCraft(AltarRecipeView view, World world) {
+	public boolean tryCraft(AltarRecipeView view, Level world) {
 		view.setBloom(bloom);
 		view.setRecipeResult(result.copy());
 		if (keepCatalyst)

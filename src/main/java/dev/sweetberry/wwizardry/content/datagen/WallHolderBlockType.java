@@ -5,21 +5,20 @@ import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.WallCandleBlock;
 import dev.sweetberry.wwizardry.content.block.WallHolderBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.CandleBlock;
-import net.minecraft.resource.MultiPackResourceManager;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CandleBlock;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 
 public class WallHolderBlockType extends AbstractDataGenerator {
-	public final Identifier id;
+	public final ResourceLocation id;
 	public final Block block;
 	public final WallHolderBlock wallBlock;
 	public final ParentType parent;
 
-	public WallHolderBlockType(Identifier id, Block block, ParentType parent) {
+	public WallHolderBlockType(ResourceLocation id, Block block, ParentType parent) {
 		this.id = id;
 		this.block = block;
 		this.parent = parent;
@@ -32,7 +31,7 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		BlockInitializer.registerBlock(transformId(id), wallBlock);
 	}
 
-	public static String transformId(Identifier id) {
+	public static String transformId(ResourceLocation id) {
 		if (id.getNamespace().equals("minecraft"))
 			return "wall_holder/"+id.getPath();
 		return "wall_holder/"+id.getNamespace()+"/"+id.getPath();

@@ -1,13 +1,13 @@
 package dev.sweetberry.wwizardry.api.altar;
 
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public interface AltarRecipeView {
 	@Nullable
