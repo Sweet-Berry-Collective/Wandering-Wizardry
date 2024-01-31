@@ -10,7 +10,8 @@
       "translate": "advancement.wwizardry.adventure.charm.brewing.description"
     },
     "show_toast": true,
-    "announce_to_chat": true
+    "announce_to_chat": true,
+    "frame": "goal"
   },
   "parent": "wwizardry:adventure/slot_charm",
   "criteria": {

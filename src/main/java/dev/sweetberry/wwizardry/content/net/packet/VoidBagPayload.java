@@ -15,7 +15,6 @@ public class VoidBagPayload implements CustomPacketPayload, FabricPacket {
 	public static final PacketType<VoidBagPayload> TYPE = PacketType.create(VoidBagPayload.ID, VoidBagPayload::new);
 
 	public VoidBagPayload(FriendlyByteBuf buf) {}
-	public VoidBagPayload() {}
 
 	@Override
 	public void write(FriendlyByteBuf buf) {}

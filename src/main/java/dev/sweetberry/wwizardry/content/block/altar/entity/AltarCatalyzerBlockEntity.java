@@ -1,18 +1,21 @@
 package dev.sweetberry.wwizardry.content.block.altar.entity;
 
-import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
+import dev.sweetberry.wwizardry.content.net.packet.AltarCraftPayload;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -94,15 +97,21 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void finishCrafting(BlockState state) {
-		level.addParticle(ParticleTypes.SONIC_BOOM, worldPosition.getX() + 0.5, worldPosition.getY() + 5.5, worldPosition.getZ() + 0.5, 0, 0, 0);
+		if (level.isClientSide || !(level instanceof ServerLevel serverLevel))
+			return;
+
+		serverLevel
+			.getPlayers(it -> true)
+			.forEach(it ->
+				ServerPlayNetworking
+					.send(it, new AltarCraftPayload(worldPosition, bloom > 0))
+			);
+
 		var stackEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 5.5, worldPosition.getZ() + 0.5, result.copy());
 		result = ItemStack.EMPTY;
 		level.addFreshEntity(stackEntity);
-		level.playLocalSound(worldPosition.getX() + 0.5, worldPosition.getY() + 5.5, worldPosition.getZ() + 0.5, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1, 1, true);
-		if (!level.isClientSide && bloom > 0) {
-			level.playLocalSound(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, SoundEvents.SCULK_CATALYST_BLOOM, SoundSource.BLOCKS, 1, 1, true);
+		if (bloom > 0)
 			behavior.addCursors(worldPosition, bloom);
-		}
 		level.gameEvent(GameEvent.BLOCK_CHANGE, worldPosition, GameEvent.Context.of(state));
 		bloom = 0;
 		super.finishCrafting(state);
