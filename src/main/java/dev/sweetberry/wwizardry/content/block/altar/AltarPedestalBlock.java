@@ -81,6 +81,16 @@ public class AltarPedestalBlock extends AltarBlock<AltarPedestalBlockEntity> {
 	}
 
 	@Override
+	public boolean isComplete(BlockView world, BlockState state, BlockPos pos) {
+		var facing = state.get(HorizontalFacingBlock.FACING);
+		var offset = pos.offset(facing, -2);
+		var center = world.getBlockState(offset);
+		if (center.isOf(AltarCatalyzerBlock.INSTANCE))
+			return AltarCatalyzerBlock.INSTANCE.isComplete(world, center, offset);
+		return false;
+	}
+
+	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return switch (state.get(HorizontalFacingBlock.FACING)) {
 			case SOUTH -> SOUTH_SHAPE;

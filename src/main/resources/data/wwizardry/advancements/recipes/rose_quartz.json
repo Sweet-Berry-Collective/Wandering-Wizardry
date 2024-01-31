@@ -1,0 +1,26 @@
+{
+  "criteria": {
+    "rose_quartz": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wwizardry:rose_quartz"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "wwizardry:modulo_comparator",
+      "wwizardry:rose_quartz_block",
+      "wwizardry:rose_quartz_from_block",
+      "wwizardry:rose_quartz_from_smelting_ore",
+      "wwizardry:rose_quartz_from_blasting_ore"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,12 @@
+type = "blasting"
+
+group = "rose_quartz"
+
+cooking_time = 100
+experience = 1
+
+ingredient {
+    tag = "wwizardry:rose_quartz_ores"
+}
+
+result = "wwizardry:rose_quartz"

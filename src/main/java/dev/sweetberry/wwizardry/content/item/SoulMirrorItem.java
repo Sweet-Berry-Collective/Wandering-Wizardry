@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.item;
 
 import com.google.common.collect.ImmutableList;
 import dev.sweetberry.wwizardry.Mod;
+import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import dev.sweetberry.wwizardry.content.item.material.CrystallineToolMaterial;
 import dev.sweetberry.wwizardry.mixin.Accessor_ServerPlayerEntity;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -257,31 +258,33 @@ public class SoulMirrorItem extends ToolItem implements Vanishable {
 	public ActionResult useOnBlock(ItemUsageContext context) {
 		BlockPos blockPos = context.getBlockPos();
 		World world = context.getWorld();
-		if (!world.getBlockState(blockPos).isOf(Blocks.LODESTONE)) {
+		if (!world.getBlockState(blockPos).isOf(Blocks.LODESTONE))
 			return super.useOnBlock(context);
-		} else {
-			world.playSound(null, blockPos, SoundEvents.ITEM_LODESTONE_COMPASS_LOCK, SoundCategory.PLAYERS, 1.0F, 1.0F);
-			PlayerEntity playerEntity = context.getPlayer();
-			ItemStack itemStack = context.getStack();
-			var shouldKeepItem = !playerEntity.getAbilities().creativeMode && itemStack.getCount() == 1;
-			if (shouldKeepItem) {
-				writeNbt(world.getRegistryKey(), blockPos, itemStack.getOrCreateNbt());
-			} else {
-				ItemStack itemStack2 = new ItemStack(INSTANCE, 1);
-				NbtCompound nbtCompound = itemStack.hasNbt() ? itemStack.getNbt().copy() : new NbtCompound();
-				itemStack2.setNbt(nbtCompound);
-				if (!playerEntity.getAbilities().creativeMode) {
-					itemStack.decrement(1);
-				}
 
-				writeNbt(world.getRegistryKey(), blockPos, nbtCompound);
-				if (!playerEntity.getInventory().insertStack(itemStack2)) {
-					playerEntity.dropItem(itemStack2, false);
-				}
-			}
+		world.playSound(null, blockPos, SoundEvents.ITEM_LODESTONE_COMPASS_LOCK, SoundCategory.PLAYERS, 1.0F, 1.0F);
+		PlayerEntity playerEntity = context.getPlayer();
 
+		if (playerEntity instanceof ServerPlayerEntity serverPlayerEntity)
+			CriterionInitializer.LODESTONE_MIRROR.trigger(serverPlayerEntity);
+
+		ItemStack itemStack = context.getStack();
+		var shouldKeepItem = !playerEntity.getAbilities().creativeMode && itemStack.getCount() == 1;
+		if (shouldKeepItem) {
+			writeNbt(world.getRegistryKey(), blockPos, itemStack.getOrCreateNbt());
 			return ActionResult.success(world.isClient);
 		}
+
+		ItemStack itemStack2 = new ItemStack(INSTANCE, 1);
+		NbtCompound nbtCompound = itemStack.hasNbt() ? itemStack.getNbt().copy() : new NbtCompound();
+		itemStack2.setNbt(nbtCompound);
+		if (!playerEntity.getAbilities().creativeMode)
+			itemStack.decrement(1);
+
+		writeNbt(world.getRegistryKey(), blockPos, nbtCompound);
+		if (!playerEntity.getInventory().insertStack(itemStack2))
+			playerEntity.dropItem(itemStack2, false);
+
+		return ActionResult.success(world.isClient);
 	}
 
 	public static PosAndWorld moveToSpawnPoint(MinecraftServer server, ServerPlayerEntity player) {

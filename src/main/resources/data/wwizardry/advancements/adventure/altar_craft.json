@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "wwizardry:altar_pedestal"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.altar.craft.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.altar.craft.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "wwizardry:adventure/forgotten_fields",
+  "criteria": {
+    "altar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "wwizardry:altars"
+          }
+        ]
+      }
+    }
+  },
+  "sends_telemetry_event": false
+}

@@ -1,22 +1,27 @@
 package dev.sweetberry.wwizardry.content.block.altar;
 
 import com.mojang.serialization.MapCodec;
+import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.Sculkable;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarBlockEntity;
+import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.sculk.SculkBehavior;
 import net.minecraft.block.sculk.SculkVeinSpreader;
+import net.minecraft.client.multiplayer.report.AbuseReportEnvironment;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -70,9 +75,8 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 			player.getInventory().markDirty();
 			break;
 		}
-		if (!inserted) {
+		if (!inserted)
 			player.setStackInHand(hand, entity.heldItem);
-		}
 	}
 
 	@Override
@@ -101,13 +105,15 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 		}
 
 		if (!stack.isEmpty()) {
-			if (!entity.heldItem.isEmpty()) {
-				if (stack.getCount() == 1) {
+			if (stack.isOf(Items.END_CRYSTAL) && player instanceof ServerPlayerEntity serverPlayerEntity)
+				CriterionInitializer.ALTAR_END_CRYSTAL.trigger(serverPlayerEntity);
+
+			if (!entity.heldItem.isEmpty())
+				if (stack.getCount() == 1)
 					handleInput(player, hand, entity);
-				} else {
-					if (!player.giveItemStack(entity.heldItem)) return ActionResult.SUCCESS;
-				}
-			}
+				else if (!player.giveItemStack(entity.heldItem))
+					return ActionResult.SUCCESS;
+
 			stack.decrement(1);
 			entity.heldItem = newstack;
 			entity.tryCraft(state);
@@ -132,6 +138,8 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
 		world.setBlockState(pos, state.with(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.down())));
+		if (isComplete(world, state, pos) && placer instanceof ServerPlayerEntity serverPlayerEntity)
+			CriterionInitializer.COMPLETE_ALTAR.trigger(serverPlayerEntity);
 	}
 
 	@Override
@@ -232,4 +240,6 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BlockWithEn
 	public boolean hasPrimaryAction() {
 		return true;
 	}
+
+	public abstract boolean isComplete(BlockView world, BlockState state, BlockPos pos);
 }

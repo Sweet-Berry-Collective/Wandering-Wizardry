@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "wwizardry:altar_catalyzer"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.altar.place.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.altar.place.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "frame": "goal"
+  },
+  "parent": "wwizardry:adventure/altar_craft",
+  "criteria": {
+    "altar": {
+      "trigger": "wwizardry:complete_altar"
+    }
+  },
+  "sends_telemetry_event": false
+}

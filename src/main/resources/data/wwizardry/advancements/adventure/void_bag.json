@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "wwizardry:void_bag"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.void_bag.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.void_bag.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true,
+    "frame": "goal"
+  },
+  "parent": "wwizardry:adventure/altar_place",
+  "criteria": {
+    "void_bag": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wwizardry:void_bag"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "sends_telemetry_event": false
+}

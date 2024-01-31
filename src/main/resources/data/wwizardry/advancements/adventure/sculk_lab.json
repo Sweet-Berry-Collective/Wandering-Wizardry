@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "wwizardry:camera"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.sculk_lab.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.sculk_lab.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "wwizardry:adventure/forgotten_fields",
+  "criteria": {
+    "lab": {
+      "trigger": "location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "location_check",
+            "predicate": {
+              "structure": "wwizardry:sculk_lab",
+              "dimension": "overworld"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "sends_telemetry_event": false
+}

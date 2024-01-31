@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "wwizardry:soul_mirror",
+      "nbt": "{\"LodestoneDimension\": \"null\"}"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.soul_mirror.bound.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.soul_mirror.bound.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true,
+    "frame": "challenge"
+  },
+  "parent": "wwizardry:adventure/soul_mirror",
+  "criteria": {
+    "void_bag": {
+      "trigger": "wwizardry:use_mirror_on_lodestone"
+    }
+  },
+  "sends_telemetry_event": false
+}

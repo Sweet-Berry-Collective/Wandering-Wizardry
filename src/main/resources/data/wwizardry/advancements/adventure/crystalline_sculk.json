@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "wwizardry:crystalline_sculk"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.crystalline_sculk.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.crystalline_sculk.description"
+    }
+  },
+  "parent": "wwizardry:adventure/altar_place",
+  "criteria": {
+    "crystalline_sculk": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wwizardry:crystalline_sculk"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {},
+  "sends_telemetry_event": false
+}

@@ -124,6 +124,11 @@ blocks {
         "wwizardry:stripped_mycha_stem"
         "wwizardry:stripped_mycha_hyphae"
     ]
+
+    rose_quartz_ores [
+        "wwizardry:rose_quartz_ore"
+        "wwizardry:deepslate_rose_quartz_ore"
+    ]
 }
 
 items {

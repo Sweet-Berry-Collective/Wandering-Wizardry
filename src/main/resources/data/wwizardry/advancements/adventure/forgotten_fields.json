@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "wwizardry:denia_sapling"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.forgotten_fields.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.forgotten_fields.description"
+    },
+    "hidden": true
+  },
+  "parent": "adventure/root",
+  "criteria": {
+    "enter_biome": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "biome": "wwizardry:forgotten_fields"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {},
+  "sends_telemetry_event": false
+}

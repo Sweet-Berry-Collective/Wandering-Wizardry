@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "end_crystal"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.altar.crystal.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.altar.crystal.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true,
+    "frame": "challenge"
+  },
+  "parent": "wwizardry:adventure/altar_place",
+  "criteria": {
+    "altar": {
+      "trigger": "wwizardry:place_end_crystal_in_altar"
+    }
+  },
+  "sends_telemetry_event": false
+}

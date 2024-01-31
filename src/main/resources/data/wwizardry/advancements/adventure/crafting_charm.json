@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "item": "wwizardry:crafting_charm"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.charm.crafting.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.charm.crafting.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "wwizardry:adventure/slot_charm",
+  "criteria": {
+    "void_bag": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wwizardry:crafting_charm"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "sends_telemetry_event": false
+}

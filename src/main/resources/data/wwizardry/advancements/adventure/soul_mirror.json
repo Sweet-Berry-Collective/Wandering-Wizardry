@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "wwizardry:soul_mirror"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.soul_mirror.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.soul_mirror.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true,
+    "frame": "goal"
+  },
+  "parent": "wwizardry:adventure/altar_place",
+  "criteria": {
+    "void_bag": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wwizardry:soul_mirror"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "sends_telemetry_event": false
+}

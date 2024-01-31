@@ -20,6 +20,70 @@
     broken = "It is currently broken, blocking your reflection."
 }
 
+"advancement.wwizardry" {
+    story {
+        quartz {
+            title = "We Are The Crystal Gems"
+            description = "Mine Rose Quartz Ore to get a familiar gem"
+        }
+    }
+    adventure {
+        forgotten_fields {
+            title = "A Strange Land..."
+            description = "Enter the Forgotten Fields"
+        }
+        sculk_lab {
+            title = "A Time Gone By"
+            description = "Enter a Sculk Lab for the first time"
+        }
+        altar {
+            craft {
+                title = "What's This?"
+                description = "Craft an Altar"
+            }
+            place {
+                title = "Harnessing the Warden"
+                description = "Successfully assemble an Altar"
+            }
+            crystal {
+                title = "A Cool Crystal"
+                description = "Place an End Crystal in an Altar"
+            }
+        }
+        crystalline_sculk {
+            title = "Trash or Treasure?"
+            description = "Craft Crystalline Sculk using the Altar"
+        }
+        void_bag {
+            title = "Legally Distinct"
+            description = "Craft a Void Bag using the Altar"
+        }
+        soul_mirror {
+            title = "Looking Good!"
+            description = "Craft a Soul Mirror using the Altar"
+
+            bound {
+                title = "A New Way Home"
+                description = "Bind a Soul Mirror to a Lodestone"
+            }
+        }
+        charm {
+            slot {
+                title = "Altering the Altar"
+                description = "Craft a Slot Charm using the Altar"
+            }
+            crafting {
+                title = "Before It Was Cool"
+                description = "Craft a Crafting Charm using the Altar"
+            }
+            brewing {
+                title = "Magical Brewery"
+                description = "Craft a Brewing Charm using the Altar"
+            }
+        }
+    }
+}
+
 "block.wwizardry" {
     rose_quartz_ore = "Rose Quartz Ore"
     deepslate_rose_quartz_ore = "Deepslate Rose Quartz Ore"

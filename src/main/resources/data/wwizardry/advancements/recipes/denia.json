@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "wood": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wwizardry:denia_log"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "wwizardry:wood/denia/boat",
+      "wwizardry:wood/denia/button",
+      "wwizardry:wood/denia/chest_boat",
+      "wwizardry:wood/denia/door",
+      "wwizardry:wood/denia/fence",
+      "wwizardry:wood/denia/fence_gate",
+      "wwizardry:wood/denia/planks",
+      "wwizardry:wood/denia/pressure_plate",
+      "wwizardry:wood/denia/sign",
+      "wwizardry:wood/denia/slab",
+      "wwizardry:wood/denia/stairs",
+      "wwizardry:wood/denia/stripped_wood",
+      "wwizardry:wood/denia/wood"
+    ]
+  },
+  "sends_telemetry_event": false
+}

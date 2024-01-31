@@ -1,6 +1,7 @@
 type = "crafting_shapeless"
 
 category = "misc"
+-show_notification
 
 ingredients [
     { item="wwizardry:rose_quartz_block" }

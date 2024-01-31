@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "wood": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wwizardry:mycha_stem"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "wwizardry:wood/mycha/boat",
+      "wwizardry:wood/mycha/button",
+      "wwizardry:wood/mycha/chest_boat",
+      "wwizardry:wood/mycha/door",
+      "wwizardry:wood/mycha/fence",
+      "wwizardry:wood/mycha/fence_gate",
+      "wwizardry:wood/mycha/planks",
+      "wwizardry:wood/mycha/pressure_plate",
+      "wwizardry:wood/mycha/sign",
+      "wwizardry:wood/mycha/slab",
+      "wwizardry:wood/mycha/stairs",
+      "wwizardry:wood/mycha/stripped_hyphae",
+      "wwizardry:wood/mycha/hyphae"
+    ]
+  },
+  "sends_telemetry_event": false
+}

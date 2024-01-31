@@ -1,0 +1,23 @@
+{
+  "criteria": {
+    "crystalline_sculk": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wwizardry:crystalline_sculk"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "wwizardry:crystalline_sculk_block",
+      "wwizardry:crystalline_sculk_from_block"
+    ]
+  },
+  "sends_telemetry_event": false
+}

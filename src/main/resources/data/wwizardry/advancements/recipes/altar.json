@@ -1,0 +1,23 @@
+{
+  "criteria": {
+    "basalt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:polished_basalt"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "wwizardry:altar_pedestal",
+      "wwizardry:altar_catalyzer"
+    ]
+  },
+  "sends_telemetry_event": false
+}

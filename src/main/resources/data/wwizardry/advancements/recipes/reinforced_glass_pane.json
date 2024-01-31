@@ -1,0 +1,21 @@
+{
+  "criteria": {
+    "glass": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "c:glass_panes"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "wwizardry:reinforced_glass",
+      "wwizardry:reinforced_glass_pane"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content;
 
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
+import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import dev.sweetberry.wwizardry.content.events.EventInitializer;
 import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
@@ -25,5 +26,6 @@ public class ContentInitializer {
 		NetworkingInitializer.init();
 		TradeInitializer.init();
 		EventInitializer.init();
+		CriterionInitializer.init();
 	}
 }
