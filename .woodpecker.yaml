@@ -6,6 +6,7 @@ steps:
   - name: notify
     image: appleboy/drone-discord
     settings:
-      webhook_id: $WEBHOOK_ID
-      webhook_token: $WEBHOOK_TOKEN
-    secrets: [ webhook_id, webhook_token ]
+      webhook_id:
+        from_secret: webhook_id
+      webhook_token:
+        from_secret: webhook_token
