@@ -130,7 +130,7 @@ public class BlockInitializer {
 	}
 
 	public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String id, BlockEntityType<T> blockEntity) {
-		return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Mod.id(id), blockEntity);
+		return (BlockEntityType<T>) BLOCK_ENTITIES.register(Mod.id(id), blockEntity);
 	}
 
 	public static boolean testForSculk(BlockGetter world, BlockPos pos) {

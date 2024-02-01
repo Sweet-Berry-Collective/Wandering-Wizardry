@@ -29,6 +29,7 @@ import java.util.List;
 
 public class ItemInitializer {
 	public static final RegistryContext<Item> ITEMS = new RegistryContext<>(BuiltInRegistries.ITEM);
+	public static final RegistryContext<CreativeModeTab> TABS = new RegistryContext<>(BuiltInRegistries.CREATIVE_MODE_TAB);
 	public static final List<ItemStack> STACKS = new ArrayList<>();
 
 	public static final Item CRYSTALLINE_SCULK_SHARD = registerItem(
@@ -206,11 +207,14 @@ public class ItemInitializer {
 		)
 	);
 
-	public static final CreativeModeTab GROUP = FabricItemGroup.builder()
+	public static final CreativeModeTab GROUP = registerTab(
+		"items",
+		FabricItemGroup.builder()
 			.icon(CRYSTALLINE_SCULK_SHARD::getDefaultInstance)
 			.displayItems((display, collector) -> collector.acceptAll(STACKS))
 			.title(Component.translatable("itemGroup.wwizardry.items"))
-			.build();
+			.build()
+	);
 
 	public static void init() {
 		registerItem("void_bag", VoidBagItem.INSTANCE);
@@ -218,8 +222,6 @@ public class ItemInitializer {
 
 		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);
 		registerItem("altar_catalyzer", AltarCatalyzerBlock.ITEM);
-
-		Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Mod.id("items"), GROUP);
 	}
 
 	public static Item registerItem(String id, Item item) {
@@ -232,5 +234,9 @@ public class ItemInitializer {
 		var item = registerItem(id, new TerraformBoatItem(boatTypeKey, chest, itemSettings));
 		TerraformBoatItemHelper.registerBoatDispenserBehavior(item, boatTypeKey, chest);
 		return item;
+	}
+
+	public static CreativeModeTab registerTab(String id, CreativeModeTab tab) {
+		return TABS.register(Mod.id(id), tab);
 	}
 }

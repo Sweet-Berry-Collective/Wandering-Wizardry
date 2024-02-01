@@ -17,6 +17,7 @@ import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
@@ -42,6 +43,7 @@ public class ContentInitializer {
 		BlockInitializer.BLOCK_ENTITIES.listen((RegistryCallback<BlockEntityType<?>>) listener);
 		CriterionInitializer.CRITERION.listen((RegistryCallback<CriterionTrigger<?>>) listener);
 		ItemInitializer.ITEMS.listen((RegistryCallback<Item>) listener);
+		ItemInitializer.TABS.listen((RegistryCallback<CreativeModeTab>) listener);
 		PaintingInitializer.PAINTINGS.listen((RegistryCallback<PaintingVariant>) listener);
 		RecipeInitializer.RECIPE_SERIALIZERS.listen((RegistryCallback<RecipeSerializer<?>>) listener);
 		WorldgenInitializer.STRUCTURE_PROCESSORS.listen((RegistryCallback<StructureProcessorType<?>>) listener);

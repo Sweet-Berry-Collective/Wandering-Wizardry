@@ -29,7 +29,7 @@ public class CriterionInitializer {
 	public static
 	<T extends SimpleCriterionTrigger.SimpleInstance, C extends SimpleCriterionTrigger<T>>
 	C register(String id, C criterion) {
-		Registry.register(BuiltInRegistries.TRIGGER_TYPES, Mod.id(id), criterion);
+		CRITERION.register(Mod.id(id), criterion);
 		return criterion;
 	}
 }
