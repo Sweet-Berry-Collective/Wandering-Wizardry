@@ -1,0 +1,15 @@
+steps:
+  - name: build
+    image: "eclipse-temurin:17.0.10_7-jdk-alpine"
+    commands:
+      - ./gradlew build
+  - name: notify
+    image: appleboy/drone-discord
+    environment:
+      ID:
+        from_secret: webhook_id
+      TOKEN:
+        from_secret: webhook_token
+    settings:
+      webhook_id: $ID
+      webhook_token: $TOKEN
