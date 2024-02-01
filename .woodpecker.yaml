@@ -5,11 +5,7 @@ steps:
       - ./gradlew build
   - name: notify
     image: appleboy/drone-discord
-    environment:
-      ID:
-        from_secret: webhook_id
-      TOKEN:
-        from_secret: webhook_token
     settings:
-      webhook_id: $ID
-      webhook_token: $TOKEN
+      webhook_id: $WEBHOOK_ID
+      webhook_token: $WEBHOOK_TOKEN
+    secrets: [ webhook_id, webhook_token ]
