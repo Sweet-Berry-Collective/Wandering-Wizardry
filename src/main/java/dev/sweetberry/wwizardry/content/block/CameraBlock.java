@@ -1,6 +1,5 @@
 package dev.sweetberry.wwizardry.content.block;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -9,6 +8,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -18,7 +18,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class CameraBlock extends Block implements SimpleWaterloggedBlock {
-	public static final CameraBlock INSTANCE = new CameraBlock(FabricBlockSettings.of().mapColor(MapColor.COLOR_GRAY));
+	public static final CameraBlock INSTANCE = new CameraBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY));
 
 	public static final VoxelShape SHAPE = box(4, 3, 4, 12, 16, 12);
 

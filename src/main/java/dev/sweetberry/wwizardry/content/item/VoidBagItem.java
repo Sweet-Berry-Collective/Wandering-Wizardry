@@ -1,7 +1,6 @@
 package dev.sweetberry.wwizardry.content.item;
 
 import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -16,7 +15,7 @@ import net.minecraft.world.level.Level;
 
 public class VoidBagItem extends Item {
 	public static final VoidBagItem INSTANCE = new VoidBagItem(
-		new FabricItemSettings()
+		new Item.Properties()
 			.stacksTo(1)
 	);
 

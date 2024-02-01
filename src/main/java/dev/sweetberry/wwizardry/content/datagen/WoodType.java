@@ -12,8 +12,6 @@ import dev.sweetberry.wwizardry.content.world.sapling.BeeHoldingSaplingGenerator
 import dev.sweetberry.wwizardry.content.block.nature.RootedMushroomBlock;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -106,15 +104,15 @@ public class WoodType extends AbstractDataGenerator {
 
 		fungus = fungusBaseBlock != null;
 
-		final var blockSettings = FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood);
-		final var nonCollidable = FabricBlockSettings.copyOf(blockSettings).collidable(false);
-		final var nonOpaque = FabricBlockSettings.copyOf(blockSettings).noOcclusion();
-		final var hanging = FabricBlockSettings
-			.copyOf(Blocks.OAK_HANGING_SIGN)
+		final var blockSettings = BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood);
+		final var nonCollidable = BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood).noCollission();
+		final var nonOpaque = BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood).noOcclusion();
+		final var hanging = BlockBehaviour.Properties
+			.ofFullCopy(Blocks.OAK_HANGING_SIGN)
 			.sound(sounds)
 			.mapColor(wood);
-		final var itemSettings = new FabricItemSettings();
-		final var singleStack = new FabricItemSettings().maxCount(1);
+		final var itemSettings = new Item.Properties();
+		final var singleStack = new Item.Properties().stacksTo(1);
 
 		final var logName = fungus ? "stem" : "log";
 		final var woodName = fungus ? "hyphae" : "wood";
@@ -185,7 +183,7 @@ public class WoodType extends AbstractDataGenerator {
 			BOAT_CHEST_ITEM = ItemInitializer.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, singleStack);
 			BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, BOAT_KEY, new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
 		} else {
-			LEAVES = BlockInitializer.registerBlock(baseName+"_wart", new Block(FabricBlockSettings.copyOf(Blocks.NETHER_WART_BLOCK)));
+			LEAVES = BlockInitializer.registerBlock(baseName+"_wart", new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_WART_BLOCK)));
 			LEAVES_ITEM = ItemInitializer.registerItem(baseName+"_wart", new BlockItem(LEAVES, itemSettings));
 
 			SAPLING = BlockInitializer.registerBlock(baseName+"_fungus", createFungusBlock(baseName, fungusBaseBlock));
@@ -200,8 +198,8 @@ public class WoodType extends AbstractDataGenerator {
 
 	private static FungusBlock createFungusBlock(String baseName, Block base) {
 		return new RootedMushroomBlock(
-			FabricBlockSettings
-				.copyOf(Blocks.CRIMSON_FUNGUS)
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.CRIMSON_FUNGUS)
 				.instabreak()
 				.noCollission()
 				.sound(SoundType.FUNGUS)
@@ -214,8 +212,8 @@ public class WoodType extends AbstractDataGenerator {
 	private static SaplingBlock createSaplingBlock(String name, String noBees, @Nullable String bees) {
 		return new SaplingBlock(
 			BeeHoldingSaplingGenerator.create(name, noBees, bees),
-			FabricBlockSettings
-				.copyOf(Blocks.OAK_SAPLING)
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.OAK_SAPLING)
 				.noCollission()
 				.randomTicks()
 				.instabreak()
@@ -225,8 +223,8 @@ public class WoodType extends AbstractDataGenerator {
 
 	private static LeavesBlock createLeavesBlock() {
 		return new LeavesBlock(
-				FabricBlockSettings
-					.copyOf(Blocks.OAK_LEAVES)
+				BlockBehaviour.Properties
+					.ofFullCopy(Blocks.OAK_LEAVES)
 					.strength(0.2F)
 					.randomTicks()
 					.sound(SoundType.AZALEA_LEAVES)
@@ -239,7 +237,7 @@ public class WoodType extends AbstractDataGenerator {
 
 	private static Block createLogBlock(MapColor top, MapColor side, SoundType sounds) {
 		return new RotatedPillarBlock(
-			FabricBlockSettings.copyOf(Blocks.OAK_LOG)
+			BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
 				.strength(2.0F)
 				.sound(sounds)
 				.mapColor((state) -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? top : side)

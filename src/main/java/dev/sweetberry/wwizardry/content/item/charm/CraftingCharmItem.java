@@ -1,7 +1,6 @@
 package dev.sweetberry.wwizardry.content.item.charm;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
-import java.util.Iterator;
 import java.util.stream.Stream;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;

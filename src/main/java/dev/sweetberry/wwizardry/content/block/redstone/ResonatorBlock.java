@@ -1,7 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.redstone;
 
 import com.mojang.serialization.MapCodec;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -29,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 public class ResonatorBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
 	public static final MapCodec<ResonatorBlock> CODEC = BlockBehaviour.simpleCodec(ResonatorBlock::new);
 
-	public static final ResonatorBlock INSTANCE = new ResonatorBlock(FabricBlockSettings.of().sound(SoundType.SCULK_SHRIEKER));
+	public static final ResonatorBlock INSTANCE = new ResonatorBlock(BlockBehaviour.Properties.of().sound(SoundType.SCULK_SHRIEKER));
 	static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
 
 	protected ResonatorBlock(Properties settings) {

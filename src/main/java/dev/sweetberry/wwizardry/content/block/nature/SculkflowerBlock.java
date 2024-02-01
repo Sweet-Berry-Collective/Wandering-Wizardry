@@ -2,7 +2,6 @@ package dev.sweetberry.wwizardry.content.block.nature;
 
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.Sculkable;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -18,12 +17,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.SculkBehaviour;
 import net.minecraft.world.level.block.SculkSpreader;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import org.jetbrains.annotations.Nullable;
 
 public class SculkflowerBlock extends FlowerBlock implements Sculkable, SculkBehaviour {
-	public static final SculkflowerBlock INSTANCE = new SculkflowerBlock(MobEffects.DARKNESS, 30, FabricBlockSettings.copyOf(Blocks.POPPY).offsetType(OffsetType.NONE));
+	public static final SculkflowerBlock INSTANCE = new SculkflowerBlock(MobEffects.DARKNESS, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).offsetType(OffsetType.NONE));
 
 	public SculkflowerBlock(MobEffect suspiciousStewEffect, int effectDuration, Properties settings) {
 		super(suspiciousStewEffect, effectDuration, settings);

@@ -4,11 +4,11 @@ import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.WallCandleBlock;
 import dev.sweetberry.wwizardry.content.block.WallHolderBlock;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CandleBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +23,7 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		this.block = block;
 		this.parent = parent;
 		wallBlock = switch (parent) {
-			case CANDLE -> new WallCandleBlock(FabricBlockSettings.copyOf(WallHolderBlock.EMPTY), (CandleBlock) block);
+			case CANDLE -> new WallCandleBlock(BlockBehaviour.Properties.ofFullCopy(WallHolderBlock.EMPTY), (CandleBlock) block);
 			// TODO!
 			default -> throw new NotImplementedException("Type "+ parent.name +" is not implemented.");
 		};

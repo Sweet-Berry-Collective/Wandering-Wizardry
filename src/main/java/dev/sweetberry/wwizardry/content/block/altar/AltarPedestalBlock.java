@@ -2,11 +2,10 @@ package dev.sweetberry.wwizardry.content.block.altar;
 
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarPedestalBlockEntity;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -16,6 +15,7 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -24,8 +24,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class AltarPedestalBlock extends AltarBlock<AltarPedestalBlockEntity> {
-	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(FabricBlockSettings.copyOf(Blocks.REDSTONE_BLOCK));
-	public static final BlockItem ITEM = new BlockItem(INSTANCE, new FabricItemSettings());
+	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK));
+	public static final BlockItem ITEM = new BlockItem(INSTANCE, new Item.Properties());
 	public static final VoxelShape NORTH_SHAPE = Shapes.or(
 			BlockInitializer.ALTAR_BASE_SHAPE,
 

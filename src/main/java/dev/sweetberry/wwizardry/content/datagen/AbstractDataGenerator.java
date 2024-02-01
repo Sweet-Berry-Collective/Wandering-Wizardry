@@ -2,8 +2,6 @@ package dev.sweetberry.wwizardry.content.datagen;
 
 import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;

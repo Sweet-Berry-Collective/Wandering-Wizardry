@@ -12,7 +12,6 @@ import dev.sweetberry.wwizardry.content.block.nature.RootedPlantBlock;
 import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.LogicGateBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -47,22 +46,22 @@ public class BlockInitializer {
 			Block.box(4.0, 2.0, 4.0, 12.0, 15.0, 12.0)
 	).optimize();
 
-	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new RootedFlowerBlock(MobEffects.INVISIBILITY, 20, "mycha_growable", FabricBlockSettings.copyOf(Blocks.POPPY)));
+	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new RootedFlowerBlock(MobEffects.INVISIBILITY, 20, "mycha_growable", BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY)));
 
-	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new TransparentBlock(FabricBlockSettings.copyOf(Blocks.GLASS).requiresCorrectToolForDrops()));
+	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).requiresCorrectToolForDrops()));
 
-	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new IronBarsBlock(FabricBlockSettings.copyOf(Blocks.GLASS).requiresCorrectToolForDrops()));
+	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new IronBarsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).requiresCorrectToolForDrops()));
 
-	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(FabricBlockSettings.copyOf(Blocks.REDSTONE_LAMP)));
+	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_LAMP)));
 
-	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new DropExperienceBlock(UniformInt.of(1,4), FabricBlockSettings.copyOf(Blocks.IRON_ORE)));
-	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new DropExperienceBlock(UniformInt.of(1,4), FabricBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE)));
-	public static final Block ROSE_QUARTZ_BLOCK = registerBlock("rose_quartz_block", new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)));
+	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new DropExperienceBlock(UniformInt.of(1,4), BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
+	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new DropExperienceBlock(UniformInt.of(1,4), BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_IRON_ORE)));
+	public static final Block ROSE_QUARTZ_BLOCK = registerBlock("rose_quartz_block", new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
 
 	public static final Block MODULO_COMPARATOR = registerBlock(
 		"modulo_comparator",
 		new LogicGateBlock(
-			FabricBlockSettings.copyOf(Blocks.COMPARATOR),
+			BlockBehaviour.Properties.ofFullCopy(Blocks.COMPARATOR),
 			LogicGateBlock.SideInput.ALL,
 			true,
 			(state, mode, side, back) -> {
@@ -77,7 +76,7 @@ public class BlockInitializer {
 	public static final Block REDSTONE_STEPPER = registerBlock(
 		"redstone_stepper",
 		new LogicGateBlock(
-			FabricBlockSettings.copyOf(Blocks.REPEATER),
+			BlockBehaviour.Properties.ofFullCopy(Blocks.REPEATER),
 			LogicGateBlock.SideInput.NONE,
 			false,
 			(state, mode, side, back) -> back > 0 ? 1 : 0
@@ -87,7 +86,7 @@ public class BlockInitializer {
 	public static final Block MYCELIAL_SAND = registerBlock(
 		"mycelial_sand",
 		new FallingDecayableBlock(
-			FabricBlockSettings.copyOf(Blocks.SAND).mapColor(MapColor.ICE),
+			BlockBehaviour.Properties.ofFullCopy(Blocks.SAND).mapColor(MapColor.ICE),
 			Blocks.SAND,
 			"mycha_spread"
 		)

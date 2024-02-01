@@ -1,6 +1,5 @@
 package dev.sweetberry.wwizardry.content.block;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -12,13 +11,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SculkBehaviour;
 import net.minecraft.world.level.block.SculkShriekerBlock;
 import net.minecraft.world.level.block.SculkSpreader;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 
 public class CrystalSculkBlock extends AmethystBlock implements SculkBehaviour {
-	public static final CrystalSculkBlock INSTANCE = new CrystalSculkBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).luminance(1).mapColor(MapColor.ICE));
+	public static final CrystalSculkBlock INSTANCE = new CrystalSculkBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK).lightLevel((state) -> 1).mapColor(MapColor.ICE));
 
 	public CrystalSculkBlock(Properties settings) {
 		super(settings);

@@ -3,17 +3,16 @@ package dev.sweetberry.wwizardry.content.block.altar;
 import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarPedestalBlockEntity;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -23,8 +22,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 
 public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
-	public static final AltarCatalyzerBlock INSTANCE = new AltarCatalyzerBlock(FabricBlockSettings.copyOf(Blocks.REDSTONE_BLOCK));
-	public static final BlockItem ITEM = new BlockItem(INSTANCE, new FabricItemSettings());
+	public static final AltarCatalyzerBlock INSTANCE = new AltarCatalyzerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK));
+	public static final BlockItem ITEM = new BlockItem(INSTANCE, new Item.Properties());
 	public static final VoxelShape SHAPE = Shapes.or(
 			BlockInitializer.ALTAR_BASE_SHAPE,
 

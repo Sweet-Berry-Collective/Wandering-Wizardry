@@ -12,9 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
-import org.quiltmc.qsl.resource.loader.api.PackRegistrationContext;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoaderEvents;
 
 public class DatagenInitializer {
 	public static final ResourceLocation REGISTRY_ID = Mod.id("data_generators");

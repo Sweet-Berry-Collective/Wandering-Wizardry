@@ -3,8 +3,6 @@ package dev.sweetberry.wwizardry.content.datagen;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -14,6 +12,7 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,8 +35,8 @@ public class BrickType extends AbstractDataGenerator {
 		this.baseName = baseName;
 		this.plural = plural;
 
-		final var blockSettings = FabricBlockSettings.copyOf(Blocks.STONE_BRICKS).sound(sounds).mapColor(color).requiresCorrectToolForDrops();
-		final var itemSettings = new FabricItemSettings();
+		final var blockSettings = BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS).sound(sounds).mapColor(color).requiresCorrectToolForDrops();
+		final var itemSettings = new Item.Properties();
 
 		BASE = BlockInitializer.registerBlock(baseName+(plural?"s":""), new Block(blockSettings));
 		BASE_ITEM = ItemInitializer.registerItem(baseName+(plural?"s":""), new BlockItem(BASE, itemSettings));

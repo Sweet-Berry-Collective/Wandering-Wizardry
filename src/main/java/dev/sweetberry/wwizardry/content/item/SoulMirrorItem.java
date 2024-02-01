@@ -5,7 +5,6 @@ import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import dev.sweetberry.wwizardry.content.item.material.CrystallineToolMaterial;
 import dev.sweetberry.wwizardry.mixin.Accessor_ServerPlayer;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Vec3i;
@@ -30,10 +29,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.Vanishable;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.GameType;
@@ -48,7 +44,7 @@ import java.util.Optional;
 
 public class SoulMirrorItem extends TieredItem implements Vanishable {
 	public static final SoulMirrorItem INSTANCE = new SoulMirrorItem(
-		new FabricItemSettings()
+		new Item.Properties()
 			.stacksTo(1)
 	);
 

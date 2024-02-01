@@ -1,6 +1,5 @@
 package dev.sweetberry.wwizardry.content.block;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -23,6 +22,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 
 public class WallHolderBlock extends Block {
-	public static final WallHolderBlock EMPTY = new WallHolderBlock(FabricBlockSettings.of().instabreak().mapColor(MapColor.COLOR_GRAY));
+	public static final WallHolderBlock EMPTY = new WallHolderBlock(BlockBehaviour.Properties.of().instabreak().mapColor(MapColor.COLOR_GRAY));
 	public static final HashMap<Block, WallHolderBlock> ITEM_LOOKUP = new HashMap<>();
 
 	public static final VoxelShape NORTH_SHAPE = box(6, 0, 0, 10, 6, 6);
