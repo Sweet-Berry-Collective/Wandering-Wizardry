@@ -11,11 +11,11 @@ public record RegistryEntryWatcher<T>(Registry<T> registry) {
 
 		// Collect to a list so any updates don't cause an infinite loop.
 		registry.holders().toList().forEach(it ->
-			callback.register(it.key().location(), it.value())
+			callback.register(registry, it.key().location(), it.value())
 		);
 
 		RegistryEntryAddedCallback.event(registry).register((rawId, id, object) ->
-			callback.register(id, object)
+			callback.register(registry, id, object)
 		);
 	}
 }

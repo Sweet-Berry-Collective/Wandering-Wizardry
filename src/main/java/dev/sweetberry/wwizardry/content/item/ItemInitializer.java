@@ -2,7 +2,9 @@ package dev.sweetberry.wwizardry.content.item;
 
 import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
+import com.terraformersmc.terraform.boat.impl.item.TerraformBoatItem;
 import dev.sweetberry.wwizardry.Mod;
+import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.block.*;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
@@ -26,9 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemInitializer {
-	static {
-		STACKS = new ArrayList<>();
-	}
+	public static final RegistryContext<Item> ITEMS = new RegistryContext<>(BuiltInRegistries.ITEM);
+	public static final List<ItemStack> STACKS = new ArrayList<>();
 
 	public static final Item CRYSTALLINE_SCULK_SHARD = registerItem(
 			"crystalline_sculk",
@@ -205,15 +206,8 @@ public class ItemInitializer {
 		)
 	);
 
-	public static final List<ItemStack> STACKS;
-
-	// This is here because of 'Illegal forward reference'
-	public static ItemStack getIcon() {
-		return CRYSTALLINE_SCULK_SHARD.getDefaultInstance();
-	}
-
 	public static final CreativeModeTab GROUP = FabricItemGroup.builder()
-			.icon(ItemInitializer::getIcon)
+			.icon(CRYSTALLINE_SCULK_SHARD::getDefaultInstance)
 			.displayItems((display, collector) -> collector.acceptAll(STACKS))
 			.title(Component.translatable("itemGroup.wwizardry.items"))
 			.build();
@@ -230,12 +224,13 @@ public class ItemInitializer {
 
 	public static Item registerItem(String id, Item item) {
 		STACKS.add(new ItemStack(item));
-		return Registry.register(BuiltInRegistries.ITEM, Mod.id(id), item);
+		return ITEMS.register(Mod.id(id), item);
 	}
 
 	public static Item registerBoatItem(String id, ResourceKey<TerraformBoatType> boatTypeKey, boolean chest, Item.Properties itemSettings) {
-		Item item = TerraformBoatItemHelper.registerBoatItem(Mod.id(id), boatTypeKey, chest, itemSettings);
-		STACKS.add(new ItemStack(item));
+		// TODO: Replace this with an in-house thing
+		var item = registerItem(id, new TerraformBoatItem(boatTypeKey, chest, itemSettings));
+		TerraformBoatItemHelper.registerBoatDispenserBehavior(item, boatTypeKey, chest);
 		return item;
 	}
 }

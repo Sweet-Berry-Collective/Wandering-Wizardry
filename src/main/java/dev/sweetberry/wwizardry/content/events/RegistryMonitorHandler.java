@@ -1,8 +1,11 @@
 package dev.sweetberry.wwizardry.content.events;
 
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.datagen.WallHolderBlockType;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import java.util.Arrays;
+
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CandleBlock;
@@ -13,7 +16,7 @@ public class RegistryMonitorHandler {
 		"jello"
 	};
 
-	public static void onBlockAdded(ResourceLocation id, Block block) {
+	public static void onBlockAdded(Registry<Block> registry, ResourceLocation id, Block block) {
 		// Ignore known broken mods. TODO: Make this configurable
 		if (
 			Arrays.stream(modid_exclusions)

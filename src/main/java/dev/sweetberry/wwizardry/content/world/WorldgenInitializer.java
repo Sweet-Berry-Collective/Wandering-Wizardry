@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.world;
 
 import dev.sweetberry.wwizardry.Mod;
+import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.world.processors.WaterLoggingFixProcessor;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -16,6 +17,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 
 public class WorldgenInitializer {
+	public static final RegistryContext<StructureProcessorType<?>> STRUCTURE_PROCESSORS = new RegistryContext<>(BuiltInRegistries.STRUCTURE_PROCESSOR);
+
 	public static final ResourceKey<Biome> FORGOTTEN_FIELDS = key("forgotten_fields");
 
 	public static final ResourceKey<Biome> FUNGAL_FOREST = key("fungal_forest");
@@ -37,6 +40,6 @@ public class WorldgenInitializer {
 	}
 
 	private static <T extends StructureProcessor> StructureProcessorType<T> registerStructureProcessor(StructureProcessorType<T> type, String id) {
-		return Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, Mod.id(id), type);
+		return (StructureProcessorType<T>) STRUCTURE_PROCESSORS.register(Mod.id(id), type);
 	}
 }

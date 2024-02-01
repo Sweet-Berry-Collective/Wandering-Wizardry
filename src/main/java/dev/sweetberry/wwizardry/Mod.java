@@ -12,6 +12,7 @@ public class Mod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+		LOGGER.info("*tips altar* w'wizardry");
 		ContentInitializer.init();
     }
 

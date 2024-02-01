@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.block;
 
 import dev.sweetberry.wwizardry.Mod;
+import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
@@ -38,6 +39,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BlockInitializer {
+	public static final RegistryContext<Block> BLOCKS = new RegistryContext<>(BuiltInRegistries.BLOCK);
+	public static final RegistryContext<BlockEntityType<?>> BLOCK_ENTITIES = new RegistryContext<>(BuiltInRegistries.BLOCK_ENTITY_TYPE);
+
 	public static final BooleanProperty SCULK_INFESTED = BooleanProperty.create("sculked");
 	public static final BooleanProperty SCULK_BELOW = BooleanProperty.create("sculk_below");
 
@@ -122,7 +126,7 @@ public class BlockInitializer {
 	}
 
 	public static <T extends Block> T registerBlock(String id, T block) {
-		return Registry.register(BuiltInRegistries.BLOCK, Mod.id(id), block);
+		return (T) BLOCKS.register(Mod.id(id), block);
 	}
 
 	public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String id, BlockEntityType<T> blockEntity) {
