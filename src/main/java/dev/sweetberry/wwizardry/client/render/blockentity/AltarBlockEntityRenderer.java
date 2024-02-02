@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.client.render;
+package dev.sweetberry.wwizardry.client.render.blockentity;
 
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarBlockEntity;
 import net.minecraft.client.Minecraft;

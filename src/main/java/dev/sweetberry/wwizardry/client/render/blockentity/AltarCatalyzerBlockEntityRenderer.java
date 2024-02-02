@@ -1,11 +1,10 @@
-package dev.sweetberry.wwizardry.client.render;
+package dev.sweetberry.wwizardry.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.BlockPos;
 
 public record AltarCatalyzerBlockEntityRenderer(BlockEntityRendererProvider.Context context) implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
 	@Override
