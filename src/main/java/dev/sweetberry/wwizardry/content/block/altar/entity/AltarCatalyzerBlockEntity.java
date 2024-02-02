@@ -6,6 +6,7 @@ import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
 import dev.sweetberry.wwizardry.content.net.packet.AltarCraftPayload;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.BlockPos;
@@ -100,11 +101,15 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		if (level.isClientSide || !(level instanceof ServerLevel serverLevel))
 			return;
 
+		var payload = new AltarCraftPayload(worldPosition, bloom > 0);
+		var buf = PacketByteBufs.create();
+		payload.write(buf);
+
 		serverLevel
 			.getPlayers(it -> true)
 			.forEach(it ->
 				ServerPlayNetworking
-					.send(it, new AltarCraftPayload(worldPosition, bloom > 0))
+					.send(it, AltarCraftPayload.ID, buf)
 			);
 
 		var stackEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 5.5, worldPosition.getZ() + 0.5, result.copy());

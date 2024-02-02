@@ -5,6 +5,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 public class NetworkingInitializer {
 	public static void init() {
-		ServerPlayNetworking.registerGlobalReceiver(VoidBagPayload.TYPE, VoidBagPayload::accept);
+		ServerPlayNetworking.registerGlobalReceiver(VoidBagPayload.ID, VoidBagPayload::accept);
 	}
 }

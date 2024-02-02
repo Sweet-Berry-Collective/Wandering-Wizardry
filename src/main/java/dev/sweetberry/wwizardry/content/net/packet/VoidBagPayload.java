@@ -8,30 +8,18 @@ import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
-public class VoidBagPayload implements CustomPacketPayload, FabricPacket {
+public class VoidBagPayload {
 	public static final ResourceLocation ID = Mod.id("void_bag");
-	public static final PacketType<VoidBagPayload> TYPE = PacketType.create(VoidBagPayload.ID, VoidBagPayload::new);
-
-	public VoidBagPayload(FriendlyByteBuf buf) {}
-
-	@Override
-	public void write(FriendlyByteBuf buf) {}
-
-	@Override
-	public ResourceLocation id() {
-		return ID;
-	}
-
-	@Override
-	public PacketType<?> getType() {
-		return TYPE;
-	}
 
 	public static void accept(
-		VoidBagPayload payload,
+		MinecraftServer server,
 		ServerPlayer player,
+		ServerGamePacketListenerImpl handler,
+		FriendlyByteBuf buf,
 		PacketSender responseSender
 	) {
 		player.server.execute(() -> {
