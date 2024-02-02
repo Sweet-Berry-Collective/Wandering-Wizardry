@@ -2,9 +2,10 @@ package dev.sweetberry.wwizardry.content.block.altar.entity;
 
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
+import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
-import dev.sweetberry.wwizardry.content.net.packet.AltarCraftPayload;
+import dev.sweetberry.wwizardry.content.net.packet.AltarCraftPacket;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -14,9 +15,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -101,15 +99,12 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		if (level.isClientSide || !(level instanceof ServerLevel serverLevel))
 			return;
 
-		var payload = new AltarCraftPayload(worldPosition, bloom > 0);
-		var buf = PacketByteBufs.create();
-		payload.write(buf);
+		var payload = new AltarCraftPacket(worldPosition, bloom > 0);
 
 		serverLevel
 			.getPlayers(it -> true)
 			.forEach(it ->
-				ServerPlayNetworking
-					.send(it, AltarCraftPayload.ID, buf)
+				PacketRegistry.sendToClient(it, payload)
 			);
 
 		var stackEntity = new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 5.5, worldPosition.getZ() + 0.5, result.copy());

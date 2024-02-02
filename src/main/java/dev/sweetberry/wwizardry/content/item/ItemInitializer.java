@@ -14,7 +14,6 @@ import dev.sweetberry.wwizardry.content.item.charm.BrewingCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.CraftingCharmItem;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
