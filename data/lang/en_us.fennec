@@ -98,7 +98,7 @@
     # Tech
     camera = "Camera"
     redstone_lantern = "Redstone Lantern"
-    wall_holder = "Wall Holder"
+    wall_holder = "Sconce"
     modulo_comparator = "Modulo Comparator"
     redstone_stepper = "Redstone Stepper"
 

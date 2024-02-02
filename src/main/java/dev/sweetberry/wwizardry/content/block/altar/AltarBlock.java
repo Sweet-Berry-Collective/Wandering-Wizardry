@@ -155,7 +155,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 		var stackEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), entity.heldItem);
 		world.addFreshEntity(stackEntity);
 		super.playerWillDestroy(world, pos, state, player);
-		return Blocks.AIR.defaultBlockState();
+		return state;
 	}
 
 	@Override
