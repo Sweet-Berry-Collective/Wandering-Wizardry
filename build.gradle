@@ -1,28 +1,11 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-
 plugins {
-	alias libs.plugins.loom
+	id 'java'
 }
 
-archivesBaseName = project.archives_base_name
 version = "${project.version}+mc.${libs.versions.minecraft.get()}"
 if (!project.classification.isBlank())
 	version += "-${project.classification}"
 group = project.maven_group
-
-def test_compat = true
-
-loom {
-	accessWidenerPath = file("src/main/resources/wwizardry.accesswidener")
-}
-
-sourceSets {
-	main {
-		resources {
-			srcDir("src/generated/resources")
-		}
-	}
-}
 
 repositories {
 	maven {
@@ -54,43 +37,8 @@ repositories {
 	}
 }
 
-def classify(module, classifier) {
-	var m = module.get()
-	return "${m.module.group}:${m.module.name}:${m.version}:$classifier"
-}
-
-// TODO: Remove when quilt loom fixes the bug
-project.configurations.configureEach {
-	exclude group: "io.github.llamalad7"
-	exclude group: "net.fabricmc", module: "fabric-loader"
-}
-
-dependencies {
-	minecraft libs.minecraft
-	mappings loom.officialMojangMappings()
-	modImplementation libs.quilt.loader
-	modImplementation libs.fabric.api
-
-	modImplementation libs.bundles.include
-	include libs.bundles.include
-
-	modCompileOnly classify(libs.emi, "api")
-	modCompileOnly libs.quilt.resource.loader
-
-	if (test_compat)
-		modRuntimeOnly libs.bundles.compat
-}
-
-processResources {
-	inputs.property 'version', version
-
-	filesMatching('fabric.mod.json') {
-		expand "version": version
-	}
-}
-
 def generate(String type, String input, String output) {
-	var exec = "deno run -A ./scripts/mod.ts ${type} ./data/${input} ./src/generated/resources/${output}".execute()
+	var exec = "deno run -A ${rootProject.rootDir}/scripts/mod.ts ${type} ${rootProject.rootDir}/data/${input} ${rootProject.rootDir}/common/src/generated/resources/${output}".execute()
 	println(exec.text)
 }
 
@@ -117,9 +65,10 @@ tasks.register("generateData") {
 			transpile("recipes", "data/wwizardry/recipes")
 			transpile("loot", "data/wwizardry/loot_tables")
 			transpile("world", "data/wwizardry/worldgen")
-			transpile("mod", "")
 			generate("blockstate", "assets/wwizardry/blockstates")
-		} catch (ignored) {}
+		} catch (e) {
+			e.printStackTrace()
+		}
 	}
 }
 
@@ -134,10 +83,4 @@ java {
 	targetCompatibility = JavaVersion.VERSION_17
 
 	withSourcesJar()
-}
-
-jar {
-	filesMatching('LICENSE') {
-		rename '^(LICENSE.*?)(\\..*)?$', "\$1_${archivesBaseName}\$2"
-	}
 }

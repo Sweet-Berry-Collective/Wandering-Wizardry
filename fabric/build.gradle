@@ -1,0 +1,89 @@
+plugins {
+	alias libs.plugins.loom
+}
+
+archivesBaseName = project.archives_base_name
+version = rootProject.version
+
+def test_compat = true
+
+repositories {
+	maven {
+		name = 'Quilt'
+		url = 'https://maven.quiltmc.org/repository/release'
+	}
+	maven {
+		name = 'TerraformersMC'
+		url = 'https://maven.terraformersmc.com/'
+	}
+	maven {
+		name = "Forge"
+		url = "https://maven.minecraftforge.net/"
+	}
+	maven {
+		name = 'Ladysnake Mods'
+		url = 'https://maven.ladysnake.org/releases'
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+}
+
+loom {
+	accessWidenerPath = file("../common/src/main/resources/wwizardry.accesswidener")
+}
+
+project.configurations.configureEach {
+	exclude group: "net.fabricmc", module: "fabric-loader"
+}
+
+def classify(module, classifier) {
+	var m = module.get()
+	return "${m.module.group}:${m.module.name}:${m.version}:$classifier"
+}
+
+dependencies {
+	compileOnly project(":common")
+
+	minecraft libs.minecraft
+	mappings loom.officialMojangMappings()
+	modImplementation libs.quilt.loader
+	modImplementation libs.fabric.api
+
+	modImplementation libs.bundles.include
+	include libs.bundles.include
+
+	modCompileOnly classify(libs.emi, "api")
+	modCompileOnly libs.quilt.resource.loader
+
+	if (test_compat)
+		modRuntimeOnly libs.bundles.compat
+}
+
+processResources {
+	from project(":common").sourceSets.main.resources
+	inputs.property 'version', version
+
+	filesMatching('fabric.mod.json') {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	source(project(":common").sourceSets.main.allSource)
+	it.options.encoding = 'UTF-8'
+	it.options.release = 17
+	dependsOn ":generateData"
+}
+
+tasks.withType(Javadoc).configureEach {
+	source(project(":common").sourceSets.main.allJava)
+}

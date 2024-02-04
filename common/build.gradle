@@ -1,0 +1,30 @@
+plugins {
+	id 'java'
+	alias libs.plugins.vanilla.gradle
+}
+
+minecraft {
+	version(libs.versions.minecraft.get())
+	runs {
+		server()
+		client()
+	}
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDir("src/generated/resources")
+		}
+	}
+}
+
+dependencies {
+	compileOnly libs.bundles.mixin
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = 'UTF-8'
+	it.options.release = 17
+	dependsOn ":generateData"
+}

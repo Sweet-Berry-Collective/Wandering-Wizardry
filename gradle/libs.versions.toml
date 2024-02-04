@@ -3,6 +3,9 @@
 minecraft = "1.20.4"
 quilt_loader = "0.23.1"
 
+mixin = "0.8.5"
+mixin_extras = "0.3.2"
+
 fabric_api = "0.95.3+1.20.4"
 
 terraform = "9.0.0"
@@ -19,6 +22,9 @@ suspicious_shapes = "1.0.0+1.20.1"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+
+mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
+mixin_extras = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixin_extras" }
 
 quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
 
@@ -39,6 +45,8 @@ suspicious_shapes = { module = "maven.modrinth:suspicious-shapes", version.ref =
 
 # If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
 [bundles]
+mixin = ["mixin", "mixin_extras"]
+
 include = ["terraform_wood", "terrablender", "ccapi_base", "ccapi_entity"]
 
 compat = ["emi", "modmenu"]
@@ -46,3 +54,4 @@ compat = ["emi", "modmenu"]
 
 [plugins]
 loom = { id = "org.quiltmc.loom", version = "1.4.+" }
+vanilla_gradle = { id = "org.spongepowered.gradle.vanilla", version = "0.2.1-SNAPSHOT" }
