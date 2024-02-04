@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.fabric.mixin;
+package dev.sweetberry.wwizardry.mixin;
 
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.block.TorchBlock;

@@ -3,8 +3,8 @@ package dev.sweetberry.wwizardry.content.item;
 import com.google.common.collect.ImmutableList;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
-import dev.sweetberry.wwizardry.content.item.material.CrystallineToolMaterial;
-import dev.sweetberry.wwizardry.fabric.mixin.Accessor_ServerPlayer;
+import dev.sweetberry.wwizardry.content.item.tier.CrystallineSculkTier;
+import dev.sweetberry.wwizardry.mixin.Accessor_ServerPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Vec3i;
@@ -70,7 +70,7 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 		.build();
 
 	public SoulMirrorItem(Properties settings) {
-		super(CrystallineToolMaterial.INSTANCE, settings);
+		super(CrystallineSculkTier.INSTANCE, settings);
 	}
 
 	public static boolean hasLodestone(ItemStack stack) {

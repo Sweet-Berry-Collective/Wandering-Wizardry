@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.client.render.blockentity;
 
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.AltarBlockEntity;
 import dev.sweetberry.wwizardry.fabric.client.FabricClientInitializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;

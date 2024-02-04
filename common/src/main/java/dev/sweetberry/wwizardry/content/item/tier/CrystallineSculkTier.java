@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.content.item.material;
+package dev.sweetberry.wwizardry.content.item.tier;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import net.minecraft.core.registries.Registries;
@@ -7,11 +7,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public class CrystallineToolMaterial implements Tier {
-	public static final CrystallineToolMaterial INSTANCE = new CrystallineToolMaterial();
+public class CrystallineSculkTier implements Tier {
+	public static final CrystallineSculkTier INSTANCE = new CrystallineSculkTier();
 	public static final TagKey<Item> REPAIRS_SCULK = TagKey.create(Registries.ITEM, WanderingWizardry.id("repairs_sculk"));
 
-	private CrystallineToolMaterial() {}
+	private CrystallineSculkTier() {}
 
 	@Override
 	public int getUses() {

@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.content.block.altar.entity;
+package dev.sweetberry.wwizardry.content.block.entity;
 
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
@@ -8,7 +8,6 @@ import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.net.packet.AltarCraftPacket;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -32,7 +31,10 @@ import java.util.List;
 
 public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
-	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = FabricBlockEntityTypeBuilder.create(AltarCatalyzerBlockEntity::new, AltarCatalyzerBlock.INSTANCE).build();
+	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = BlockEntityType.Builder.of(
+		AltarCatalyzerBlockEntity::new,
+		AltarCatalyzerBlock.INSTANCE
+	).build(null);
 
 	public ItemStack result = ItemStack.EMPTY;
 	private final SculkSpreader behavior = SculkSpreader.createLevelSpreader();

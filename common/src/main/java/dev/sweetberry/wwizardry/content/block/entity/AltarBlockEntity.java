@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.content.block.altar.entity;
+package dev.sweetberry.wwizardry.content.block.entity;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import org.jetbrains.annotations.Nullable;

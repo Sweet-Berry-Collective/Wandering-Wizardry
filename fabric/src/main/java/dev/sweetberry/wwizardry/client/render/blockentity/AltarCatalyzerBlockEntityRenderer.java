@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;

@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.fabric.mixin;
+package dev.sweetberry.wwizardry.mixin;
 
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;

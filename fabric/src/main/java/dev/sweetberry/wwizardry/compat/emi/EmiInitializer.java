@@ -13,7 +13,7 @@ import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
-import dev.sweetberry.wwizardry.fabric.mixin.Accessor_PotionBrewing_Mix;
+import dev.sweetberry.wwizardry.mixin.Accessor_PotionBrewing_Mix;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.alchemy.Potion;

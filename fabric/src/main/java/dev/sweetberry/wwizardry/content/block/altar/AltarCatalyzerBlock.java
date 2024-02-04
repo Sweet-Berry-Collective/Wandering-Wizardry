@@ -1,7 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.altar;
 
-import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
@@ -22,10 +21,10 @@ public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
 	public static final AltarCatalyzerBlock INSTANCE = new AltarCatalyzerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK));
 	public static final BlockItem ITEM = new BlockItem(INSTANCE, new Item.Properties());
 	public static final VoxelShape SHAPE = Shapes.or(
-			BlockInitializer.ALTAR_BASE_SHAPE,
+		AltarBlock.ALTAR_BASE_SHAPE,
 
-			box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0),
-			box(3.0, 16.0, 3.0, 13.0, 17.0, 13.0)
+		box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0),
+		box(3.0, 16.0, 3.0, 13.0, 17.0, 13.0)
 	).optimize();
 
 	public AltarCatalyzerBlock(Properties settings) {

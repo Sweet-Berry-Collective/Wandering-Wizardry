@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.content.block.redstone;
 
 import com.mojang.serialization.MapCodec;
-import dev.sweetberry.wwizardry.content.block.altar.entity.LogicGateBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.LogicGateBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.state.properties.ComparatorMode;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.ticks.TickPriority;
-import java.util.function.Function;
 
 public class LogicGateBlock extends DiodeBlock implements EntityBlock {
 	public static final EnumProperty<ComparatorMode> MODE = BlockStateProperties.MODE_COMPARATOR;

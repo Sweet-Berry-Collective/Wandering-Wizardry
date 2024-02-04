@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.fabric.mixin;
+package dev.sweetberry.wwizardry.mixin;
 
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.crafting.Ingredient;

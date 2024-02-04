@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.fabric.mixin;
+package dev.sweetberry.wwizardry.mixin;
 
 import dev.sweetberry.wwizardry.content.block.Sculkable;
 import net.minecraft.core.BlockPos;
@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.MultifaceSpreader;
 import net.minecraft.world.level.block.SculkVeinBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,7 +35,7 @@ public class Mixin_MultifaceSpreader_DefaultSpreaderConfig {
 		var state = view.getBlockState(placement.pos());
 		if (!(state.getBlock() instanceof Sculkable))
 			return;
-		cir.setReturnValue(!state.getValue(BlockInitializer.SCULK_INFESTED));
+		cir.setReturnValue(!state.getValue(Sculkable.SCULK_INFESTED));
 	}
 
 	@Inject(at = @At("HEAD"), method = "getStateForPlacement", cancellable = true)
@@ -46,6 +45,6 @@ public class Mixin_MultifaceSpreader_DefaultSpreaderConfig {
 		var trueState = view.getBlockState(pos);
 		if (!(trueState.getBlock() instanceof Sculkable))
 			return;
-		cir.setReturnValue(trueState.setValue(BlockInitializer.SCULK_INFESTED, true));
+		cir.setReturnValue(trueState.setValue(Sculkable.SCULK_INFESTED, true));
 	}
 }

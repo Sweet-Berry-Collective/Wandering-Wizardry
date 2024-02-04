@@ -3,7 +3,7 @@ package dev.sweetberry.wwizardry.content.recipe;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;

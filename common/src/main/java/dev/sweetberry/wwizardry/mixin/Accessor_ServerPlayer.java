@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.fabric.mixin;
+package dev.sweetberry.wwizardry.mixin;
 
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,8 +1,7 @@
-package dev.sweetberry.wwizardry.content.block.altar.entity;
+package dev.sweetberry.wwizardry.content.block.entity;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -16,7 +15,10 @@ import org.joml.Vector3f;
 import java.util.Optional;
 
 public class AltarPedestalBlockEntity extends AltarBlockEntity {
-	public static final BlockEntityType<AltarPedestalBlockEntity> TYPE = FabricBlockEntityTypeBuilder.create(AltarPedestalBlockEntity::new, AltarPedestalBlock.INSTANCE).build();
+	public static final BlockEntityType<AltarPedestalBlockEntity> TYPE = BlockEntityType.Builder.of(
+		AltarPedestalBlockEntity::new,
+		AltarPedestalBlock.INSTANCE
+	).build(null);
 
 	public Vector3f particlePos;
 	public int particleX;

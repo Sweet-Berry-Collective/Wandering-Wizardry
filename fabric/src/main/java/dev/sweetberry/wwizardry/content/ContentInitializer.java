@@ -26,8 +26,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 
 public class ContentInitializer {
 	public static void init() {
-		listenToAll(Registry::register);
-
 		BlockInitializer.init();
 		ItemInitializer.init();
 		DatagenInitializer.init();

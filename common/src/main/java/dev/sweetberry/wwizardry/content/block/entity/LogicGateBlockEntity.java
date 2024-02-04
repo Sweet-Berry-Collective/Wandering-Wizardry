@@ -1,7 +1,5 @@
-package dev.sweetberry.wwizardry.content.block.altar.entity;
+package dev.sweetberry.wwizardry.content.block.entity;
 
-import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -10,11 +8,10 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class LogicGateBlockEntity extends BlockEntity {
 	public static final BlockEntityType<LogicGateBlockEntity> TYPE =
-		FabricBlockEntityTypeBuilder
-			.create(
-				LogicGateBlockEntity::new,
-				BlockInitializer.MODULO_COMPARATOR
-			).build();
+		BlockEntityType.Builder
+			.of(
+				LogicGateBlockEntity::new
+			).build(null);
 
 	private int outputSignal = 0;
 

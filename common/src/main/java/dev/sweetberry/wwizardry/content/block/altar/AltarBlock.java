@@ -1,9 +1,8 @@
 package dev.sweetberry.wwizardry.content.block.altar;
 
 import com.mojang.serialization.MapCodec;
-import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.Sculkable;
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.AltarBlockEntity;
 import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,12 +40,19 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.function.Function;
 
 public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityBlock implements SimpleWaterloggedBlock, SculkBehaviour, Sculkable {
+	public static final VoxelShape ALTAR_BASE_SHAPE = Shapes.or(
+		Block.box(2.0, 0.0, 2.0, 14.0, 2.0, 14.0),
+		Block.box(4.0, 2.0, 4.0, 12.0, 15.0, 12.0)
+	).optimize();
+
 	private final MapCodec<AltarBlock<T>> codec;
 
 	protected AltarBlock(Properties settings) {
@@ -54,8 +60,8 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 		registerDefaultState(
 				defaultBlockState()
 						.setValue(BlockStateProperties.WATERLOGGED, false)
-						.setValue(BlockInitializer.SCULK_INFESTED, false)
-						.setValue(BlockInitializer.SCULK_BELOW, false)
+						.setValue(Sculkable.SCULK_INFESTED, false)
+						.setValue(Sculkable.SCULK_BELOW, false)
 		);
 		codec = BlockBehaviour.simpleCodec(settings1 -> AltarBlock.this);
 	}
@@ -136,12 +142,12 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 
 	@Override
 	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-		return state.setValue(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.below()));
+		return state.setValue(Sculkable.SCULK_BELOW, Sculkable.testForSculk(world, pos.below()));
 	}
 
 	@Override
 	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-		world.setBlockAndUpdate(pos, state.setValue(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.below())));
+		world.setBlockAndUpdate(pos, state.setValue(Sculkable.SCULK_BELOW, Sculkable.testForSculk(world, pos.below())));
 		if (isComplete(world, state, pos) && placer instanceof ServerPlayer serverPlayerEntity)
 			CriterionInitializer.COMPLETE_ALTAR.trigger(serverPlayerEntity);
 	}
@@ -164,7 +170,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(BlockStateProperties.WATERLOGGED, BlockInitializer.SCULK_INFESTED, BlockInitializer.SCULK_BELOW);
+		builder.add(BlockStateProperties.WATERLOGGED, Sculkable.SCULK_INFESTED, Sculkable.SCULK_BELOW);
 	}
 
 	@Nullable
@@ -209,15 +215,15 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 		var posDown = pos.below();
 		var stateDown = world.getBlockState(posDown);
 
-		if (!state.getValue(BlockInitializer.SCULK_INFESTED)) {
-			world.setBlock(pos, state.setValue(BlockInitializer.SCULK_INFESTED, true).setValue(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.below())), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
+		if (!state.getValue(Sculkable.SCULK_INFESTED)) {
+			world.setBlock(pos, state.setValue(Sculkable.SCULK_INFESTED, true).setValue(Sculkable.SCULK_BELOW, Sculkable.testForSculk(world, pos.below())), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
 			world.playSound(null, pos, SoundEvents.SCULK_BLOCK_SPREAD, SoundSource.BLOCKS, 1, 1);
 			return true;
 		}
 
-		if (!state.getValue(BlockInitializer.SCULK_BELOW) && stateDown.is(BlockTags.SCULK_REPLACEABLE)) {
+		if (!state.getValue(Sculkable.SCULK_BELOW) && stateDown.is(BlockTags.SCULK_REPLACEABLE)) {
 			world.setBlock(posDown, Blocks.SCULK.defaultBlockState(), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
-			world.setBlock(pos, state.setValue(BlockInitializer.SCULK_BELOW, true), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
+			world.setBlock(pos, state.setValue(Sculkable.SCULK_BELOW, true), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
 			world.playSound(null, pos, SoundEvents.SCULK_BLOCK_SPREAD, SoundSource.BLOCKS, 1, 1);
 			return true;
 		}
@@ -230,7 +236,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 		var state = world.getBlockState(pos);
 		var stateDown = world.getBlockState(pos.below());
 		if (stateDown.getBlock() == Blocks.SCULK || stateDown.getBlock() == Blocks.AIR) {
-			world.setBlock(pos, state.setValue(BlockInitializer.SCULK_BELOW, true), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
+			world.setBlock(pos, state.setValue(Sculkable.SCULK_BELOW, true), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
 		}
 		return charge.getCharge();
 	}

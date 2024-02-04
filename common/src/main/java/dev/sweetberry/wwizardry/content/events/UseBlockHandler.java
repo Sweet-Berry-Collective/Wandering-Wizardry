@@ -17,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
-import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 
 public class UseBlockHandler {
 	public static InteractionResult onBlockUse(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
@@ -34,19 +33,19 @@ public class UseBlockHandler {
 			var test = testPos(pos, state, player, world, hand, stack);
 			if (test != InteractionResult.PASS) return test;
 		}
-		if (state.hasProperty(BlockInitializer.SCULK_INFESTED) && !isBasicallySneaking) return InteractionResult.PASS;
+		if (state.hasProperty(Sculkable.SCULK_INFESTED) && !isBasicallySneaking) return InteractionResult.PASS;
 		var hitPos = pos.relative(hitResult.getDirection());
 		var hitState = world.getBlockState(hitPos);
 		return testPos(hitPos, hitState, player, world, hand, stack);
 	}
 
 	public static InteractionResult testPos(BlockPos pos, BlockState state, Player player, Level world, InteractionHand hand, ItemStack stack) {
-		if (!state.hasProperty(BlockInitializer.SCULK_INFESTED)) return InteractionResult.PASS;
+		if (!state.hasProperty(Sculkable.SCULK_INFESTED)) return InteractionResult.PASS;
 
-		boolean isInfested = state.getValue(BlockInitializer.SCULK_INFESTED);
+		boolean isInfested = state.getValue(Sculkable.SCULK_INFESTED);
 
 		if (stack.getItem() instanceof ShearsItem && isInfested) {
-			world.setBlockAndUpdate(pos, state.setValue(BlockInitializer.SCULK_INFESTED, false));
+			world.setBlockAndUpdate(pos, state.setValue(Sculkable.SCULK_INFESTED, false));
 			if (player instanceof ServerPlayer serverPlayer) {
 				CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
 			}
@@ -60,7 +59,7 @@ public class UseBlockHandler {
 			world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(state));
 			return InteractionResult.SUCCESS;
 		} else if (stack.getItem() == Items.SCULK_VEIN && !isInfested) {
-			world.setBlockAndUpdate(pos, state.setValue(BlockInitializer.SCULK_INFESTED, true));
+			world.setBlockAndUpdate(pos, state.setValue(Sculkable.SCULK_INFESTED, true));
 			if (player instanceof ServerPlayer serverPlayer) {
 				CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
 			}

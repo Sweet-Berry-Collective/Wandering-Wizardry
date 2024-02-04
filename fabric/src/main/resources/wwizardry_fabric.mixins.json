@@ -4,16 +4,10 @@
   "package": "dev.sweetberry.wwizardry.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "Accessor_PotionBrewing_Mix",
-    "Accessor_ServerPlayer",
-    "Accessor_StructureProcessor",
-    "Accessor_TorchBlock",
     "Mixin_ItemEntity",
-    "Mixin_MultifaceSpreader_DefaultSpreaderConfig",
     "Mixin_Player",
     "Mixin_RedStoneWireBlock",
     "Mixin_ReloadableResourceManager",
-    "Mixin_SculkVeinBlock_SculkVeinSpreaderConfig",
     "Mixin_StructureTemplate"
   ],
   "injectors": {

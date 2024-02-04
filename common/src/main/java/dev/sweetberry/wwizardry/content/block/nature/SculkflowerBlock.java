@@ -1,6 +1,5 @@
 package dev.sweetberry.wwizardry.content.block.nature;
 
-import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.Sculkable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,13 +26,13 @@ public class SculkflowerBlock extends FlowerBlock implements Sculkable, SculkBeh
 
 	public SculkflowerBlock(MobEffect suspiciousStewEffect, int effectDuration, Properties settings) {
 		super(suspiciousStewEffect, effectDuration, settings);
-		registerDefaultState(defaultBlockState().setValue(BlockInitializer.SCULK_INFESTED, false));
+		registerDefaultState(defaultBlockState().setValue(Sculkable.SCULK_INFESTED, false));
 	}
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		super.createBlockStateDefinition(builder);
-		builder.add(BlockInitializer.SCULK_BELOW);
-		builder.add(BlockInitializer.SCULK_INFESTED);
+		builder.add(Sculkable.SCULK_BELOW);
+		builder.add(Sculkable.SCULK_INFESTED);
 	}
 
 	@Override
@@ -45,12 +44,12 @@ public class SculkflowerBlock extends FlowerBlock implements Sculkable, SculkBeh
 	public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
 		var sup = super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 		if (sup.isAir()) return sup;
-		return sup.setValue(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.below()));
+		return sup.setValue(Sculkable.SCULK_BELOW, Sculkable.testForSculk(world, pos.below()));
 	}
 
 	@Override
 	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-		world.setBlockAndUpdate(pos, state.setValue(BlockInitializer.SCULK_BELOW, BlockInitializer.testForSculk(world, pos.below())));
+		world.setBlockAndUpdate(pos, state.setValue(Sculkable.SCULK_BELOW, Sculkable.testForSculk(world, pos.below())));
 	}
 
 	@Override
@@ -63,7 +62,7 @@ public class SculkflowerBlock extends FlowerBlock implements Sculkable, SculkBeh
 		var state = world.getBlockState(pos);
 		var stateDown = world.getBlockState(pos.below());
 		if (stateDown.getBlock() == Blocks.SCULK || stateDown.getBlock() == Blocks.AIR) {
-			world.setBlock(pos, state.setValue(BlockInitializer.SCULK_BELOW, true), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
+			world.setBlock(pos, state.setValue(Sculkable.SCULK_BELOW, true), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
 		}
 		return charge.getCharge();
 	}

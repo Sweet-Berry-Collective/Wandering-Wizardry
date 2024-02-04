@@ -1,7 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.altar;
 
-import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarPedestalBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.AltarPedestalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
@@ -27,32 +26,32 @@ public class AltarPedestalBlock extends AltarBlock<AltarPedestalBlockEntity> {
 	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK));
 	public static final BlockItem ITEM = new BlockItem(INSTANCE, new Item.Properties());
 	public static final VoxelShape NORTH_SHAPE = Shapes.or(
-			BlockInitializer.ALTAR_BASE_SHAPE,
+		AltarBlock.ALTAR_BASE_SHAPE,
 
-			box(0.0, 11.0, 10.0, 16.0, 15.0, 16.0),
-			box(0.0, 13.0, 5.0, 16.0, 17.0, 11.0),
-			box(0.0, 15.0, 0.0, 16.0, 19.0, 6.0)
+		box(0.0, 11.0, 10.0, 16.0, 15.0, 16.0),
+		box(0.0, 13.0, 5.0, 16.0, 17.0, 11.0),
+		box(0.0, 15.0, 0.0, 16.0, 19.0, 6.0)
 	).optimize();
 	public static final VoxelShape SOUTH_SHAPE = Shapes.or(
-			BlockInitializer.ALTAR_BASE_SHAPE,
+		AltarBlock.ALTAR_BASE_SHAPE,
 
-			box(0.0, 11.0, 0.0, 16.0, 15.0, 6.0),
-			box(0.0, 13.0, 5.0, 16.0, 17.0, 11.0),
-			box(0.0, 15.0, 10.0, 16.0, 19.0, 16.0)
+		box(0.0, 11.0, 0.0, 16.0, 15.0, 6.0),
+		box(0.0, 13.0, 5.0, 16.0, 17.0, 11.0),
+		box(0.0, 15.0, 10.0, 16.0, 19.0, 16.0)
 	).optimize();
 	public static final VoxelShape EAST_SHAPE = Shapes.or(
-			BlockInitializer.ALTAR_BASE_SHAPE,
+		AltarBlock.ALTAR_BASE_SHAPE,
 
-			box(0.0, 11.0, 0.0, 6.0, 15.0, 16.0),
-			box(5.0, 13.0, 0.0, 11.0, 17.0, 16.0),
-			box(10.0, 15.0, 0.0, 16.0, 19.0, 16.0)
+		box(0.0, 11.0, 0.0, 6.0, 15.0, 16.0),
+		box(5.0, 13.0, 0.0, 11.0, 17.0, 16.0),
+		box(10.0, 15.0, 0.0, 16.0, 19.0, 16.0)
 	).optimize();
 	public static final VoxelShape WEST_SHAPE = Shapes.or(
-			BlockInitializer.ALTAR_BASE_SHAPE,
+		AltarBlock.ALTAR_BASE_SHAPE,
 
-			box(10.0, 11.0, 0.0, 16.0, 15.0, 16.0),
-			box(5.0, 13.0, 0.0, 11.0, 17.0, 16.0),
-			box(0.0, 15.0, 0.0, 6.0, 19.0, 16.0)
+		box(10.0, 11.0, 0.0, 16.0, 15.0, 16.0),
+		box(5.0, 13.0, 0.0, 11.0, 17.0, 16.0),
+		box(0.0, 15.0, 0.0, 6.0, 19.0, 16.0)
 	).optimize();
 
 

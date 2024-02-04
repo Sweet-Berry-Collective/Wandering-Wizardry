@@ -2,8 +2,8 @@ package dev.sweetberry.wwizardry.client.content.events;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.fabric.client.FabricClientInitializer;
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarCatalyzerBlockEntity;
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarPedestalBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.AltarPedestalBlockEntity;
 import dev.sweetberry.wwizardry.client.render.blockentity.AltarCatalyzerBlockEntityRenderer;
 import dev.sweetberry.wwizardry.client.render.blockentity.AltarPedestalBlockEntityRenderer;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;

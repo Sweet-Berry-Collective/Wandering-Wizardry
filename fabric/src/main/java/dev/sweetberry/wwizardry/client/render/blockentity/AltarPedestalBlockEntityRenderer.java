@@ -3,7 +3,7 @@ package dev.sweetberry.wwizardry.client.render.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
-import dev.sweetberry.wwizardry.content.block.altar.entity.AltarPedestalBlockEntity;
+import dev.sweetberry.wwizardry.content.block.entity.AltarPedestalBlockEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
