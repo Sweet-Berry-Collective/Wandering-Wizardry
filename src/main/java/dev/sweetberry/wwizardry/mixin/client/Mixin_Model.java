@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.mixin.client;
 
 import dev.sweetberry.wwizardry.Mod;
+import dev.sweetberry.wwizardry.client.content.AnimatedTextureMap;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -24,21 +25,8 @@ public abstract class Mixin_Model {
 		cancellable = true
 	)
 	private void wwizardry$checkEntityTextures(ResourceLocation old, CallbackInfoReturnable<RenderType> cir) {
-		if (!old.getNamespace().equals(Mod.MODID))
-			return;
-		if (!old.getPath().startsWith("textures/entity"))
-			return;
-
-		cir.setReturnValue(
-			renderType(
-				Mod.id(
-					old.getPath()
-						.replace(
-							"textures",
-							"textures/wwizardry_animated"
-						)
-				)
-			)
-		);
+		var _new = old.withPath(old.getPath().replaceFirst("^textures", "textures/wwizardry_animated"));
+		if (AnimatedTextureMap.ANIMATED_TEXTURES.contains(_new))
+			cir.setReturnValue(renderType(_new));
 	}
 }

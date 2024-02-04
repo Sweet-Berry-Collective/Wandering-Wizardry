@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.client.content.events;
 
 import dev.sweetberry.wwizardry.Mod;
+import dev.sweetberry.wwizardry.client.content.AnimatedTextureMap;
 import dev.sweetberry.wwizardry.client.render.texture.AnimatedTexture;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.client.Minecraft;
@@ -31,8 +32,11 @@ public class PackReloader extends SimplePreparableReloadListener<Set<ResourceLoc
 
 	@Override
 	protected void apply(Set<ResourceLocation> textures, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
-		TextureManager textureManager = Minecraft.getInstance().getTextureManager();
-		for (ResourceLocation texture : textures)
+		AnimatedTextureMap.ANIMATED_TEXTURES.clear();
+		var textureManager = Minecraft.getInstance().getTextureManager();
+		for (ResourceLocation texture : textures) {
 			textureManager.register(texture, new AnimatedTexture(texture));
+			AnimatedTextureMap.ANIMATED_TEXTURES.add(texture);
+		}
 	}
 }
