@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.fabric.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.sweetberry.wwizardry.fabric.client.FabricClientInitializer;
+import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
@@ -31,12 +31,12 @@ public abstract class Mixin_ItemInHandRenderer {
 			|| player.getUseItemRemainingTicks() <= 0
 			|| player.getUsedItemHand() != hand
 		) {
-			FabricClientInitializer.useItemTick = -1;
+			WanderingWizardryClient.useItemTick = -1;
 			return;
 		}
 
-		if (FabricClientInitializer.useItemTick == -1)
-			FabricClientInitializer.useItemTick = FabricClientInitializer.tickCounter;
+		if (WanderingWizardryClient.useItemTick == -1)
+			WanderingWizardryClient.useItemTick = WanderingWizardryClient.tickCounter;
 
 		HumanoidArm arm = (hand == InteractionHand.MAIN_HAND) ? player.getMainArm() : player.getMainArm().getOpposite();
 
@@ -48,7 +48,7 @@ public abstract class Mixin_ItemInHandRenderer {
 			-0.7f
 		);
 
-		int timeSinceUse = FabricClientInitializer.tickCounter - FabricClientInitializer.useItemTick;
+		int timeSinceUse = WanderingWizardryClient.tickCounter - WanderingWizardryClient.useItemTick;
 
 		float time = (float)timeSinceUse + tickDelta;
 

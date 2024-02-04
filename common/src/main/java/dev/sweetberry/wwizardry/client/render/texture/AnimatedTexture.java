@@ -8,13 +8,11 @@ import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.SpriteTicker;
 import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.client.resources.metadata.animation.AnimationMetadataSection;
-import net.minecraft.client.resources.metadata.animation.FrameSize;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceMetadata;
 
 import java.io.IOException;
-
 
 public class AnimatedTexture extends AbstractTexture implements Tickable {
 	public final ResourceLocation texture;

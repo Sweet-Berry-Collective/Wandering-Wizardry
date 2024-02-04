@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.client.render.blockentity;
 
+import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.content.block.entity.AltarBlockEntity;
-import dev.sweetberry.wwizardry.fabric.client.FabricClientInitializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -40,8 +40,8 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 			drawEndCrystal(entity, tickDelta, matrices, vertexConsumers, light);
 		} else {
 			if (shouldHover)
-				matrices.translate(0, Math.sin((FabricClientInitializer.tickCounter + tickDelta) / 16 + entity.rand) * 0.03125, 0);
-			matrices.mulPose(Axis.YN.rotationDegrees((FabricClientInitializer.tickCounter + tickDelta) / 2));
+				matrices.translate(0, Math.sin((WanderingWizardryClient.tickCounter + tickDelta) / 16 + entity.rand) * 0.03125, 0);
+			matrices.mulPose(Axis.YN.rotationDegrees((WanderingWizardryClient.tickCounter + tickDelta) / 2));
 
 			drawItem(entity, matrices, vertexConsumers, light);
 		}
@@ -55,7 +55,7 @@ public interface AltarBlockEntityRenderer<T extends AltarBlockEntity> extends Bl
 		if (endCrystalEntity == null)
 			return;
 
-		endCrystalEntity.time = FabricClientInitializer.tickCounter;
+		endCrystalEntity.time = WanderingWizardryClient.tickCounter;
 
 		context().getEntityRenderer().getRenderer(endCrystalEntity).render(endCrystalEntity, 0, tickDelta, matrices, vertexConsumers, light);
 	}

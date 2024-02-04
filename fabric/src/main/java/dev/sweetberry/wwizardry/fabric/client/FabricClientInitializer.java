@@ -8,9 +8,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 
 public class FabricClientInitializer implements ClientModInitializer {
-	public static int tickCounter = 0;
-	public static int useItemTick = -1;
-
 	@Override
 	public void onInitializeClient() {
 		WanderingWizardryClient.init();

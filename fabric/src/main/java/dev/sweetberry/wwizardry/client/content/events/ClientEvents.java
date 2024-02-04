@@ -1,7 +1,7 @@
 package dev.sweetberry.wwizardry.client.content.events;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
-import dev.sweetberry.wwizardry.fabric.client.FabricClientInitializer;
+import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.content.block.entity.AltarPedestalBlockEntity;
 import dev.sweetberry.wwizardry.client.render.blockentity.AltarCatalyzerBlockEntityRenderer;
@@ -9,7 +9,7 @@ import dev.sweetberry.wwizardry.client.render.blockentity.AltarPedestalBlockEnti
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.event.client.ItemTooltipCallback;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -34,7 +34,7 @@ public class ClientEvents {
 			ModelPredicates::getSoulMirror
 		);
 
-		ClientTickEvents.END_CLIENT_TICK.register(client -> FabricClientInitializer.tickCounter++);
+		ClientTickEvents.END_CLIENT_TICK.register(client -> WanderingWizardryClient.tickCounter++);
 
 		ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new PackReloader());
 	}
