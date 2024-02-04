@@ -3,10 +3,11 @@ package dev.sweetberry.wwizardry.content.recipe;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
-import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
-import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -23,20 +24,22 @@ public record AltarCatalyzationRecipe(
 		ItemStack result,
 		boolean keepCatalyst,
 		int bloom
-) implements Recipe<AltarCatalyzerBlockEntity>, AltarCraftable {
+) implements Recipe<AltarRecipeView>, AltarCraftable {
+	public static final TagKey<Item> ALTAR_AIR_MODIFIER = TagKey.create(Registries.ITEM, WanderingWizardry.id("altar_air_modifier"));
+
 	public static final IdentifiableRecipeType<AltarCatalyzationRecipe> TYPE = new IdentifiableRecipeType<>(WanderingWizardry.id("altar_catalyzation"));
 
 	@Override
-	public boolean matches(AltarCatalyzerBlockEntity inventory, Level world) {
-		if (!catalyst.test(inventory.heldItem)) return false;
+	public boolean matches(AltarRecipeView inventory, Level world) {
+		if (!catalyst.test(inventory.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER))) return false;
 		var met = new boolean[]{false, false, false, false};
-		var neighbors = inventory.getNeighbors();
+		var neighbors = inventory.getOuterItems();
 		for (var neighbor : neighbors) {
 			for (var j = 0; j < 4; j++) {
-				var isSlotCharm = neighbor.heldItem.getItem() == ItemInitializer.SLOT_CHARM;
+				var isSlotCharm = neighbor.is(ALTAR_AIR_MODIFIER);
 				if (!met[j]) {
 					met[j] = inputs.size() > j
-						? inputs.get(j).test(neighbor.heldItem) || (isSlotCharm && inputs.get(j).test(ItemStack.EMPTY))
+						? inputs.get(j).test(neighbor) || (isSlotCharm && inputs.get(j).test(ItemStack.EMPTY))
 						: isSlotCharm;
 					if (met[j]) j = 5;
 				}
@@ -50,7 +53,7 @@ public record AltarCatalyzationRecipe(
 	}
 
 	@Override
-	public ItemStack assemble(AltarCatalyzerBlockEntity container, RegistryAccess registryAccess) {
+	public ItemStack assemble(AltarRecipeView container, RegistryAccess registryAccess) {
 		return result.copy();
 	}
 
@@ -65,7 +68,6 @@ public record AltarCatalyzationRecipe(
 		list.addAll(inputs);
 		return list;
 	}
-
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
@@ -92,16 +94,8 @@ public record AltarCatalyzationRecipe(
 				view.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER)
 			);
 		else
-			view.setResultInPedestal(
-				AltarRecipeView.AltarDirection.CENTER,
-				view.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER).getRecipeRemainder()
-			);
-		for (var dir : AltarRecipeView.AltarDirection.cardinals()) {
-			view.setResultInPedestal(
-				dir,
-				view.getItemInPedestal(dir).getRecipeRemainder()
-			);
-		}
+			view.keepCenter();
+		view.setCardinalsAsRemainders();
 		return true;
 	}
 }

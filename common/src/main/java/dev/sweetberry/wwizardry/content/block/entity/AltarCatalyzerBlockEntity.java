@@ -14,6 +14,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -30,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
-
 	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = BlockEntityType.Builder.of(
 		AltarCatalyzerBlockEntity::new,
 		AltarCatalyzerBlock.INSTANCE
@@ -47,7 +47,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void startCrafting(AltarRecipeView recipe) {
-		var bloomMultiplier = level.getGameRules().getRule(GameruleInitializer.ALTAR_SCULK_SPREAD_MULTIPLIER).get();
+		var bloomMultiplier = GameruleInitializer.getAltarSpreadMultiplier(level);
 		bloom = (int) Math.floor(recipe.getBloom() * bloomMultiplier);
 		result = recipe.getRecipeResult();
 		for (var neighbor : getNeighbors())
@@ -71,7 +71,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 				.anyMatch(it -> it.heldItem.isEmpty())
 		) return;
 
-		var optional = level.getRecipeManager().getRecipeFor(AltarCatalyzationRecipe.TYPE, this, level);
+		var optional = level.getRecipeManager().getRecipeFor(AltarCatalyzationRecipe.TYPE, view, level);
 
 		if (optional.isPresent()) {
 			optional.get().value().tryCraft(view, level);
@@ -257,6 +257,49 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		@Override
 		public int getBloom() {
 			return bloom;
+		}
+
+		@Override
+		public int getContainerSize() {
+			return 5;
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return false;
+		}
+
+		@Override
+		public ItemStack getItem(int i) {
+			return getItemInPedestal(AltarDirection.values()[i]);
+		}
+
+		@Override
+		public ItemStack removeItem(int i, int j) {
+			return null;
+		}
+
+		@Override
+		public ItemStack removeItemNoUpdate(int i) {
+			return null;
+		}
+
+		@Override
+		public void setItem(int i, ItemStack itemStack) {
+			setResultInPedestal(AltarDirection.values()[i], itemStack);
+		}
+
+		@Override
+		public void setChanged() {}
+
+		@Override
+		public boolean stillValid(Player player) {
+			return true;
+		}
+
+		@Override
+		public void clearContent() {
+
 		}
 	}
 }

@@ -1,10 +1,11 @@
 package dev.sweetberry.wwizardry.content.item;
 
-import com.terraformersmc.terraform.boat.api.TerraformBoatType;
-import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.registry.RegistryContext;
-import dev.sweetberry.wwizardry.content.block.*;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
+import dev.sweetberry.wwizardry.content.block.CameraBlock;
+import dev.sweetberry.wwizardry.content.block.CrystalSculkBlock;
+import dev.sweetberry.wwizardry.content.block.WallHolderBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
@@ -12,10 +13,8 @@ import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
 import dev.sweetberry.wwizardry.content.item.charm.BrewingCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.CraftingCharmItem;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -205,15 +204,6 @@ public class ItemInitializer {
 		)
 	);
 
-	public static final CreativeModeTab GROUP = registerTab(
-		"items",
-		FabricItemGroup.builder()
-			.icon(CRYSTALLINE_SCULK_SHARD::getDefaultInstance)
-			.displayItems((display, collector) -> collector.acceptAll(STACKS))
-			.title(Component.translatable("itemGroup.wwizardry.items"))
-			.build()
-	);
-
 	public static void init() {
 		registerItem("void_bag", VoidBagItem.INSTANCE);
 		registerItem("soul_mirror", SoulMirrorItem.INSTANCE);
@@ -227,10 +217,10 @@ public class ItemInitializer {
 		return ITEMS.register(WanderingWizardry.id(id), item);
 	}
 
-	public static Item registerBoatItem(String id, ResourceKey<TerraformBoatType> boatTypeKey, boolean chest, Item.Properties itemSettings) {
+	public static Item registerBoatItem(String id, ResourceLocation type, boolean chest, Item.Properties itemSettings) {
 		// TODO: Replace this with an in-house thing
-		var item = registerItem(id, new ModdedBoatItem(boatTypeKey, chest, itemSettings));
-		TerraformBoatItemHelper.registerBoatDispenserBehavior(item, boatTypeKey, chest);
+		var item = registerItem(id, new ModdedBoatItem(type, chest, itemSettings));
+//		TerraformBoatItemHelper.registerBoatDispenserBehavior(item, type, chest);
 		return item;
 	}
 

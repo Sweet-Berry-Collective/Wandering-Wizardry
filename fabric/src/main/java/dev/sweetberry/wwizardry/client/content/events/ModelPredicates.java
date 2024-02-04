@@ -1,11 +1,12 @@
 package dev.sweetberry.wwizardry.client.content.events;
 
-import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagCardinalComponent;
+import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
+import dev.sweetberry.wwizardry.content.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
@@ -17,7 +18,7 @@ public class ModelPredicates {
 			return 0.0f;
 		var nbt = itemStack.getTag();
 		if (nbt != null && nbt.contains("Locked")) return nbt.getBoolean("Locked") ? 1.0f : 0.0f;
-		var bag = VoidBagComponent.getForPlayer(client.player);
+		var bag = ComponentInitializer.<VoidBagComponent>getComponent(ComponentInitializer.VOID_BAG, client.player);
 		return bag.locked ? 1 : 0;
 	}
 

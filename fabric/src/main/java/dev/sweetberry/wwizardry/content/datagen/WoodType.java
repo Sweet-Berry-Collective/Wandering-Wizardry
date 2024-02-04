@@ -1,7 +1,5 @@
 package dev.sweetberry.wwizardry.content.datagen;
 
-import com.terraformersmc.terraform.boat.api.TerraformBoatType;
-import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
 import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
 import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
@@ -14,8 +12,6 @@ import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
@@ -84,10 +80,6 @@ public class WoodType extends AbstractDataGenerator {
 	public final Item SAPLING_ITEM;
 
 	public final boolean fungus;
-
-	public final TerraformBoatType BOAT;
-
-	public final ResourceKey<TerraformBoatType> BOAT_KEY;
 
 	public final Item BOAT_ITEM;
 
@@ -177,10 +169,8 @@ public class WoodType extends AbstractDataGenerator {
 			SAPLING = BlockInitializer.registerBlock(baseName+"_sapling", createSaplingBlock(WanderingWizardry.id(baseName).toString(), baseName, baseName+"_bees"));
 			SAPLING_ITEM = ItemInitializer.registerItem(baseName+"_sapling", new BlockItem(SAPLING, itemSettings));
 
-			BOAT_KEY = TerraformBoatTypeRegistry.createKey(WanderingWizardry.id(baseName));
-			BOAT_ITEM = ItemInitializer.registerBoatItem(baseName+"_boat", BOAT_KEY, false, singleStack);
-			BOAT_CHEST_ITEM = ItemInitializer.registerBoatItem(baseName+"_chest_boat", BOAT_KEY, true, singleStack);
-			BOAT = Registry.register(TerraformBoatTypeRegistry.INSTANCE, BOAT_KEY, new TerraformBoatType.Builder().planks(PLANKS_ITEM).item(BOAT_ITEM).chestItem(BOAT_CHEST_ITEM).build());
+			BOAT_ITEM = ItemInitializer.registerBoatItem(baseName+"_boat", WanderingWizardry.id(baseName), false, singleStack);
+			BOAT_CHEST_ITEM = ItemInitializer.registerBoatItem(baseName+"_chest_boat", WanderingWizardry.id(baseName), true, singleStack);
 		} else {
 			LEAVES = BlockInitializer.registerBlock(baseName+"_wart", new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_WART_BLOCK)));
 			LEAVES_ITEM = ItemInitializer.registerItem(baseName+"_wart", new BlockItem(LEAVES, itemSettings));
@@ -188,10 +178,8 @@ public class WoodType extends AbstractDataGenerator {
 			SAPLING = BlockInitializer.registerBlock(baseName+"_fungus", createFungusBlock(baseName, fungusBaseBlock));
 			SAPLING_ITEM = ItemInitializer.registerItem(baseName+"_fungus", new BlockItem(SAPLING, itemSettings));
 
-			BOAT_KEY = null;
 			BOAT_ITEM = null;
 			BOAT_CHEST_ITEM = null;
-			BOAT = null;
 		}
 	}
 

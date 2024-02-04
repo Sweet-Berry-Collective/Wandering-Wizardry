@@ -136,6 +136,10 @@ items {
         "wwizardry:crystalline_sculk"
     ]
 
+    altar_air_modifier [
+        "wwizardry:slot_charm"
+    ]
+
     mossy_materials [
         "moss_block"
         "vine"

@@ -218,6 +218,11 @@
     "music_disc_wandering.desc" = "Moonkey - Wandering"
 }
 
+"boat.wwizardry" {
+    denia = "Denia Boat"
+    denia_chest = "Denia Boat with Chest"
+}
+
 "painting.wwizardry" {
     altar {
         title = "Altar"

@@ -1,12 +1,13 @@
 package dev.sweetberry.wwizardry.client.content.events;
 
-import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagCardinalComponent;
+import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
+import dev.sweetberry.wwizardry.content.component.VoidBagComponent;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -51,7 +52,7 @@ public class ItemTooltipHandler {
 			var player = Minecraft.getInstance().player;
 			if (player == null)
 				return;
-			var bag = VoidBagComponent.getForPlayer(player);
+			var bag = ComponentInitializer.<VoidBagComponent>getComponent(ComponentInitializer.VOID_BAG, player);
 			lines.addAll(
 				1,
 				bag.locked ? VOID_BAG_LOCKED : VOID_BAG_UNLOCKED

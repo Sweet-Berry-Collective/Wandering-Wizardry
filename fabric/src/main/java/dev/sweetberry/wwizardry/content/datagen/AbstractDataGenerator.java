@@ -2,7 +2,6 @@ package dev.sweetberry.wwizardry.content.datagen;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -31,8 +30,7 @@ public abstract class AbstractDataGenerator {
 			throw new RuntimeException(e);
 		}
 		DatagenInitializer.REGISTRY
-			.holders()
-			.map(Holder.Reference::value)
+			.values()
 			.forEach(generator -> generator.onRegisterPack(manager));
 	}
 

@@ -1,13 +1,9 @@
-package dev.sweetberry.wwizardry.compat.cardinal.component;
+package dev.sweetberry.wwizardry.content.component;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
-import dev.sweetberry.wwizardry.compat.cardinal.CardinalInitializer;
+import dev.sweetberry.wwizardry.api.component.Component;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleMenuProvider;
@@ -16,29 +12,24 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class VoidBagComponent implements Container, PlayerComponent<VoidBagComponent>, AutoSyncedComponent {
+public class VoidBagComponent implements Component, Container {
 	public final Player player;
 	public NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
 	public boolean locked = false;
 
-	public VoidBagComponent(Player player) {
-		this.player = player;
-	}
+    public VoidBagComponent(Player player) {
+        this.player = player;
+    }
 
-	@Override
-	public boolean shouldSyncWith(ServerPlayer player) {
-		return this.player.equals(player);
-	}
-
-	@Override
-	public void readFromNbt(CompoundTag tag) {
+    @Override
+	public void fromNbt(CompoundTag tag) {
 		inventory = NonNullList.withSize(27, ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(tag, inventory);
 		locked = tag.getBoolean("Locked");
 	}
 
 	@Override
-	public void writeToNbt(CompoundTag tag) {
+	public void toNbt(CompoundTag tag) {
 		ContainerHelper.saveAllItems(tag, inventory);
 		tag.putBoolean("Locked", locked);
 		ItemStack previewStack = VoidBagItem.INSTANCE.getDefaultInstance();
@@ -46,11 +37,6 @@ public class VoidBagComponent implements Container, PlayerComponent<VoidBagCompo
 		CompoundTag previewCompound = new CompoundTag();
 		previewStack.save(previewCompound);
 		tag.put("PreviewStack", previewCompound);
-	}
-
-	@Override
-	public boolean shouldCopyForRespawn(boolean lossless, boolean keepInventory, boolean sameCharacter) {
-		return true;
 	}
 
 	@Override
@@ -143,12 +129,8 @@ public class VoidBagComponent implements Container, PlayerComponent<VoidBagCompo
 	}
 
 	public void openScreen() {
-		var factory = new SimpleMenuProvider((syncid, inventory, _player) -> ChestMenu.threeRows(syncid, inventory, this), Component.translatable("item.wwizardry.void_bag"));
+		var factory = new SimpleMenuProvider((syncid, inventory, _player) -> ChestMenu.threeRows(syncid, inventory, this), net.minecraft.network.chat.Component.translatable("item.wwizardry.void_bag"));
 
 		player.openMenu(factory);
-	}
-
-	public static VoidBagComponent getForPlayer(Player player) {
-		return player.getComponent(CardinalInitializer.VOID_BAG);
 	}
 }

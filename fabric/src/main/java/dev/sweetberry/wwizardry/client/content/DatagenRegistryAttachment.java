@@ -14,8 +14,7 @@ import net.minecraft.core.Holder;
 public class DatagenRegistryAttachment {
 	public static void init() {
 		DatagenInitializer.REGISTRY
-			.holders()
-			.map(Holder.Reference::value)
+			.values()
 			.forEach(DatagenRegistryAttachment::checkGenerator);
 	}
 
@@ -27,7 +26,6 @@ public class DatagenRegistryAttachment {
 			if (woodType.fungus)
 				return;
 			RenderLayers.put(RenderType.cutout(), woodType.LEAVES);
-			TerraformBoatClientHelper.registerModelLayers(WanderingWizardry.id(woodType.baseName), false);
 		}
 	}
 }

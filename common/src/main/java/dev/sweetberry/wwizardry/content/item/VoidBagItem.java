@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.item;
 
-import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
+import dev.sweetberry.wwizardry.content.component.VoidBagComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -25,7 +26,7 @@ public class VoidBagItem extends Item {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
-		var bag = VoidBagComponent.getForPlayer(user);
+		var bag = ComponentInitializer.<VoidBagComponent>getComponent(ComponentInitializer.VOID_BAG, user);
 		if (user.isShiftKeyDown()) {
 			bag.locked = !bag.locked;
 			if (world.isClientSide)
@@ -47,7 +48,7 @@ public class VoidBagItem extends Item {
 		if (player.level().isClientSide)
 			return true;
 
-		var bag = VoidBagComponent.getForPlayer(player);
+		var bag = ComponentInitializer.<VoidBagComponent>getComponent(ComponentInitializer.VOID_BAG, player);;
 		bag.openScreen();
 
 		return true;

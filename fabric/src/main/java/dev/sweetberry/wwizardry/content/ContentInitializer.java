@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content;
 
 import dev.sweetberry.wwizardry.api.registry.RegistryCallback;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
+import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
 import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import dev.sweetberry.wwizardry.content.events.EventInitializer;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 public class ContentInitializer {
 	public static void init() {
 		BlockInitializer.init();
+		ComponentInitializer.init();
 		ItemInitializer.init();
 		DatagenInitializer.init();
 		WorldgenInitializer.init();

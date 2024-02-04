@@ -1,17 +1,19 @@
 package dev.sweetberry.wwizardry.api.altar;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * A view of the altars state as it tries to craft an item
  * */
-public interface AltarRecipeView {
+public interface AltarRecipeView extends Container {
 	/**
 	 * Gets an item in the referenced pedestal
 	 * Returns null if there's no pedestal
@@ -55,6 +57,15 @@ public interface AltarRecipeView {
 	 * Check if a list of ingredients matches the outer pedestals
 	 * */
 	boolean ingredientsMatch(List<Ingredient> inputs);
+
+	/**
+	 * */
+	default List<ItemStack> getOuterItems() {
+		var out = new ArrayList<ItemStack>();
+		for (var dir : AltarDirection.cardinals())
+			out.add(getItemInPedestal(dir));
+		return out;
+	}
 
 	/**
 	 * Set the cardinal pedestals as the remainder of their held items

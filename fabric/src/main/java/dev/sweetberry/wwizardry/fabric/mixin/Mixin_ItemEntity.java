@@ -1,6 +1,8 @@
 package dev.sweetberry.wwizardry.fabric.mixin;
 
-import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.compat.cardinal.component.VoidBagCardinalComponent;
+import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
+import dev.sweetberry.wwizardry.content.component.VoidBagComponent;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,7 +30,7 @@ public abstract class Mixin_ItemEntity {
 		ordinal = 0
 	)
 	private ItemStack wwizardry$insertVoidBag(ItemStack original, Player player) {
-		var bag = VoidBagComponent.getForPlayer(player);
+		var bag = ComponentInitializer.<VoidBagComponent>getComponent(ComponentInitializer.VOID_BAG, player);
 		var self = (ItemEntity) (Object) this;
 		if (
 			pickupDelay != 0 ||

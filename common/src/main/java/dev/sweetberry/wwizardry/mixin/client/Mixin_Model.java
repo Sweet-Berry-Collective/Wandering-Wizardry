@@ -1,6 +1,7 @@
-package dev.sweetberry.wwizardry.fabric.mixin.client;
+package dev.sweetberry.wwizardry.mixin.client;
 
 import dev.sweetberry.wwizardry.client.content.AnimatedTextureMap;
+import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * A bit of a cheat to redirect all Wandering Wizardry entity textures to the animated folder.
  * */
 @Mixin(Model.class)
-public abstract class Mixin_Model {
+public abstract class  Mixin_Model {
 	@Shadow
 	public abstract RenderType renderType(ResourceLocation resourceLocation);
 

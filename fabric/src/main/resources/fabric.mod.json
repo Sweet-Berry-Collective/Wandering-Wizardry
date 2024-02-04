@@ -51,7 +51,8 @@
   },
   "custom": {
     "cardinal-components": [
-      "wwizardry:void_bag"
+      "wwizardry:void_bag",
+      "wwizardry:boat"
     ]
   }
 }

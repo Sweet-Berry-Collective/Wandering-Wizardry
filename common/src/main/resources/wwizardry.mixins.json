@@ -8,6 +8,7 @@
     "Accessor_ServerPlayer",
     "Accessor_StructureProcessor",
     "Accessor_TorchBlock",
+    "Mixin_Boat",
     "Mixin_Item",
     "Mixin_MappedRegistry",
     "Mixin_MultifaceSpreader_DefaultSpreaderConfig",
@@ -16,5 +17,8 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "client": []
+  "client": [
+    "client.Mixin_BoatRenderer",
+    "client.Mixin_Model"
+  ]
 }
