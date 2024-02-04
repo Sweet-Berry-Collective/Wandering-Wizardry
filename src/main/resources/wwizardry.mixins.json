@@ -8,8 +8,8 @@
     "Accessor_ServerPlayer",
     "Accessor_StructureProcessor",
     "Accessor_TorchBlock",
-    "Mixin_MultifaceSpreader_DefaultSpreaderConfig",
     "Mixin_ItemEntity",
+    "Mixin_MultifaceSpreader_DefaultSpreaderConfig",
     "Mixin_Player",
     "Mixin_RedStoneWireBlock",
     "Mixin_ReloadableResourceManager",
@@ -20,6 +20,7 @@
     "defaultRequire": 1
   },
   "client": [
-    "client.Mixin_ItemInHandRenderer"
+    "client.Mixin_ItemInHandRenderer",
+    "client.Mixin_Model"
   ]
 }

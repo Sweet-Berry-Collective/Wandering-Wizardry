@@ -10,8 +10,10 @@ import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.client.ItemTooltipCallback;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.server.packs.PackType;
 
 public class ClientEvents {
 	public static void init() {
@@ -33,5 +35,7 @@ public class ClientEvents {
 		);
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> ModClient.tickCounter++);
+
+		ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new PackReloader());
 	}
 }

@@ -1,8 +1,10 @@
 package dev.sweetberry.wwizardry.client.render.blockentity;
 
+import dev.sweetberry.wwizardry.Mod;
 import dev.sweetberry.wwizardry.content.block.altar.entity.AltarBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;

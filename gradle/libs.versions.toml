@@ -6,7 +6,6 @@ quilt_loader = "0.23.1"
 fabric_api = "0.95.3+1.20.4"
 
 terraform = "9.0.0"
-moremcmeta = "v1.20.4-4.4.7-fabric"
 terrablender = "1.20.4-3.3.0.12"
 ccapi = "5.4.0"
 
@@ -26,7 +25,6 @@ quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loade
 fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
 
 terraform_wood = { module = "com.terraformersmc.terraform-api:terraform-wood-api-v1", version.ref = "terraform" }
-moremcmeta = { module = "maven.modrinth:moremcmeta", version.ref = "moremcmeta" }
 terrablender = { module = "com.github.glitchfiend:TerraBlender-fabric", version.ref = "terrablender" }
 ccapi_base = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-base", version.ref = "ccapi" }
 ccapi_entity = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-entity", version.ref = "ccapi" }
@@ -41,7 +39,7 @@ suspicious_shapes = { module = "maven.modrinth:suspicious-shapes", version.ref =
 
 # If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
 [bundles]
-include = ["terraform_wood", "moremcmeta", "terrablender", "ccapi_base", "ccapi_entity"]
+include = ["terraform_wood", "terrablender", "ccapi_base", "ccapi_entity"]
 
 compat = ["emi", "modmenu"]
 # compat = ["emi", "arch_ex", "staticdata", "suspicious_shapes", "modmenu"]
