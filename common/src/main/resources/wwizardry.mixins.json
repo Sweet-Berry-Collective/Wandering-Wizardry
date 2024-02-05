@@ -6,6 +6,8 @@
   "mixins": [
     "Accessor_AxeItem",
     "Accessor_BlockEntityType",
+    "Accessor_PlayerRespawnLogic",
+    "Accessor_PotionBrewing",
     "Accessor_PotionBrewing_Mix",
     "Accessor_ServerPlayer",
     "Accessor_StructureProcessor",
@@ -24,7 +26,6 @@
     "defaultRequire": 1
   },
   "client": [
-    "client.Mixin_BoatRenderer",
     "client.Mixin_Model",
     "client.Mixin_SignRenderer",
     "client.Mixin_SignRenderer_HangingSignRenderer"

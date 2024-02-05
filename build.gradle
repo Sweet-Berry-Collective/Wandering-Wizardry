@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	alias libs.plugins.idea.ext
 }
 
 version = "${project.version}+mc.${libs.versions.minecraft.get()}"
@@ -38,7 +39,7 @@ repositories {
 }
 
 def awToAt() {
-	var exec = "deno run -A ${rootProject.rootDir}/scripts/mod.ts aw_to_at ${rootProject.rootDir}/common ${libs.versions.minecraft.get()}".execute()
+	var exec = "deno run -A ${rootProject.rootDir}/scripts/mod.ts aw_to_at ${rootProject.rootDir}/common ${rootProject.rootDir}/neoforge ${libs.versions.minecraft.get()}".execute()
 	println(exec.text)
 }
 
@@ -62,7 +63,7 @@ def loot(String input, String output) {
 tasks.register("generateData") {
 	doFirst {
 		try {
-			generate("lang", "asset`s/wwizardry/lang")
+			generate("lang", "assets/wwizardry/lang")
 			generate("tags", "data")
 			generate("archex", "staticdata/architecture_extensions")
 			loot("basic_block_loot.fennec", "data/wwizardry/loot_tables/blocks")

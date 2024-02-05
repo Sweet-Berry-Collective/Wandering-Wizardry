@@ -1,0 +1,85 @@
+plugins {
+	id 'java'
+	alias libs.plugins.neogradle
+    id 'java-library'
+}
+
+jarJar.enable()
+
+minecraft {
+	accessTransformers {
+		file('src/main/resources/accesstransformer.cfg')
+	}
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+runs {
+	configureEach {
+		modSource project.sourceSets.main
+	}
+
+	data {
+		programArguments.addAll '--mod', project.archives_base_name, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+	}
+
+	client {
+		systemProperty 'neoforge.enabledGameTestNamespaces', project.archives_base_name
+	}
+
+	server {
+		systemProperty 'neoforge.enabledGameTestNamespaces', project.archives_base_name
+		programArgument '--nogui'
+	}
+}
+
+repositories {
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
+	maven {
+		name = "Forge"
+		url = "https://maven.minecraftforge.net/"
+	}
+}
+
+//sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+def classify(module, classifier) {
+	var m = module.get()
+	return "${m.module.group}:${m.module.name}:${m.version}:$classifier"
+}
+
+dependencies {
+	implementation libs.neoforge
+	compileOnly project(":common")
+
+	compileOnly classify(libs.emi.neorofge, "api")
+	runtimeOnly libs.emi.neorofge
+
+	implementation libs.bundles.include.neoforge
+	jarJar libs.bundles.include.neoforge
+}
+
+Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>
+
+tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
+	source(project(":common").sourceSets.main.allSource)
+	it.options.encoding = 'UTF-8'
+	it.options.release = 17
+	dependsOn ":generateData"
+}
+
+tasks.withType(Javadoc).matching(notNeoTask).configureEach {
+	source(project(":common").sourceSets.main.allJava)
+}
+
+processResources {
+	from project(":common").sourceSets.main.resources
+	inputs.property 'version', version
+
+	filesMatching('META-INF/mods.toml') {
+		expand "version": version
+	}
+}

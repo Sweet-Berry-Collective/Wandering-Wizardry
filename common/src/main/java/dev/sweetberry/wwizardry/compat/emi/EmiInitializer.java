@@ -14,6 +14,7 @@ import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
+import dev.sweetberry.wwizardry.mixin.Accessor_PotionBrewing;
 import dev.sweetberry.wwizardry.mixin.Accessor_PotionBrewing_Mix;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -80,10 +81,10 @@ public class EmiInitializer implements EmiPlugin {
 			registry.addRecipe(EmiAltarShapelessRecipe.of(recipe.id(), recipe.value()));
 		}
 
-		for (var ingredient : PotionBrewing.ALLOWED_CONTAINERS) {
+		for (var ingredient : Accessor_PotionBrewing.getAllowedContainers()) {
 			for (var stack : ingredient.getItems()) {
 				var basePath = getPrefixedPathedIdentifier(BuiltInRegistries.ITEM.getKey(stack.getItem()), "altar_brewing");
-				for (PotionBrewing.Mix<Potion> recipe : PotionBrewing.POTION_MIXES) {
+				for (PotionBrewing.Mix<Potion> recipe : Accessor_PotionBrewing.getMixes()) {
 					try {
 						var accessor = (Accessor_PotionBrewing_Mix<Potion>)recipe;
 						var recipeIngredient = accessor.getIngredient();

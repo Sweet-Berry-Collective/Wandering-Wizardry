@@ -3,6 +3,7 @@ package dev.sweetberry.wwizardry.content.events;
 import dev.sweetberry.wwizardry.content.datagen.WallHolderBlockType;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import java.util.Arrays;
+import java.util.function.Supplier;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +16,7 @@ public class RegistryMonitorHandler {
 		"jello"
 	};
 
-	public static void onBlockAdded(Registry<Block> registry, ResourceLocation id, Block block) {
+	public static void onBlockAdded(Registry<Block> registry, ResourceLocation id, Supplier<Block> block) {
 		// Ignore known broken mods. TODO: Make this configurable
 		if (
 			Arrays.stream(modid_exclusions)
@@ -25,7 +26,7 @@ public class RegistryMonitorHandler {
 		)
 			return;
 		if (block instanceof CandleBlock)
-			registerHolderBlock(block, id, WallHolderBlockType.ParentType.CANDLE);
+			registerHolderBlock(block.get(), id, WallHolderBlockType.ParentType.CANDLE);
 		// Blocked out for now, until I can implement them
 //        if (block instanceof TorchBlock)
 //            registerHolderBlock(block, id, ParentType.TORCH, ParentType.TORCH_TOGGLEABLE);

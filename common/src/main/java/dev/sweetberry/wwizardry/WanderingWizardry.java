@@ -13,7 +13,12 @@ public class WanderingWizardry {
 
 	public static Function<String, Boolean> modLoadedCheck;
 
+	public static boolean init = false;
+
 	public static void init() {
+		if (init)
+			return;
+		init = true;
 		WanderingWizardry.LOGGER.info("*tips altar* w'wizardry");
 		ContentInitializer.init();
 	}

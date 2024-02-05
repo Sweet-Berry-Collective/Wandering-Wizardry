@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import dev.sweetberry.wwizardry.content.item.tier.CrystallineSculkTier;
+import dev.sweetberry.wwizardry.mixin.Accessor_PlayerRespawnLogic;
 import dev.sweetberry.wwizardry.mixin.Accessor_ServerPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -330,7 +331,7 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 				int q = (o + n * p) % k;
 				int r = q % (i * 2 + 1);
 				int s = q / (i * 2 + 1);
-				BlockPos blockPos2 = PlayerRespawnLogic.getOverworldRespawnPos(world, blockPos.getX() + r - i, blockPos.getZ() + s - i);
+				BlockPos blockPos2 = Accessor_PlayerRespawnLogic.invokeGetOverworldRespawnPos(world, blockPos.getX() + r - i, blockPos.getZ() + s - i);
 				if (blockPos2 != null) {
 					var box = new AABB(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ(), blockPos2.getX()+1, blockPos2.getY()+2, blockPos2.getZ()+1);
 					if (world.noCollision(box)) {

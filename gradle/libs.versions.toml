@@ -29,9 +29,11 @@ mixin_extras = { module = "io.github.llamalad7:mixinextras-common", version.ref 
 # Common
 terrablender_common = { module = "com.github.glitchfiend:TerraBlender-common", version.ref = "terrablender" }
 terrablender_fabric = { module = "com.github.glitchfiend:TerraBlender-fabric", version.ref = "terrablender" }
+terrablender_neoforge = { module = "com.github.glitchfiend:TerraBlender-neoforge", version.ref = "terrablender" }
 
 emi_common = { module = "dev.emi:emi-xplat-mojmap", version.ref = "emi" }
 emi_fabric = { module = "dev.emi:emi-fabric", version.ref = "emi" }
+emi_neorofge = { module = "dev.emi:emi-neoforge", version.ref = "emi" }
 
 # Neoforge
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
@@ -57,9 +59,13 @@ include_common = ["terrablender_common"]
 
 include_fabric = ["terrablender_fabric", "ccapi_base", "ccapi_entity"]
 
+include_neoforge = ["terrablender_neoforge"]
+
 compat_fabric = ["emi_fabric", "modmenu"]
 # compat = ["emi", "arch_ex", "staticdata", "suspicious_shapes", "modmenu"]
 
 [plugins]
+idea_ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
 loom = { id = "org.quiltmc.loom", version = "1.4.+" }
 vanilla_gradle = { id = "org.spongepowered.gradle.vanilla", version = "0.2.1-SNAPSHOT" }
+neogradle = { id = "net.neoforged.gradle.userdev", version = "7.0.88" }

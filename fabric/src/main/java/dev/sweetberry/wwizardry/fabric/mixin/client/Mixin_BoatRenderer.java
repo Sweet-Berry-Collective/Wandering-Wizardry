@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.mixin.client;
+package dev.sweetberry.wwizardry.fabric.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

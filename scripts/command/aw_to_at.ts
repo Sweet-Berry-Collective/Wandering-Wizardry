@@ -1,11 +1,11 @@
 const input = "/src/main/resources/wwizardry.accesswidener";
-const output = "/src/generated/resources/META-INF/accesstransformer.cfg"
+const output = "/src/main/resources/accesstransformer.cfg"
 
 const base_url = "https://linkieapi.shedaniel.me/api/search?namespace=mojang_srg"
 
-export default async function awToAt(root: string, version: string) {
+export default async function awToAt(inputDir: string, outputDir: string, version: string) {
     const url = base_url + "&version="+version
-    const aw = Deno.readTextFileSync(root+input)
+    const aw = Deno.readTextFileSync(inputDir+input)
         .split("\n")
         .filter((it: string, idx) => idx > 0 && !it.startsWith("#"))
         .map(it => it.split(" "))
@@ -16,7 +16,7 @@ export default async function awToAt(root: string, version: string) {
         out += "\n"
         if (!line[2])
             continue
-        let str = "public "
+        let str = `public${line[1] == "field" ? "-f" : ""} `
         const prefix = line[2].replaceAll("/", ".")
         let add = ""
         switch (line[1]) {
@@ -28,7 +28,7 @@ export default async function awToAt(root: string, version: string) {
                 // Falls through
             case "field": {
                 let name = line[3]
-                
+
                 if (line[3] != "<init>") {
                     const query = url + "&query=" + line[3];
                     console.log(query)
@@ -39,12 +39,12 @@ export default async function awToAt(root: string, version: string) {
                     if (!name)
                         break
                 }
-                
+
                 str += `${prefix} ${name}${add}`
             }
         }
         out += str
     }
-    console.log(root+input + " -> " + root+output)
-    Deno.writeTextFileSync(root+output, out.trim())
+    console.log(inputDir+input + " -> " + outputDir+output)
+    Deno.writeTextFileSync(outputDir+output, out.trim())
 }

@@ -47,7 +47,7 @@ cli.register(
         description: "Generates block state definitions"
     },
     {
-        args: [literal("aw_to_at"), named(Builtin.STRING, "Root"), named(Builtin.STRING, "Version")],
+        args: [literal("aw_to_at"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output"), named(Builtin.STRING, "Version")],
         call: awToAt,
         description: "Transforms accesswidener to accesstransformer"
     }

@@ -1,0 +1,31 @@
+modLoader = "javafml" #mandatory
+loaderVersion = "[2,)" #mandatory
+license = "MPL-with-ARR-assets" # Review your options at https://choosealicense.com/.
+#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+[[mods]] #mandatory
+modId = "wwizardry" #mandatory
+version = "${version}" #mandatory
+displayName = "Wandering Wizardry" #mandatory
+#updateJSONURL="https://change.me.example.invalid/updates.json" #optional (see https://docs.neoforged.net/docs/misc/updatechecker/)
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional (displayed in the mod UI)
+logoFile="assets/wwizardry/icon.png" #optional
+authors = "Sweet Berry Collective" #optional
+description = '''An exploration focused magic mod''' #mandatory (Supports multiline text)
+[[mixins]]
+config = "wwizardry.mixins.json"
+[[mixins]]
+config = "wwizardry_neoforge.mixins.json"
+[[accessTransformers]]
+file="accesstransformer.cfg"
+[[dependencies.wwizardry]] #optional
+modId = "neoforge" #mandatory
+type="required" #mandatory (Can be one of "required", "optional", "incompatible" or "discouraged")
+versionRange = "[2,)" #mandatory
+ordering = "NONE" # The order that this dependency should load in relation to your mod, required to be either 'BEFORE' or 'AFTER' if the dependency is not mandatory
+side = "BOTH" # Side this dependency is applied on - 'BOTH', 'CLIENT' or 'SERVER'
+[[dependencies.wwizardry]]
+modId = "minecraft"
+type="required" #mandatory (Can be one of "required", "optional", "incompatible" or "discouraged")
+versionRange = "[1.20.4,)"
+ordering = "NONE"
+side = "BOTH"

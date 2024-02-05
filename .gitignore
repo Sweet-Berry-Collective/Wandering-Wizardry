@@ -7,7 +7,7 @@ classes/
 # Quilt Loom
 remappedSrc/
 run/
-runs/
+neoforge/runs/
 
 # Eclipse
 *.launch
