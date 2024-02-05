@@ -8,7 +8,6 @@ mixin_extras = "0.3.2"
 
 fabric_api = "0.95.3+1.20.4"
 
-terraform = "9.0.0"
 terrablender = "1.20.4-3.3.0.12"
 ccapi = "5.4.0"
 
@@ -26,18 +25,21 @@ minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 mixin_extras = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixin_extras" }
 
+# Common
+terrablender_common = { module = "com.github.glitchfiend:TerraBlender-common", version.ref = "terrablender" }
+terrablender_fabric = { module = "com.github.glitchfiend:TerraBlender-fabric", version.ref = "terrablender" }
+
+emi_common = { module = "dev.emi:emi-xplat-mojmap", version.ref = "emi" }
+emi_fabric = { module = "dev.emi:emi-fabric", version.ref = "emi" }
+
+# Fabric
 quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
 
 fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
 
-terraform_wood = { module = "com.terraformersmc.terraform-api:terraform-wood-api-v1", version.ref = "terraform" }
-terrablender = { module = "com.github.glitchfiend:TerraBlender-fabric", version.ref = "terrablender" }
 ccapi_base = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-base", version.ref = "ccapi" }
 ccapi_entity = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-entity", version.ref = "ccapi" }
-
-emi = { module = "dev.emi:emi-fabric", version.ref = "emi" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
-
 quilt_resource_loader = { module = "org.quiltmc.qsl.core:resource_loader", version.ref = "qsl" }
 arch_ex = { module = "maven.modrinth:arch-ex", version.ref = "arch_ex" }
 staticdata = { module = "maven.modrinth:static-data", version.ref = "staticdata" }
@@ -47,9 +49,11 @@ suspicious_shapes = { module = "maven.modrinth:suspicious-shapes", version.ref =
 [bundles]
 mixin = ["mixin", "mixin_extras"]
 
-include = ["terraform_wood", "terrablender", "ccapi_base", "ccapi_entity"]
+include_common = ["terrablender_common"]
 
-compat = ["emi", "modmenu"]
+include_fabric = ["terrablender_fabric", "ccapi_base", "ccapi_entity"]
+
+compat_fabric = ["emi_fabric", "modmenu"]
 # compat = ["emi", "arch_ex", "staticdata", "suspicious_shapes", "modmenu"]
 
 [plugins]

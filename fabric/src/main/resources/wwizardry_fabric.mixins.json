@@ -4,16 +4,10 @@
   "package": "dev.sweetberry.wwizardry.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "Mixin_ItemEntity",
-    "Mixin_Player",
-    "Mixin_RedStoneWireBlock",
-    "Mixin_ReloadableResourceManager",
-    "Mixin_StructureTemplate"
+    "Mixin_ReloadableResourceManager"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "client": [
-    "client.Mixin_ItemInHandRenderer"
-  ]
+  "client": []
 }

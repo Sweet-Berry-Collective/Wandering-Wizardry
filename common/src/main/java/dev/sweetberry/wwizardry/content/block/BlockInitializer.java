@@ -13,6 +13,8 @@ import dev.sweetberry.wwizardry.content.block.nature.RootedPlantBlock;
 import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.LogicGateBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
+import dev.sweetberry.wwizardry.mixin.Accessor_AxeItem;
+import dev.sweetberry.wwizardry.mixin.Accessor_BlockEntityType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffects;
@@ -31,6 +33,11 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class BlockInitializer {
 	public static final RegistryContext<Block> BLOCKS = new RegistryContext<>(BuiltInRegistries.BLOCK);
@@ -117,5 +124,42 @@ public class BlockInitializer {
 
 	public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String id, BlockEntityType<T> blockEntity) {
 		return (BlockEntityType<T>) BLOCK_ENTITIES.register(WanderingWizardry.id(id), blockEntity);
+	}
+
+	public static void addSignBlocks(Block... blocks) {
+		addBlocksToType(BlockEntityType.SIGN, blocks);
+	}
+
+	public static void addHangingSignBlocks(Block... blocks) {
+		addBlocksToType(BlockEntityType.HANGING_SIGN, blocks);
+	}
+
+	private static void addBlocksToType(BlockEntityType<?> type, Block... blocks) {
+		var set = getBlocksForType(type);
+		for (var block : blocks)
+			set.add(block);
+	}
+
+	private static Set<Block> getBlocksForType(BlockEntityType<?> oldType) {
+		var type = ((Accessor_BlockEntityType)oldType);
+		var old = type.getValidBlocks();
+		if (old instanceof HashSet<Block>)
+			return old;
+		var out = new HashSet<>(old);
+		type.setValidBlocks(out);
+		return out;
+	}
+
+	public static void addStrippedBlock(Block base, Block stripped) {
+		getSrippedBlocks().put(base, stripped);
+	}
+
+	private static Map<Block, Block> getSrippedBlocks() {
+		var old = Accessor_AxeItem.getStrippedBlocks();
+		if (old instanceof HashMap<Block, Block>)
+			return old;
+		var map = new HashMap<>(old);
+		Accessor_AxeItem.setStrippedBlocks(map);
+		return map;
 	}
 }

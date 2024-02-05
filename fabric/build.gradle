@@ -58,14 +58,14 @@ dependencies {
 	modImplementation libs.quilt.loader
 	modImplementation libs.fabric.api
 
-	modImplementation libs.bundles.include
-	include libs.bundles.include
+	modImplementation libs.bundles.include.fabric
+	include libs.bundles.include.fabric
 
-	modCompileOnly classify(libs.emi, "api")
+	modCompileOnly classify(libs.emi.fabric, "api")
 	modCompileOnly libs.quilt.resource.loader
 
 	if (test_compat)
-		modRuntimeOnly libs.bundles.compat
+		modRuntimeOnly libs.bundles.compat.fabric
 }
 
 processResources {

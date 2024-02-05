@@ -3,6 +3,17 @@ plugins {
 	alias libs.plugins.vanilla.gradle
 }
 
+repositories {
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
+	maven {
+		name = "Forge"
+		url = "https://maven.minecraftforge.net/"
+	}
+}
+
 minecraft {
 	version(libs.versions.minecraft.get())
 	accessWideners(file("src/main/resources/wwizardry.accesswidener"))
@@ -20,8 +31,16 @@ sourceSets {
 	}
 }
 
+def classify(module, classifier) {
+	var m = module.get()
+	return "${m.module.group}:${m.module.name}:${m.version}:$classifier"
+}
+
 dependencies {
 	compileOnly libs.bundles.mixin
+	compileOnly libs.bundles.include.common
+
+	compileOnly classify(libs.emi.common, "api")
 }
 
 tasks.withType(JavaCompile).configureEach {

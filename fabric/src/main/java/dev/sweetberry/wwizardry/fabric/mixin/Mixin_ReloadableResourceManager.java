@@ -1,8 +1,7 @@
 package dev.sweetberry.wwizardry.fabric.mixin;
 
-import dev.sweetberry.wwizardry.content.datagen.AbstractDataGenerator;
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.CloseableResourceManager;
@@ -47,10 +46,10 @@ public class Mixin_ReloadableResourceManager {
 		List<PackResources> packs,
 		CallbackInfoReturnable<ReloadInstance> cir
 	) {
-		if (FabricLoader.getInstance().isModLoaded("quilt_resource_loader"))
+		if (WanderingWizardry.isModLoaded("quilt_resource_loader"))
 			return;
 		var temp = new MultiPackResourceManager(type, packs);
-		AbstractDataGenerator.reloadPack(temp);
+		DatagenInitializer.reloadPack(temp);
 		temp.close();
 	}
 
@@ -62,7 +61,7 @@ public class Mixin_ReloadableResourceManager {
 		)
 	)
 	private List<PackResources> wwizardry$getPacks(List<PackResources> old) {
-		if (FabricLoader.getInstance().isModLoaded("quilt_resource_loader"))
+		if (WanderingWizardry.isModLoaded("quilt_resource_loader"))
 			return old;
 		var packs = new ArrayList<>(old);
 		packs.add(DatagenInitializer.pack);

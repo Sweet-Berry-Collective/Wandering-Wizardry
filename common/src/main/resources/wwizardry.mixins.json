@@ -4,21 +4,29 @@
   "package": "dev.sweetberry.wwizardry.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "Accessor_AxeItem",
+    "Accessor_BlockEntityType",
     "Accessor_PotionBrewing_Mix",
     "Accessor_ServerPlayer",
     "Accessor_StructureProcessor",
     "Accessor_TorchBlock",
     "Mixin_Boat",
     "Mixin_Item",
+    "Mixin_ItemEntity",
     "Mixin_MappedRegistry",
     "Mixin_MultifaceSpreader_DefaultSpreaderConfig",
-    "Mixin_SculkVeinBlock_SculkVeinSpreaderConfig"
+    "Mixin_Player",
+    "Mixin_RedStoneWireBlock",
+    "Mixin_SculkVeinBlock_SculkVeinSpreaderConfig",
+    "Mixin_StructureTemplate"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
     "client.Mixin_BoatRenderer",
-    "client.Mixin_Model"
+    "client.Mixin_Model",
+    "client.Mixin_SignRenderer",
+    "client.Mixin_SignRenderer_HangingSignRenderer"
   ]
 }

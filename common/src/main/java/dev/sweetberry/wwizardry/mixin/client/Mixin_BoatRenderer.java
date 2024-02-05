@@ -26,16 +26,14 @@ import java.util.Map;
 
 @Mixin(BoatRenderer.class)
 public abstract class Mixin_BoatRenderer {
-
 	@Unique
 	private final Map<ResourceLocation, Pair<ResourceLocation, ListModel<Boat>>> wwizardry$models = new HashMap<>();
+
 	@Unique
 	private ResourceLocation wwizardry$type = null;
 
-
-
 	@Inject(method = "<init>", at = @At("RETURN"))
-	private void tropics$buildCustomBoatModels(EntityRendererProvider.Context context, boolean chest, CallbackInfo ci) {
+	private void wwizardry$buildCustomBoatModels(EntityRendererProvider.Context context, boolean chest, CallbackInfo ci) {
 		for (var boat : BoatComponent.BOATS.keySet()) {
 			var modelRoot = context.bakeLayer(WanderingWizardryClient.getBoatLayerLocation(boat, chest));
 			var model = chest ? new ChestBoatModel(modelRoot) : new BoatModel(modelRoot);
@@ -44,12 +42,12 @@ public abstract class Mixin_BoatRenderer {
 	}
 
 	@Inject(method = "render", at = @At("HEAD"))
-	private void tropics$captureWoodType(Boat boat, float yaw, float tickDelta, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
+	private void wwizardry$captureWoodType(Boat boat, float yaw, float tickDelta, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
 		wwizardry$type = ComponentInitializer.<BoatComponent>getComponent(ComponentInitializer.BOAT, boat).type;
 	}
 
 	@WrapOperation(method = "render", at = @At(value = "INVOKE", target = "java/util/Map.get(Ljava/lang/Object;)Ljava/lang/Object;"))
-	private Object tropics$useCustomBoatModel(Map<Object, Object> instance, Object key, Operation<Object> original) {
+	private Object wwizardry$useCustomBoatModel(Map<Object, Object> instance, Object key, Operation<Object> original) {
 		if (wwizardry$type == null)
 			return original.call(instance, key);
 		var model = wwizardry$models.get(wwizardry$type);

@@ -31,10 +31,10 @@
       "dev.sweetberry.wwizardry.fabric.client.FabricClientInitializer"
     ],
     "terrablender": [
-      "dev.sweetberry.wwizardry.compat.terrablender.TerraBlenderInitializer"
+      "dev.sweetberry.wwizardry.fabric.compat.terrablender.FabricTerraBlenderInitializer"
     ],
     "cardinal-components": [
-      "dev.sweetberry.wwizardry.compat.cardinal.CardinalInitializer"
+      "dev.sweetberry.wwizardry.fabric.compat.cardinal.CardinalInitializer"
     ],
     "emi": [
       "dev.sweetberry.wwizardry.compat.emi.EmiInitializer"

@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.entity;
 
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -10,7 +11,8 @@ public class LogicGateBlockEntity extends BlockEntity {
 	public static final BlockEntityType<LogicGateBlockEntity> TYPE =
 		BlockEntityType.Builder
 			.of(
-				LogicGateBlockEntity::new
+				LogicGateBlockEntity::new,
+				BlockInitializer.MODULO_COMPARATOR
 			).build(null);
 
 	private int outputSignal = 0;
