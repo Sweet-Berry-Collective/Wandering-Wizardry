@@ -37,6 +37,11 @@ repositories {
 	}
 }
 
+def awToAt() {
+	var exec = "deno run -A ${rootProject.rootDir}/scripts/mod.ts aw_to_at ${rootProject.rootDir}/common".execute()
+	println(exec.text)
+}
+
 def generate(String type, String input, String output) {
 	var exec = "deno run -A ${rootProject.rootDir}/scripts/mod.ts ${type} ${rootProject.rootDir}/data/${input} ${rootProject.rootDir}/common/src/generated/resources/${output}".execute()
 	println(exec.text)
@@ -57,7 +62,7 @@ def loot(String input, String output) {
 tasks.register("generateData") {
 	doFirst {
 		try {
-			generate("lang", "assets/wwizardry/lang")
+			generate("lang", "asset`s/wwizardry/lang")
 			generate("tags", "data")
 			generate("archex", "staticdata/architecture_extensions")
 			loot("basic_block_loot.fennec", "data/wwizardry/loot_tables/blocks")
@@ -66,6 +71,7 @@ tasks.register("generateData") {
 			transpile("loot", "data/wwizardry/loot_tables")
 			transpile("world", "data/wwizardry/worldgen")
 			generate("blockstate", "assets/wwizardry/blockstates")
+			awToAt()
 		} catch (e) {
 			e.printStackTrace()
 		}

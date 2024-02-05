@@ -3,6 +3,12 @@ plugins {
 	alias libs.plugins.vanilla.gradle
 }
 
+jar {
+	archiveBaseName = project.archives_base_name
+}
+
+version = rootProject.version + "-common"
+
 repositories {
 	maven {
 		name = "TerraformersMC"

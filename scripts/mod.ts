@@ -6,6 +6,7 @@ import loot from "./command/loot.ts";
 import generateArchEx from "./command/archex.ts"
 import generateBrickRecipes from "./command/brick.ts"
 import generateBlockStates from "./command/blockstate.ts"
+import awToAt from "./command/aw_to_at.ts"
 
 const cli = new CLI();
 
@@ -44,6 +45,11 @@ cli.register(
         args: [literal("blockstate"), named(Builtin.STRING, "Input"), named(Builtin.STRING, "Output")],
         call: generateBlockStates,
         description: "Generates block state definitions"
+    },
+    {
+        args: [literal("aw_to_at"), named(Builtin.STRING, "Root")],
+        call: awToAt,
+        description: "Transforms accesswidener to accesstransformer"
     }
 )
 try {

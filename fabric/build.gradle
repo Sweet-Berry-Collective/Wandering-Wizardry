@@ -3,7 +3,7 @@ plugins {
 }
 
 archivesBaseName = project.archives_base_name
-version = rootProject.version
+version = rootProject.version + "-fabric"
 
 def test_compat = true
 
