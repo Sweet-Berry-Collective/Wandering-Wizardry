@@ -38,7 +38,7 @@ repositories {
 }
 
 def awToAt() {
-	var exec = "deno run -A ${rootProject.rootDir}/scripts/mod.ts aw_to_at ${rootProject.rootDir}/common".execute()
+	var exec = "deno run -A ${rootProject.rootDir}/scripts/mod.ts aw_to_at ${rootProject.rootDir}/common ${libs.versions.minecraft.get()}".execute()
 	println(exec.text)
 }
 
