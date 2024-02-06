@@ -21,16 +21,17 @@ public abstract class Mixin_ItemInHandRenderer {
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
-			ordinal = 1
+			ordinal = 1,
+			shift = At.Shift.BEFORE
 		)
 	)
 	private void wwizardry$renderFirstPersonItem(AbstractClientPlayer player, float tickDelta, float pitch, InteractionHand hand, float swingProgress, ItemStack item, float equipProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
-		if (
-			!(item.getItem() instanceof SoulMirrorItem)
-			|| !player.isUsingItem()
-			|| player.getUseItemRemainingTicks() == 0
-			|| player.getUsedItemHand() != hand
-		) {
+		if (!(
+			item.getItem() instanceof SoulMirrorItem
+			&& player.isUsingItem()
+			&& player.getUseItemRemainingTicks() > 0
+			&& player.getUsedItemHand() == hand
+		)) {
 			WanderingWizardryClient.useItemTick = -1;
 			return;
 		}
