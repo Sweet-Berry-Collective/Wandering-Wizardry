@@ -1,0 +1,32 @@
+blocks {
+     glass [
+         "wwizardry:reinforced_glass"
+     ]
+     glass_panes [
+         "wwizardry:reinforced_glass_pane"
+     ]
+     ores {
+         rose_quartz [
+             "wwizardry:rose_quartz_ore"
+             "wwizardry:deepslate_rose_quartz_ore"
+         ]
+     }
+ }
+ items {
+     glass [
+         "wwizardry:reinforced_glass"
+     ]
+     glass_panes [
+         "wwizardry:reinforced_glass_pane"
+     ]
+     rose_quartzes [
+         "wwizardry:rose_quartz"
+         "create:rose_quartz"
+     ]
+     ores {
+         rose_quartz [
+             "wwizardry:rose_quartz_ore"
+             "wwizardry:deepslate_rose_quartz_ore"
+         ]
+     }
+ }

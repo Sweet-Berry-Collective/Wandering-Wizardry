@@ -27,8 +27,6 @@ public record AltarCatalyzationRecipe(
 ) implements Recipe<AltarRecipeView>, AltarCraftable {
 	public static final TagKey<Item> ALTAR_AIR_MODIFIER = TagKey.create(Registries.ITEM, WanderingWizardry.id("altar_air_modifier"));
 
-	public static final IdentifiableRecipeType<AltarCatalyzationRecipe> TYPE = new IdentifiableRecipeType<>(WanderingWizardry.id("altar_catalyzation"));
-
 	@Override
 	public boolean matches(AltarRecipeView inventory, Level world) {
 		if (!catalyst.test(inventory.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER))) return false;
@@ -71,7 +69,7 @@ public record AltarCatalyzationRecipe(
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return AltarCatalyzationRecipeSerializer.INSTANCE;
+		return RecipeInitializer.ALTAR_SERIALIZER.get();
 	}
 
 	@Override
@@ -81,7 +79,7 @@ public record AltarCatalyzationRecipe(
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return RecipeInitializer.ALTAR_TYPE.get();
 	}
 
 	@Override

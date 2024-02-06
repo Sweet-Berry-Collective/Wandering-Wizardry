@@ -1,4 +1,5 @@
 {
+  "render_type": "minecraft:cutout",
   "parent": "wwizardry:block/comparator/modulo_sub",
   "textures": {
     "top": "wwizardry:block/modulo_comparator_off",

@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.client.content.events;
 
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
 import dev.sweetberry.wwizardry.content.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import net.minecraft.client.Minecraft;
@@ -11,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class ModelPredicates {
 	public static float getVoidBag(ItemStack itemStack, ClientLevel clientWorld, LivingEntity livingEntity, int i) {
-		if (!itemStack.is(VoidBagItem.INSTANCE)) return 0.0f;
+		if (!itemStack.is(ItemInitializer.VOID_BAG.get())) return 0.0f;
 		var client = Minecraft.getInstance();
 		if (client.player == null)
 			return 0.0f;
@@ -22,6 +23,6 @@ public class ModelPredicates {
 	}
 
 	public static float getSoulMirror(ItemStack itemStack, ClientLevel clientWorld, LivingEntity livingEntity, int i) {
-		return SoulMirrorItem.INSTANCE.isFullyUsed(itemStack) ? 1 : 0;
+		return ItemInitializer.SOUL_MIRROR.get().isFullyUsed(itemStack) ? 1 : 0;
 	}
 }

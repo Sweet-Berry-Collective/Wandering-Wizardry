@@ -1,9 +1,11 @@
 package dev.sweetberry.wwizardry.fabric.client;
 
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.client.content.ClientContentInitializer;
 import dev.sweetberry.wwizardry.client.content.RenderLayers;
+import dev.sweetberry.wwizardry.client.content.events.ClientEvents;
 import dev.sweetberry.wwizardry.client.content.events.ItemTooltipHandler;
 import dev.sweetberry.wwizardry.client.content.events.PackReloader;
 import dev.sweetberry.wwizardry.content.block.sign.ModdedSignBlock;
@@ -19,17 +21,35 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+
+import java.util.function.Supplier;
 
 public class FabricClientInitializer implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		WanderingWizardryClient.init();
-		ClientContentInitializer.init();
+		ClientEvents.registerEntityRenderers((type, renderer) -> {
+			BlockEntityRenderers.register(type.get(), (BlockEntityRendererProvider<? super BlockEntity>) renderer);
+		});
+
+		ClientEvents.registerModelPredicates((item, name, callback) -> {
+			ItemProperties.register(
+				item.get(),
+				WanderingWizardry.id(name),
+				callback
+			);
+		});
+
 		PacketRegistry.SEND_TO_SERVER.listen(packet -> {
 			var payload = PacketByteBufs.create();
 			packet.writeTo(payload);
@@ -59,7 +79,7 @@ public class FabricClientInitializer implements ClientModInitializer {
 		}
 
 		for (var layer : RenderLayers.LAYERS.entrySet())
-			BlockRenderLayerMap.INSTANCE.putBlocks(layer.getKey(), layer.getValue().toArray(Block[]::new));
+			BlockRenderLayerMap.INSTANCE.putBlocks(layer.getKey(), layer.getValue().stream().map(Supplier::get).toArray(Block[]::new));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> WanderingWizardryClient.tickCounter++);
 

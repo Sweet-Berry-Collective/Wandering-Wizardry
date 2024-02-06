@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.world;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.world.processors.WaterLoggingFixProcessor;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class WorldgenInitializer {
 	public static final RegistryContext<StructureProcessorType<?>> STRUCTURE_PROCESSORS = new RegistryContext<>(BuiltInRegistries.STRUCTURE_PROCESSOR);
@@ -27,6 +29,11 @@ public class WorldgenInitializer {
 	public static final ResourceKey<PlacedFeature> ROSE_QUARTZ = ResourceKey.create(Registries.PLACED_FEATURE, WanderingWizardry.id("ore/rose_quartz"));
 
 	public static final Map<GenerationStep.Decoration, Set<ResourceKey<PlacedFeature>>> OVERWORLD_MODIFICATIONS = new HashMap<>();
+
+	public static final Lazy<StructureProcessorType<WaterLoggingFixProcessor>> WATER_LOGGING_FIX = registerStructureProcessor(
+		"water_logging_fix",
+		() -> () -> WaterLoggingFixProcessor.CODEC
+	);
 
 	public static ResourceKey<Biome> key(String path) {
 		return ResourceKey.create(Registries.BIOME, WanderingWizardry.id(path));
@@ -42,12 +49,10 @@ public class WorldgenInitializer {
 	}
 
 	public static void init() {
-		registerStructureProcessor(WaterLoggingFixProcessor.INSTANCE, "water_logging_fix");
-
 		addOverworldModification(GenerationStep.Decoration.UNDERGROUND_ORES, ROSE_QUARTZ);
 	}
 
-	private static <T extends StructureProcessor> StructureProcessorType<T> registerStructureProcessor(StructureProcessorType<T> type, String id) {
-		return (StructureProcessorType<T>) STRUCTURE_PROCESSORS.register(WanderingWizardry.id(id), type);
+	private static <T extends StructureProcessor> Lazy<StructureProcessorType<T>> registerStructureProcessor(String id, Supplier<StructureProcessorType<T>> type) {
+		return (Lazy<StructureProcessorType<T>>)(Object) STRUCTURE_PROCESSORS.register(WanderingWizardry.id(id), (Supplier<StructureProcessorType<?>>)(Object) type);
 	}
 }

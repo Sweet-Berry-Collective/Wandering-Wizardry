@@ -1,15 +1,12 @@
 package dev.sweetberry.wwizardry.content.item;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.content.block.CameraBlock;
-import dev.sweetberry.wwizardry.content.block.CrystalSculkBlock;
 import dev.sweetberry.wwizardry.content.block.WallHolderBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
-import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
-import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
 import dev.sweetberry.wwizardry.content.item.charm.BrewingCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.CraftingCharmItem;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
@@ -18,185 +15,187 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.level.block.Block;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ItemInitializer {
 	public static final RegistryContext<Item> ITEMS = new RegistryContext<>(BuiltInRegistries.ITEM);
 	public static final RegistryContext<CreativeModeTab> TABS = new RegistryContext<>(BuiltInRegistries.CREATIVE_MODE_TAB);
-	public static final List<ItemStack> STACKS = new ArrayList<>();
+	public static final List<Lazy<Item>> STACKS = new ArrayList<>();
 
-	public static final Item CRYSTALLINE_SCULK_SHARD = registerItem(
-			"crystalline_sculk",
-			new Item(
-					new Item.Properties()
-			)
+	public static final Lazy<Item> CRYSTALLINE_SCULK_SHARD = registerItem(
+		"crystalline_sculk",
+		() -> new Item(
+				new Item.Properties()
+		)
 	);
 
-	public static final Item CRYSTALLINE_SCULK_BLOCK = registerItem(
-			"crystalline_sculk_block",
-			new BlockItem(
-					CrystalSculkBlock.INSTANCE,
-					new Item.Properties()
-			)
-	);
-
-	public static final Item SCULKFLOWER = registerItem(
-			"sculkflower",
-			new BlockItem(
-					SculkflowerBlock.INSTANCE,
-					new Item.Properties()
-			)
-	);
-
-	public static final Item INDIGO_CAERULEUM = registerItem(
-		"indigo_caeruleum",
-		new BlockItem(
-			BlockInitializer.INDIGO_CAERULEUM,
+	public static final Lazy<Item> CRYSTALLINE_SCULK_BLOCK = registerItem(
+		"crystalline_sculk_block",
+		() -> new BlockItem(
+			BlockInitializer.CRYSTALLINE_SCULK.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item MYCHA_ROOTS = registerItem(
+	public static final Lazy<Item> SCULKFLOWER = registerItem(
+		"sculkflower",
+		() -> new BlockItem(
+			BlockInitializer.SCULKFLOWER.get(),
+			new Item.Properties()
+		)
+	);
+
+	public static final Lazy<Item> INDIGO_CAERULEUM = registerItem(
+		"indigo_caeruleum",
+		() -> new BlockItem(
+			BlockInitializer.INDIGO_CAERULEUM.get(),
+			new Item.Properties()
+		)
+	);
+
+	public static final Lazy<Item> MYCHA_ROOTS = registerItem(
 		"mycha_roots",
-		new BlockItem(
-			BlockInitializer.MYCHA_ROOTS,
+		() -> new BlockItem(
+			BlockInitializer.MYCHA_ROOTS.get(),
 			 new Item.Properties()
 		)
 	);
 
-	public static final Item CAMERA = registerItem(
+	public static final Lazy<Item> CAMERA = registerItem(
 		"camera",
-		new BlockItem(
-			CameraBlock.INSTANCE,
+		() -> new BlockItem(
+			BlockInitializer.CAMERA.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item REINFORCED_GLASS = registerItem(
+	public static final Lazy<Item> REINFORCED_GLASS = registerItem(
 		"reinforced_glass",
-		new BlockItem(
-			BlockInitializer.REINFORCED_GLASS,
+		() -> new BlockItem(
+			BlockInitializer.REINFORCED_GLASS.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item REINFORCED_GLASS_PANE = registerItem(
+	public static final Lazy<Item> REINFORCED_GLASS_PANE = registerItem(
 		"reinforced_glass_pane",
-		new BlockItem(
-			BlockInitializer.REINFORCED_GLASS_PANE,
+		() -> new BlockItem(
+			BlockInitializer.REINFORCED_GLASS_PANE.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item REDSTONE_LANTERN = registerItem(
+	public static final Lazy<Item> REDSTONE_LANTERN = registerItem(
 		"redstone_lantern",
-		new BlockItem(
-			BlockInitializer.REDSTONE_LANTERN,
+		() -> new BlockItem(
+			BlockInitializer.REDSTONE_LANTERN.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item WALL_HOLDER_EMPTY = registerItem(
+	public static final Lazy<Item> WALL_HOLDER_EMPTY = registerItem(
 		"wall_holder",
-		new BlockItem(
-			WallHolderBlock.EMPTY,
+		() -> new BlockItem(
+			BlockInitializer.WALL_HOLDER.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item ROSE_QUARTZ = registerItem(
+	public static final Lazy<Item> ROSE_QUARTZ = registerItem(
 		"rose_quartz",
-		new Item(
+		() -> new Item(
 			new Item.Properties()
 		)
 	);
-	public static final Item ROSE_QUARTZ_ORE = registerItem(
+	public static final Lazy<Item> ROSE_QUARTZ_ORE = registerItem(
 		"rose_quartz_ore",
-		new BlockItem(
-			BlockInitializer.ROSE_QUARTZ_ORE,
+		() -> new BlockItem(
+			BlockInitializer.ROSE_QUARTZ_ORE.get(),
 			new Item.Properties()
 		)
 	);
-	public static final Item DEEPSLATE_ROSE_QUARTZ_ORE = registerItem(
+	public static final Lazy<Item> DEEPSLATE_ROSE_QUARTZ_ORE = registerItem(
 		"deepslate_rose_quartz_ore",
-		new BlockItem(
-			BlockInitializer.DEEPSLATE_ROSE_QUARTZ_ORE,
+		() -> new BlockItem(
+			BlockInitializer.DEEPSLATE_ROSE_QUARTZ_ORE.get(),
 			new Item.Properties()
 		)
 	);
-	public static final Item ROSE_QUARTZ_BLOCK = registerItem(
+	public static final Lazy<Item> ROSE_QUARTZ_BLOCK = registerItem(
 		"rose_quartz_block",
-		new BlockItem(
-			BlockInitializer.ROSE_QUARTZ_BLOCK,
+		() -> new BlockItem(
+			BlockInitializer.ROSE_QUARTZ_BLOCK.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item MYCELIAL_SAND = registerItem(
+	public static final Lazy<Item> MYCELIAL_SAND = registerItem(
 		"mycelial_sand",
-		new BlockItem(
-			BlockInitializer.MYCELIAL_SAND,
+		() -> new BlockItem(
+			BlockInitializer.MYCELIAL_SAND.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item MODULO_COMPARATOR = registerItem(
+	public static final Lazy<Item> MODULO_COMPARATOR = registerItem(
 		"modulo_comparator",
-		new BlockItem(
-			BlockInitializer.MODULO_COMPARATOR,
+		() -> new BlockItem(
+			BlockInitializer.MODULO_COMPARATOR.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item REDSTONE_STEPPER = registerItem(
+	public static final Lazy<Item> REDSTONE_STEPPER = registerItem(
 		"redstone_stepper",
-		new BlockItem(
-			BlockInitializer.REDSTONE_STEPPER,
+		() -> new BlockItem(
+			BlockInitializer.REDSTONE_STEPPER.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item RESONATOR = registerItem(
+	public static final Lazy<Item> RESONATOR = registerItem(
 		"sculk_resonator",
-		new BlockItem(
-			ResonatorBlock.INSTANCE,
+		() -> new BlockItem(
+			BlockInitializer.SCULK_RESONATOR.get(),
 			new Item.Properties()
 		)
 	);
 
-	public static final Item SLOT_CHARM = registerItem(
+	public static final Lazy<Item> SLOT_CHARM = registerItem(
 		"slot_charm",
-		new SelfRemainderingItem(
+		() -> new SelfRemainderingItem(
 			new Item.Properties()
 				.stacksTo(1)
 		)
 	);
 
-	public static final Item CRAFTING_CHARM = registerItem(
+	public static final Lazy<Item> CRAFTING_CHARM = registerItem(
 		"crafting_charm",
-		new CraftingCharmItem(
+		() -> new CraftingCharmItem(
 			new Item.Properties()
 				.stacksTo(1)
 		)
 	);
 
-	public static final Item BREWING_CHARM = registerItem(
+	public static final Lazy<Item> BREWING_CHARM = registerItem(
 		"brewing_charm",
-		new BrewingCharmItem(
+		() -> new BrewingCharmItem(
 			new Item.Properties()
 				.stacksTo(1)
 		)
 	);
 
-	public static final Item MUSIC_DISC_WANDERING = registerItem(
+	public static final Lazy<Item> MUSIC_DISC_WANDERING = registerItem(
 		"music_disc_wandering",
-		new RecordItem(
+		() -> new RecordItem(
 			10,
-			SoundInitializer.DISC_WANDERING,
+			SoundInitializer.DISC_WANDERING.get(),
 			new Item.Properties()
 				.stacksTo(1)
 				.rarity(Rarity.RARE),
@@ -204,27 +203,49 @@ public class ItemInitializer {
 		)
 	);
 
-	public static void init() {
-		registerItem("void_bag", VoidBagItem.INSTANCE);
-		registerItem("soul_mirror", SoulMirrorItem.INSTANCE);
+	public static final Lazy<Item> VOID_BAG = registerItem(
+		"void_bag",
+		() -> new VoidBagItem(
+			new Item.Properties()
+				.stacksTo(1)
+		)
+	);
 
-		registerItem("altar_pedestal", AltarPedestalBlock.ITEM);
-		registerItem("altar_catalyzer", AltarCatalyzerBlock.ITEM);
+	public static final Lazy<SoulMirrorItem> SOUL_MIRROR = registerItem(
+		"soul_mirror",
+		() -> new SoulMirrorItem(
+			new Item.Properties()
+				.stacksTo(1)
+		)
+	);
+
+	public static final Lazy<Item> ALTAR_PEDESTAL = registerItem(
+		"altar_pedestal",
+		() -> new BlockItem(
+			BlockInitializer.ALTAR_PEDESTAL.get(),
+			new Item.Properties()
+		)
+	);
+
+	public static final Lazy<Item> ALTAR_CATALYZER = registerItem(
+		"altar_catalyzer",
+		() -> new BlockItem(
+			BlockInitializer.ALTAR_CATALYZER.get(),
+			new Item.Properties()
+		)
+	);
+
+	public static <T extends Item> Lazy<T> registerItem(String id, Supplier<T> item) {
+		var lazy = ITEMS.register(WanderingWizardry.id(id), (Supplier<Item>)item);
+		STACKS.add(lazy);
+		return (Lazy<T>) lazy;
 	}
 
-	public static Item registerItem(String id, Item item) {
-		STACKS.add(new ItemStack(item));
-		return ITEMS.register(WanderingWizardry.id(id), item);
+	public static Lazy<Item> registerBoatItem(String id, ResourceLocation type, boolean chest, Item.Properties itemSettings) {
+        return registerItem(id, () -> new ModdedBoatItem(type, chest, itemSettings));
 	}
 
-	public static Item registerBoatItem(String id, ResourceLocation type, boolean chest, Item.Properties itemSettings) {
-		// TODO: Replace this with an in-house thing
-		var item = registerItem(id, new ModdedBoatItem(type, chest, itemSettings));
-//		TerraformBoatItemHelper.registerBoatDispenserBehavior(item, type, chest);
-		return item;
-	}
-
-	public static CreativeModeTab registerTab(String id, CreativeModeTab tab) {
+	public static Lazy<CreativeModeTab> registerTab(String id, Supplier<CreativeModeTab> tab) {
 		return TABS.register(WanderingWizardry.id(id), tab);
 	}
 }

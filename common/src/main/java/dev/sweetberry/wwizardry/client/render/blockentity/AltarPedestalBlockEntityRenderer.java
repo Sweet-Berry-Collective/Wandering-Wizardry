@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.block.entity.AltarPedestalBlockEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -23,7 +24,7 @@ public record AltarPedestalBlockEntityRenderer(BlockEntityRendererProvider.Conte
 
 		var blockState = world.getBlockState(entity.getBlockPos());
 
-		if (!blockState.is(AltarPedestalBlock.INSTANCE))
+		if (!blockState.is(BlockInitializer.ALTAR_PEDESTAL.get()))
 			return;
 
 		var dir = blockState.getValue(HorizontalDirectionalBlock.FACING);

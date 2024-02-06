@@ -20,7 +20,7 @@ state [
     {
         when { sculked = "true" sculk_below = "false" }
         apply {
-            model = "block/sculk_vein"
+            model = "wwizardry:block/altar_sculk_vein"
             -uvlock
             x = 90
         }

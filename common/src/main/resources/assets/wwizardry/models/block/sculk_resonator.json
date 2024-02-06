@@ -1,4 +1,5 @@
 {
+  "render_type": "minecraft:cutout",
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"4": "wwizardry:block/sculk_resonator_input_side",

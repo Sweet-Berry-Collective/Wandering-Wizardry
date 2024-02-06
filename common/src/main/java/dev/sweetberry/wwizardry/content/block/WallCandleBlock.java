@@ -46,7 +46,7 @@ public class WallCandleBlock extends WallHolderBlock {
 
 	@Override
 	public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-		var stacks = new ArrayList<>(EMPTY.getDrops(state, builder));
+		var stacks = new ArrayList<>(BlockInitializer.WALL_HOLDER.get().getDrops(state, builder));
 		stacks.add(new ItemStack(candleBlock));
 		return stacks;
 	}

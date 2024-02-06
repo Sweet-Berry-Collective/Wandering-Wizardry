@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.component;
 
 import dev.sweetberry.wwizardry.api.component.Component;
+import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -13,13 +14,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class VoidBagComponent implements Component, Container {
-	public final Player player;
 	public NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
 	public boolean locked = false;
 
-    public VoidBagComponent(Player player) {
-        this.player = player;
-    }
+    public VoidBagComponent() {}
 
     @Override
 	public void fromNbt(CompoundTag tag) {
@@ -32,7 +30,7 @@ public class VoidBagComponent implements Component, Container {
 	public void toNbt(CompoundTag tag) {
 		ContainerHelper.saveAllItems(tag, inventory);
 		tag.putBoolean("Locked", locked);
-		ItemStack previewStack = VoidBagItem.INSTANCE.getDefaultInstance();
+		ItemStack previewStack = ItemInitializer.VOID_BAG.get().getDefaultInstance();
 		previewStack.getOrCreateTag().putBoolean("Locked", locked);
 		CompoundTag previewCompound = new CompoundTag();
 		previewStack.save(previewCompound);
@@ -128,7 +126,7 @@ public class VoidBagComponent implements Component, Container {
 		return stack.getCount();
 	}
 
-	public void openScreen() {
+	public void openScreen(Player player) {
 		var factory = new SimpleMenuProvider((syncid, inventory, _player) -> ChestMenu.threeRows(syncid, inventory, this), net.minecraft.network.chat.Component.translatable("item.wwizardry.void_bag"));
 
 		player.openMenu(factory);

@@ -21,4 +21,8 @@ items {
         "wwizardry:rose_quartz"
         "create:rose_quartz"
     ]
+    rose_quartz_ores [
+        "wwizardry:rose_quartz_ore"
+        "wwizardry:deepslate_rose_quartz_ore"
+    ]
 }

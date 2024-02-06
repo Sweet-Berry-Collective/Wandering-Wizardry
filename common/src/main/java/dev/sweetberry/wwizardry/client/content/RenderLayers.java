@@ -12,17 +12,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class RenderLayers {
-	public static Map<RenderType, Set<Block>> LAYERS = new HashMap<>();
+	public static Map<RenderType, Set<Supplier<Block>>> LAYERS = new HashMap<>();
 
 	public static void init() {
 		put(RenderType.cutout(),
-			AltarPedestalBlock.INSTANCE,
-			AltarCatalyzerBlock.INSTANCE,
-			CameraBlock.INSTANCE,
-			ResonatorBlock.INSTANCE,
-			SculkflowerBlock.INSTANCE,
+			BlockInitializer.ALTAR_PEDESTAL,
+			(Supplier<Block>)(Object) BlockInitializer.ALTAR_CATALYZER,
+			BlockInitializer.CAMERA,
+			BlockInitializer.SCULK_RESONATOR,
+			BlockInitializer.SCULKFLOWER,
 			BlockInitializer.INDIGO_CAERULEUM,
 			BlockInitializer.MODULO_COMPARATOR,
 			BlockInitializer.REINFORCED_GLASS,
@@ -31,13 +32,13 @@ public class RenderLayers {
 		);
 	}
 
-	public static void put(RenderType layer, Block... blocks) {
+	public static void put(RenderType layer, Supplier<Block>... blocks) {
 		var set = getLayer(layer);
 		for (var block : blocks)
 			set.add(block);
 	}
 
-	private static Set<Block> getLayer(RenderType layer) {
+	private static Set<Supplier<Block>> getLayer(RenderType layer) {
 		if (!LAYERS.containsKey(layer))
 			LAYERS.put(layer, new HashSet<>());
 		return LAYERS.get(layer);

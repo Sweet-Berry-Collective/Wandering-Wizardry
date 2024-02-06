@@ -28,10 +28,9 @@ import org.jetbrains.annotations.Nullable;
 public class ResonatorBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
 	public static final MapCodec<ResonatorBlock> CODEC = BlockBehaviour.simpleCodec(ResonatorBlock::new);
 
-	public static final ResonatorBlock INSTANCE = new ResonatorBlock(BlockBehaviour.Properties.of().sound(SoundType.SCULK_SHRIEKER));
 	static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
 
-	protected ResonatorBlock(Properties settings) {
+	public ResonatorBlock(Properties settings) {
 		super(settings);
 		registerDefaultState(defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false).setValue(BlockStateProperties.SHRIEKING, false).setValue(BlockStateProperties.POWERED, false));
 	}

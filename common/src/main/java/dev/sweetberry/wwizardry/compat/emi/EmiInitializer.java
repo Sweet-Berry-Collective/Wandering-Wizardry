@@ -10,10 +10,12 @@ import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.compat.emi.recipe.EmiAltarBrewingRecipe;
 import dev.sweetberry.wwizardry.compat.emi.recipe.EmiAltarCatalyzationRecipe;
 import dev.sweetberry.wwizardry.compat.emi.recipe.EmiAltarShapelessRecipe;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
+import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import dev.sweetberry.wwizardry.mixin.Accessor_PotionBrewing;
 import dev.sweetberry.wwizardry.mixin.Accessor_PotionBrewing_Mix;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,19 +29,19 @@ import net.minecraft.world.item.crafting.ShapelessRecipe;
 
 @EmiEntrypoint
 public class EmiInitializer implements EmiPlugin {
-	public static final EmiStack BASE_ICON = EmiStack.of(ItemInitializer.CRYSTALLINE_SCULK_SHARD);
+	public static final EmiStack BASE_ICON = EmiStack.of(ItemInitializer.CRYSTALLINE_SCULK_SHARD.get());
 	public static final EmiRecipeCategory BASE = new EmiRecipeCategory(
 		WanderingWizardry.id("altar_catalyzation"),
 		BASE_ICON
 	);
 
-	public static final EmiStack SHAPELESS_ICON = EmiStack.of(ItemInitializer.CRAFTING_CHARM);
+	public static final EmiStack SHAPELESS_ICON = EmiStack.of(ItemInitializer.CRAFTING_CHARM.get());
 	public static final EmiRecipeCategory SHAPELESS = new EmiRecipeCategory(
 		WanderingWizardry.id("altar_shapeless"),
 		SHAPELESS_ICON
 	);
 
-	public static final EmiStack BREWING_ICON = EmiStack.of(ItemInitializer.BREWING_CHARM);
+	public static final EmiStack BREWING_ICON = EmiStack.of(ItemInitializer.BREWING_CHARM.get());
 	public static final EmiRecipeCategory BREWING = new EmiRecipeCategory(
 		WanderingWizardry.id("altar_brewing"),
 		BREWING_ICON
@@ -51,20 +53,20 @@ public class EmiInitializer implements EmiPlugin {
 		registry.addCategory(SHAPELESS);
 		registry.addCategory(BREWING);
 
-		registry.addWorkstation(BASE, EmiStack.of(AltarCatalyzerBlock.INSTANCE));
-		registry.addWorkstation(BASE, EmiStack.of(AltarPedestalBlock.INSTANCE));
+		registry.addWorkstation(BASE, EmiStack.of(BlockInitializer.ALTAR_CATALYZER.get()));
+		registry.addWorkstation(BASE, EmiStack.of(BlockInitializer.ALTAR_PEDESTAL.get()));
 
-		registry.addWorkstation(SHAPELESS, EmiStack.of(AltarCatalyzerBlock.INSTANCE));
-		registry.addWorkstation(SHAPELESS, EmiStack.of(AltarPedestalBlock.INSTANCE));
-		registry.addWorkstation(SHAPELESS, EmiStack.of(ItemInitializer.CRAFTING_CHARM));
+		registry.addWorkstation(SHAPELESS, EmiStack.of(BlockInitializer.ALTAR_CATALYZER.get()));
+		registry.addWorkstation(SHAPELESS, EmiStack.of(BlockInitializer.ALTAR_PEDESTAL.get()));
+		registry.addWorkstation(SHAPELESS, EmiStack.of(ItemInitializer.CRAFTING_CHARM.get()));
 
-		registry.addWorkstation(BREWING, EmiStack.of(AltarCatalyzerBlock.INSTANCE));
-		registry.addWorkstation(BREWING, EmiStack.of(AltarPedestalBlock.INSTANCE));
-		registry.addWorkstation(BREWING, EmiStack.of(ItemInitializer.BREWING_CHARM));
+		registry.addWorkstation(BREWING, EmiStack.of(BlockInitializer.ALTAR_CATALYZER.get()));
+		registry.addWorkstation(BREWING, EmiStack.of(BlockInitializer.ALTAR_PEDESTAL.get()));
+		registry.addWorkstation(BREWING, EmiStack.of(ItemInitializer.BREWING_CHARM.get()));
 
 		var manager = registry.getRecipeManager();
 
-		for (var recipe : manager.getAllRecipesFor(AltarCatalyzationRecipe.TYPE)) {
+		for (var recipe : manager.getAllRecipesFor(RecipeInitializer.ALTAR_TYPE.get())) {
 			registry.addRecipe(EmiAltarCatalyzationRecipe.of(recipe.id(), recipe.value()));
 		}
 

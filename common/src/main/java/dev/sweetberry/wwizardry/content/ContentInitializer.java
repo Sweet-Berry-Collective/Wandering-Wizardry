@@ -26,14 +26,11 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 
 public class ContentInitializer {
 	public static void init() {
-		BlockInitializer.init();
 		ComponentInitializer.init();
-		ItemInitializer.init();
 		DatagenInitializer.init();
 		WorldgenInitializer.init();
 		GameruleInitializer.init();
 		NetworkingInitializer.init();
-		TradeInitializer.init();
 		EventInitializer.init();
 	}
 

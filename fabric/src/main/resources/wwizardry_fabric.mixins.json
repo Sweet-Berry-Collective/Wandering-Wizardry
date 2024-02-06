@@ -3,9 +3,7 @@
   "minVersion": "0.8",
   "package": "dev.sweetberry.wwizardry.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "Mixin_ReloadableResourceManager"
-  ],
+  "mixins": [],
   "injectors": {
     "defaultRequire": 1
   },

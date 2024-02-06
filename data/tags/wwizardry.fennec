@@ -140,6 +140,16 @@ items {
         "wwizardry:slot_charm"
     ]
 
+    glass [
+        "#c:glass_blocks"
+        "#forge:glass"
+    ]
+
+    rose_quartzes [
+        "#c:rose_quartzes"
+        "#forge:rose_quartzes"
+    ]
+
     mossy_materials [
         "moss_block"
         "vine"

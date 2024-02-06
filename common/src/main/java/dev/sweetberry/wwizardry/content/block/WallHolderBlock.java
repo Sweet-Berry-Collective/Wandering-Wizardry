@@ -35,7 +35,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 
 public class WallHolderBlock extends Block {
-	public static final WallHolderBlock EMPTY = new WallHolderBlock(BlockBehaviour.Properties.of().instabreak().mapColor(MapColor.COLOR_GRAY));
 	public static final HashMap<Block, WallHolderBlock> ITEM_LOOKUP = new HashMap<>();
 
 	public static final VoxelShape NORTH_SHAPE = box(6, 0, 0, 10, 6, 6);
@@ -117,7 +116,7 @@ public class WallHolderBlock extends Block {
 
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		if (state.getBlock() == EMPTY) return useEmpty(state, world, pos, player, hand);
+		if (state.getBlock() == BlockInitializer.WALL_HOLDER.get()) return useEmpty(state, world, pos, player, hand);
 
 		var droppedBlock = getDroppedBlock();
 		if (droppedBlock != null && player.isShiftKeyDown()) {
@@ -127,7 +126,7 @@ public class WallHolderBlock extends Block {
 			}
 			var soundGroup = droppedBlock.getSoundType(droppedBlock.defaultBlockState());
 			world.playSound(player, pos, soundGroup.getBreakSound(), SoundSource.BLOCKS);
-			world.setBlockAndUpdate(pos, EMPTY.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+			world.setBlockAndUpdate(pos, BlockInitializer.WALL_HOLDER.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
 			return InteractionResult.SUCCESS;
 		}
 
@@ -200,7 +199,7 @@ public class WallHolderBlock extends Block {
 	@Override
 	public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
 		if (getDroppedBlock() != null) return getDroppedBlock().getCloneItemStack(world, pos, state);
-		return EMPTY.asItem().getDefaultInstance();
+		return BlockInitializer.WALL_HOLDER.get().asItem().getDefaultInstance();
 	}
 
 	@Override

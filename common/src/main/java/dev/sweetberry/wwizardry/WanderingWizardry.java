@@ -14,10 +14,12 @@ public class WanderingWizardry {
 	public static Function<String, Boolean> modLoadedCheck;
 
 	public static boolean init = false;
+	public static String platform = "unknown";
 
-	public static void init() {
+	public static void init(String platform) {
 		if (init)
 			return;
+		WanderingWizardry.platform = platform;
 		init = true;
 		WanderingWizardry.LOGGER.info("*tips altar* w'wizardry");
 		ContentInitializer.init();

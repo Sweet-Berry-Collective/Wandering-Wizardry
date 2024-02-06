@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.block;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
@@ -31,33 +32,81 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.ComparatorMode;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class BlockInitializer {
 	public static final RegistryContext<Block> BLOCKS = new RegistryContext<>(BuiltInRegistries.BLOCK);
 	public static final RegistryContext<BlockEntityType<?>> BLOCK_ENTITIES = new RegistryContext<>(BuiltInRegistries.BLOCK_ENTITY_TYPE);
 
-	public static final Block INDIGO_CAERULEUM = registerBlock("indigo_caeruleum", new RootedFlowerBlock(MobEffects.INVISIBILITY, 20, "mycha_growable", BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY)));
+	public static final Lazy<Block> INDIGO_CAERULEUM = registerBlock(
+		"indigo_caeruleum",
+		() -> new RootedFlowerBlock(
+			MobEffects.INVISIBILITY,
+			20,
+			"mycha_growable",
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.POPPY)
+		)
+	);
 
-	public static final Block REINFORCED_GLASS = registerBlock("reinforced_glass", new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).requiresCorrectToolForDrops()));
+	public static final Lazy<Block> REINFORCED_GLASS = registerBlock(
+		"reinforced_glass",
+		() -> new TransparentBlock(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
+				.requiresCorrectToolForDrops()
+		)
+	);
 
-	public static final Block REINFORCED_GLASS_PANE = registerBlock("reinforced_glass_pane", new IronBarsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).requiresCorrectToolForDrops()));
+	public static final Lazy<Block> REINFORCED_GLASS_PANE = registerBlock(
+		"reinforced_glass_pane",
+		() -> new IronBarsBlock(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
+				.requiresCorrectToolForDrops()
+		)
+	);
 
-	public static final Block REDSTONE_LANTERN = registerBlock("redstone_lantern", new RedstoneLampBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_LAMP)));
+	public static final Lazy<Block> REDSTONE_LANTERN = registerBlock(
+		"redstone_lantern",
+		() -> new RedstoneLampBlock(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.REDSTONE_LAMP)
+		)
+	);
 
-	public static final Block ROSE_QUARTZ_ORE = registerBlock("rose_quartz_ore", new DropExperienceBlock(UniformInt.of(1,4), BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
-	public static final Block DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock("deepslate_rose_quartz_ore", new DropExperienceBlock(UniformInt.of(1,4), BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_IRON_ORE)));
-	public static final Block ROSE_QUARTZ_BLOCK = registerBlock("rose_quartz_block", new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
+	public static final Lazy<Block> ROSE_QUARTZ_ORE = registerBlock(
+		"rose_quartz_ore",
+		() -> new DropExperienceBlock(
+			UniformInt.of(1,4),
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.IRON_ORE)
+		)
+	);
+	public static final Lazy<Block> DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock(
+		"deepslate_rose_quartz_ore",
+		() -> new DropExperienceBlock(
+			UniformInt.of(1,4),
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.DEEPSLATE_IRON_ORE)
+		)
+	);
+	public static final Lazy<Block> ROSE_QUARTZ_BLOCK = registerBlock(
+		"rose_quartz_block",
+		() -> new Block(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.AMETHYST_BLOCK)
+		)
+	);
 
-	public static final Block MODULO_COMPARATOR = registerBlock(
+	public static final Lazy<Block> MODULO_COMPARATOR = registerBlock(
 		"modulo_comparator",
-		new LogicGateBlock(
+		() -> new LogicGateBlock(
 			BlockBehaviour.Properties.ofFullCopy(Blocks.COMPARATOR),
 			LogicGateBlock.SideInput.ALL,
 			true,
@@ -70,9 +119,9 @@ public class BlockInitializer {
 		)
 	);
 
-	public static final Block REDSTONE_STEPPER = registerBlock(
+	public static final Lazy<Block> REDSTONE_STEPPER = registerBlock(
 		"redstone_stepper",
-		new LogicGateBlock(
+		() -> new LogicGateBlock(
 			BlockBehaviour.Properties.ofFullCopy(Blocks.REPEATER),
 			LogicGateBlock.SideInput.NONE,
 			false,
@@ -80,18 +129,18 @@ public class BlockInitializer {
 		)
 	);
 
-	public static final Block MYCELIAL_SAND = registerBlock(
+	public static final Lazy<Block> MYCELIAL_SAND = registerBlock(
 		"mycelial_sand",
-		new FallingDecayableBlock(
+		() -> new FallingDecayableBlock(
 			BlockBehaviour.Properties.ofFullCopy(Blocks.SAND).mapColor(MapColor.ICE),
 			Blocks.SAND,
 			"mycha_spread"
 		)
 	);
 
-	public static final Block MYCHA_ROOTS = registerBlock(
+	public static final Lazy<Block> MYCHA_ROOTS = registerBlock(
 		"mycha_roots",
-		new RootedPlantBlock(
+		() -> new RootedPlantBlock(
 			BlockBehaviour.Properties.of()
 				.mapColor(MapColor.NETHER)
 				.replaceable()
@@ -104,38 +153,118 @@ public class BlockInitializer {
 		)
 	);
 
-	public static void init() {
-		registerBlock("altar_pedestal", AltarPedestalBlock.INSTANCE);
-		registerBlock("altar_catalyzer", AltarCatalyzerBlock.INSTANCE);
-		registerBlock("sculk_resonator", ResonatorBlock.INSTANCE);
-		registerBlock("sculkflower", SculkflowerBlock.INSTANCE);
-		registerBlock("crystalline_sculk_block", CrystalSculkBlock.INSTANCE);
-		registerBlock("camera", CameraBlock.INSTANCE);
-		registerBlock("wall_holder", WallHolderBlock.EMPTY);
+	public static final Lazy<Block> ALTAR_PEDESTAL = registerBlock(
+		"altar_pedestal",
+		() -> new AltarPedestalBlock(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.REDSTONE_BLOCK)
+		)
+	);
 
-		registerBlockEntity("altar_pedestal", AltarPedestalBlockEntity.TYPE);
-		registerBlockEntity("altar_catalyzer", AltarCatalyzerBlockEntity.TYPE);
-		registerBlockEntity("extensible_comparator", LogicGateBlockEntity.TYPE);
+	public static final Lazy<AltarCatalyzerBlock> ALTAR_CATALYZER = registerBlock(
+		"altar_catalyzer",
+		() -> new AltarCatalyzerBlock(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.REDSTONE_BLOCK)
+		)
+	);
+
+	public static final Lazy<Block> SCULK_RESONATOR = registerBlock(
+		"sculk_resonator",
+		() -> new ResonatorBlock(
+			BlockBehaviour.Properties.of()
+				.sound(SoundType.SCULK_SHRIEKER)
+		)
+	);
+
+	public static final Lazy<Block> SCULKFLOWER = registerBlock(
+		"sculkflower",
+		() -> new SculkflowerBlock(
+			MobEffects.DARKNESS,
+			30,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.POPPY)
+				.offsetType(BlockBehaviour.OffsetType.NONE)
+		)
+	);
+
+	public static final Lazy<Block> CRYSTALLINE_SCULK = registerBlock(
+		"crystalline_sculk_block",
+		() -> new CrystalSculkBlock(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.AMETHYST_BLOCK)
+				.lightLevel((state) -> 1)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> CAMERA = registerBlock(
+		"camera",
+		() -> new CameraBlock(
+			BlockBehaviour.Properties.of()
+				.mapColor(MapColor.COLOR_GRAY)
+		)
+	);
+
+	public static final Lazy<Block> WALL_HOLDER = registerBlock(
+		"wall_holder",
+		() ->  new WallHolderBlock(
+			BlockBehaviour.Properties.of()
+				.instabreak()
+				.mapColor(MapColor.COLOR_GRAY)
+		)
+	);
+
+
+	public static final Lazy<BlockEntityType<AltarPedestalBlockEntity>> ALTAR_PEDESTAL_TYPE = registerBlockEntity(
+		"altar_pedestal",
+		() -> BlockEntityType.Builder
+			.of(
+				AltarPedestalBlockEntity::new,
+				ALTAR_PEDESTAL.get()
+			)
+			.build(null)
+	);
+
+	public static final Lazy<BlockEntityType<AltarCatalyzerBlockEntity>> ALTAR_CATALYZER_TYPE = registerBlockEntity(
+		"altar_catalyzer",
+		() -> BlockEntityType.Builder.of(
+			AltarCatalyzerBlockEntity::new,
+			ALTAR_CATALYZER.get()
+		).build(null)
+	);
+
+	public static final Lazy<BlockEntityType<LogicGateBlockEntity>> LOGIC_GATE_TYPE = registerBlockEntity(
+		"extensible_comparator",
+		() -> BlockEntityType.Builder
+			.of(
+				LogicGateBlockEntity::new,
+				MODULO_COMPARATOR.get()
+			).build(null)
+	);
+
+	public static <T extends Block> Lazy<T> registerBlock(String id, Supplier<T> block) {
+		return (Lazy<T>) BLOCKS.register(WanderingWizardry.id(id), (Supplier<Block>) block);
 	}
 
-	public static <T extends Block> T registerBlock(String id, T block) {
-		return (T) BLOCKS.register(WanderingWizardry.id(id), block);
+	public static <T extends BlockEntity> Lazy<BlockEntityType<T>> registerBlockEntity(String id, Supplier<BlockEntityType<T>> blockEntity) {
+		return (Lazy<BlockEntityType<T>>)(Object) BLOCK_ENTITIES.register(WanderingWizardry.id(id), (Supplier<BlockEntityType<?>>)(Object) blockEntity);
 	}
 
-	public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(String id, BlockEntityType<T> blockEntity) {
-		return (BlockEntityType<T>) BLOCK_ENTITIES.register(WanderingWizardry.id(id), blockEntity);
-	}
-
-	public static void addSignBlocks(Block... blocks) {
+	public static void addSignBlocks(Lazy<Block>... blocks) {
 		addBlocksToType(BlockEntityType.SIGN, blocks);
 	}
 
-	public static void addHangingSignBlocks(Block... blocks) {
+	public static void addHangingSignBlocks(Lazy<Block>... blocks) {
 		addBlocksToType(BlockEntityType.HANGING_SIGN, blocks);
 	}
 
-	private static void addBlocksToType(BlockEntityType<?> type, Block... blocks) {
-		var set = getBlocksForType(type);
+	private static final Map<BlockEntityType<?>, Set<Lazy<Block>>> INTERNAL_BLOCKENTITY_MAP = new HashMap<>();
+
+	private static void addBlocksToType(BlockEntityType<?> type, Lazy<Block>... blocks) {
+		if (!INTERNAL_BLOCKENTITY_MAP.containsKey(type))
+			INTERNAL_BLOCKENTITY_MAP.put(type, new HashSet<>());
+		var set = INTERNAL_BLOCKENTITY_MAP.get(type);
 		for (var block : blocks)
 			set.add(block);
 	}
@@ -150,8 +279,19 @@ public class BlockInitializer {
 		return out;
 	}
 
-	public static void addStrippedBlock(Block base, Block stripped) {
-		getSrippedBlocks().put(base, stripped);
+	private static final Map<Lazy<Block>, Lazy<Block>> INTERNAL_STRIPPABLE_MAP = new HashMap<>();
+
+	public static void addStrippedBlock(Lazy<Block> base, Lazy<Block> stripped) {
+		INTERNAL_STRIPPABLE_MAP.put(base, stripped);
+	}
+
+	public static void registerSecondaryBlockFunctions() {
+		var stripped = getSrippedBlocks();
+		for (var set : INTERNAL_STRIPPABLE_MAP.entrySet())
+			stripped.put(set.getKey().get(), set.getValue().get());
+		for (var set : INTERNAL_BLOCKENTITY_MAP.entrySet())
+			for (var block : set.getValue())
+				getBlocksForType(set.getKey()).add(block.get());
 	}
 
 	private static Map<Block, Block> getSrippedBlocks() {

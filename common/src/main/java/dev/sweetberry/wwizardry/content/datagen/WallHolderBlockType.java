@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.datagen;
 
+import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.WallCandleBlock;
@@ -15,20 +16,19 @@ import org.jetbrains.annotations.NotNull;
 public class WallHolderBlockType extends AbstractDataGenerator {
 	public final ResourceLocation id;
 	public final Block block;
-	public final WallHolderBlock wallBlock;
+	public final Lazy<WallHolderBlock> wallBlock;
 	public final ParentType parent;
 
 	public WallHolderBlockType(ResourceLocation id, Block block, ParentType parent) {
 		this.id = id;
 		this.block = block;
 		this.parent = parent;
-		wallBlock = switch (parent) {
-			case CANDLE -> new WallCandleBlock(BlockBehaviour.Properties.ofFullCopy(WallHolderBlock.EMPTY), (CandleBlock) block);
+
+		wallBlock = BlockInitializer.registerBlock(transformId(id), () -> switch (parent) {
+			case CANDLE -> new WallCandleBlock(BlockBehaviour.Properties.ofFullCopy(BlockInitializer.WALL_HOLDER.get()), (CandleBlock) block);
 			// TODO!
 			default -> throw new NotImplementedException("Type "+ parent.name +" is not implemented.");
-		};
-
-		BlockInitializer.registerBlock(transformId(id), wallBlock);
+		});
 	}
 
 	public static String transformId(ResourceLocation id) {

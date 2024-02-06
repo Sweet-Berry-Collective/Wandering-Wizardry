@@ -3,6 +3,7 @@ package dev.sweetberry.wwizardry.content.events;
 import dev.sweetberry.wwizardry.content.block.Sculkable;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -19,9 +20,8 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class UseBlockHandler {
-	public static InteractionResult onBlockUse(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
+	public static InteractionResult onBlockUse(Player player, Level world, InteractionHand hand, BlockPos pos, Direction direction) {
 		if (!player.mayBuild()) return InteractionResult.PASS;
-		var pos = hitResult.getBlockPos();
 		var state = world.getBlockState(pos);
 		var stack = player.getItemInHand(hand);
 		var shouldSneak = false;
@@ -34,7 +34,7 @@ public class UseBlockHandler {
 			if (test != InteractionResult.PASS) return test;
 		}
 		if (state.hasProperty(Sculkable.SCULK_INFESTED) && !isBasicallySneaking) return InteractionResult.PASS;
-		var hitPos = pos.relative(hitResult.getDirection());
+		var hitPos = pos.relative(direction);
 		var hitState = world.getBlockState(hitPos);
 		return testPos(hitPos, hitState, player, world, hand, stack);
 	}

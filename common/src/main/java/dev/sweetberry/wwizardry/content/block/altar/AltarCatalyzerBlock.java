@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.altar;
 
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,8 +19,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
-	public static final AltarCatalyzerBlock INSTANCE = new AltarCatalyzerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK));
-	public static final BlockItem ITEM = new BlockItem(INSTANCE, new Item.Properties());
+
 	public static final VoxelShape SHAPE = Shapes.or(
 		AltarBlock.ALTAR_BASE_SHAPE,
 
@@ -34,7 +34,7 @@ public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
 
 	@Override
 	public BlockEntityType<AltarCatalyzerBlockEntity> getBlockEntityType() {
-		return AltarCatalyzerBlockEntity.TYPE;
+		return BlockInitializer.ALTAR_CATALYZER_TYPE.get();
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class AltarCatalyzerBlock extends AltarBlock<AltarCatalyzerBlockEntity> {
 		Direction[] directions = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST };
 		for (var direction : directions) {
 			var neighbor = world.getBlockState(pos.relative(direction, 2));
-			if (!neighbor.is(AltarPedestalBlock.INSTANCE))
+			if (!neighbor.is(BlockInitializer.ALTAR_PEDESTAL.get()))
 				return false;
 			if (neighbor.getValue(HorizontalDirectionalBlock.FACING) != direction)
 				return false;

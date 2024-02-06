@@ -18,7 +18,7 @@ public record EmiAltarShapelessRecipe(ResourceLocation id, List<EmiIngredient> i
 		var ingredients = recipe.getIngredients();
 		var output = recipe.getResultItem(null);
 
-		var inputs = NonNullList.withSize(4, (EmiIngredient)EmiStack.of(ItemInitializer.SLOT_CHARM));
+		var inputs = NonNullList.withSize(4, (EmiIngredient)EmiStack.of(ItemInitializer.SLOT_CHARM.get()));
 		for (var i = 0; i < ingredients.size(); i++) {
 			inputs.set(i, EmiIngredient.of(ingredients.get(i)));
 		}
@@ -43,7 +43,7 @@ public record EmiAltarShapelessRecipe(ResourceLocation id, List<EmiIngredient> i
 
 	@Override
 	public EmiIngredient getInnerIngredient() {
-		return EmiStack.of(ItemInitializer.CRAFTING_CHARM);
+		return EmiStack.of(ItemInitializer.CRAFTING_CHARM.get());
 	}
 
 	@Override

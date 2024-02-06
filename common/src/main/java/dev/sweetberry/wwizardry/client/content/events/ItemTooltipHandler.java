@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.client.content.events;
 
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
 import dev.sweetberry.wwizardry.content.component.VoidBagComponent;
+import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import java.util.List;
@@ -47,7 +48,7 @@ public class ItemTooltipHandler {
 	);
 
 	public static void addTooltips(ItemStack stack, TooltipFlag context, List<Component> lines) {
-		if (stack.is(VoidBagItem.INSTANCE)) {
+		if (stack.is(ItemInitializer.VOID_BAG.get())) {
 			var player = Minecraft.getInstance().player;
 			if (player == null)
 				return;
@@ -58,10 +59,10 @@ public class ItemTooltipHandler {
 			);
 			return;
 		}
-		if (stack.is(SoulMirrorItem.INSTANCE)) {
+		if (stack.is(ItemInitializer.SOUL_MIRROR.get())) {
 			lines.addAll(
 				1,
-				SoulMirrorItem.INSTANCE.isFullyUsed(stack) ? SOUL_MIRROR_BROKEN : SOUL_MIRROR
+				ItemInitializer.SOUL_MIRROR.get().isFullyUsed(stack) ? SOUL_MIRROR_BROKEN : SOUL_MIRROR
 			);
 		}
 	}

@@ -33,7 +33,7 @@ terrablender_neoforge = { module = "com.github.glitchfiend:TerraBlender-neoforge
 
 emi_common = { module = "dev.emi:emi-xplat-mojmap", version.ref = "emi" }
 emi_fabric = { module = "dev.emi:emi-fabric", version.ref = "emi" }
-emi_neorofge = { module = "dev.emi:emi-neoforge", version.ref = "emi" }
+emi_neoforge = { module = "dev.emi:emi-neoforge", version.ref = "emi" }
 
 # Neoforge
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }

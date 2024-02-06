@@ -16,7 +16,8 @@ public class RegistryMonitorHandler {
 		"jello"
 	};
 
-	public static void onBlockAdded(Registry<Block> registry, ResourceLocation id, Supplier<Block> block) {
+	public static void onBlockAdded(Registry<Block> registry, ResourceLocation id, Supplier<Block> supplier) {
+		var block = supplier.get();
 		// Ignore known broken mods. TODO: Make this configurable
 		if (
 			Arrays.stream(modid_exclusions)
@@ -26,7 +27,7 @@ public class RegistryMonitorHandler {
 		)
 			return;
 		if (block instanceof CandleBlock)
-			registerHolderBlock(block.get(), id, WallHolderBlockType.ParentType.CANDLE);
+			registerHolderBlock(block, id, WallHolderBlockType.ParentType.CANDLE);
 		// Blocked out for now, until I can implement them
 //        if (block instanceof TorchBlock)
 //            registerHolderBlock(block, id, ParentType.TORCH, ParentType.TORCH_TOGGLEABLE);

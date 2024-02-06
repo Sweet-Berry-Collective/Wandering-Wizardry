@@ -1,4 +1,5 @@
 {
+  "render_type": "minecraft:cutout",
   "parent": "block/template_orientable_trapdoor$",
   "textures": {
     "texture": "wwizardry:block/%_trapdoor"

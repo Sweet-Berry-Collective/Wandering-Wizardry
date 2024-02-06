@@ -18,8 +18,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class CameraBlock extends Block implements SimpleWaterloggedBlock {
-	public static final CameraBlock INSTANCE = new CameraBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY));
-
 	public static final VoxelShape SHAPE = box(4, 3, 4, 12, 16, 12);
 
 	public CameraBlock(Properties settings) {

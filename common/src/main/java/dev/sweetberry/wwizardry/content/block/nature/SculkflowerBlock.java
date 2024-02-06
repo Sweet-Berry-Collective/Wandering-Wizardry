@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import org.jetbrains.annotations.Nullable;
 
 public class SculkflowerBlock extends FlowerBlock implements Sculkable, SculkBehaviour {
-	public static final SculkflowerBlock INSTANCE = new SculkflowerBlock(MobEffects.DARKNESS, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).offsetType(OffsetType.NONE));
 
 	public SculkflowerBlock(MobEffect suspiciousStewEffect, int effectDuration, Properties settings) {
 		super(suspiciousStewEffect, effectDuration, settings);

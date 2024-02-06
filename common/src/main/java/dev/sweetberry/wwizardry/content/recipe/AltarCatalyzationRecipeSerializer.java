@@ -12,7 +12,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class AltarCatalyzationRecipeSerializer implements RecipeSerializer<AltarCatalyzationRecipe> {
-	public static final AltarCatalyzationRecipeSerializer INSTANCE = new AltarCatalyzationRecipeSerializer();
 	public static final Codec<AltarCatalyzationRecipe> CODEC = RecordCodecBuilder.create(
 		instance -> instance.group(
 			Ingredient.CODEC_NONEMPTY

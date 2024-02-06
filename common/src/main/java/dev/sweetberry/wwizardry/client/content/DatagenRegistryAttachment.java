@@ -12,6 +12,7 @@ public class DatagenRegistryAttachment {
 		DatagenInitializer.REGISTRY
 			.values()
 			.forEach(DatagenRegistryAttachment::checkGenerator);
+		AbstractDataGenerator.DATA_GENERATOR_CONSTRUCTED.listen(DatagenRegistryAttachment::checkGenerator);
 	}
 
 	public static void checkGenerator(AbstractDataGenerator dataGenerator) {

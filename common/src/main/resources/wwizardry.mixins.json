@@ -19,6 +19,7 @@
     "Mixin_MultifaceSpreader_DefaultSpreaderConfig",
     "Mixin_Player",
     "Mixin_RedStoneWireBlock",
+    "Mixin_ReloadableResourceManager",
     "Mixin_SculkVeinBlock_SculkVeinSpreaderConfig",
     "Mixin_StructureTemplate"
   ],

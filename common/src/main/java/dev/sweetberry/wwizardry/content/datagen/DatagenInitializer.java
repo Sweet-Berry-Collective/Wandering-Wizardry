@@ -35,24 +35,12 @@ public class DatagenInitializer {
 
 	public static <T extends AbstractDataGenerator> T registerDataGenerator(String path, T t) {
 		REGISTRY.put(WanderingWizardry.id(path), t);
+		AbstractDataGenerator.DATA_GENERATOR_CONSTRUCTED.invoker().accept(t);
 		return t;
 	}
 
 	public static void reloadPack(ResourceManager manager) {
 		DatagenInitializer.pack.clear(PackType.CLIENT_RESOURCES);
-		DatagenInitializer.pack.put("pack.mcmeta", """
-			{
-				"pack": {
-					"pack_format": 15,
-					"description": "Wandering Wizardry Resources"
-				}
-			}
-			""");
-		try {
-			DatagenInitializer.pack.put("pack.png", manager.getResource(WanderingWizardry.id("icon.png")).get().open().readAllBytes());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 		DatagenInitializer.REGISTRY
 			.values()
 			.forEach(generator -> generator.onRegisterPack(manager, pack));

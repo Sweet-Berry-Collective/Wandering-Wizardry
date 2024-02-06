@@ -1,4 +1,5 @@
 {
+  "render_type": "minecraft:cutout",
   "parent": "minecraft:block/template_glass_pane_noside",
   "textures": {
     "pane": "wwizardry:block/reinforced_glass"

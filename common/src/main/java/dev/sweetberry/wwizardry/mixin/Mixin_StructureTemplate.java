@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.mixin;
 
+import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import dev.sweetberry.wwizardry.content.world.processors.WaterLoggingFixProcessor;
 import dev.sweetberry.wwizardry.mixin.Accessor_StructureProcessor;
 import net.minecraft.core.BlockPos;
@@ -20,7 +21,7 @@ public class Mixin_StructureTemplate {
 	)
 	private void wwizardry$fixWaterLogging(ServerLevelAccessor world, BlockPos pos, BlockPos pivot, StructurePlaceSettings placementData, RandomSource random, int flags, CallbackInfoReturnable<Boolean> cir) {
 		if (placementData.getProcessors().stream().allMatch(
-			it -> ((Accessor_StructureProcessor)it).callGetType() == WaterLoggingFixProcessor.INSTANCE
+			it -> ((Accessor_StructureProcessor)it).callGetType() == WorldgenInitializer.WATER_LOGGING_FIX.get()
 		))
 			placementData.setKeepLiquids(false);
 	}

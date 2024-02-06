@@ -14,13 +14,10 @@ import java.util.Map;
 public class BoatComponent implements Component {
 	public static Map<ResourceLocation, BoatType> BOATS = new HashMap<>();
 
-	public Boat boat;
 	@Nullable
 	public ResourceLocation type;
 
-	public BoatComponent(Boat boat) {
-		this.boat = boat;
-	}
+	public BoatComponent() {}
 
 	@Override
 	public void fromNbt(CompoundTag tag) {

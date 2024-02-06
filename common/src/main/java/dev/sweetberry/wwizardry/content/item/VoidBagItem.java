@@ -15,11 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class VoidBagItem extends Item {
-	public static final VoidBagItem INSTANCE = new VoidBagItem(
-		new Item.Properties()
-			.stacksTo(1)
-	);
-
 	public VoidBagItem(Properties settings) {
 		super(settings);
 	}
@@ -34,7 +29,7 @@ public class VoidBagItem extends Item {
 			return InteractionResultHolder.sidedSuccess(user.getItemInHand(hand), world.isClientSide);
 		}
 		if (!world.isClientSide)
-			bag.openScreen();
+			bag.openScreen(user);
 
 		return InteractionResultHolder.sidedSuccess(user.getItemInHand(hand), world.isClientSide);
 	}
@@ -49,7 +44,7 @@ public class VoidBagItem extends Item {
 			return true;
 
 		var bag = ComponentInitializer.<VoidBagComponent>getComponent(ComponentInitializer.VOID_BAG, player);;
-		bag.openScreen();
+		bag.openScreen(player);
 
 		return true;
 	}

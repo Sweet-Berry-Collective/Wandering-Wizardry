@@ -32,7 +32,7 @@ public class TerraBlenderInitializer {
 					aboveWater,
 					SurfaceRules.ifTrue(
 						SurfaceRules.ON_FLOOR,
-						SurfaceRules.state(BlockInitializer.MYCELIAL_SAND.defaultBlockState())
+						SurfaceRules.state(BlockInitializer.MYCELIAL_SAND.get().defaultBlockState())
 					)
 				),
 				SurfaceRules.ifTrue(

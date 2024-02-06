@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.world.processors;
 
 import com.mojang.serialization.Codec;
+import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.ChunkPos;
@@ -14,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class WaterLoggingFixProcessor extends StructureProcessor {
 	public static final Codec<WaterLoggingFixProcessor> CODEC = Codec.unit(WaterLoggingFixProcessor::new);
-	public static final StructureProcessorType<WaterLoggingFixProcessor> INSTANCE = () -> CODEC;
 
 	@Nullable
 	@Override
@@ -37,6 +37,6 @@ public class WaterLoggingFixProcessor extends StructureProcessor {
 
 	@Override
 	protected StructureProcessorType<?> getType() {
-		return INSTANCE;
+		return WorldgenInitializer.WATER_LOGGING_FIX.get();
 	}
 }

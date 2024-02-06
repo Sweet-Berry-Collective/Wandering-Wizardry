@@ -8,17 +8,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class LogicGateBlockEntity extends BlockEntity {
-	public static final BlockEntityType<LogicGateBlockEntity> TYPE =
-		BlockEntityType.Builder
-			.of(
-				LogicGateBlockEntity::new,
-				BlockInitializer.MODULO_COMPARATOR
-			).build(null);
-
 	private int outputSignal = 0;
 
 	public LogicGateBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state);
+		super(BlockInitializer.LOGIC_GATE_TYPE.get(), pos, state);
 	}
 
 	@Override

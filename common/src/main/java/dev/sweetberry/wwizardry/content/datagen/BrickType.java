@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.datagen;
 
+import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
@@ -20,14 +21,14 @@ public class BrickType extends AbstractDataGenerator {
 	public final String baseName;
 	public final boolean plural;
 
-	public final Block BASE;
-	public final Item BASE_ITEM;
-	public final Block STAIRS;
-	public final Item STAIRS_ITEM;
-	public final Block SLAB;
-	public final Item SLAB_ITEM;
-	public final Block WALL;
-	public final Item WALL_ITEM;
+	public final Lazy<Block> BASE;
+	public final Lazy<Item> BASE_ITEM;
+	public final Lazy<Block> STAIRS;
+	public final Lazy<Item> STAIRS_ITEM;
+	public final Lazy<Block> SLAB;
+	public final Lazy<Item> SLAB_ITEM;
+	public final Lazy<Block> WALL;
+	public final Lazy<Item> WALL_ITEM;
 
 	public BrickType(String baseName, boolean plural, MapColor color, SoundType sounds) {
 		super();
@@ -38,17 +39,17 @@ public class BrickType extends AbstractDataGenerator {
 		final var blockSettings = BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS).sound(sounds).mapColor(color).requiresCorrectToolForDrops();
 		final var itemSettings = new Item.Properties();
 
-		BASE = BlockInitializer.registerBlock(baseName+(plural?"s":""), new Block(blockSettings));
-		BASE_ITEM = ItemInitializer.registerItem(baseName+(plural?"s":""), new BlockItem(BASE, itemSettings));
+		BASE = BlockInitializer.registerBlock(baseName+(plural?"s":""), () -> new Block(blockSettings));
+		BASE_ITEM = ItemInitializer.registerItem(baseName+(plural?"s":""), () -> new BlockItem(BASE.get(), itemSettings));
 
-		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", new StairBlock(BASE.defaultBlockState(), blockSettings));
-		STAIRS_ITEM = ItemInitializer.registerItem(baseName+"_stairs", new BlockItem(STAIRS, itemSettings));
+		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", () -> new StairBlock(BASE.get().defaultBlockState(), blockSettings));
+		STAIRS_ITEM = ItemInitializer.registerItem(baseName+"_stairs", () -> new BlockItem(STAIRS.get(), itemSettings));
 
-		SLAB = BlockInitializer.registerBlock(baseName+"_slab", new SlabBlock(blockSettings));
-		SLAB_ITEM = ItemInitializer.registerItem(baseName+"_slab", new BlockItem(SLAB, itemSettings));
+		SLAB = BlockInitializer.registerBlock(baseName+"_slab", () -> new SlabBlock(blockSettings));
+		SLAB_ITEM = ItemInitializer.registerItem(baseName+"_slab", () -> new BlockItem(SLAB.get(), itemSettings));
 
-		WALL = BlockInitializer.registerBlock(baseName+"_wall", new WallBlock(blockSettings));
-		WALL_ITEM = ItemInitializer.registerItem(baseName+"_wall", new BlockItem(WALL, itemSettings));
+		WALL = BlockInitializer.registerBlock(baseName+"_wall", () -> new WallBlock(blockSettings));
+		WALL_ITEM = ItemInitializer.registerItem(baseName+"_wall", () -> new BlockItem(WALL.get(), itemSettings));
 	}
 
 	@Override

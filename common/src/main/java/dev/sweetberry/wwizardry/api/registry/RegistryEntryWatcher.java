@@ -10,7 +10,7 @@ public record RegistryEntryWatcher<T>(Registry<T> registry) {
 
 		// Collect to a list so any updates don't cause an infinite loop.
 		registry.holders().toList().forEach(it ->
-			callback.register(registry, it.key().location(), it.value())
+			callback.register(registry, it.key().location(), it::value)
 		);
 
 		holder.wwizardry$getEvent().listen(callback);

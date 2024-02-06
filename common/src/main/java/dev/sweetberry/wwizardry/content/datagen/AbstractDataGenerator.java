@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.datagen;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.api.event.Event;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -9,8 +10,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Consumer;
 
 public abstract class AbstractDataGenerator {
+	public static Event<Consumer<AbstractDataGenerator>> DATA_GENERATOR_CONSTRUCTED = new Event<>(listeners -> (abstractDataGenerator -> {
+		for (var listener : listeners)
+			listener.accept(abstractDataGenerator);
+	}));
+
 	public AbstractDataGenerator() {}
 
 	public abstract void onRegisterPack(@NotNull ResourceManager manager, MapBackedPack pack);

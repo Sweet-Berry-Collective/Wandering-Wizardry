@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public record EmiAltarCatalyzationRecipe(ResourceLocation id, List<EmiIngredient> input, EmiIngredient catalyst, boolean keepCatalyst, int bloom, EmiStack output) implements EmiAltarRecipe {
 	public static EmiAltarCatalyzationRecipe of(ResourceLocation id, AltarCatalyzationRecipe recipe) {
-		var inputs = NonNullList.withSize(4, (EmiIngredient)EmiStack.of(ItemInitializer.SLOT_CHARM));
+		var inputs = NonNullList.withSize(4, (EmiIngredient)EmiStack.of(ItemInitializer.SLOT_CHARM.get()));
 
 		for (var i = 0; i < recipe.inputs().size(); i++) {
 			inputs.set(i, EmiIngredient.of(recipe.inputs().get(i)));

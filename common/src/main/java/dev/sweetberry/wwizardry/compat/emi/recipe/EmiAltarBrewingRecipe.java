@@ -18,13 +18,13 @@ public record EmiAltarBrewingRecipe(
 ) implements EmiAltarRecipe {
 	@Override
 	public List<EmiIngredient> getOuterIngredients() {
-		var empty = EmiStack.of(ItemInitializer.SLOT_CHARM);
+		var empty = EmiStack.of(ItemInitializer.SLOT_CHARM.get());
 		return List.of(inputIngredient, inputPotion, empty, empty);
 	}
 
 	@Override
 	public EmiIngredient getInnerIngredient() {
-		return EmiStack.of(ItemInitializer.BREWING_CHARM);
+		return EmiStack.of(ItemInitializer.BREWING_CHARM.get());
 	}
 
 	@Override

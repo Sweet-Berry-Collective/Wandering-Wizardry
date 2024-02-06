@@ -33,6 +33,6 @@ public class Mixin_MappedRegistry<T> implements RegistryEventHolder<T> {
 		at = @At("RETURN")
 	)
 	private void wwizardry$triggerEvent(int i, ResourceKey<T> key, T value, Lifecycle lifecycle, CallbackInfoReturnable<Holder.Reference<T>> cir) {
-		wwizardry$EVENT.invoker().register((Registry<T>)(Object)this, key.location(), value);
+		wwizardry$EVENT.invoker().register((Registry<T>)this, key.location(), () -> value);
 	}
 }

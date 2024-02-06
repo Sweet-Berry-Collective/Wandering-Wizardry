@@ -116,7 +116,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 
 		if (!stack.isEmpty()) {
 			if (stack.is(Items.END_CRYSTAL) && player instanceof ServerPlayer serverPlayerEntity)
-				CriterionInitializer.ALTAR_END_CRYSTAL.trigger(serverPlayerEntity);
+				CriterionInitializer.ALTAR_END_CRYSTAL.get().trigger(serverPlayerEntity);
 
 			if (!entity.heldItem.isEmpty())
 				if (stack.getCount() == 1)
@@ -149,7 +149,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
 		world.setBlockAndUpdate(pos, state.setValue(Sculkable.SCULK_BELOW, Sculkable.testForSculk(world, pos.below())));
 		if (isComplete(world, state, pos) && placer instanceof ServerPlayer serverPlayerEntity)
-			CriterionInitializer.COMPLETE_ALTAR.trigger(serverPlayerEntity);
+			CriterionInitializer.COMPLETE_ALTAR.get().trigger(serverPlayerEntity);
 	}
 
 	@Override

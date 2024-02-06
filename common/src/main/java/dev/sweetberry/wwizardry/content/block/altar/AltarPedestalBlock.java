@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.altar;
 
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.entity.AltarPedestalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,8 +24,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class AltarPedestalBlock extends AltarBlock<AltarPedestalBlockEntity> {
-	public static final AltarPedestalBlock INSTANCE = new AltarPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK));
-	public static final BlockItem ITEM = new BlockItem(INSTANCE, new Item.Properties());
 	public static final VoxelShape NORTH_SHAPE = Shapes.or(
 		AltarBlock.ALTAR_BASE_SHAPE,
 
@@ -62,7 +61,7 @@ public class AltarPedestalBlock extends AltarBlock<AltarPedestalBlockEntity> {
 
 	@Override
 	public BlockEntityType<AltarPedestalBlockEntity> getBlockEntityType() {
-		return AltarPedestalBlockEntity.TYPE;
+		return BlockInitializer.ALTAR_PEDESTAL_TYPE.get();
 	}
 
 	@Nullable
@@ -88,8 +87,8 @@ public class AltarPedestalBlock extends AltarBlock<AltarPedestalBlockEntity> {
 		var facing = state.getValue(HorizontalDirectionalBlock.FACING);
 		var offset = pos.relative(facing, -2);
 		var center = world.getBlockState(offset);
-		if (center.is(AltarCatalyzerBlock.INSTANCE))
-			return AltarCatalyzerBlock.INSTANCE.isComplete(world, center, offset);
+		if (center.is(BlockInitializer.ALTAR_CATALYZER.get()))
+			return BlockInitializer.ALTAR_CATALYZER.get().isComplete(world, center, offset);
 		return false;
 	}
 

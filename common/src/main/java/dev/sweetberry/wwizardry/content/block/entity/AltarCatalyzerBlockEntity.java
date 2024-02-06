@@ -3,11 +3,13 @@ package dev.sweetberry.wwizardry.content.block.entity;
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.net.packet.AltarCraftPacket;
 import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
+import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -31,18 +33,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
-	public static final BlockEntityType<AltarCatalyzerBlockEntity> TYPE = BlockEntityType.Builder.of(
-		AltarCatalyzerBlockEntity::new,
-		AltarCatalyzerBlock.INSTANCE
-	).build(null);
-
 	public ItemStack result = ItemStack.EMPTY;
 	private final SculkSpreader behavior = SculkSpreader.createLevelSpreader();
 	public int bloom = 0;
 	public boolean shouldUpdateClient = false;
 
 	public AltarCatalyzerBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state);
+		super(BlockInitializer.ALTAR_CATALYZER_TYPE.get(), pos, state);
 	}
 
 	@Override
@@ -71,7 +68,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 				.anyMatch(it -> it.heldItem.isEmpty())
 		) return;
 
-		var optional = level.getRecipeManager().getRecipeFor(AltarCatalyzationRecipe.TYPE, view, level);
+		var optional = level.getRecipeManager().getRecipeFor(RecipeInitializer.ALTAR_TYPE.get(), view, level);
 
 		if (optional.isPresent()) {
 			optional.get().value().tryCraft(view, level);
@@ -122,7 +119,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public Block getBlock() {
-		return AltarCatalyzerBlock.INSTANCE;
+		return BlockInitializer.ALTAR_CATALYZER.get();
 	}
 
 	@Override
@@ -193,7 +190,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 				// Iterate through the ingredients
 				for (var j = 0; j < 4; j++) {
 					var heldItem = getItemInPedestal(dir);
-					var isSlotCharm = heldItem.getItem() == ItemInitializer.SLOT_CHARM;
+					var isSlotCharm = heldItem.getItem() == ItemInitializer.SLOT_CHARM.get();
 					// If this ingredient was already met, skil
 					if (!met[j]) {
 						// Check if the ingredient is met in this slot

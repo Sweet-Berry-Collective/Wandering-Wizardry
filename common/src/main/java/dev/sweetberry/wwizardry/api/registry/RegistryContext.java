@@ -1,11 +1,13 @@
 package dev.sweetberry.wwizardry.api.registry;
 
+import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.event.Event;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 // TODO: PastAwareEvent? I don't know how it'd work.
 public final class RegistryContext<T> extends Event<RegistryCallback<T>> {
@@ -20,10 +22,11 @@ public final class RegistryContext<T> extends Event<RegistryCallback<T>> {
 		this.registry = registry;
 	}
 
-	public T register(ResourceLocation id, T object) {
-		invoker().register(registry, id, object);
-		pastRegistrations.add(new RegistryObject<>(id, object));
-		return object;
+	public Lazy<T> register(ResourceLocation id, Supplier<T> object) {
+		var lazy = Lazy.create(object);
+		invoker().register(registry, id, lazy);
+		pastRegistrations.add(new RegistryObject<>(id, lazy));
+		return lazy;
 	}
 
 	@Override
@@ -33,5 +36,5 @@ public final class RegistryContext<T> extends Event<RegistryCallback<T>> {
 			listener.register(registry, registration.id(), registration.object());
 	}
 
-	private record RegistryObject<T>(ResourceLocation id, T object) {}
+	private record RegistryObject<T>(ResourceLocation id, Lazy<T> object) {}
 }

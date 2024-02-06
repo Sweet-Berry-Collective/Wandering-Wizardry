@@ -1,6 +1,8 @@
 package dev.sweetberry.wwizardry.fabric;
 
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.component.Component;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.fabric.compat.cardinal.CardinalInitializer;
@@ -27,16 +29,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FabricInitializer implements ModInitializer {
-	public static final CreativeModeTab GROUP = ItemInitializer.registerTab(
+	public static final Lazy<CreativeModeTab> GROUP = ItemInitializer.registerTab(
 		"items",
-		FabricItemGroup.builder()
-			.icon(ItemInitializer.CRYSTALLINE_SCULK_SHARD::getDefaultInstance)
-			.displayItems((display, collector) -> collector.acceptAll(ItemInitializer.STACKS))
+		() -> FabricItemGroup.builder()
+			.icon(() -> ItemInitializer.CRYSTALLINE_SCULK_SHARD.get().getDefaultInstance())
+			.displayItems((display, collector) -> collector.acceptAll(ItemInitializer.STACKS.stream().map(Lazy::get).map(Item::getDefaultInstance).collect(Collectors.toList())))
 			.title(net.minecraft.network.chat.Component.translatable("itemGroup.wwizardry.items"))
 			.build()
 	);
@@ -46,7 +50,9 @@ public class FabricInitializer implements ModInitializer {
 		ComponentInitializer.getter = FabricInitializer::getComponent;
 		WanderingWizardry.modLoadedCheck = FabricLoader.getInstance()::isModLoaded;
 
-		ContentInitializer.listenToAll(Registry::register);
+		ContentInitializer.listenToAll(((registry, id, item) -> {
+			Registry.register(registry, id, item.get());
+		}));
 
 		PacketRegistry.SEND_TO_CLIENT.listen((player, packet) -> {
 			var payload = PacketByteBufs.create();
@@ -61,7 +67,9 @@ public class FabricInitializer implements ModInitializer {
 			}));
 		});
 
-		UseBlockCallback.EVENT.register(UseBlockHandler::onBlockUse);
+		UseBlockCallback.EVENT.register((player, world, hand, hitResult) ->
+			UseBlockHandler.onBlockUse(player, world, hand, hitResult.getBlockPos(), hitResult.getDirection())
+		);
 
 		var modification = BiomeModifications.create(WanderingWizardry.id("modifications"));
 
@@ -78,9 +86,10 @@ public class FabricInitializer implements ModInitializer {
 		if (WanderingWizardry.isModLoaded("quilt_resource_loader"))
 			initWithQsl();
 
-		TradeInitializer.addWanderingTradesFor = FabricInitializer::addWanderingTradesFor;
+		FabricInitializer.addWanderingTradesFor(1);
+		FabricInitializer.addWanderingTradesFor(2);
 
-		WanderingWizardry.init();
+		WanderingWizardry.init("neoforge");
     }
 
 	public static void initWithQsl() {
@@ -98,6 +107,6 @@ public class FabricInitializer implements ModInitializer {
 	}
 
 	public static <T extends Component> T getComponent(ResourceLocation id, Entity entity) {
-		return ((ProxyComponent<T>)entity.getComponent(CardinalInitializer.COMPONENTS.get(id))).baseComponent;
+		return (T) entity.getComponent(CardinalInitializer.COMPONENTS.get(id)).baseComponent;
 	}
 }

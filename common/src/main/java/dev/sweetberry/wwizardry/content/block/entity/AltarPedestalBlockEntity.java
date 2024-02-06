@@ -1,31 +1,26 @@
 package dev.sweetberry.wwizardry.content.block.entity;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
-import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3f;
 
 import java.util.Optional;
 
 public class AltarPedestalBlockEntity extends AltarBlockEntity {
-	public static final BlockEntityType<AltarPedestalBlockEntity> TYPE = BlockEntityType.Builder.of(
-		AltarPedestalBlockEntity::new,
-		AltarPedestalBlock.INSTANCE
-	).build(null);
 
 	public Vector3f particlePos;
 	public int particleX;
 	public int particleZ;
 
 	public AltarPedestalBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE, pos, state);
+		super(BlockInitializer.ALTAR_PEDESTAL_TYPE.get(), pos, state);
 		Direction dir = state.getValue(HorizontalDirectionalBlock.FACING);
 
 		final var offX = dir.getStepX();
@@ -65,7 +60,7 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public Block getBlock() {
-		return AltarPedestalBlock.INSTANCE;
+		return BlockInitializer.ALTAR_PEDESTAL.get();
 	}
 
 	public void emitCraftingParticle(Level world) {

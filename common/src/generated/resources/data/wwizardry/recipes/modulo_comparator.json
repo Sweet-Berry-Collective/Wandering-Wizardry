@@ -1,1 +1,1 @@
-{"type":"crafting_shaped","category":"redstone","show_notification":true,"key":{"R":{"item":"redstone_torch"},"S":{"item":"stone"},"Q":{"tag":"c:rose_quartzes"}},"pattern":[" R ","RQR","SSS"],"result":{"count":1,"item":"wwizardry:modulo_comparator"}}
+{"type":"crafting_shaped","category":"redstone","show_notification":true,"key":{"R":{"item":"redstone_torch"},"S":{"item":"stone"},"Q":{"tag":"wwizardry:rose_quartzes"}},"pattern":[" R ","RQR","SSS"],"result":{"count":1,"item":"wwizardry:modulo_comparator"}}

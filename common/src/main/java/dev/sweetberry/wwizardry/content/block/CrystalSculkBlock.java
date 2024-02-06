@@ -18,7 +18,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 
 public class CrystalSculkBlock extends AmethystBlock implements SculkBehaviour {
-	public static final CrystalSculkBlock INSTANCE = new CrystalSculkBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK).lightLevel((state) -> 1).mapColor(MapColor.ICE));
 
 	public CrystalSculkBlock(Properties settings) {
 		super(settings);

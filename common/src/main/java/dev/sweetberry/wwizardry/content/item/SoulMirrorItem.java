@@ -44,11 +44,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class SoulMirrorItem extends TieredItem implements Vanishable {
-	public static final SoulMirrorItem INSTANCE = new SoulMirrorItem(
-		new Item.Properties()
-			.stacksTo(1)
-	);
-
 	public static final String LODESTONE_POS_KEY = "LodestonePos";
 	public static final String LODESTONE_DIMENSION_KEY = "LodestoneDimension";
 	public static final String LODESTONE_TRACKED_KEY = "LodestoneTracked";
@@ -174,7 +169,7 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 		if (server == null)
 			return stack;
 
-		player.getCooldowns().addCooldown(INSTANCE, 20);
+		player.getCooldowns().addCooldown(this, 20);
 
 		var pos = getLodestonePosition(stack.getTag());
 		if (pos != null) {
@@ -269,7 +264,7 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 		Player playerEntity = context.getPlayer();
 
 		if (playerEntity instanceof ServerPlayer serverPlayerEntity)
-			CriterionInitializer.LODESTONE_MIRROR.trigger(serverPlayerEntity);
+			CriterionInitializer.LODESTONE_MIRROR.get().trigger(serverPlayerEntity);
 
 		ItemStack itemStack = context.getItemInHand();
 		var shouldKeepItem = !playerEntity.getAbilities().instabuild && itemStack.getCount() == 1;
@@ -278,7 +273,7 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 			return InteractionResult.sidedSuccess(world.isClientSide);
 		}
 
-		ItemStack itemStack2 = new ItemStack(INSTANCE, 1);
+		var itemStack2 = getDefaultInstance();
 		CompoundTag nbtCompound = itemStack.hasTag() ? itemStack.getTag().copy() : new CompoundTag();
 		itemStack2.setTag(nbtCompound);
 		if (!playerEntity.getAbilities().instabuild)

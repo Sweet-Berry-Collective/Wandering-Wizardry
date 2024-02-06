@@ -7,15 +7,10 @@ import net.minecraft.world.entity.player.Player;
 
 public class VoidBagCardinalComponent extends ProxyComponent<VoidBagComponent> implements PlayerComponent<VoidBagCardinalComponent> {
 	public VoidBagCardinalComponent(Player player) {
-		super(new VoidBagComponent(player));
+		super(new VoidBagComponent());
 	}
 
-	@Override
-	public boolean shouldSyncWith(ServerPlayer player) {
-		return baseComponent.player.equals(player);
-	}
-
-	@Override
+    @Override
 	public boolean shouldCopyForRespawn(boolean lossless, boolean keepInventory, boolean sameCharacter) {
 		return true;
 	}

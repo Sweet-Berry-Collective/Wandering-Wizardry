@@ -55,11 +55,13 @@ dependencies {
 	implementation libs.neoforge
 	compileOnly project(":common")
 
-	compileOnly classify(libs.emi.neorofge, "api")
-	runtimeOnly libs.emi.neorofge
+	compileOnly classify(libs.emi.neoforge, "api")
+	testCompileOnly classify(libs.emi.neoforge, "api")
+	runtimeOnly libs.emi.neoforge
 
 	implementation libs.bundles.include.neoforge
-	jarJar libs.bundles.include.neoforge
+	testImplementation libs.bundles.include.neoforge
+//	jarJar libs.bundles.include.neoforge
 }
 
 Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>

@@ -1,1 +1,1 @@
-{"type":"wwizardry:altar_catalyzation","keepCatalyst":false,"bloom":15,"inputs":[{"item":"wwizardry:crystalline_sculk"},{"item":"gold_ingot"},{"tag":"c:glass_blocks"},{"item":"diamond"}],"catalyst":{"item":"lapis_lazuli"},"result":{"item":"wwizardry:soul_mirror"}}
+{"type":"wwizardry:altar_catalyzation","keepCatalyst":false,"bloom":15,"inputs":[{"item":"wwizardry:crystalline_sculk"},{"item":"gold_ingot"},{"tag":"wwizardry:glass_blocks"},{"item":"diamond"}],"catalyst":{"item":"lapis_lazuli"},"result":{"item":"wwizardry:soul_mirror"}}
