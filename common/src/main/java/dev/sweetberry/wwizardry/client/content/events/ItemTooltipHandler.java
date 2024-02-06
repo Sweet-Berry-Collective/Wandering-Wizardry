@@ -6,6 +6,8 @@ import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
 import java.util.List;
+import java.util.function.BiConsumer;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -47,20 +49,20 @@ public class ItemTooltipHandler {
 		Component.translatable("wwizardry.soul_mirror.broken").withStyle(ChatFormatting.DARK_PURPLE)
 	);
 
-	public static void addTooltips(ItemStack stack, TooltipFlag context, List<Component> lines) {
+	public static void addTooltips(ItemStack stack, TooltipFlag context, BiConsumer<Integer, List<Component>> lines) {
 		if (stack.is(ItemInitializer.VOID_BAG.get())) {
 			var player = Minecraft.getInstance().player;
 			if (player == null)
 				return;
 			var bag = ComponentInitializer.<VoidBagComponent>getComponent(ComponentInitializer.VOID_BAG, player);
-			lines.addAll(
+			lines.accept(
 				1,
 				bag.locked ? VOID_BAG_LOCKED : VOID_BAG_UNLOCKED
 			);
 			return;
 		}
 		if (stack.is(ItemInitializer.SOUL_MIRROR.get())) {
-			lines.addAll(
+			lines.accept(
 				1,
 				ItemInitializer.SOUL_MIRROR.get().isFullyUsed(stack) ? SOUL_MIRROR_BROKEN : SOUL_MIRROR
 			);

@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,6 +31,7 @@ import net.neoforged.neoforge.client.RenderTypeGroup;
 import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import net.neoforged.neoforge.common.CreativeModeTabRegistry;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
@@ -65,6 +67,12 @@ public class NeoForgeInitializer {
 	}
 
 	public void initClient(IEventBus bus) {
+		ClientEvents.registerModelPredicates((item, name, callback) -> {
+			ItemProperties.registerGeneric(
+				WanderingWizardry.id(name),
+				callback
+			);
+		});
 		bus.addListener(this::registerBlockEntityRenderers);
 		bus.addListener(this::registerEntityLayers);
 		bus.addListener(this::registerClientReloadListeners);

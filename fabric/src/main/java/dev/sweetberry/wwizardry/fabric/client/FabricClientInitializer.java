@@ -43,8 +43,7 @@ public class FabricClientInitializer implements ClientModInitializer {
 		});
 
 		ClientEvents.registerModelPredicates((item, name, callback) -> {
-			ItemProperties.register(
-				item.get(),
+			ItemProperties.registerGeneric(
 				WanderingWizardry.id(name),
 				callback
 			);
@@ -85,7 +84,11 @@ public class FabricClientInitializer implements ClientModInitializer {
 
 		ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new FabricPackReloader());
 
-		ItemTooltipCallback.EVENT.register(ItemTooltipHandler::addTooltips);
+		ItemTooltipCallback.EVENT.register((stack, context, lines)
+			-> ItemTooltipHandler.addTooltips(
+				stack, context, lines::addAll
+			)
+		);
 	}
 
 	public static class FabricPackReloader extends PackReloader implements IdentifiableResourceReloadListener {
