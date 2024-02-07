@@ -89,7 +89,7 @@ public class FabricInitializer implements ModInitializer {
 		FabricInitializer.addWanderingTradesFor(1);
 		FabricInitializer.addWanderingTradesFor(2);
 
-		WanderingWizardry.init("neoforge");
+		WanderingWizardry.init("fabric");
     }
 
 	public static void initWithQsl() {
