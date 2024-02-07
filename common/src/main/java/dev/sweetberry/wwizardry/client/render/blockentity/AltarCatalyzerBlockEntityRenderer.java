@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 
 public record AltarCatalyzerBlockEntityRenderer(BlockEntityRendererProvider.Context context) implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
+	private static final double ALTAR_TOP = 16.5d / 16d;
+
 	@Override
 	public boolean shouldHover(AltarCatalyzerBlockEntity entity) {
 		return AltarBlockEntityRenderer.super.shouldHover(entity) || !entity.recipeRemainder.isEmpty();
@@ -18,6 +20,7 @@ public record AltarCatalyzerBlockEntityRenderer(BlockEntityRendererProvider.Cont
 		if (entity.shouldUpdateClient)
 			Minecraft.getInstance().levelRenderer.setBlocksDirty(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
 
-		matrices.translate(0.5, 1.1875, 0.5);
+		// Set to top of altar
+		matrices.translate(0.5, ALTAR_TOP, 0.5);
 	}
 }

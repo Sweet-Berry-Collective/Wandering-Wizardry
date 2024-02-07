@@ -15,6 +15,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -127,10 +128,17 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		behavior.updateCursors(world, pos, world.random, true);
 		setChanged();
 		if (crafting) {
-			if (++craftingTick >= 100) {
+			if (++craftingTick >= 100)
 				finishCrafting(state);
-			}
-			world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0.25 * ((craftingTick + 30) / 100f), 0);
+			world.addParticle(
+				ParticleTypes.SOUL_FIRE_FLAME,
+				pos.getX() + 0.5,
+				pos.getY() + 1,
+				pos.getZ() + 0.5,
+				0,
+				clampLerpTime(0.3f, 0, 4) * timingMultiplier,
+				0
+			);
 		} else {
 			craftingTick = 0;
 		}

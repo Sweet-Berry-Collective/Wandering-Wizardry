@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.block.entity;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class AltarBlockEntity extends BlockEntity implements Container {
+	public static final float timingMultiplier = 0.0625f;
 	private EndCrystal endCrystalEntity;
 
 	public float rand = (float) (Math.floor(Math.random() * Math.PI * 4) / 4);
@@ -39,6 +41,22 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 
 	public AltarBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
+	}
+
+	public float getCraftingTime(float tickDelta) {
+		return (craftingTick + tickDelta) / 100;
+	}
+
+	public float getCraftingTime() {
+		return getCraftingTime(0);
+	}
+
+	public float clampLerpTime(float add, float tickDelta, float from, float to) {
+		return Mth.lerp(Mth.clamp(getCraftingTime(tickDelta) + add, 0, 1), from, to);
+	}
+
+	public float clampLerpTime(float add, float from, float to) {
+		return clampLerpTime(add, 0, from, to);
 	}
 
 	public EndCrystal getOrCreateEndCrystalEntity() {

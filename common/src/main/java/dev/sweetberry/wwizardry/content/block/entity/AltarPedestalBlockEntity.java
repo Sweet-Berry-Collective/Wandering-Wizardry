@@ -5,6 +5,7 @@ import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -14,6 +15,8 @@ import org.joml.Vector3f;
 import java.util.Optional;
 
 public class AltarPedestalBlockEntity extends AltarBlockEntity {
+	private static final double ALTAR_TOP = 16.1854d / 16d;
+	private static final double ALTAR_OFFSET = 1.0306d / 16d;
 
 	public Vector3f particlePos;
 	public int particleX;
@@ -27,9 +30,9 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 		final var offZ = dir.getStepZ();
 
 		particlePos = new Vector3f(
-			pos.getX() + 0.5f + (offZ * 0.03355f),
-			pos.getY() + 0.9229f,
-			pos.getZ() + 0.5f + (offX * 0.03355f)
+			pos.getX() + 0.5f + (float)(offZ * ALTAR_OFFSET),
+			pos.getY() + (float)ALTAR_TOP,
+			pos.getZ() + 0.5f + (float)(offX * ALTAR_OFFSET)
 		);
 
 		particleX = -offX;
@@ -64,11 +67,15 @@ public class AltarPedestalBlockEntity extends AltarBlockEntity {
 	}
 
 	public void emitCraftingParticle(Level world) {
+		var xz = clampLerpTime(0.3f, 0, 2 - (float)ALTAR_OFFSET) * timingMultiplier;
 		world.addParticle(
-				ParticleTypes.SOUL_FIRE_FLAME, particlePos.x, particlePos.y, particlePos.z,
-				0.10355 * particleX * ((craftingTick + 30) / 100f),
-				0.25 * ((craftingTick + 30) / 100f),
-				0.10355 * particleZ * ((craftingTick + 30) / 100f)
+			ParticleTypes.SOUL_FIRE_FLAME,
+			particlePos.x,
+			particlePos.y,
+			particlePos.z,
+			particleX * xz,
+			clampLerpTime(0.3f, 0, 4.25f) * timingMultiplier,
+			particleZ * xz
 		);
 	}
 

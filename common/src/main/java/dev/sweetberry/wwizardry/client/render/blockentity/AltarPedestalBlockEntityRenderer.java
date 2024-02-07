@@ -12,32 +12,31 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import org.joml.Quaternionf;
 
 public record AltarPedestalBlockEntityRenderer(BlockEntityRendererProvider.Context context) implements AltarBlockEntityRenderer<AltarPedestalBlockEntity> {
+	private static final double ALTAR_TOP = 16.1854d / 16d;
+	private static final double ALTAR_OFFSET = 1.0306d / 16d;
+
 	@Override
 	public void beforeRender(AltarPedestalBlockEntity entity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
-		// I need to document my fucking magic numbers wtf
-		matrices.translate(0.5, 0.9509, 0.5);
+		// Move block to the top of the pedestal's platform
+		matrices.translate(0.5, ALTAR_TOP, 0.5);
 
 		var world = entity.getLevel();
 
 		if (world == null)
 			return;
 
-		var blockState = world.getBlockState(entity.getBlockPos());
+		var blockState = entity.getBlockState();
 
 		if (!blockState.is(BlockInitializer.ALTAR_PEDESTAL.get()))
 			return;
 
+		// Offset in the direction it's facing
 		var dir = blockState.getValue(HorizontalDirectionalBlock.FACING);
-
-		// Why?
-		var transDir = dir.step().mul(-0.09335f);
+		var transDir = dir.step().mul((float) -ALTAR_OFFSET);
 		matrices.translate(transDir.x, transDir.y, transDir.z);
 
+		// Rotate
 		matrices.mulPose(getAxis(dir.getClockWise()).rotationDegrees(22.5f));
-
-		// Huh?
-		transDir = dir.step().mul(0.046875f);
-		matrices.translate(transDir.x, transDir.y + 0.25, transDir.z);
 	}
 
 	public static Axis getAxis(Direction dir) {

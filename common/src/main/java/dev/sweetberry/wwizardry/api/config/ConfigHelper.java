@@ -5,10 +5,8 @@ import com.google.gson.GsonBuilder;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ConfigHelper {
@@ -19,10 +17,11 @@ public class ConfigHelper {
             .create();
 
     public static <T> T loadGlobalConfig(T orElse, String file) {
-        var path = Path.of("config", file).toFile();
+        var path = Path.of("config", file);
         try {
-            return GSON.fromJson(new FileReader(path), (Class<T>) orElse.getClass());
-        } catch (FileNotFoundException e) {
+			var str = new String(Files.readAllBytes(path));
+            return GSON.fromJson(str, (Class<T>) orElse.getClass());
+        } catch (IOException e) {
             saveGlobalConfig(orElse, file);
             return orElse;
         }
@@ -33,7 +32,10 @@ public class ConfigHelper {
         try {
             if (!path.exists())
                 path.createNewFile();
-            GSON.toJson(object, new FileWriter(path));
+            var json = GSON.toJson(object);
+			var writer = new FileWriter(path);
+			writer.write(json);
+			writer.close();
         } catch (IOException ignored) {}
     }
 
