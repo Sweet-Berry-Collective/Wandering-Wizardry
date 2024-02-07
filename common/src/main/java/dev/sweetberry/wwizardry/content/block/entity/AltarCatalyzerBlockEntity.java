@@ -44,7 +44,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void startCrafting(AltarRecipeView recipe) {
-		var bloomMultiplier = GameruleInitializer.getAltarSpreadMultiplier(level);
+		var bloomMultiplier = GameruleInitializer.getAltarSpreadMultiplier();
 		bloom = (int) Math.floor(recipe.getBloom() * bloomMultiplier);
 		result = recipe.getRecipeResult();
 		for (var neighbor : getNeighbors())

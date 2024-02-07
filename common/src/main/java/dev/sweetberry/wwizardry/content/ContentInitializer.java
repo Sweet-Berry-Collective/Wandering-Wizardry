@@ -29,7 +29,6 @@ public class ContentInitializer {
 		ComponentInitializer.init();
 		DatagenInitializer.init();
 		WorldgenInitializer.init();
-		GameruleInitializer.init();
 		NetworkingInitializer.init();
 		EventInitializer.init();
 	}

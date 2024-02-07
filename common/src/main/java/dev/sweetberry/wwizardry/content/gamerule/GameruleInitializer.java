@@ -1,11 +1,20 @@
 package dev.sweetberry.wwizardry.content.gamerule;
 
-import net.minecraft.world.level.Level;
+import dev.sweetberry.wwizardry.api.config.ConfigHelper;
 
+// TODO: Make it per-world.
 public class GameruleInitializer {
-	public static void init() {}
+	public static final String name = "wwizardry.json";
+	private static final GameruleInitializer globalInstance = ConfigHelper.loadGlobalConfig(new GameruleInitializer(), name);
 
-	public static double getAltarSpreadMultiplier(Level level) {
-		return 1;
+	private double altarSpreadMultiplier = 1;
+
+	public static double getAltarSpreadMultiplier() {
+		return globalInstance.altarSpreadMultiplier;
+	}
+
+	public static void setAltarSpreadMultiplier(double altarSpreadMultiplier) {
+		globalInstance.altarSpreadMultiplier = altarSpreadMultiplier;
+		ConfigHelper.loadGlobalConfig(globalInstance, name);
 	}
 }
