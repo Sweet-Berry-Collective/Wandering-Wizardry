@@ -31,5 +31,6 @@
     "client.Mixin_Model",
     "client.Mixin_SignRenderer",
     "client.Mixin_SignRenderer_HangingSignRenderer"
-  ]
+  ],
+  "refmap": "wwizardry.refmap.json"
 }
