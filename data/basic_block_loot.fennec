@@ -17,38 +17,42 @@
     # Basalt Bricks
     "basalt_bricks"
     "basalt_brick_stairs"
-    "basalt_brick_slab"
     "basalt_brick_wall"
 
     # Basalt Tiles
     "basalt_tiles"
     "basalt_tile_stairs"
-    "basalt_tile_slab"
     "basalt_tile_wall"
 
     # Chiseled Basalt
     "chiseled_basalt"
     "chiseled_basalt_stairs"
-    "chiseled_basalt_slab"
     "chiseled_basalt_wall"
+
+    # Cut Basalt
+    "cut_basalt"
+    "cut_basalt_stairs"
+    "cut_basalt_wall"
 
     # Mossy Basalt Bricks
     "mossy_basalt_bricks"
     "mossy_basalt_brick_stairs"
-    "mossy_basalt_brick_slab"
     "mossy_basalt_brick_wall"
 
     # Mossy Basalt Tiles
     "mossy_basalt_tiles"
     "mossy_basalt_tile_stairs"
-    "mossy_basalt_tile_slab"
     "mossy_basalt_tile_wall"
 
     # Mossy Chiseled Basalt
     "mossy_chiseled_basalt"
     "mossy_chiseled_basalt_stairs"
-    "mossy_chiseled_basalt_slab"
     "mossy_chiseled_basalt_wall"
+
+    # Mossy Cut Basalt
+    "mossy_cut_basalt"
+    "mossy_cut_basalt_stairs"
+    "mossy_cut_basalt_wall"
 
     # Denia
     "denia_log"
@@ -59,7 +63,6 @@
     "denia_planks"
     "denia_stairs"
     "denia_button"
-    "denia_slab"
     "denia_trapdoor"
     "denia_pressure_plate"
     "denia_fence"
@@ -74,7 +77,6 @@
     "mycha_planks"
     "mycha_stairs"
     "mycha_button"
-    "mycha_slab"
     "mycha_trapdoor"
     "mycha_pressure_plate"
     "mycha_fence"

@@ -1,7 +1,7 @@
 block = "wwizardry:cut_basalt"
-slab = "wwizardry:cut_basalt"
-stairs = "wwizardry:cut_basalt"
-wall = "wwizardry:cut_basalt"
+slab = "wwizardry:cut_basalt_slab"
+stairs = "wwizardry:cut_basalt_stairs"
+wall = "wwizardry:cut_basalt_wall"
 
 generators [
     {

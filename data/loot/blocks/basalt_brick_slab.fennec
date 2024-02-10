@@ -1,0 +1,23 @@
+type = "block"
+pools [{
+    bonus_rolls = 0.0
+    entries [{
+        type = "item"
+        functions [
+            {
+                add = false
+                conditions [{
+                    block = "wwizardry:basalt_brick_slab"
+                    condition = "block_state_property"
+                    properties { type = "double" }
+                }]
+                count = 2.0
+                function = "set_count"
+            }
+            { function = "explosion_decay" }
+        ]
+        name = "wwizardry:basalt_brick_slab"
+    }]
+    rolls = 1.0
+}]
+random_sequence = "wwizardry:blocks/basalt_brick_slab"
