@@ -7,6 +7,7 @@ import dev.sweetberry.wwizardry.client.content.events.ClientEvents;
 import dev.sweetberry.wwizardry.client.content.events.PackReloader;
 import dev.sweetberry.wwizardry.compat.terrablender.TerraBlenderInitializer;
 import dev.sweetberry.wwizardry.content.ContentInitializer;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.block.sign.ModdedSignBlock;
 import dev.sweetberry.wwizardry.content.component.BoatComponent;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
@@ -80,6 +81,8 @@ public class NeoForgeInitializer {
 		ContentInitializer.listenToAll(((registry, id, item) -> {
 			event.register(registry.key(), id, item);
 		}));
+
+		BlockInitializer.registerSecondaryBlockFunctions();
 	}
 
 	@SubscribeEvent

@@ -3,7 +3,6 @@ package dev.sweetberry.wwizardry.mixin.client;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.content.block.sign.ModdedSignBlock;
 import dev.sweetberry.wwizardry.duck.Duck_SignRenderer;
@@ -25,14 +24,19 @@ import java.util.Map;
 @Mixin({SignRenderer.class, HangingSignRenderer.class})
 public class Mixin_SignRenderer_HangingSignRenderer implements Duck_SignRenderer {
 	@Unique
-	private static final Map<ResourceLocation, Object> wwizardry$models = new HashMap<>();
+	private final Map<ResourceLocation, Object> wwizardry$models = new HashMap<>();
 
 	@Unique
 	private static ResourceLocation wwizardry$type = null;
 
+	@Unique
+	private static boolean wwizardry$isHanging(SignRenderer renderer) {
+		return renderer instanceof HangingSignRenderer;
+	}
+
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void wwizardry$buildCustomSignModels(BlockEntityRendererProvider.Context context, CallbackInfo ci) {
-		var hanging = ((Object)this) instanceof HangingSignRenderer;
+		var hanging = wwizardry$isHanging((SignRenderer)(Object)this);
 		for (var sign : ModdedSignBlock.SIGNS) {
 			wwizardry$models.put(sign, hanging
 				? new HangingSignRenderer.HangingSignModel(

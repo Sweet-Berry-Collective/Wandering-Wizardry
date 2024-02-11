@@ -16,14 +16,18 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Queue;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentMap;
 
 public class Badges {
 	private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
 
 	private static final Gson GSON = new Gson();
 
-	private static final Map<UUID, Component> BADGES_CACHE = new HashMap<>();
+	private static final Map<UUID, Component> BADGES_CACHE = new ConcurrentHashMap<>();
 
 	private static final String BASE_URL = "https://badges.wwizardry.sweetberry.dev";
 
@@ -41,26 +45,45 @@ public class Badges {
 		"C", CONTRIBUTOR
 	);
 
+	private static final ConcurrentLinkedQueue<UUID> RESOLUTION_QUEUE = new ConcurrentLinkedQueue<>();
+
+	private static final Thread WORKER = new Thread(Badges::resolveThread);
+
 	@Nullable
 	public static Component getBadgeFor(UUID player) {
+		if (!WORKER.isAlive())
+			WORKER.start();
 		if (BADGES_CACHE.containsKey(player))
 			return BADGES_CACHE.get(player);
+		if (!RESOLUTION_QUEUE.contains(player))
+			RESOLUTION_QUEUE.add(player);
+		return null;
+	}
 
-		try {
-			var name = makeRequest(player);
+	private static void resolveThread() {
+		while (true) {
+			if (RESOLUTION_QUEUE.isEmpty()) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException ignored) {}
+				continue;
+			}
+			var player = RESOLUTION_QUEUE.peek();
+			try {
+				var name = makeRequest(player);
 
-			if (!MAP.containsKey(name))
+				if (!MAP.containsKey(name))
+					BADGES_CACHE.put(player, null);
+
+				WanderingWizardry.LOGGER.info(player + " -> " + name);
+
+				var badge = MAP.get(name);
+				BADGES_CACHE.put(player, badge);
+			} catch (IOException | InterruptedException | JsonSyntaxException e) {
 				BADGES_CACHE.put(player, null);
-
-			var badge = MAP.get(name);
-			BADGES_CACHE.put(player, badge);
-
-			return badge;
-		} catch (IOException | InterruptedException | JsonSyntaxException ignored) {}
-
-		BADGES_CACHE.put(player, null);
-
-        return null;
+			}
+			RESOLUTION_QUEUE.poll();
+		}
 	}
 
 	private static HoverEvent translated(String key) {

@@ -27,8 +27,10 @@
     "defaultRequire": 1
   },
   "client": [
+    "client.Mixin_HangingSignEditScreen",
     "client.Mixin_ItemInHandRenderer",
     "client.Mixin_Model",
+    "client.Mixin_SignEditScreen",
     "client.Mixin_SignRenderer",
     "client.Mixin_SignRenderer_HangingSignRenderer"
   ],

@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.content.item.SoulMirrorItem;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -26,10 +27,10 @@ public abstract class Mixin_ItemInHandRenderer {
 		)
 	)
 	private void wwizardry$renderFirstPersonItem(AbstractClientPlayer player, float tickDelta, float pitch, InteractionHand hand, float swingProgress, ItemStack item, float equipProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
+		WanderingWizardry.LOGGER.info(WanderingWizardryClient.useItemTick + "");
 		if (!(
 			item.getItem() instanceof SoulMirrorItem
 			&& player.isUsingItem()
-			&& player.getUseItemRemainingTicks() > 0
 			&& player.getUsedItemHand() == hand
 		)) {
 			WanderingWizardryClient.useItemTick = -1;
