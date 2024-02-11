@@ -61,21 +61,7 @@ public class FabricClientInitializer implements ClientModInitializer {
 			}));
 		});
 
-		var boatModel = BoatModel.createBodyModel();
-		var chestBoatModel = ChestBoatModel.createBodyModel();
-
-		for (var id : BoatComponent.BOATS.keySet()) {
-			EntityModelLayerRegistry.registerModelLayer(WanderingWizardryClient.getBoatLayerLocation(id, false), () -> boatModel);
-			EntityModelLayerRegistry.registerModelLayer(WanderingWizardryClient.getBoatLayerLocation(id, true), () -> chestBoatModel);
-		}
-
-		var signModel = SignRenderer.createSignLayer();
-		var hangingSignModel = HangingSignRenderer.createHangingSignLayer();
-
-		for (var id : ModdedSignBlock.SIGNS) {
-			EntityModelLayerRegistry.registerModelLayer(WanderingWizardryClient.getSignLayerLocation(id, false), () -> signModel);
-			EntityModelLayerRegistry.registerModelLayer(WanderingWizardryClient.getSignLayerLocation(id, true), () -> hangingSignModel);
-		}
+		ClientEvents.registerModelLayers((id, layer) -> EntityModelLayerRegistry.registerModelLayer(id, layer::get));
 
 		for (var layer : RenderLayers.LAYERS.entrySet())
 			BlockRenderLayerMap.INSTANCE.putBlocks(layer.getKey(), layer.getValue().stream().map(Supplier::get).toArray(Block[]::new));
