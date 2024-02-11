@@ -27,11 +27,11 @@ public abstract class Mixin_ItemInHandRenderer {
 		)
 	)
 	private void wwizardry$renderFirstPersonItem(AbstractClientPlayer player, float tickDelta, float pitch, InteractionHand hand, float swingProgress, ItemStack item, float equipProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
-		WanderingWizardry.LOGGER.info(WanderingWizardryClient.useItemTick + "");
+		if (player.getUsedItemHand() != hand)
+			return;
 		if (!(
 			item.getItem() instanceof SoulMirrorItem
 			&& player.isUsingItem()
-			&& player.getUsedItemHand() == hand
 		)) {
 			WanderingWizardryClient.useItemTick = -1;
 			return;
