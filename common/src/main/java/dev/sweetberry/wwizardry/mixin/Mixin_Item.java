@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class Mixin_Item {
 	@Inject(
 		method = "getCraftingRemainingItem",
-		at = @At("RETURN")
+		at = @At("RETURN"),
+		cancellable = true
 	)
 	private void wwizardry$setRemainder(CallbackInfoReturnable<Item> cir) {
 		var self = (Item)(Object)this;
