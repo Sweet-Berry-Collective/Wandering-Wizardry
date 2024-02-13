@@ -9,6 +9,7 @@ import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
 import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.item.charm.BrewingCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.CraftingCharmItem;
+import dev.sweetberry.wwizardry.content.item.charm.SmithingCharmItem;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -186,6 +187,14 @@ public class ItemInitializer {
 	public static final Lazy<Item> BREWING_CHARM = registerItem(
 		"brewing_charm",
 		() -> new BrewingCharmItem(
+			new Item.Properties()
+				.stacksTo(1)
+		)
+	);
+
+	public static final Lazy<Item> SMITHING_CHARM = registerItem(
+		"smithing_charm",
+		() -> new SmithingCharmItem(
 			new Item.Properties()
 				.stacksTo(1)
 		)
