@@ -239,9 +239,11 @@ public class BlockInitializer {
 		() -> BlockEntityType.Builder
 			.of(
 				LogicGateBlockEntity::new,
-				MODULO_COMPARATOR.get()
+				MODULO_COMPARATOR.get(),
+				REDSTONE_STEPPER.get()
 			).build(null)
 	);
+
 
 	public static <T extends Block> Lazy<T> registerBlock(String id, Supplier<T> block) {
 		return (Lazy<T>) BLOCKS.register(WanderingWizardry.id(id), (Supplier<Block>) block);
