@@ -20,7 +20,9 @@ public class ConfigHelper {
         var path = Path.of("config", file);
         try {
 			var str = new String(Files.readAllBytes(path));
-            return GSON.fromJson(str, (Class<T>) orElse.getClass());
+			var value = GSON.fromJson(str, (Class<T>) orElse.getClass());
+			saveGlobalConfig(value, file);
+            return value;
         } catch (IOException e) {
             saveGlobalConfig(orElse, file);
             return orElse;
@@ -36,25 +38,6 @@ public class ConfigHelper {
 			var writer = new FileWriter(path);
 			writer.write(json);
 			writer.close();
-        } catch (IOException ignored) {}
-    }
-
-    public static <T> T loadWorldConfig(T orElse, MinecraftServer server, String file) {
-        var path = server.getWorldPath(LevelResource.ROOT).resolve(file).toFile();
-        try {
-            return GSON.fromJson(new FileReader(path), (Class<T>) orElse.getClass());
-        } catch (FileNotFoundException e) {
-            saveWorldConfig(orElse, server, file);
-            return orElse;
-        }
-    }
-
-    public static <T> void saveWorldConfig(T object, MinecraftServer server, String file) {
-        var path = server.getWorldPath(LevelResource.ROOT).resolve(file).toFile();
-        try {
-            if (!path.exists())
-                path.createNewFile();
-            GSON.toJson(object, new FileWriter(path));
         } catch (IOException ignored) {}
     }
 }

@@ -4,9 +4,7 @@ import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.content.block.WallHolderBlock;
-import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
-import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
+import dev.sweetberry.wwizardry.content.item.charm.AnvilCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.BrewingCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.CraftingCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.SmithingCharmItem;
@@ -18,22 +16,42 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.RecordItem;
-import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ItemInitializer {
 	public static final RegistryContext<Item> ITEMS = new RegistryContext<>(BuiltInRegistries.ITEM);
 	public static final RegistryContext<CreativeModeTab> TABS = new RegistryContext<>(BuiltInRegistries.CREATIVE_MODE_TAB);
-	public static final List<Lazy<Item>> STACKS = new ArrayList<>();
+	public static final List<Lazy<Item>> ITEMS_STACKS = new ArrayList<>();
+	public static final List<Lazy<Item>> BLOCKS_STACKS = new ArrayList<>();
+
+	public static final Lazy<CreativeModeTab> ITEMS_TAB = ItemInitializer.registerTab(
+		"items",
+		() -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+			.icon(() -> ItemInitializer.CRYSTALLINE_SCULK_SHARD.get().getDefaultInstance())
+			.displayItems((display, collector) -> collector.acceptAll(ItemInitializer.ITEMS_STACKS.stream().map(Lazy::get).map(Item::getDefaultInstance).collect(Collectors.toList())))
+			.title(net.minecraft.network.chat.Component.translatable("itemGroup.wwizardry.items"))
+			.build()
+	);
+
+	public static final  Lazy<CreativeModeTab> BLOCKS_TAB = ItemInitializer.registerTab(
+		"blocks",
+		() -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+			.icon(() -> ItemInitializer.ALTAR_CATALYZER.get().getDefaultInstance())
+			.displayItems((display, collector) -> collector.acceptAll(ItemInitializer.BLOCKS_STACKS.stream().map(Lazy::get).map(Item::getDefaultInstance).collect(Collectors.toList())))
+			.title(net.minecraft.network.chat.Component.translatable("itemGroup.wwizardry.items"))
+			.build()
+	);
 
 	public static final Lazy<Item> CRYSTALLINE_SCULK_SHARD = registerItem(
 		"crystalline_sculk",
 		() -> new Item(
 				new Item.Properties()
-		)
+		),
+		ITEMS_STACKS
 	);
 
 	public static final Lazy<Item> CRYSTALLINE_SCULK_BLOCK = registerItem(
@@ -41,7 +59,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.CRYSTALLINE_SCULK.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> SCULKFLOWER = registerItem(
@@ -49,7 +68,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.SCULKFLOWER.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> INDIGO_CAERULEUM = registerItem(
@@ -57,7 +77,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.INDIGO_CAERULEUM.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> MYCHA_ROOTS = registerItem(
@@ -65,7 +86,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.MYCHA_ROOTS.get(),
 			 new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> CAMERA = registerItem(
@@ -73,7 +95,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.CAMERA.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> REINFORCED_GLASS = registerItem(
@@ -81,7 +104,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.REINFORCED_GLASS.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> REINFORCED_GLASS_PANE = registerItem(
@@ -89,7 +113,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.REINFORCED_GLASS_PANE.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> REDSTONE_LANTERN = registerItem(
@@ -97,43 +122,49 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.REDSTONE_LANTERN.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
-	public static final Lazy<Item> WALL_HOLDER_EMPTY = registerItem(
+	public static final Lazy<Item> WALL_HOLDER = registerItem(
 		"wall_holder",
 		() -> new BlockItem(
 			BlockInitializer.WALL_HOLDER.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> ROSE_QUARTZ = registerItem(
 		"rose_quartz",
 		() -> new Item(
 			new Item.Properties()
-		)
+		),
+		ITEMS_STACKS
 	);
 	public static final Lazy<Item> ROSE_QUARTZ_ORE = registerItem(
 		"rose_quartz_ore",
 		() -> new BlockItem(
 			BlockInitializer.ROSE_QUARTZ_ORE.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 	public static final Lazy<Item> DEEPSLATE_ROSE_QUARTZ_ORE = registerItem(
 		"deepslate_rose_quartz_ore",
 		() -> new BlockItem(
 			BlockInitializer.DEEPSLATE_ROSE_QUARTZ_ORE.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 	public static final Lazy<Item> ROSE_QUARTZ_BLOCK = registerItem(
 		"rose_quartz_block",
 		() -> new BlockItem(
 			BlockInitializer.ROSE_QUARTZ_BLOCK.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> MYCELIAL_SAND = registerItem(
@@ -141,7 +172,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.MYCELIAL_SAND.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> MODULO_COMPARATOR = registerItem(
@@ -149,7 +181,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.MODULO_COMPARATOR.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> REDSTONE_STEPPER = registerItem(
@@ -157,7 +190,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.REDSTONE_STEPPER.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> RESONATOR = registerItem(
@@ -165,7 +199,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.SCULK_RESONATOR.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> SLOT_CHARM = registerItem(
@@ -173,7 +208,8 @@ public class ItemInitializer {
 		() -> new SelfRemainderingItem(
 			new Item.Properties()
 				.stacksTo(1)
-		)
+		),
+		ITEMS_STACKS
 	);
 
 	public static final Lazy<Item> CRAFTING_CHARM = registerItem(
@@ -181,7 +217,8 @@ public class ItemInitializer {
 		() -> new CraftingCharmItem(
 			new Item.Properties()
 				.stacksTo(1)
-		)
+		),
+		ITEMS_STACKS
 	);
 
 	public static final Lazy<Item> BREWING_CHARM = registerItem(
@@ -189,7 +226,8 @@ public class ItemInitializer {
 		() -> new BrewingCharmItem(
 			new Item.Properties()
 				.stacksTo(1)
-		)
+		),
+		ITEMS_STACKS
 	);
 
 	public static final Lazy<Item> SMITHING_CHARM = registerItem(
@@ -197,7 +235,17 @@ public class ItemInitializer {
 		() -> new SmithingCharmItem(
 			new Item.Properties()
 				.stacksTo(1)
-		)
+		),
+		ITEMS_STACKS
+	);
+
+	public static final Lazy<Item> ANVIL_CHARM = registerItem(
+		"anvil_charm",
+		() -> new AnvilCharmItem(
+			new Item.Properties()
+				.stacksTo(1)
+		),
+		ITEMS_STACKS
 	);
 
 	public static final Lazy<Item> MUSIC_DISC_WANDERING = registerItem(
@@ -209,7 +257,8 @@ public class ItemInitializer {
 				.stacksTo(1)
 				.rarity(Rarity.RARE),
 			140
-		)
+		),
+		ITEMS_STACKS
 	);
 
 	public static final Lazy<Item> VOID_BAG = registerItem(
@@ -217,7 +266,8 @@ public class ItemInitializer {
 		() -> new VoidBagItem(
 			new Item.Properties()
 				.stacksTo(1)
-		)
+		),
+		ITEMS_STACKS
 	);
 
 	public static final Lazy<SoulMirrorItem> SOUL_MIRROR = registerItem(
@@ -225,7 +275,8 @@ public class ItemInitializer {
 		() -> new SoulMirrorItem(
 			new Item.Properties()
 				.stacksTo(1)
-		)
+		),
+		ITEMS_STACKS
 	);
 
 	public static final Lazy<Item> ALTAR_PEDESTAL = registerItem(
@@ -233,7 +284,8 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.ALTAR_PEDESTAL.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> ALTAR_CATALYZER = registerItem(
@@ -241,17 +293,22 @@ public class ItemInitializer {
 		() -> new BlockItem(
 			BlockInitializer.ALTAR_CATALYZER.get(),
 			new Item.Properties()
-		)
+		),
+		BLOCKS_STACKS
 	);
 
-	public static <T extends Item> Lazy<T> registerItem(String id, Supplier<T> item) {
+	public static <T extends Item> Lazy<T> registerItem(String id, Supplier<T> item, List<Lazy<Item>> group) {
 		var lazy = ITEMS.register(WanderingWizardry.id(id), (Supplier<Item>)item);
-		STACKS.add(lazy);
+		group.add(lazy);
 		return (Lazy<T>) lazy;
 	}
 
+	public static <T extends Item> Lazy<T> registerItem(String id, Supplier<T> item) {
+		return registerItem(id, item, ITEMS_STACKS);
+	}
+
 	public static Lazy<Item> registerBoatItem(String id, ResourceLocation type, boolean chest, Item.Properties itemSettings) {
-        return registerItem(id, () -> new ModdedBoatItem(type, chest, itemSettings));
+        return registerItem(id, () -> new ModdedBoatItem(type, chest, itemSettings), ITEMS_STACKS);
 	}
 
 	public static Lazy<CreativeModeTab> registerTab(String id, Supplier<CreativeModeTab> tab) {

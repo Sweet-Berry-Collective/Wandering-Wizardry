@@ -1,4 +1,7 @@
-"itemGroup.wwizardry.items" = "Wandering Wizardry Items"
+"itemGroup.wwizardry" {
+    items = "Wandering Wizardry Items"
+    blocks = "Wandering Wizardry Blocks"
+}
 
 "wwizardry.void_bag" {
     generic_1 = "This bag acts as a joint between dimensions,"
@@ -212,6 +215,7 @@
     crafting_charm = "Crafting Charm"
     brewing_charm = "Brewing Charm"
     smithing_charm = "Smithing Charm"
+    anvil_charm = "Anvil Charm"
 
     soul_mirror = "Soul Mirror"
 

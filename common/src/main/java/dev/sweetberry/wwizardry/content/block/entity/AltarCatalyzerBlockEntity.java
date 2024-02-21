@@ -4,18 +4,15 @@ import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
-import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
+import dev.sweetberry.wwizardry.config.Config;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.net.packet.AltarCraftPacket;
-import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
 import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +21,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SculkSpreader;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +41,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void startCrafting(AltarRecipeView recipe) {
-		var bloomMultiplier = GameruleInitializer.getAltarSpreadMultiplier();
+		var bloomMultiplier = Config.getAltarSpreadMultiplier();
 		bloom = (int) Math.floor(recipe.getBloom() * bloomMultiplier);
 		result = recipe.getRecipeResult();
 		for (var neighbor : getNeighbors())

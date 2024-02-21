@@ -40,16 +40,16 @@ public class BrickType extends AbstractDataGenerator {
 		final var itemSettings = new Item.Properties();
 
 		BASE = BlockInitializer.registerBlock(baseName+(plural?"s":""), () -> new Block(blockSettings));
-		BASE_ITEM = ItemInitializer.registerItem(baseName+(plural?"s":""), () -> new BlockItem(BASE.get(), itemSettings));
+		BASE_ITEM = ItemInitializer.registerItem(baseName+(plural?"s":""), () -> new BlockItem(BASE.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", () -> new StairBlock(BASE.get().defaultBlockState(), blockSettings));
-		STAIRS_ITEM = ItemInitializer.registerItem(baseName+"_stairs", () -> new BlockItem(STAIRS.get(), itemSettings));
+		STAIRS_ITEM = ItemInitializer.registerItem(baseName+"_stairs", () -> new BlockItem(STAIRS.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		SLAB = BlockInitializer.registerBlock(baseName+"_slab", () -> new SlabBlock(blockSettings));
-		SLAB_ITEM = ItemInitializer.registerItem(baseName+"_slab", () -> new BlockItem(SLAB.get(), itemSettings));
+		SLAB_ITEM = ItemInitializer.registerItem(baseName+"_slab", () -> new BlockItem(SLAB.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		WALL = BlockInitializer.registerBlock(baseName+"_wall", () -> new WallBlock(blockSettings));
-		WALL_ITEM = ItemInitializer.registerItem(baseName+"_wall", () -> new BlockItem(WALL.get(), itemSettings));
+		WALL_ITEM = ItemInitializer.registerItem(baseName+"_wall", () -> new BlockItem(WALL.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 	}
 
 	@Override

@@ -36,15 +36,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FabricInitializer implements ModInitializer {
-	public static final Lazy<CreativeModeTab> GROUP = ItemInitializer.registerTab(
-		"items",
-		() -> FabricItemGroup.builder()
-			.icon(() -> ItemInitializer.CRYSTALLINE_SCULK_SHARD.get().getDefaultInstance())
-			.displayItems((display, collector) -> collector.acceptAll(ItemInitializer.STACKS.stream().map(Lazy::get).map(Item::getDefaultInstance).collect(Collectors.toList())))
-			.title(net.minecraft.network.chat.Component.translatable("itemGroup.wwizardry.items"))
-			.build()
-	);
-
     @Override
     public void onInitialize() {
 		ComponentInitializer.getter = FabricInitializer::getComponent;

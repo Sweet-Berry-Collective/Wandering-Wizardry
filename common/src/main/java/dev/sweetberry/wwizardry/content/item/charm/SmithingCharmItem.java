@@ -47,11 +47,13 @@ public class SmithingCharmItem extends AltarCharmItem{
 			var stack = view.getItemInPedestal(dir);
 			if (stack == null)
 				continue;
-			if (matchingRecipes.stream().anyMatch(it -> it.value().isAdditionIngredient(stack)) && additionStack == null)
+			if (matchingRecipes.stream().anyMatch(it -> it.value().isAdditionIngredient(stack)) && additionStack == null) {
 				additionStack = stack;
-			else if (matchingRecipes.stream().anyMatch(it -> it.value().isBaseIngredient(stack)) && baseStack == null) {
+			} else if (matchingRecipes.stream().anyMatch(it -> it.value().isBaseIngredient(stack)) && baseStack == null) {
 				baseStack = stack;
 				baseDirection = dir;
+			} else {
+				view.setResultInPedestal(dir, stack);
 			}
 		}
 		if (additionStack == null || baseStack == null || baseDirection == null)
@@ -68,7 +70,7 @@ public class SmithingCharmItem extends AltarCharmItem{
 			return false;
 		var recipe = maybeRecipe.get().value();
 		var container = new FakeContainer(templateStack, baseStack, additionStack);
-		view.setAllAsRemainders();
+		view.keepCenter();
 		view.setResultInPedestal(baseDirection, recipe.assemble(container, world.registryAccess()));
 
 		return true;

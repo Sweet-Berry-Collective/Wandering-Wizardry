@@ -94,75 +94,75 @@ public class WoodType extends AbstractDataGenerator {
 		final var woodName = fungus ? "hyphae" : "wood";
 
 		STRIPPED_LOG = BlockInitializer.registerBlock("stripped_"+baseName+"_"+logName, () -> createLogBlock(wood, wood, sounds));
-		STRIPPED_LOG_ITEM = ItemInitializer.registerItem("stripped_"+baseName+"_"+logName, () -> new BlockItem(STRIPPED_LOG.get(), itemSettings));
+		STRIPPED_LOG_ITEM = ItemInitializer.registerItem("stripped_"+baseName+"_"+logName, () -> new BlockItem(STRIPPED_LOG.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		LOG = BlockInitializer.registerBlock(baseName+"_"+logName, () -> createLogBlock(bark, wood, sounds));
-		LOG_ITEM = ItemInitializer.registerItem(baseName+"_"+logName, () -> new BlockItem(LOG.get(), itemSettings));
+		LOG_ITEM = ItemInitializer.registerItem(baseName+"_"+logName, () -> new BlockItem(LOG.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		BlockInitializer.addStrippedBlock(LOG, STRIPPED_LOG);
 
 		STRIPPED_WOOD = BlockInitializer.registerBlock("stripped_"+baseName+"_"+woodName, () -> createLogBlock(wood, wood, sounds));
-		STRIPPED_WOOD_ITEM = ItemInitializer.registerItem("stripped_"+baseName+"_"+woodName, () -> new BlockItem(STRIPPED_WOOD.get(), itemSettings));
+		STRIPPED_WOOD_ITEM = ItemInitializer.registerItem("stripped_"+baseName+"_"+woodName, () -> new BlockItem(STRIPPED_WOOD.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		WOOD = BlockInitializer.registerBlock(baseName+"_"+woodName, () -> createLogBlock(bark, wood, sounds));
-		WOOD_ITEM = ItemInitializer.registerItem(baseName+"_"+woodName, () -> new BlockItem(WOOD.get(), itemSettings));
+		WOOD_ITEM = ItemInitializer.registerItem(baseName+"_"+woodName, () -> new BlockItem(WOOD.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		BlockInitializer.addStrippedBlock(WOOD, STRIPPED_WOOD);
 
 		PLANKS = BlockInitializer.registerBlock(baseName+"_planks", () -> new Block(blockSettings));
-		PLANKS_ITEM = ItemInitializer.registerItem(baseName+"_planks", () -> new BlockItem(PLANKS.get(), itemSettings));
+		PLANKS_ITEM = ItemInitializer.registerItem(baseName+"_planks", () -> new BlockItem(PLANKS.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", () -> new StairBlock(PLANKS.get().defaultBlockState(), blockSettings));
-		STAIRS_ITEM = ItemInitializer.registerItem(baseName+"_stairs", () -> new BlockItem(STAIRS.get(), itemSettings));
+		STAIRS_ITEM = ItemInitializer.registerItem(baseName+"_stairs", () -> new BlockItem(STAIRS.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		SLAB = BlockInitializer.registerBlock(baseName+"_slab", () -> new SlabBlock(blockSettings));
-		SLAB_ITEM = ItemInitializer.registerItem(baseName+"_slab", () -> new BlockItem(SLAB.get(), itemSettings));
+		SLAB_ITEM = ItemInitializer.registerItem(baseName+"_slab", () -> new BlockItem(SLAB.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		BUTTON = BlockInitializer.registerBlock(baseName+"_button", () -> new ButtonBlock(BlockSetType.OAK, 30, nonCollidable));
-		BUTTON_ITEM = ItemInitializer.registerItem(baseName+"_button", () -> new BlockItem(BUTTON.get(), itemSettings));
+		BUTTON_ITEM = ItemInitializer.registerItem(baseName+"_button", () -> new BlockItem(BUTTON.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		PRESSURE_PLATE = BlockInitializer.registerBlock(baseName+"_pressure_plate", () -> new PressurePlateBlock(BlockSetType.OAK, nonCollidable));
-		PRESSURE_PLATE_ITEM = ItemInitializer.registerItem(baseName+"_pressure_plate", () -> new BlockItem(PRESSURE_PLATE.get(), itemSettings));
+		PRESSURE_PLATE_ITEM = ItemInitializer.registerItem(baseName+"_pressure_plate", () -> new BlockItem(PRESSURE_PLATE.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		DOOR = BlockInitializer.registerBlock(baseName+"_door", () -> new DoorBlock(BlockSetType.OAK, nonOpaque));
-		DOOR_ITEM = ItemInitializer.registerItem(baseName+"_door", () -> new BlockItem(DOOR.get(), itemSettings));
+		DOOR_ITEM = ItemInitializer.registerItem(baseName+"_door", () -> new BlockItem(DOOR.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		TRAPDOOR = BlockInitializer.registerBlock(baseName+"_trapdoor", () -> new TrapDoorBlock(BlockSetType.OAK, nonOpaque));
-		TRAPDOOR_ITEM = ItemInitializer.registerItem(baseName+"_trapdoor", () -> new BlockItem(TRAPDOOR.get(), itemSettings));
+		TRAPDOOR_ITEM = ItemInitializer.registerItem(baseName+"_trapdoor", () -> new BlockItem(TRAPDOOR.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		var signId = WanderingWizardry.id(baseName);
 		ModdedSignBlock.SIGNS.add(signId);
 		SIGN = BlockInitializer.registerBlock(baseName+"_sign",() ->  new ModdedStandingSignBlock(nonCollidable, signId));
 		SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_sign", () -> new ModdedWallSignBlock(nonCollidable, signId));
 		BlockInitializer.addSignBlocks((Lazy<Block>)(Object)SIGN, (Lazy<Block>)(Object)SIGN_WALL);
-		SIGN_ITEM = ItemInitializer.registerItem(baseName+"_sign", () -> new SignItem(itemSettings, SIGN.get(), SIGN_WALL.get()));
+		SIGN_ITEM = ItemInitializer.registerItem(baseName+"_sign", () -> new SignItem(itemSettings, SIGN.get(), SIGN_WALL.get()), ItemInitializer.BLOCKS_STACKS);
 
 		HANGING_SIGN = BlockInitializer.registerBlock(baseName+"_hanging_sign", () -> new ModdedCeilingHangingSignBlock(nonCollidable, signId));
 		HANGING_SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_hanging_sign", () -> new ModdedWallHangingSignBlock(nonCollidable, signId));
 		BlockInitializer.addHangingSignBlocks((Lazy<Block>)(Object)HANGING_SIGN, (Lazy<Block>)(Object)HANGING_SIGN_WALL);
-		HANGING_SIGN_ITEM = ItemInitializer.registerItem(baseName+"_hanging_sign", () -> new HangingSignItem(HANGING_SIGN.get(), HANGING_SIGN_WALL.get(), itemSettings));
+		HANGING_SIGN_ITEM = ItemInitializer.registerItem(baseName+"_hanging_sign", () -> new HangingSignItem(HANGING_SIGN.get(), HANGING_SIGN_WALL.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		FENCE = BlockInitializer.registerBlock(baseName+"_fence", () -> new FenceBlock(blockSettings));
-		FENCE_ITEM = ItemInitializer.registerItem(baseName+"_fence", () -> new BlockItem(FENCE.get(), itemSettings));
+		FENCE_ITEM = ItemInitializer.registerItem(baseName+"_fence", () -> new BlockItem(FENCE.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		FENCE_GATE = BlockInitializer.registerBlock(baseName+"_fence_gate", () -> new FenceGateBlock(net.minecraft.world.level.block.state.properties.WoodType.OAK, blockSettings));
-		FENCE_GATE_ITEM = ItemInitializer.registerItem(baseName+"_fence_gate", () -> new BlockItem(FENCE_GATE.get(), itemSettings));
+		FENCE_GATE_ITEM = ItemInitializer.registerItem(baseName+"_fence_gate", () -> new BlockItem(FENCE_GATE.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		if (!fungus) {
 			LEAVES = BlockInitializer.registerBlock(baseName+"_leaves", () -> createLeavesBlock());
-			LEAVES_ITEM = ItemInitializer.registerItem(baseName+"_leaves", () -> new BlockItem(LEAVES.get(), itemSettings));
+			LEAVES_ITEM = ItemInitializer.registerItem(baseName+"_leaves", () -> new BlockItem(LEAVES.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 			SAPLING = BlockInitializer.registerBlock(baseName+"_sapling", () -> createSaplingBlock(WanderingWizardry.id(baseName).toString(), baseName, baseName+"_bees"));
-			SAPLING_ITEM = ItemInitializer.registerItem(baseName+"_sapling", () -> new BlockItem(SAPLING.get(), itemSettings));
+			SAPLING_ITEM = ItemInitializer.registerItem(baseName+"_sapling", () -> new BlockItem(SAPLING.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 			BOAT_ITEM = ItemInitializer.registerBoatItem(baseName+"_boat", WanderingWizardry.id(baseName), false, singleStack);
 			BOAT_CHEST_ITEM = ItemInitializer.registerBoatItem(baseName+"_chest_boat", WanderingWizardry.id(baseName), true, singleStack);
 		} else {
 			LEAVES = BlockInitializer.registerBlock(baseName+"_wart", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_WART_BLOCK)));
-			LEAVES_ITEM = ItemInitializer.registerItem(baseName+"_wart", () -> new BlockItem(LEAVES.get(), itemSettings));
+			LEAVES_ITEM = ItemInitializer.registerItem(baseName+"_wart", () -> new BlockItem(LEAVES.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 			SAPLING = BlockInitializer.registerBlock(baseName+"_fungus", () -> createFungusBlock(baseName, fungusBaseBlock.get()));
-			SAPLING_ITEM = ItemInitializer.registerItem(baseName+"_fungus", () -> new BlockItem(SAPLING.get(), itemSettings));
+			SAPLING_ITEM = ItemInitializer.registerItem(baseName+"_fungus", () -> new BlockItem(SAPLING.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 			BOAT_ITEM = null;
 			BOAT_CHEST_ITEM = null;

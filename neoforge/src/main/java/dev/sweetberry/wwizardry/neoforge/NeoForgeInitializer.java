@@ -36,15 +36,6 @@ import java.util.stream.Collectors;
 
 @Mod("wwizardry")
 public class NeoForgeInitializer {
-	public static final Lazy<CreativeModeTab> TAB = ItemInitializer.registerTab(
-		"items",
-		() -> CreativeModeTab.builder()
-			.icon(() -> ItemInitializer.CRYSTALLINE_SCULK_SHARD.get().getDefaultInstance())
-			.displayItems((display, collector) -> collector.acceptAll(ItemInitializer.STACKS.stream().map(Lazy::get).map(Item::getDefaultInstance).collect(Collectors.toList())))
-			.title(net.minecraft.network.chat.Component.translatable("itemGroup.wwizardry.items"))
-			.build()
-	);
-
 	public NeoForgeInitializer(IEventBus bus, Dist dist) {
 		bus.addListener(this::registerToRegistries);
 		bus.addListener(this::commonSetup);
