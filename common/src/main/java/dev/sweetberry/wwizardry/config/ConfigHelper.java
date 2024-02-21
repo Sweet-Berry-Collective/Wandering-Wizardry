@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.api.config;
+package dev.sweetberry.wwizardry.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

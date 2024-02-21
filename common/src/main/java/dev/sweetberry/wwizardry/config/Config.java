@@ -1,7 +1,5 @@
 package dev.sweetberry.wwizardry.config;
 
-import dev.sweetberry.wwizardry.api.config.ConfigHelper;
-
 // TODO: Make it per-world.
 public class Config {
 	public static final String name = "wwizardry.json";
