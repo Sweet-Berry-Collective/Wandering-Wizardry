@@ -14,10 +14,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
@@ -27,7 +24,7 @@ public class Badges {
 
 	private static final Gson GSON = new Gson();
 
-	private static final Map<UUID, Component> BADGES_CACHE = new ConcurrentHashMap<>();
+	private static final Map<UUID, Optional<Component>> BADGES_CACHE = new ConcurrentHashMap<>();
 
 	private static final String BASE_URL = "https://badges.wwizardry.sweetberry.dev";
 
@@ -51,10 +48,10 @@ public class Badges {
 
 	@Nullable
 	public static Component getBadgeFor(UUID player) {
-		if (!WORKER.isAlive())
+		if (!WORKER.isAlive() && !WORKER.isInterrupted())
 			WORKER.start();
 		if (BADGES_CACHE.containsKey(player))
-			return BADGES_CACHE.get(player);
+			return BADGES_CACHE.get(player).orElse(null);
 		if (!RESOLUTION_QUEUE.contains(player))
 			RESOLUTION_QUEUE.add(player);
 		return null;
@@ -73,14 +70,14 @@ public class Badges {
 				var name = makeRequest(player);
 
 				if (!MAP.containsKey(name))
-					BADGES_CACHE.put(player, null);
+					BADGES_CACHE.put(player, Optional.empty());
 
 				WanderingWizardry.LOGGER.info(player + " -> " + name);
 
 				var badge = MAP.get(name);
-				BADGES_CACHE.put(player, badge);
+				BADGES_CACHE.put(player, Optional.ofNullable(badge));
 			} catch (IOException | InterruptedException | JsonSyntaxException e) {
-				BADGES_CACHE.put(player, null);
+				BADGES_CACHE.put(player, Optional.empty());
 			}
 			RESOLUTION_QUEUE.poll();
 		}
