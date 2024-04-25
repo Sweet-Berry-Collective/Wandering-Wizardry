@@ -28,9 +28,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,21 +71,11 @@ public class FabricInitializer implements ModInitializer {
 			}
 		});
 
-		if (WanderingWizardry.isModLoaded("quilt_resource_loader"))
-			initWithQsl();
-
 		FabricInitializer.addWanderingTradesFor(1);
 		FabricInitializer.addWanderingTradesFor(2);
 
 		WanderingWizardry.init("fabric");
     }
-
-	public static void initWithQsl() {
-		ResourceLoader.get(PackType.CLIENT_RESOURCES).getRegisterDefaultPackEvent().register(ctx -> {
-			DatagenInitializer.reloadPack(ctx.resourceManager());
-			ctx.addResourcePack(DatagenInitializer.pack);
-		});
-	}
 
 	private static void addWanderingTradesFor(int level) {
 		TradeOfferHelper.registerWanderingTraderOffers(

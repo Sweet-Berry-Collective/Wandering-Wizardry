@@ -25,9 +25,6 @@ import java.util.concurrent.Executor;
 @Mixin(ReloadableResourceManager.class)
 public class Mixin_ReloadableResourceManager {
 	@Shadow
-	private CloseableResourceManager resources;
-
-	@Shadow
 	@Final
 	private PackType type;
 
@@ -46,8 +43,6 @@ public class Mixin_ReloadableResourceManager {
 		List<PackResources> packs,
 		CallbackInfoReturnable<ReloadInstance> cir
 	) {
-		if (WanderingWizardry.isModLoaded("quilt_resource_loader"))
-			return;
 		var temp = new MultiPackResourceManager(type, packs);
 		DatagenInitializer.reloadPack(temp);
 		temp.close();
@@ -61,8 +56,6 @@ public class Mixin_ReloadableResourceManager {
 		)
 	)
 	private List<PackResources> wwizardry$getPacks(List<PackResources> old) {
-		if (WanderingWizardry.isModLoaded("quilt_resource_loader"))
-			return old;
 		var packs = new ArrayList<>(old);
 		packs.add(DatagenInitializer.pack);
 		return packs;

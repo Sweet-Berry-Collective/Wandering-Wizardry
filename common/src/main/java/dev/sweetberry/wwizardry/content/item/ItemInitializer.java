@@ -42,7 +42,7 @@ public class ItemInitializer {
 		() -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
 			.icon(() -> ItemInitializer.ALTAR_CATALYZER.get().getDefaultInstance())
 			.displayItems((display, collector) -> collector.acceptAll(ItemInitializer.BLOCKS_STACKS.stream().map(Lazy::get).map(Item::getDefaultInstance).collect(Collectors.toList())))
-			.title(net.minecraft.network.chat.Component.translatable("itemGroup.wwizardry.items"))
+			.title(net.minecraft.network.chat.Component.translatable("itemGroup.wwizardry.blocks"))
 			.build()
 	);
 
