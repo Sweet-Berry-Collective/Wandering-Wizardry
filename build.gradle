@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
 	alias libs.plugins.idea.ext
+	alias libs.plugins.loom apply false
 }
 
 version = "${project.version}+mc.${libs.versions.minecraft.get()}"
@@ -9,10 +10,6 @@ if (!project.classification.isBlank())
 group = project.maven_group
 
 repositories {
-	maven {
-		name = 'Quilt'
-		url = 'https://maven.quiltmc.org/repository/release'
-	}
 	maven {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/'
