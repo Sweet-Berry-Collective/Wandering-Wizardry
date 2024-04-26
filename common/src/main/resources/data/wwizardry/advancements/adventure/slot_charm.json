@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:slot_charm"
+      "id": "wwizardry:slot_charm"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.charm.slot.title"

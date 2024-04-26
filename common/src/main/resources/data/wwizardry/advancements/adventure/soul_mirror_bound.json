@@ -1,8 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:soul_mirror",
-      "nbt": "{\"LodestoneDimension\": \"null\"}"
+      "id": "wwizardry:soul_mirror"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.soul_mirror.bound.title"

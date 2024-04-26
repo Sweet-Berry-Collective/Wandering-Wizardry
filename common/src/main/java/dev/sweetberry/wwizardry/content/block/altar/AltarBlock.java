@@ -14,6 +14,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -90,19 +91,18 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		if (player.isShiftKeyDown()) return InteractionResult.PASS;
-		var stack = player.getItemInHand(hand);
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (player.isShiftKeyDown()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		var entity = (AltarBlockEntity) world.getBlockEntity(pos);
 		assert entity != null;
-		if (entity.crafting) return InteractionResult.PASS;
-		if (stack.isEmpty() && entity.heldItem.isEmpty()) return InteractionResult.PASS;
-		if (world.isClientSide) return InteractionResult.SUCCESS;
+		if (entity.crafting) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		if (stack.isEmpty() && entity.heldItem.isEmpty()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		if (world.isClientSide) return ItemInteractionResult.SUCCESS;
 		var newstack = stack.copy().copyWithCount(1);
 
 		if (stack.getItem() == entity.heldItem.getItem()) {
 			if (stack.getCount() == stack.getMaxStackSize()) {
-				if (!player.addItem(entity.heldItem)) return InteractionResult.SUCCESS;
+				if (!player.addItem(entity.heldItem)) return ItemInteractionResult.SUCCESS;
 			} else {
 				stack.grow(1);
 				player.setItemInHand(hand, stack);
@@ -111,7 +111,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 			entity.setChanged();
 			world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 7.5f, 0f);
 			world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(state));
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
 
 		if (!stack.isEmpty()) {
@@ -122,7 +122,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 				if (stack.getCount() == 1)
 					handleInput(player, hand, entity);
 				else if (!player.addItem(entity.heldItem))
-					return InteractionResult.SUCCESS;
+					return ItemInteractionResult.SUCCESS;
 
 			stack.shrink(1);
 			entity.heldItem = newstack;
@@ -137,7 +137,7 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 
 		entity.setChanged();
 		world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 10f, 0f);
-		return InteractionResult.SUCCESS;
+		return ItemInteractionResult.SUCCESS;
 	}
 
 	@Override

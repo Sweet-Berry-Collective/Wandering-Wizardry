@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:rose_quartz"
+      "id": "wwizardry:rose_quartz"
     },
     "title": {
       "translate": "advancement.wwizardry.story.quartz.title"

@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(PlayerRespawnLogic.class)
 public interface Accessor_PlayerRespawnLogic {
-	@Invoker
-	static BlockPos invokeGetOverworldRespawnPos(ServerLevel $$0, int $$1, int $$2) {
+	@Invoker("getOverworldRespawnPos")
+	static BlockPos invokeGetOverworldRespawnPos(ServerLevel level, int i, int j) {
 		throw new NotImplementedException();
 	}
 }

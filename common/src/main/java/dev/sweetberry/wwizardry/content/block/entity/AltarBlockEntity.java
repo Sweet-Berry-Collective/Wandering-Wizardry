@@ -1,6 +1,8 @@
 package dev.sweetberry.wwizardry.content.block.entity;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
@@ -122,13 +124,10 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 	}
 
 	private static Stream<ItemStack> getBundledStacks(ItemStack stack) {
-		CompoundTag nbtCompound = stack.getTag();
-		if (nbtCompound == null)
+		var contents = stack.get(DataComponents.BUNDLE_CONTENTS);
+		if (contents == null)
 			return Stream.empty();
-		if (!nbtCompound.contains("Items"))
-			return Stream.empty();
-		ListTag nbtList = nbtCompound.getList("Items", Tag.TAG_COMPOUND);
-		return nbtList.stream().map(CompoundTag.class::cast).map(ItemStack::of);
+		return contents.itemCopyStream();
 	}
 
 	public abstract Block getBlock();
@@ -136,28 +135,30 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 	public abstract void tick(Level world, BlockPos pos, BlockState state);
 
 	@Override
-	protected void saveAdditional(CompoundTag nbt) {
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
 		var heldItemNbt = new CompoundTag();
-		heldItem.save(heldItemNbt);
+		if (!heldItemNbt.isEmpty())
+			heldItem.save(provider, heldItemNbt);
 		var recipeRemainderNbt = new CompoundTag();
-		recipeRemainder.save(recipeRemainderNbt);
+		if (!recipeRemainder.isEmpty())
+			recipeRemainder.save(provider, recipeRemainderNbt);
 		nbt.put("HeldItem", heldItemNbt);
 		nbt.put("RecipeRemainder", recipeRemainderNbt);
 		nbt.putBoolean("crafting", crafting);
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
 		var heldItemNbt = nbt.getCompound("HeldItem");
-		heldItem = ItemStack.of(heldItemNbt);
+		heldItem = ItemStack.parse(provider, heldItemNbt).orElse(ItemStack.EMPTY);
 		var recipeRemainderNbt = nbt.getCompound("RecipeRemainder");
-		recipeRemainder = ItemStack.of(recipeRemainderNbt);
+		recipeRemainder = ItemStack.parse(provider, recipeRemainderNbt).orElse(ItemStack.EMPTY);
 		crafting = nbt.getBoolean("crafting");
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		return saveWithoutMetadata();
+	public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+		return saveWithoutMetadata(provider);
 	}
 
 	@Nullable

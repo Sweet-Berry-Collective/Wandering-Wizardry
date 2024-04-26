@@ -1,26 +1,14 @@
 package dev.sweetberry.wwizardry.neoforge.networking;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
-import dev.sweetberry.wwizardry.api.net.CustomPacket;
-import dev.sweetberry.wwizardry.api.net.PacketConstructor;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
-import dev.sweetberry.wwizardry.content.net.NetworkingInitializer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
-import net.neoforged.neoforge.network.handlers.ClientPayloadHandler;
-import net.neoforged.neoforge.network.handling.PlayPayloadContext;
-import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
-
-import java.util.HashMap;
-import java.util.Map;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.ClientPayloadContext;
 
 public class NeoForgeNetworking {
 
@@ -29,34 +17,36 @@ public class NeoForgeNetworking {
 	}
 
 	@SubscribeEvent
-	public static void register(RegisterPayloadHandlerEvent event) {
-		PacketRegistry.registerTo((id, constructor) -> {
-			ModdedPacketPayload.PACKETS.put(id, constructor);
+	public static void register(RegisterPayloadHandlersEvent event) {
+		var registrar = event.registrar(WanderingWizardry.MODID);
+
+		PacketRegistry.registerTo((id, codec) -> {
+			registrar.playBidirectional(id, codec, (packet, context) -> {
+				if (context instanceof ClientPayloadContext) {
+					var client = Minecraft.getInstance();
+					packet.onClientReceive(Minecraft.getInstance(), client.level, client.player);
+				} else {
+					var player = (ServerPlayer) context.player();
+					packet.onServerReceive(player.server, player.serverLevel(), player);
+				}
+			});
 		});
 
-		IPayloadRegistrar registrar = event.registrar(WanderingWizardry.MODID);
-		registrar.play(
-			ModdedPacketPayload.ID,
-			ModdedPacketPayload::new,
-			handler -> handler
-				.client(ModdedPacketPayload::onClientReceive)
-				.server(ModdedPacketPayload::onServerReceive)
+		registrar.playBidirectional(
+			ComponentSyncPayload.TYPE,
+			ComponentSyncPayload.CODEC,
+			(packet, context) -> {
+				if (context instanceof ClientPayloadContext) {
+					var client = Minecraft.getInstance();
+					ComponentSyncPayload.onClientReceive(packet, client.level);
+				} else {
+					ComponentSyncPayload.onServerReceive(packet, (ServerPlayer) context.player());
+				}
+			}
 		);
 
-		registrar.play(
-			ComponentSyncPayload.ID,
-			ComponentSyncPayload::new,
-			handler -> handler
-				.client(ComponentSyncPayload::onClientReceive)
-				.server(ComponentSyncPayload::onServerReceive)
-		);
+		PacketRegistry.SEND_TO_SERVER.listen(PacketDistributor::sendToServer);
 
-		PacketRegistry.SEND_TO_SERVER.listen(customPacket -> {
-			PacketDistributor.SERVER.noArg().send(new ModdedPacketPayload(customPacket));
-		});
-
-		PacketRegistry.SEND_TO_CLIENT.listen((player, customPacket) -> {
-			PacketDistributor.PLAYER.with(player).send(new ModdedPacketPayload(customPacket));
-		});
+		PacketRegistry.SEND_TO_CLIENT.listen(PacketDistributor::sendToPlayer);
 	}
 }

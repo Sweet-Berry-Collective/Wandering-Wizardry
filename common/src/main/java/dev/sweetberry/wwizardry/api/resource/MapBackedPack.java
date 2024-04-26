@@ -1,9 +1,13 @@
 package dev.sweetberry.wwizardry.api.resource;
 
+import dev.sweetberry.wwizardry.WanderingWizardry;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.IoSupplier;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -78,6 +83,11 @@ public class MapBackedPack implements PackResources {
 	@Override
 	public <T> T getMetadataSection(MetadataSectionSerializer<T> metaReader) throws IOException {
 		return null;
+	}
+
+	@Override
+	public PackLocationInfo location() {
+		return new PackLocationInfo(WanderingWizardry.MODID, Component.empty(), PackSource.BUILT_IN, Optional.empty());
 	}
 
 	@Override

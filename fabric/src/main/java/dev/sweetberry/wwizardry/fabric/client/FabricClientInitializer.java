@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.model.BoatModel;
@@ -49,16 +50,12 @@ public class FabricClientInitializer implements ClientModInitializer {
 			);
 		});
 
-		PacketRegistry.SEND_TO_SERVER.listen(packet -> {
-			var payload = PacketByteBufs.create();
-			packet.writeTo(payload);
-			ClientPlayNetworking.send(packet.getId(), payload);
-		});
-		PacketRegistry.registerTo((id, constructor) -> {
-			ClientPlayNetworking.registerGlobalReceiver(id, ((client, handler, buf, responseSender) -> {
-				var packet = constructor.create(buf);
-				packet.onClientReceive(client, client.level, client.player);
-			}));
+		PacketRegistry.SEND_TO_SERVER.listen(ClientPlayNetworking::send);
+		PacketRegistry.registerTo((id, codec) -> {
+			PayloadTypeRegistry.playS2C().register(id, codec);
+			ClientPlayNetworking.registerGlobalReceiver(id, (packet, context) -> {
+				packet.onClientReceive(context.client(), context.client().level, context.player());
+			});
 		});
 
 		ClientEvents.registerModelLayers((id, layer) -> EntityModelLayerRegistry.registerModelLayer(id, layer::get));
@@ -70,9 +67,9 @@ public class FabricClientInitializer implements ClientModInitializer {
 
 		ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new FabricPackReloader());
 
-		ItemTooltipCallback.EVENT.register((stack, context, lines)
+		ItemTooltipCallback.EVENT.register((stack, context, type, lines)
 			-> ItemTooltipHandler.addTooltips(
-				stack, context, lines::addAll
+				stack, type, lines::addAll
 			)
 		);
 	}

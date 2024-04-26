@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.TooltipFlag;
@@ -54,10 +55,10 @@ public class NeoForgeEvents {
 		var lines = event.getTooltipElements();
 
 		ItemTooltipHandler.addTooltips(
-			event.getItemStack(), TooltipFlag.NORMAL, (i, c)
-				-> lines.addAll(
-					i,
-				(Collection<? extends Either<FormattedText, TooltipComponent>>) (Object)
+			event.getItemStack(),
+			TooltipFlag.NORMAL,
+			(i, c) -> lines.addAll(i,
+				(Collection<? extends Either<FormattedText, TooltipComponent>>)
 					c.stream().map(Either::left).toList()
 			)
 		);
@@ -71,7 +72,7 @@ public class NeoForgeEvents {
 		for (var entity : addedEntities) {
 			NeoForgeComponents.COMPONENTS.forEach((key, it) -> {
 				var data = entity.getData(it);
-				PacketDistributor.SERVER.noArg().send(new ComponentSyncPayload(entity, key, data.component));
+				PacketDistributor.sendToServer(new ComponentSyncPayload(entity, key, data.component));
 			});
 		}
 		addedEntities.clear();
@@ -88,6 +89,6 @@ public class NeoForgeEvents {
 		);
 		if (result == InteractionResult.PASS)
 			return;
-		event.cancelWithResult(result);
+		event.cancelWithResult(ItemInteractionResult.FAIL);
 	}
 }

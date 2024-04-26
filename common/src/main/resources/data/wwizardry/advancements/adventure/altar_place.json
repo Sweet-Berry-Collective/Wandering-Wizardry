@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:altar_catalyzer"
+      "id": "wwizardry:altar_catalyzer"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.altar.place.title"

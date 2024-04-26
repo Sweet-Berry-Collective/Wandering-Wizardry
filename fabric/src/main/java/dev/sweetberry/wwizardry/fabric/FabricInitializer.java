@@ -1,18 +1,12 @@
 package dev.sweetberry.wwizardry.fabric;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.sweetberry.wwizardry.WanderingWizardry;
-import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.component.Component;
-import dev.sweetberry.wwizardry.api.net.ModdedPacketPayload;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.fabric.compat.cardinal.CardinalInitializer;
-import dev.sweetberry.wwizardry.fabric.compat.cardinal.component.ProxyComponent;
 import dev.sweetberry.wwizardry.content.ContentInitializer;
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
-import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import dev.sweetberry.wwizardry.content.events.UseBlockHandler;
-import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.trades.TradeInitializer;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import net.fabricmc.api.ModInitializer;
@@ -20,19 +14,15 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.Entity;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FabricInitializer implements ModInitializer {
     @Override
@@ -44,17 +34,13 @@ public class FabricInitializer implements ModInitializer {
 			Registry.register(registry, id, item.get());
 		}));
 
-		PacketRegistry.SEND_TO_CLIENT.listen((player, packet) -> {
-			var payload = PacketByteBufs.create();
-			packet.writeTo(payload);
-			ServerPlayNetworking.send(player, new ModdedPacketPayload());
-		});
+		PacketRegistry.SEND_TO_CLIENT.listen(ServerPlayNetworking::send);
 
-		PacketRegistry.registerTo((id, constructor) -> {
-			ServerPlayNetworking.registerGlobalReceiver(id, ((server, player, handler, buf, responseSender) -> {
-				var packet = constructor.create(buf);
-				packet.onServerReceive(server, player.serverLevel(), player);
-			}));
+		PacketRegistry.registerTo((id, codec) -> {
+			PayloadTypeRegistry.playC2S().register(id, codec);
+			ServerPlayNetworking.registerGlobalReceiver(id, (payload, context) -> {
+				payload.onServerReceive(context.player().server, context.player().serverLevel(), context.player());
+			});
 		});
 
 		UseBlockCallback.EVENT.register((player, world, hand, hitResult) ->

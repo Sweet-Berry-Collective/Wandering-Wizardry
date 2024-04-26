@@ -8,6 +8,8 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -17,6 +19,10 @@ import net.minecraft.sounds.SoundSource;
 
 public class AltarCraftPacket implements CustomPacket {
 	public static final ResourceLocation ID = WanderingWizardry.id("altar_craft");
+	public static final Type<AltarCraftPacket> TYPE = new Type<>(ID);
+	public static final StreamCodec<FriendlyByteBuf, AltarCraftPacket> CODEC = StreamCodec.of(
+		AltarCraftPacket::writeTo, AltarCraftPacket::readFrom
+	);
 	public BlockPos pos;
 	public boolean bloom;
 
@@ -29,14 +35,17 @@ public class AltarCraftPacket implements CustomPacket {
 		this.bloom = bloom;
 	}
 
-	public void writeTo(FriendlyByteBuf buf) {
-		buf.writeBlockPos(pos);
-		buf.writeBoolean(bloom);
+	public static void writeTo(FriendlyByteBuf buf, AltarCraftPacket packet) {
+		buf.writeBlockPos(packet.pos);
+		buf.writeBoolean(packet.bloom);
+	}
+
+	public static AltarCraftPacket readFrom(FriendlyByteBuf buf) {
+		return new AltarCraftPacket(buf.readBlockPos(), buf.readBoolean());
 	}
 
 	@Override
 	public void onClientReceive(Minecraft client, ClientLevel world, AbstractClientPlayer receiver) {
-
 		world.addParticle(ParticleTypes.SONIC_BOOM, pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, 0, 0, 0);
 		world.playLocalSound(pos.getX() + 0.5, pos.getY() + 5.5, pos.getZ() + 0.5, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.BLOCKS, 1, 1, true);
 
@@ -50,5 +59,10 @@ public class AltarCraftPacket implements CustomPacket {
 	@Override
 	public ResourceLocation getId() {
 		return ID;
+	}
+
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
 }

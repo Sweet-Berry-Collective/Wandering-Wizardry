@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "end_crystal"
+      "id": "end_crystal"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.altar.crystal.title"

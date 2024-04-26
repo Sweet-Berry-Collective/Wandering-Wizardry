@@ -7,10 +7,10 @@ neoforge = "20.5.0-beta"
 mixin = "0.8.5"
 mixin_extras = "0.3.5"
 
-fabric_api = "0.97.6+1.20.5"
+fabric_api = "0.97.7+1.20.5"
 
 terrablender = "1.20.5-3.4.0.2"
-ccapi = "6.0.0-beta.1"
+ccapi = "6.0.0-beta.2"
 
 emi = "1.1.0+1.20.4"
 modmenu = "10.0.0-beta.1"

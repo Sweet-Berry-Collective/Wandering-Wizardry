@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:soul_mirror"
+      "id": "wwizardry:soul_mirror"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.soul_mirror.title"

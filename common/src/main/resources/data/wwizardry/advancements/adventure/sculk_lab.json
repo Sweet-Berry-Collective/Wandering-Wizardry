@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:camera"
+      "id": "wwizardry:camera"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.sculk_lab.title"

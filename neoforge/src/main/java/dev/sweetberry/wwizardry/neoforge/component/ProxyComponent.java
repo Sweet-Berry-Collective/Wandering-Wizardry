@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.neoforge.component;
 
 import dev.sweetberry.wwizardry.api.component.Component;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -13,15 +14,15 @@ public class ProxyComponent<T extends Component> implements INBTSerializable {
 	}
 
 	@Override
-	public Tag serializeNBT() {
+	public Tag serializeNBT(HolderLookup.Provider provider) {
 		var tag = new CompoundTag();
-		component.toNbt(tag);
+		component.toNbt(tag, provider);
 		return tag;
 	}
 
 	@Override
-	public void deserializeNBT(Tag nbt) {
+	public void deserializeNBT(HolderLookup.Provider provider, Tag nbt) {
 		if (nbt instanceof CompoundTag tag)
-			component.fromNbt(tag);
+			component.fromNbt(tag, provider);
 	}
 }

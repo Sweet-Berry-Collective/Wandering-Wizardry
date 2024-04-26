@@ -3,6 +3,7 @@ package dev.sweetberry.wwizardry.content.recipe;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -51,13 +52,18 @@ public record AltarCatalyzationRecipe(
 	}
 
 	@Override
-	public ItemStack assemble(AltarRecipeView container, RegistryAccess registryAccess) {
+	public ItemStack assemble(AltarRecipeView view, HolderLookup.Provider provider) {
 		return result.copy();
 	}
 
 	@Override
 	public boolean canCraftInDimensions(int width, int height) {
 		return width == 1 && height == 1;
+	}
+
+	@Override
+	public ItemStack getResultItem(HolderLookup.Provider provider) {
+		return result.copy();
 	}
 
 	@Override
@@ -70,11 +76,6 @@ public record AltarCatalyzationRecipe(
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return RecipeInitializer.ALTAR_SERIALIZER.get();
-	}
-
-	@Override
-	public ItemStack getResultItem(RegistryAccess registryManager) {
-		return result;
 	}
 
 	@Override

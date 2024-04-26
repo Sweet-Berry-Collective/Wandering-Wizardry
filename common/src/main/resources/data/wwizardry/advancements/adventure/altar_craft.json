@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:altar_pedestal"
+      "id": "wwizardry:altar_pedestal"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.altar.craft.title"

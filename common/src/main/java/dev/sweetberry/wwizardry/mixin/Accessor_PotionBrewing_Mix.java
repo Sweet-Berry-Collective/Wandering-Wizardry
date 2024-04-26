@@ -9,10 +9,4 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface Accessor_PotionBrewing_Mix<T> {
 	@Accessor
 	Ingredient getIngredient();
-
-	@Accessor
-	T getFrom();
-
-	@Accessor
-	T getTo();
 }

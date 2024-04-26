@@ -19,29 +19,34 @@ export default async function awToAt(inputDir: string, outputDir: string, versio
         let str = `public${line[1] == "field" ? "-f" : ""} `
         const prefix = line[2].replaceAll("/", ".")
         let add = ""
-        switch (line[1]) {
-            case "class":
-                str += prefix
-                break;
-            case "method":
-                add += line[4];
-                // Falls through
-            case "field": {
-                let name = line[3]
+        try {
+            switch (line[1]) {
+                case "class":
+                    str += prefix
+                    break;
+                case "method":
+                    add += line[4];
+                    // Falls through
+                case "field": {
+                    let name = line[3]
 
-                if (line[3] != "<init>") {
-                    const query = url + "&query=" + line[3];
-                    console.log(query)
-                    const data = (await (await fetch(query)).json()).entries.filter((it: any) => it.c == line[2])[0]
-                    if (!data)
-                        break
-                    name = data.i;
-                    if (!name)
-                        break
+                    if (line[3] != "<init>") {
+                        const query = url + "&query=" + line[3];
+                        console.log(query)
+                        const json = await (await fetch(query)).json();
+                        const data = json.entries.filter((it: any) => it.c == line[2])[0]
+                        if (!data)
+                            break
+                        name = data.i;
+                        if (!name)
+                            break
+                    }
+
+                    str += `${prefix} ${name}${add}`
                 }
-
-                str += `${prefix} ${name}${add}`
             }
+        } catch (e) {
+            console.log(e)
         }
         out += str
     }

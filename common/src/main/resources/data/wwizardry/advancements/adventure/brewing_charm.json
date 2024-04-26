@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:brewing_charm"
+      "id": "wwizardry:brewing_charm"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.charm.brewing.title"

@@ -1,5 +1,8 @@
 package dev.sweetberry.wwizardry.content.block;
 
+import dev.sweetberry.wwizardry.mixin.Invoker_BlockBehaviour;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +49,7 @@ public class WallCandleBlock extends WallHolderBlock {
 
 	@Override
 	public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-		var stacks = new ArrayList<>(BlockInitializer.WALL_HOLDER.get().getDrops(state, builder));
+		var stacks = new ArrayList<>(((Invoker_BlockBehaviour) BlockInitializer.WALL_HOLDER.get()).invokeGetDrops(state, builder));
 		stacks.add(new ItemStack(candleBlock));
 		return stacks;
 	}
@@ -94,18 +97,18 @@ public class WallCandleBlock extends WallHolderBlock {
 	}
 
 	@Override
-	public InteractionResult specializedUseAction(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public ItemInteractionResult specializedUseAction(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		var handStack = player.getItemInHand(hand);
 		if (handStack.isEmpty() && state.getValue(BlockStateProperties.LIT)) {
 			extinguish(state, world, pos);
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		} else if (handStack.is(Items.FLINT_AND_STEEL) && !state.getValue(BlockStateProperties.LIT)) {
 			if (world instanceof ServerLevel)
-				handStack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
+				handStack.hurtAndBreak(1, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
 			light(player, state, world, pos);
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	public void extinguish(BlockState state, Level world, BlockPos pos) {

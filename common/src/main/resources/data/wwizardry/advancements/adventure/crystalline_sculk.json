@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:crystalline_sculk"
+      "id": "wwizardry:crystalline_sculk"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.crystalline_sculk.title"

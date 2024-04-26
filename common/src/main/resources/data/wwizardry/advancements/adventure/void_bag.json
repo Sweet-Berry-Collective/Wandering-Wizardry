@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:void_bag"
+      "id": "wwizardry:void_bag"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.void_bag.title"

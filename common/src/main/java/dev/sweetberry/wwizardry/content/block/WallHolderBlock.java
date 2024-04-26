@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block;
 
+import dev.sweetberry.wwizardry.mixin.Invoker_BlockBehaviour;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -7,6 +8,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -115,7 +117,7 @@ public class WallHolderBlock extends Block {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (state.getBlock() == BlockInitializer.WALL_HOLDER.get()) return useEmpty(state, world, pos, player, hand);
 
 		var droppedBlock = getDroppedBlock();
@@ -124,10 +126,10 @@ public class WallHolderBlock extends Block {
 				var stackEntity = new ItemEntity(world, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, droppedBlock.asItem().getDefaultInstance());
 				world.addFreshEntity(stackEntity);
 			}
-			var soundGroup = droppedBlock.getSoundType(droppedBlock.defaultBlockState());
+			var soundGroup = ((Invoker_BlockBehaviour)droppedBlock).invokeGetSoundType(droppedBlock.defaultBlockState());
 			world.playSound(player, pos, soundGroup.getBreakSound(), SoundSource.BLOCKS);
 			world.setBlockAndUpdate(pos, BlockInitializer.WALL_HOLDER.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
 
 		return specializedUseAction(state, world, pos, player, hand, hit);
@@ -138,21 +140,21 @@ public class WallHolderBlock extends Block {
 		return null;
 	}
 
-	public InteractionResult specializedUseAction(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		return InteractionResult.PASS;
+	public ItemInteractionResult specializedUseAction(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
-	public InteractionResult useEmpty(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand) {
-		if (player.isSecondaryUseActive()) return InteractionResult.PASS;
+	public ItemInteractionResult useEmpty(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand) {
+		if (player.isSecondaryUseActive()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
 		var stack = player.getItemInHand(hand);
 
-		if (!(stack.getItem() instanceof BlockItem item)) return InteractionResult.PASS;
-		if (!ITEM_LOOKUP.containsKey(item.getBlock())) return InteractionResult.PASS;
+		if (!(stack.getItem() instanceof BlockItem item)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		if (!ITEM_LOOKUP.containsKey(item.getBlock())) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
 		var block = item.getBlock();
 		var holder = ITEM_LOOKUP.get(block);
-		var soundGroup = block.getSoundType(block.defaultBlockState());
+		var soundGroup = ((Invoker_BlockBehaviour) block).invokeGetSoundType(block.defaultBlockState());
 		world.playSound(player, pos, soundGroup.getPlaceSound(), SoundSource.BLOCKS);
 		world.setBlockAndUpdate(pos, holder.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
 
@@ -161,7 +163,7 @@ public class WallHolderBlock extends Block {
 			player.setItemInHand(hand, stack);
 		}
 
-		return InteractionResult.SUCCESS;
+		return ItemInteractionResult.SUCCESS;
 	}
 
 	public void spawnParticle(Level world, Vec3 pos, ParticleOptions particleEffect, RandomSource random) {

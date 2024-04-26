@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wwizardry:denia_sapling"
+      "id": "wwizardry:denia_sapling"
     },
     "title": {
       "translate": "advancement.wwizardry.adventure.forgotten_fields.title"
