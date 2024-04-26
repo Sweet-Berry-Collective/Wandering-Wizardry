@@ -2,10 +2,12 @@ package dev.sweetberry.wwizardry.content.item.tier;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 
 public class CrystallineSculkTier implements Tier {
 	public static final CrystallineSculkTier INSTANCE = new CrystallineSculkTier();
@@ -29,8 +31,8 @@ public class CrystallineSculkTier implements Tier {
 	}
 
 	@Override
-	public int getLevel() {
-		return 0;
+	public TagKey<Block> getIncorrectBlocksForDrops() {
+		return BlockTags.INCORRECT_FOR_WOODEN_TOOL;
 	}
 
 	@Override

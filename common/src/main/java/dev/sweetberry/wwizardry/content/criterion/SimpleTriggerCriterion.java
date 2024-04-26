@@ -12,7 +12,7 @@ import net.minecraft.util.ExtraCodecs;
 public class SimpleTriggerCriterion extends SimpleCriterionTrigger<SimpleTriggerCriterion.Condition> {
 	public static final Codec<Condition> CODEC = RecordCodecBuilder.create(
 		instance -> instance.group(
-			ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player")
+			EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player")
 				.forGetter(Condition::player)
 		).apply(instance, Condition::new)
 	);

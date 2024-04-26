@@ -4,6 +4,7 @@ import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.component.Component;
+import dev.sweetberry.wwizardry.api.net.ModdedPacketPayload;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.fabric.compat.cardinal.CardinalInitializer;
 import dev.sweetberry.wwizardry.fabric.compat.cardinal.component.ProxyComponent;
@@ -25,6 +26,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.Entity;
@@ -45,7 +47,7 @@ public class FabricInitializer implements ModInitializer {
 		PacketRegistry.SEND_TO_CLIENT.listen((player, packet) -> {
 			var payload = PacketByteBufs.create();
 			packet.writeTo(payload);
-			ServerPlayNetworking.send(player, packet.getId(), payload);
+			ServerPlayNetworking.send(player, new ModdedPacketPayload());
 		});
 
 		PacketRegistry.registerTo((id, constructor) -> {

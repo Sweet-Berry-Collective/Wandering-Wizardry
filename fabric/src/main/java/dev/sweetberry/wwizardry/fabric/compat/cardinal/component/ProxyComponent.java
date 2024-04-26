@@ -1,8 +1,8 @@
 package dev.sweetberry.wwizardry.fabric.compat.cardinal.component;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.sweetberry.wwizardry.api.component.Component;
 import net.minecraft.nbt.CompoundTag;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 public class ProxyComponent<T extends Component> implements AutoSyncedComponent {
 	public T baseComponent;

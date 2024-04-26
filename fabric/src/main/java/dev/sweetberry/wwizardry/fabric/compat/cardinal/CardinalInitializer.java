@@ -1,10 +1,9 @@
 package dev.sweetberry.wwizardry.fabric.compat.cardinal;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistryV3;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
+import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 import dev.sweetberry.wwizardry.fabric.compat.cardinal.component.BoatCardinalComponent;
 import dev.sweetberry.wwizardry.fabric.compat.cardinal.component.ProxyComponent;
 import dev.sweetberry.wwizardry.fabric.compat.cardinal.component.VoidBagCardinalComponent;

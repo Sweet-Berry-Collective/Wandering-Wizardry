@@ -1,17 +1,23 @@
 package dev.sweetberry.wwizardry.content.component;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.sweetberry.wwizardry.api.component.Component;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 
 public class VoidBagComponent implements Component, Container {
 	public NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
@@ -20,21 +26,21 @@ public class VoidBagComponent implements Component, Container {
     public VoidBagComponent() {}
 
     @Override
-	public void fromNbt(CompoundTag tag) {
+	public void fromNbt(CompoundTag tag, HolderLookup.Provider lookup) {
 		inventory = NonNullList.withSize(27, ItemStack.EMPTY);
-		ContainerHelper.loadAllItems(tag, inventory);
+		ContainerHelper.loadAllItems(tag, inventory, lookup);
 		locked = tag.getBoolean("Locked");
 	}
 
 	@Override
-	public void toNbt(CompoundTag tag) {
-		ContainerHelper.saveAllItems(tag, inventory);
+	public void toNbt(CompoundTag tag, HolderLookup.Provider lookup) {
+		ContainerHelper.saveAllItems(tag, inventory, lookup);
 		tag.putBoolean("Locked", locked);
-		ItemStack previewStack = ItemInitializer.VOID_BAG.get().getDefaultInstance();
-		previewStack.getOrCreateTag().putBoolean("Locked", locked);
-		CompoundTag previewCompound = new CompoundTag();
-		previewStack.save(previewCompound);
-		tag.put("PreviewStack", previewCompound);
+//		ItemStack previewStack = ItemInitializer.VOID_BAG.get().getDefaultInstance();
+//		previewStack.getOrCreateTag().putBoolean("Locked", locked);
+//		CompoundTag previewCompound = new CompoundTag();
+//		previewStack.save(previewCompound);
+//		tag.put("PreviewStack", previewCompound);
 	}
 
 	@Override
@@ -107,7 +113,7 @@ public class VoidBagComponent implements Component, Container {
 				return 0;
 			}
 
-			if (!ItemStack.isSameItemSameTags(inv_stack, stack))
+			if (!ItemStack.isSameItemSameComponents(inv_stack, stack))
 				continue;
 
 			var count_to_fill = inv_stack.getMaxStackSize() - inv_stack.getCount();

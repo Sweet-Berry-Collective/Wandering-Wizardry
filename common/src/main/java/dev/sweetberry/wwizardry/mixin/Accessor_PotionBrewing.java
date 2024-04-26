@@ -12,13 +12,9 @@ import java.util.List;
 
 @Mixin(PotionBrewing.class)
 public interface Accessor_PotionBrewing {
-	@Accessor("ALLOWED_CONTAINERS")
-	static List<Ingredient> getAllowedContainers() {
-		throw new NotImplementedException();
-	}
+	@Accessor("containers")
+	List<Ingredient> getAllowedContainers();
 
-	@Accessor("POTION_MIXES")
-	static List<PotionBrewing.Mix<Potion>> getMixes() {
-		throw new NotImplementedException();
-	}
+	@Accessor("potionMixes")
+	List<PotionBrewing.Mix<Potion>> getMixes();
 }

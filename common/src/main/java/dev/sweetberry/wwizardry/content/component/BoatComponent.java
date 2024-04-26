@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.component;
 
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.component.Component;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -20,14 +21,14 @@ public class BoatComponent implements Component {
 	public BoatComponent() {}
 
 	@Override
-	public void fromNbt(CompoundTag tag) {
+	public void fromNbt(CompoundTag tag, HolderLookup.Provider lookup) {
 		type = tag.contains("id")
 			? new ResourceLocation(tag.getString("id"))
 			: null;
 	}
 
 	@Override
-	public void toNbt(CompoundTag tag) {
+	public void toNbt(CompoundTag tag, HolderLookup.Provider lookup) {
 		if (type != null)
 			tag.putString("id", type.toString());
 	}

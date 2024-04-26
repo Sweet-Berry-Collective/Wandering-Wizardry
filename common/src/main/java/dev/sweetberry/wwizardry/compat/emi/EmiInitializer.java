@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.compat.emi;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
@@ -18,14 +19,15 @@ import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
 import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import dev.sweetberry.wwizardry.mixin.Accessor_PotionBrewing;
 import dev.sweetberry.wwizardry.mixin.Accessor_PotionBrewing_Mix;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionBrewing;
-import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
 
 @EmiEntrypoint
 public class EmiInitializer implements EmiPlugin {
@@ -66,9 +68,8 @@ public class EmiInitializer implements EmiPlugin {
 
 		var manager = registry.getRecipeManager();
 
-		for (var recipe : manager.getAllRecipesFor(RecipeInitializer.ALTAR_TYPE.get())) {
+		for (var recipe : manager.getAllRecipesFor(RecipeInitializer.ALTAR_TYPE.get()))
 			registry.addRecipe(EmiAltarCatalyzationRecipe.of(recipe.id(), recipe.value()));
-		}
 
 		for (
 			var recipe :
@@ -79,36 +80,36 @@ public class EmiInitializer implements EmiPlugin {
 				.map(it -> (RecipeHolder<ShapelessRecipe>) (RecipeHolder<?>) it)
 				.filter(it -> it.value().getIngredients().size() <= 4)
 				.toList()
-		) {
+		)
 			registry.addRecipe(EmiAltarShapelessRecipe.of(recipe.id(), recipe.value()));
-		}
 
-		for (var ingredient : Accessor_PotionBrewing.getAllowedContainers()) {
-			for (var stack : ingredient.getItems()) {
-				var basePath = getPrefixedPathedIdentifier(BuiltInRegistries.ITEM.getKey(stack.getItem()), "altar_brewing");
-				for (PotionBrewing.Mix<Potion> recipe : Accessor_PotionBrewing.getMixes()) {
-					try {
-						var accessor = (Accessor_PotionBrewing_Mix<Potion>)recipe;
-						var recipeIngredient = accessor.getIngredient();
-						if (recipeIngredient.getItems().length > 0) {
-							var ingredientPath = getPrefixedPathedIdentifier(BuiltInRegistries.ITEM.getKey(recipeIngredient.getItems()[0].getItem()), basePath);
-							var inputPath = getPrefixedPathedIdentifier(BuiltInRegistries.POTION.getKey(accessor.getFrom()), ingredientPath);
-							var outputPath = getPrefixedPathedIdentifier(BuiltInRegistries.POTION.getKey(accessor.getTo()), inputPath);
-							var id = WanderingWizardry.id(outputPath);
-
-							registry.addRecipe(new EmiAltarBrewingRecipe(
-							    EmiStack.of(PotionUtils.setPotion(stack.copy(), accessor.getFrom())),
-								EmiIngredient.of(recipeIngredient),
-								EmiStack.of(PotionUtils.setPotion(stack.copy(), accessor.getTo())),
-								id
-							));
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
+		// TODO: Fix this code
+//		for (var ingredient : Minecraft.getInstance().getConnection().packet) {
+//			for (var stack : ingredient.getItems()) {
+//				var basePath = getPrefixedPathedIdentifier(BuiltInRegistries.ITEM.getKey(stack.getItem()), "altar_brewing");
+//				for (PotionBrewing.Mix<Potion> recipe : Accessor_PotionBrewing.getMixes()) {
+//					try {
+//						var accessor = (Accessor_PotionBrewing_Mix<Potion>)recipe;
+//						var recipeIngredient = accessor.getIngredient();
+//						if (recipeIngredient.getItems().length > 0) {
+//							var ingredientPath = getPrefixedPathedIdentifier(BuiltInRegistries.ITEM.getKey(recipeIngredient.getItems()[0].getItem()), basePath);
+//							var inputPath = getPrefixedPathedIdentifier(BuiltInRegistries.POTION.getKey(accessor.getFrom()), ingredientPath);
+//							var outputPath = getPrefixedPathedIdentifier(BuiltInRegistries.POTION.getKey(accessor.getTo()), inputPath);
+//							var id = WanderingWizardry.id(outputPath);
+//
+//							registry.addRecipe(new EmiAltarBrewingRecipe(
+//							    EmiStack.of(PotionUtils.setPotion(stack.copy(), accessor.getFrom())),
+//								EmiIngredient.of(recipeIngredient),
+//								EmiStack.of(PotionUtils.setPotion(stack.copy(), accessor.getTo())),
+//								id
+//							));
+//						}
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//		}
 	}
 
 	public static String getPathedIdentifier(ResourceLocation id) {

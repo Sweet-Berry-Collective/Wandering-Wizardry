@@ -12,7 +12,7 @@ minecraft {
 	}
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 runs {
 	configureEach {
@@ -55,9 +55,9 @@ dependencies {
 	implementation libs.neoforge
 	compileOnly project(":common")
 
-	compileOnly classify(libs.emi.neoforge, "api")
-	testCompileOnly classify(libs.emi.neoforge, "api")
-	runtimeOnly libs.emi.neoforge
+//	compileOnly classify(libs.emi.neoforge, "api")
+//	testCompileOnly classify(libs.emi.neoforge, "api")
+//	runtimeOnly libs.emi.neoforge
 
 	implementation libs.bundles.include.neoforge
 	testImplementation libs.bundles.include.neoforge
@@ -69,7 +69,7 @@ Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>
 tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
 	source(project(":common").sourceSets.main.allSource)
 	it.options.encoding = 'UTF-8'
-	it.options.release = 17
+	it.options.release = 21
 	dependsOn ":generateData"
 }
 

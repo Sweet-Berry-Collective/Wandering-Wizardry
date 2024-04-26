@@ -5,6 +5,7 @@ import dev.sweetberry.wwizardry.config.Config;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -32,13 +33,16 @@ public class AnvilCharmItem extends AltarCharmItem {
 		if (bookDirs.isEmpty())
 			return false;
 		var book = enchantedBookItem.getDefaultInstance();
+		var bookEnchants = new ItemEnchantments.Mutable(EnchantmentHelper.getEnchantmentsForCrafting(book));
 
 		for (var i : bookDirs) {
-			for (var enchant : EnchantmentHelper.getEnchantments(view.getItemInPedestal(i)).entrySet()) {
-				if (!EnchantmentHelper.isEnchantmentCompatible(EnchantmentHelper.getEnchantments(book).keySet(), enchant.getKey()) && !Config.getAllowOpEnchants())
+			for (var enchant : EnchantmentHelper.getEnchantmentsForCrafting(view.getItemInPedestal(i)).entrySet()) {
+				if (!EnchantmentHelper.isEnchantmentCompatible(bookEnchants.keySet(), enchant.getKey().value()) && !Config.getAllowOpEnchants())
 					return false;
 
-				EnchantedBookItem.addEnchantment(book, new EnchantmentInstance(enchant.getKey(), enchant.getValue()));
+				if (bookEnchants.getLevel(enchant.getKey().value()) > enchant.getIntValue())
+					bookEnchants.upgrade(enchant.getKey().value(), enchant.getIntValue());
+				else bookEnchants.set(enchant.getKey().value(), enchant.getIntValue());
 			}
 		}
 
