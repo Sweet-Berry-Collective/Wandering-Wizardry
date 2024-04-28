@@ -14,7 +14,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -32,7 +31,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class WallCandleBlock extends WallHolderBlock {
+public class CandleSconceBlock extends SconceBlock {
 	public final CandleBlock candleBlock;
 
 	public static final VoxelShape CANDLE_NORTH = box(7, 6, 2.25, 9, 11, 4.25);
@@ -40,7 +39,7 @@ public class WallCandleBlock extends WallHolderBlock {
 	public static final VoxelShape CANDLE_EAST = box(11.75, 6, 7, 13.75, 11, 9);
 	public static final VoxelShape CANDLE_WEST = box(2.25, 6, 7, 4.25, 11, 9);
 
-	public WallCandleBlock(Properties settings, CandleBlock candleBlock) {
+	public CandleSconceBlock(Properties settings, CandleBlock candleBlock) {
 		super(settings.lightLevel(state -> state.getValue(BlockStateProperties.LIT) ? 5 : 0));
 		this.candleBlock = candleBlock;
 		ITEM_LOOKUP.put(candleBlock, this);

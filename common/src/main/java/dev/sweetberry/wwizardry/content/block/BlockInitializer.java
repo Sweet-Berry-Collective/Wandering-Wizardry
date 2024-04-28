@@ -208,7 +208,7 @@ public class BlockInitializer {
 
 	public static final Lazy<Block> WALL_HOLDER = registerBlock(
 		"wall_holder",
-		() ->  new WallHolderBlock(
+		() ->  new SconceBlock(
 			BlockBehaviour.Properties.of()
 				.instabreak()
 				.mapColor(MapColor.COLOR_GRAY)

@@ -8,5 +8,5 @@ ingredients [
 
 result {
     count = 9
-    item = "wwizardry:crystalline_sculk"
+    id = "wwizardry:crystalline_sculk"
 }

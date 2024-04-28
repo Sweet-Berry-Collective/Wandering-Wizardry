@@ -23,8 +23,7 @@
           {
             "condition": "location_check",
             "predicate": {
-              "structure": "wwizardry:sculk_lab",
-              "dimension": "overworld"
+              "structures": "wwizardry:sculk_lab"
             }
           }
         ]

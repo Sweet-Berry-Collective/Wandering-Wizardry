@@ -13,5 +13,5 @@ inputs [
 catalyst { item = "lapis_lazuli" }
 
 result {
-    item = "wwizardry:soul_mirror"
+    id = "wwizardry:soul_mirror"
 }

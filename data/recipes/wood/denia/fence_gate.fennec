@@ -13,4 +13,6 @@ pattern [
     "S#S"
 ]
 
-result { item="wwizardry:denia_fence_gate" }
+result {
+    id = "wwizardry:denia_fence_gate"
+}

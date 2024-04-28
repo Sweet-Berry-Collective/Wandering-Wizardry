@@ -8,4 +8,6 @@ ingredients [
     { item="wwizardry:denia_boat" }
 ]
 
-result { item = "wwizardry:denia_chest_boat" }
+result {
+    id = "wwizardry:denia_chest_boat"
+}

@@ -15,5 +15,5 @@ pattern [
 
 result {
     count = 8
-    item = "wwizardry:reinforced_glass"
+    id = "wwizardry:reinforced_glass"
 }

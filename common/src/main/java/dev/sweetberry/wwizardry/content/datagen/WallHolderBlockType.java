@@ -3,8 +3,8 @@ package dev.sweetberry.wwizardry.content.datagen;
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.content.block.WallCandleBlock;
-import dev.sweetberry.wwizardry.content.block.WallHolderBlock;
+import dev.sweetberry.wwizardry.content.block.CandleSconceBlock;
+import dev.sweetberry.wwizardry.content.block.SconceBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.Block;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class WallHolderBlockType extends AbstractDataGenerator {
 	public final ResourceLocation id;
 	public final Block block;
-	public final Lazy<WallHolderBlock> wallBlock;
+	public final Lazy<SconceBlock> wallBlock;
 	public final ParentType parent;
 
 	public WallHolderBlockType(ResourceLocation id, Block block, ParentType parent) {
@@ -25,7 +25,7 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		this.parent = parent;
 
 		wallBlock = BlockInitializer.registerBlock(transformId(id), () -> switch (parent) {
-			case CANDLE -> new WallCandleBlock(BlockBehaviour.Properties.ofFullCopy(BlockInitializer.WALL_HOLDER.get()), (CandleBlock) block);
+			case CANDLE -> new CandleSconceBlock(BlockBehaviour.Properties.ofFullCopy(BlockInitializer.WALL_HOLDER.get()), (CandleBlock) block);
 			// TODO!
 			default -> throw new NotImplementedException("Type "+ parent.name +" is not implemented.");
 		});

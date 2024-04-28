@@ -14,5 +14,5 @@ pattern [
 
 result {
     count = 1
-    item = "wwizardry:crystalline_sculk_block"
+    id = "wwizardry:crystalline_sculk_block"
 }

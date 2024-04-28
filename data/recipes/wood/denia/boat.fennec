@@ -12,4 +12,6 @@ pattern [
     "###"
 ]
 
-result { item = "wwizardry:denia_boat" }
+result {
+    id = "wwizardry:denia_boat"
+}

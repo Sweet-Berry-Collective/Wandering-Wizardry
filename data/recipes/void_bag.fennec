@@ -13,5 +13,5 @@ inputs [
 catalyst { item = "bundle" }
 
 result {
-    item = "wwizardry:void_bag"
+    id = "wwizardry:void_bag"
 }

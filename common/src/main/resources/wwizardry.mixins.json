@@ -15,6 +15,7 @@
     "Mixin_Boat",
     "Mixin_Item",
     "Mixin_ItemEntity",
+    "Mixin_MappedRegistry",
     "Mixin_MultifaceSpreader_DefaultSpreaderConfig",
     "Mixin_Player",
     "Mixin_RedStoneWireBlock",

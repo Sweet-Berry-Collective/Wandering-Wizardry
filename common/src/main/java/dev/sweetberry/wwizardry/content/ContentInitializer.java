@@ -13,11 +13,13 @@ import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
@@ -39,6 +41,7 @@ public class ContentInitializer {
 		ItemInitializer.TABS.listen((RegistryCallback<CreativeModeTab>) listener);
 		PaintingInitializer.PAINTINGS.listen((RegistryCallback<PaintingVariant>) listener);
 		RecipeInitializer.RECIPE_SERIALIZERS.listen((RegistryCallback<RecipeSerializer<?>>) listener);
+		RecipeInitializer.RECIPES.listen((RegistryCallback<RecipeType<?>>) listener);
 		WorldgenInitializer.STRUCTURE_PROCESSORS.listen((RegistryCallback<StructureProcessorType<?>>) listener);
 		SoundInitializer.SOUNDS.listen((RegistryCallback<SoundEvent>) listener);
 	}

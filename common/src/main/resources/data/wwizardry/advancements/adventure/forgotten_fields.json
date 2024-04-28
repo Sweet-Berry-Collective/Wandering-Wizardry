@@ -20,7 +20,7 @@
           {
             "condition": "minecraft:location_check",
             "predicate": {
-              "biome": "wwizardry:forgotten_fields"
+              "biomes": "wwizardry:forgotten_fields"
             }
           }
         ]

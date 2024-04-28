@@ -14,5 +14,5 @@ catalyst { item = "amethyst_shard" }
 
 result {
     count = 16
-    item = "wwizardry:crystalline_sculk"
+    id = "wwizardry:crystalline_sculk"
 }

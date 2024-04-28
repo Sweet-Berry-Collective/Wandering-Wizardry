@@ -27,7 +27,7 @@ public class AltarCatalyzationRecipeSerializer implements RecipeSerializer<Altar
 					list -> {
 						Ingredient[] ingredients = list.stream().filter(ingredient -> !ingredient.isEmpty()).toArray(Ingredient[]::new);
 						if (ingredients.length == 0)
-							return DataResult.error(() -> "Too many inputs for altar recipe");
+							return DataResult.error(() -> "Too few inputs for altar recipe");
 						else return ingredients.length > 4
 							? DataResult.error(() -> "Too many inputs for altar recipe")
 							: DataResult.success(List.of(ingredients));

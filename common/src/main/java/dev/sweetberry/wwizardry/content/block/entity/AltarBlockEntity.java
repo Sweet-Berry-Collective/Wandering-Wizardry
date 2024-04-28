@@ -29,6 +29,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class AltarBlockEntity extends BlockEntity implements Container {
+	public static final String HELD_ITEM_KEY = "HeldItem";
+	public static final String RECIPE_REMAINDER_KEY = "RecipeRemainder";
+	public static final String CRAFTING_KEY = "crafting";
+
 	public static final float timingMultiplier = 0.0625f;
 	private EndCrystal endCrystalEntity;
 
@@ -136,24 +140,26 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 
 	@Override
 	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
-		var heldItemNbt = new CompoundTag();
-		if (!heldItemNbt.isEmpty())
-			heldItem.save(provider, heldItemNbt);
-		var recipeRemainderNbt = new CompoundTag();
+		if (!heldItem.isEmpty())
+			nbt.put(HELD_ITEM_KEY, heldItem.save(provider));
+
 		if (!recipeRemainder.isEmpty())
-			recipeRemainder.save(provider, recipeRemainderNbt);
-		nbt.put("HeldItem", heldItemNbt);
-		nbt.put("RecipeRemainder", recipeRemainderNbt);
-		nbt.putBoolean("crafting", crafting);
+			nbt.put(RECIPE_REMAINDER_KEY, recipeRemainder.save(provider));
+
+		nbt.putBoolean(CRAFTING_KEY, crafting);
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
-		var heldItemNbt = nbt.getCompound("HeldItem");
-		heldItem = ItemStack.parse(provider, heldItemNbt).orElse(ItemStack.EMPTY);
-		var recipeRemainderNbt = nbt.getCompound("RecipeRemainder");
-		recipeRemainder = ItemStack.parse(provider, recipeRemainderNbt).orElse(ItemStack.EMPTY);
-		crafting = nbt.getBoolean("crafting");
+		heldItem = nbt.contains(HELD_ITEM_KEY)
+			? ItemStack.parseOptional(provider, nbt.getCompound(HELD_ITEM_KEY))
+			: ItemStack.EMPTY;
+
+		recipeRemainder = nbt.contains(RECIPE_REMAINDER_KEY)
+			? ItemStack.parseOptional(provider, nbt.getCompound(RECIPE_REMAINDER_KEY))
+			: ItemStack.EMPTY;
+
+		crafting = nbt.getBoolean(CRAFTING_KEY);
 	}
 
 	@Override
@@ -215,11 +221,10 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 	@Override
 	public void setChanged() {
 		if (level == null) return;
-		if (level.isClientSide()) {
+		if (level.isClientSide())
 			Minecraft.getInstance().levelRenderer.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
-		} else {
+		else
 			((ServerLevel) level).getChunkSource().blockChanged(worldPosition);
-		}
 		super.setChanged();
 	}
 

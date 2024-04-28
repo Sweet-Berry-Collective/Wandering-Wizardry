@@ -14,5 +14,5 @@ pattern [
 
 result {
     count = 1
-    item = "wwizardry:rose_quartz_block"
+    id = "wwizardry:rose_quartz_block"
 }

@@ -13,6 +13,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -23,11 +24,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -36,15 +35,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class WallHolderBlock extends Block {
-	public static final HashMap<Block, WallHolderBlock> ITEM_LOOKUP = new HashMap<>();
+public class SconceBlock extends Block {
+	public static final HashMap<Block, SconceBlock> ITEM_LOOKUP = new HashMap<>();
 
 	public static final VoxelShape NORTH_SHAPE = box(6, 0, 0, 10, 6, 6);
 	public static final VoxelShape SOUTH_SHAPE = box(6, 0, 10, 10, 6, 16);
 	public static final VoxelShape EAST_SHAPE = box(10, 0, 6, 16, 6, 10);
 	public static final VoxelShape WEST_SHAPE = box(0, 0, 6, 6, 6, 10);
 
-	public WallHolderBlock(Properties settings) {
+	public SconceBlock(Properties settings) {
 		super(settings);
 	}
 
@@ -118,21 +117,27 @@ public class WallHolderBlock extends Block {
 
 	@Override
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		System.out.println("test");
 		if (state.getBlock() == BlockInitializer.WALL_HOLDER.get()) return useEmpty(state, world, pos, player, hand);
 
-		var droppedBlock = getDroppedBlock();
-		if (droppedBlock != null && player.isShiftKeyDown()) {
-			if (!player.isCreative()) {
-				var stackEntity = new ItemEntity(world, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, droppedBlock.asItem().getDefaultInstance());
-				world.addFreshEntity(stackEntity);
-			}
-			var soundGroup = ((Invoker_BlockBehaviour)droppedBlock).invokeGetSoundType(droppedBlock.defaultBlockState());
-			world.playSound(player, pos, soundGroup.getBreakSound(), SoundSource.BLOCKS);
-			world.setBlockAndUpdate(pos, BlockInitializer.WALL_HOLDER.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
-			return ItemInteractionResult.SUCCESS;
-		}
-
 		return specializedUseAction(state, world, pos, player, hand, hit);
+	}
+
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+		var droppedBlock = getDroppedBlock();
+
+		if (droppedBlock == null || !player.isShiftKeyDown())
+			return InteractionResult.PASS;
+
+		if (!player.isCreative()) {
+			var stackEntity = new ItemEntity(world, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, droppedBlock.asItem().getDefaultInstance());
+			world.addFreshEntity(stackEntity);
+		}
+		var soundGroup = ((Invoker_BlockBehaviour)droppedBlock).invokeGetSoundType(droppedBlock.defaultBlockState());
+		world.playSound(player, pos, soundGroup.getBreakSound(), SoundSource.BLOCKS);
+		world.setBlockAndUpdate(pos, BlockInitializer.WALL_HOLDER.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+		return InteractionResult.SUCCESS;
 	}
 
 	@Nullable
@@ -151,6 +156,8 @@ public class WallHolderBlock extends Block {
 
 		if (!(stack.getItem() instanceof BlockItem item)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		if (!ITEM_LOOKUP.containsKey(item.getBlock())) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+
+		System.out.println("test 2");
 
 		var block = item.getBlock();
 		var holder = ITEM_LOOKUP.get(block);

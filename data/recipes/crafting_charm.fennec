@@ -13,5 +13,5 @@ inputs [
 catalyst { item = "crafting_table" }
 
 result {
-    item = "wwizardry:crafting_charm"
+    id = "wwizardry:crafting_charm"
 }
