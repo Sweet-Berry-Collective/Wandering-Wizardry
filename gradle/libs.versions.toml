@@ -12,7 +12,7 @@ fabric_api = "0.97.8+1.20.5"
 terrablender = "1.20.5-3.4.0.2"
 ccapi = "6.0.0-beta.2"
 
-emi = "1.1.0+1.20.4"
+emi = "1.1.6+1.20.6"
 modmenu = "10.0.0-beta.1"
 
 [libraries]

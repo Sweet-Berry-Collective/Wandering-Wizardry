@@ -151,11 +151,11 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 
 	@Override
 	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
-		heldItem = nbt.contains(HELD_ITEM_KEY)
+		heldItem = nbt.contains(HELD_ITEM_KEY, Tag.TAG_COMPOUND)
 			? ItemStack.parseOptional(provider, nbt.getCompound(HELD_ITEM_KEY))
 			: ItemStack.EMPTY;
 
-		recipeRemainder = nbt.contains(RECIPE_REMAINDER_KEY)
+		recipeRemainder = nbt.contains(RECIPE_REMAINDER_KEY, Tag.TAG_COMPOUND)
 			? ItemStack.parseOptional(provider, nbt.getCompound(RECIPE_REMAINDER_KEY))
 			: ItemStack.EMPTY;
 

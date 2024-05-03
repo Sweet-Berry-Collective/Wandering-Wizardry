@@ -31,6 +31,7 @@ import net.neoforged.neoforge.event.entity.living.BabyEntitySpawnEvent;
 import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import javax.tools.Tool;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -58,8 +59,7 @@ public class NeoForgeEvents {
 			event.getItemStack(),
 			TooltipFlag.NORMAL,
 			(i, c) -> lines.addAll(i,
-				(Collection<? extends Either<FormattedText, TooltipComponent>>)
-					c.stream().map(Either::left).toList()
+				c.stream().map(it -> (FormattedText) it).map(Either::<FormattedText, TooltipComponent>left).toList()
 			)
 		);
 	}

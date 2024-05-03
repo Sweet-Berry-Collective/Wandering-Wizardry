@@ -13,7 +13,7 @@ import java.util.List;
 @Mixin(PotionBrewing.class)
 public interface Accessor_PotionBrewing {
 	@Accessor("containers")
-	List<Ingredient> getAllowedContainers();
+	List<Ingredient> getContainers();
 
 	@Accessor("potionMixes")
 	List<PotionBrewing.Mix<Potion>> getMixes();
