@@ -34,10 +34,10 @@ spawners {
     axolotls []
     creature [
         {
-            type = "rabbit"
-            weight = 4
-            minCount = 2
-            maxCount = 3
+            type = "wwizardry:snail"
+            weight = 6
+            minCount = 4
+            maxCount = 8
         }
     ]
     misc []

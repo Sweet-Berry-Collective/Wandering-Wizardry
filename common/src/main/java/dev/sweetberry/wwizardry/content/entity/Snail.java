@@ -43,8 +43,6 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 
 	private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Snail.class, EntityDataSerializers.INT);
 
-	public AvoidDamagingBlocksGoal avoidBlocks;
-
 	protected Snail(EntityType<Snail> type, Level level) {
 		super(type, level);
 
@@ -62,9 +60,7 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 		goalSelector.addGoal(3, new BreedGoal(this, 1));
 		goalSelector.addGoal(5, new RandomStrollGoal(this, 1));
 		goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-		goalSelector.addGoal(8, new AvoidEntityGoal<>(this, Armadillo.class, 8, 1.6, 1.4));
-		avoidBlocks = new AvoidDamagingBlocksGoal(this, 1.6, 8);
-		goalSelector.addGoal(16, avoidBlocks);
+		goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Armadillo.class, 8, 1.6, 1.4));
 	}
 
 	public static AttributeSupplier createAttributes() {
@@ -173,14 +169,16 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 
 	public enum Variant implements StringRepresentable {
 		NORMAL,
-		SLUG,
 		MOSS,
-		SCULK;
+		SCULK,
+		MYCHA,
+		SLUG;
 
 		public static final Variant[] NON_SLUG = {
 			NORMAL,
 			MOSS,
-			SCULK
+			SCULK,
+			MYCHA
 		};
 
 		@Override
@@ -198,17 +196,6 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 
 		public static Variant randomNonSlug(RandomSource random) {
 			return NON_SLUG[random.nextInt(NON_SLUG.length)];
-		}
-	}
-
-	public static class AvoidDamagingBlocksGoal extends MoveToBlockGoal {
-		public AvoidDamagingBlocksGoal(PathfinderMob self, double speed, int searchRange) {
-			super(self, speed, searchRange);
-		}
-
-		@Override
-		protected boolean isValidTarget(LevelReader levelReader, BlockPos pos) {
-			return !levelReader.getBlockState(pos).is(DAMAGES);
 		}
 	}
 }
