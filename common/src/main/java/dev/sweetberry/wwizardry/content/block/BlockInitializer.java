@@ -14,6 +14,7 @@ import dev.sweetberry.wwizardry.content.block.nature.RootedPlantBlock;
 import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.LogicGateBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
+import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import dev.sweetberry.wwizardry.mixin.Accessor_AxeItem;
 import dev.sweetberry.wwizardry.mixin.Accessor_BlockEntityType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -206,12 +207,22 @@ public class BlockInitializer {
 		)
 	);
 
-	public static final Lazy<Block> WALL_HOLDER = registerBlock(
+	public static final Lazy<Block> SCONCE = registerBlock(
 		"wall_holder",
 		() ->  new SconceBlock(
 			BlockBehaviour.Properties.of()
 				.instabreak()
 				.mapColor(MapColor.COLOR_GRAY)
+		)
+	);
+
+	public static final Lazy<Block> SNAIL_SHELL = registerBlock(
+		"snail_shell",
+		() -> new ShellBlock(
+			BlockBehaviour.Properties.of()
+				.instabreak()
+				.mapColor(MapColor.TERRACOTTA_PINK)
+				.sound(SoundInitializer.SNAIL.get())
 		)
 	);
 

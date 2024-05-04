@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.entity;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
+import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -51,14 +52,14 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 
 	@Override
 	public boolean onClimbable() {
-		return true;
+		return false;
 	}
 
 	@Override
 	protected void registerGoals() {
-		goalSelector.addGoal(4, new TemptGoal(this, 1, (s) -> s.is(FOOD), false));
-		goalSelector.addGoal(3, new BreedGoal(this, 1));
-		goalSelector.addGoal(5, new RandomStrollGoal(this, 1));
+		goalSelector.addGoal(2, new TemptGoal(this, 1, (s) -> s.is(FOOD), false));
+		goalSelector.addGoal(2, new BreedGoal(this, 1));
+		goalSelector.addGoal(8, new RandomStrollGoal(this, 1, 20));
 		goalSelector.addGoal(5, new RandomLookAroundGoal(this));
 		goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Armadillo.class, 8, 1.6, 1.4));
 	}
@@ -108,7 +109,7 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 		var stack = player.getItemInHand(hand);
 		if (variant != Variant.SLUG && stack.is(Items.SHEARS)) {
 			setVariant(Variant.SLUG);
-			level().playSound(player, BlockPos.containing(getPosition(0)), SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS);
+			level().playSound(player, BlockPos.containing(getPosition(0)), SoundInitializer.SNAIL_BREAK.get(), SoundSource.PLAYERS);
 			if (!player.isCreative()) {
 				stack.hurtAndBreak(1, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
 				if (level instanceof ServerLevel serverLevel) {
@@ -119,7 +120,7 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 			return InteractionResult.SUCCESS;
 		} else if (variant == Variant.SLUG && stack.is(ItemInitializer.SNAIL_SHELL.get())) {
 			setVariant(Variant.randomNonSlug(level().random));
-			level().playSound(player, BlockPos.containing(getPosition(0)), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS);
+			level().playSound(player, BlockPos.containing(getPosition(0)), SoundInitializer.SNAIL_PLACE.get(), SoundSource.PLAYERS);
 			if (!player.isCreative())
 				stack.consume(1, player);
 			return InteractionResult.SUCCESS;

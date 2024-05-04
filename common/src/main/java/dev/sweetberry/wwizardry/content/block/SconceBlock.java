@@ -13,7 +13,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -118,7 +117,7 @@ public class SconceBlock extends Block {
 	@Override
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		System.out.println("test");
-		if (state.getBlock() == BlockInitializer.WALL_HOLDER.get()) return useEmpty(state, world, pos, player, hand);
+		if (state.getBlock() == BlockInitializer.SCONCE.get()) return useEmpty(state, world, pos, player, hand);
 
 		return specializedUseAction(state, world, pos, player, hand, hit);
 	}
@@ -136,7 +135,7 @@ public class SconceBlock extends Block {
 		}
 		var soundGroup = ((Invoker_BlockBehaviour)droppedBlock).invokeGetSoundType(droppedBlock.defaultBlockState());
 		world.playSound(player, pos, soundGroup.getBreakSound(), SoundSource.BLOCKS);
-		world.setBlockAndUpdate(pos, BlockInitializer.WALL_HOLDER.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+		world.setBlockAndUpdate(pos, BlockInitializer.SCONCE.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
 		return InteractionResult.SUCCESS;
 	}
 
@@ -208,7 +207,7 @@ public class SconceBlock extends Block {
 	@Override
 	public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
 		if (getDroppedBlock() != null) return getDroppedBlock().getCloneItemStack(world, pos, state);
-		return BlockInitializer.WALL_HOLDER.get().asItem().getDefaultInstance();
+		return BlockInitializer.SCONCE.get().asItem().getDefaultInstance();
 	}
 
 	@Override

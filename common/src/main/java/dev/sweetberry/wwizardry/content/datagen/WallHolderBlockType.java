@@ -25,7 +25,7 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		this.parent = parent;
 
 		wallBlock = BlockInitializer.registerBlock(transformId(id), () -> switch (parent) {
-			case CANDLE -> new CandleSconceBlock(BlockBehaviour.Properties.ofFullCopy(BlockInitializer.WALL_HOLDER.get()), (CandleBlock) block);
+			case CANDLE -> new CandleSconceBlock(BlockBehaviour.Properties.ofFullCopy(BlockInitializer.SCONCE.get()), (CandleBlock) block);
 			// TODO!
 			default -> throw new NotImplementedException("Type "+ parent.name +" is not implemented.");
 		});

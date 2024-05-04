@@ -1,0 +1,30 @@
+[
+    {
+        when { facing = "north" }
+        apply = "wwizardry:block/snail_shell"
+    }
+
+    {
+        when { facing = "south" }
+        apply {
+            model = "wwizardry:block/snail_shell"
+            y = 180
+        }
+    }
+
+    {
+        when { facing = "east" }
+        apply {
+            model = "wwizardry:block/snail_shell"
+            y = 90
+        }
+    }
+
+    {
+        when { facing = "west" }
+        apply {
+            model = "wwizardry:block/snail_shell"
+            y = 270
+        }
+    }
+]

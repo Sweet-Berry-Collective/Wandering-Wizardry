@@ -1,3 +1,10 @@
+"subtitles.wwizardry" {
+    snail {
+        place = "Shell placed on snail"
+        break = "Shell removed from snail"
+    }
+}
+
 "itemGroup.wwizardry" {
     items = "Wandering Wizardry Items"
     blocks = "Wandering Wizardry Blocks"
@@ -224,6 +231,10 @@
 
     snail_spawn_egg = "Snail Spawn Egg"
     snail_shell = "Snail Shell"
+}
+
+"entity.wwizardry" {
+    snail = "Snail"
 }
 
 "boat.wwizardry" {

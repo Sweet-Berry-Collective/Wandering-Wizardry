@@ -126,7 +126,7 @@ public class ItemInitializer {
 	public static final Lazy<Item> WALL_HOLDER = registerItem(
 		"wall_holder",
 		() -> new BlockItem(
-			BlockInitializer.WALL_HOLDER.get(),
+			BlockInitializer.SCONCE.get(),
 			new Item.Properties()
 		),
 		BLOCKS_STACKS
@@ -296,10 +296,11 @@ public class ItemInitializer {
 
 	public static final Lazy<Item> SNAIL_SHELL = registerItem(
 		"snail_shell",
-		() -> new Item(
+		() -> new BlockItem(
+			BlockInitializer.SNAIL_SHELL.get(),
 			new Item.Properties()
 		),
-		ITEMS_STACKS
+		BLOCKS_STACKS
 	);
 
 	public static final Lazy<Item> SNAIL_SPAWN_EGG = registerItem(

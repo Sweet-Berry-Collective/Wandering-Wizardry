@@ -48,7 +48,7 @@ public class CandleSconceBlock extends SconceBlock {
 
 	@Override
 	public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-		var stacks = new ArrayList<>(((Invoker_BlockBehaviour) BlockInitializer.WALL_HOLDER.get()).invokeGetDrops(state, builder));
+		var stacks = new ArrayList<>(((Invoker_BlockBehaviour) BlockInitializer.SCONCE.get()).invokeGetDrops(state, builder));
 		stacks.add(new ItemStack(candleBlock));
 		return stacks;
 	}

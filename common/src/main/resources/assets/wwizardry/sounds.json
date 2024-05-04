@@ -7,5 +7,47 @@
         "stream": true
       }
     ]
+  },
+  "entity.snail.place": {
+    "subtitle": "subtitles.wwizardry.snail.place",
+    "sounds": [
+      {
+        "name": "wwizardry:shell_1"
+      }
+    ]
+  },
+  "entity.snail.break": {
+    "subtitle": "subtitles.wwizardry.snail.break",
+    "sounds": [
+      {
+        "name": "wwizardry:shell_2"
+      }
+    ]
+  },
+  "block.shell.place": {
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "wwizardry:shell_1"
+      }
+    ]
+  },
+  "block.shell.break": {
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "wwizardry:shell_2"
+      }
+    ]
+  },
+  "block.shell.step": {
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "wwizardry:shell_3",
+        "volume": 2,
+        "pitch": 0.75
+      }
+    ]
   }
 }
