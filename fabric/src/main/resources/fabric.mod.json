@@ -33,9 +33,6 @@
     "terrablender": [
       "dev.sweetberry.wwizardry.fabric.compat.terrablender.FabricTerraBlenderInitializer"
     ],
-    "cardinal-components": [
-      "dev.sweetberry.wwizardry.fabric.compat.cardinal.CardinalInitializer"
-    ],
     "emi": [
       "dev.sweetberry.wwizardry.compat.emi.EmiInitializer"
     ]

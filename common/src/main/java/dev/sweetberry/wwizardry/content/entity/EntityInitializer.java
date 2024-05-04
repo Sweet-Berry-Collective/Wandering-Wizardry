@@ -11,7 +11,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -30,8 +29,6 @@ public class EntityInitializer {
 			.build("wwizardry:snail"),
 		Snail::createAttributes
 	);
-
-	public static void init() {}
 
 	public static <T extends Entity> Lazy<EntityType<T>> registerEntity(String id, Supplier<EntityType<T>> entity, Supplier<AttributeSupplier> supplier) {
 		var value = EntityInitializer.<T>entities().register(WanderingWizardry.id(id), entity);

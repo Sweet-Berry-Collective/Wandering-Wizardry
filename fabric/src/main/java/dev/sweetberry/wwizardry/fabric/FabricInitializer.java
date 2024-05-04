@@ -3,31 +3,34 @@ package dev.sweetberry.wwizardry.fabric;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.component.Component;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
-import dev.sweetberry.wwizardry.fabric.compat.cardinal.CardinalInitializer;
+import dev.sweetberry.wwizardry.client.content.events.ClientEvents;
 import dev.sweetberry.wwizardry.content.ContentInitializer;
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
 import dev.sweetberry.wwizardry.content.events.UseBlockHandler;
+import dev.sweetberry.wwizardry.content.net.packet.ComponentSyncPacket;
 import dev.sweetberry.wwizardry.content.trades.TradeInitializer;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
+import dev.sweetberry.wwizardry.fabric.component.FabricComponents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 
 import java.util.List;
 
 public class FabricInitializer implements ModInitializer {
     @Override
     public void onInitialize() {
-		ComponentInitializer.getter = FabricInitializer::getComponent;
+		FabricComponents.init();
+
+		ComponentInitializer.getter = FabricComponents::getComponent;
 		WanderingWizardry.modLoadedCheck = FabricLoader.getInstance()::isModLoaded;
 
 		ContentInitializer.listenToAll(((registry, id, item) -> {
@@ -70,9 +73,5 @@ public class FabricInitializer implements ModInitializer {
 			level,
 			offers -> offers.addAll(List.of(TradeInitializer.WANDERING_TRADER_OFFERS[level-1]))
 		);
-	}
-
-	public static <T extends Component> T getComponent(ResourceLocation id, Entity entity) {
-		return (T) entity.getComponent(CardinalInitializer.COMPONENTS.get(id)).baseComponent;
 	}
 }

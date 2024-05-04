@@ -31,7 +31,7 @@ public class NeoForgeComponents {
 		ATTACHMENT_TYPES.register(bus);
 	}
 
-	public static <T extends Component> T get(ResourceLocation id, Entity entity) {
+	public static <T extends Component<T>> T get(ResourceLocation id, Entity entity) {
 		return (T) entity.getData(COMPONENTS.get(id)).component;
 	}
 

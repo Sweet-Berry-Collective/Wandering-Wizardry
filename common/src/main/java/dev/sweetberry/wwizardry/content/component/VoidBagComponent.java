@@ -19,28 +19,36 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 
-public class VoidBagComponent implements Component, Container {
+import java.util.List;
+
+public class VoidBagComponent implements Component<VoidBagComponent>, Container {
+	public static final Codec<VoidBagComponent> CODEC = RecordCodecBuilder.create(inst -> inst
+		.group(
+			Codec.BOOL.fieldOf("locked").forGetter(it -> it.locked),
+			ItemStack.OPTIONAL_CODEC.sizeLimitedListOf(27).fieldOf("items").forGetter(it -> it.inventory)
+		).apply(inst, VoidBagComponent::new)
+	);
+
 	public NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
 	public boolean locked = false;
 
+	public VoidBagComponent(boolean locked, List<ItemStack> inventory) {
+		this.locked = locked;
+		for (int i = 0; i < 27; i++)
+			this.inventory.set(i, inventory.get(i));
+	}
+
     public VoidBagComponent() {}
 
-    @Override
-	public void fromNbt(CompoundTag tag, HolderLookup.Provider lookup) {
-		inventory = NonNullList.withSize(27, ItemStack.EMPTY);
-		ContainerHelper.loadAllItems(tag, inventory, lookup);
-		locked = tag.getBoolean("Locked");
+	@Override
+	public Codec<VoidBagComponent> codec() {
+		return CODEC;
 	}
 
 	@Override
-	public void toNbt(CompoundTag tag, HolderLookup.Provider lookup) {
-		ContainerHelper.saveAllItems(tag, inventory, lookup);
-		tag.putBoolean("Locked", locked);
-//		ItemStack previewStack = ItemInitializer.VOID_BAG.get().getDefaultInstance();
-//		previewStack.getOrCreateTag().putBoolean("Locked", locked);
-//		CompoundTag previewCompound = new CompoundTag();
-//		previewStack.save(previewCompound);
-//		tag.put("PreviewStack", previewCompound);
+	public void copyFrom(VoidBagComponent other) {
+		locked = other.locked;
+		inventory = other.inventory;
 	}
 
 	@Override

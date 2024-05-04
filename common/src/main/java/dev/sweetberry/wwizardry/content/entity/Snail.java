@@ -25,6 +25,7 @@ import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -48,6 +49,11 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 		super(type, level);
 
 		setVariant(Variant.randomNonSlug(level().random));
+	}
+
+	@Override
+	public boolean onClimbable() {
+		return true;
 	}
 
 	@Override

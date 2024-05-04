@@ -10,6 +10,7 @@ import dev.sweetberry.wwizardry.content.events.EventInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.net.NetworkingInitializer;
 import dev.sweetberry.wwizardry.content.painting.PaintingInitializer;
+import dev.sweetberry.wwizardry.content.potions.PotionInitializer;
 import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
@@ -20,6 +21,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
@@ -47,5 +50,6 @@ public class ContentInitializer {
 		WorldgenInitializer.STRUCTURE_PROCESSORS.listen((RegistryCallback<StructureProcessorType<?>>) listener);
 		SoundInitializer.SOUNDS.listen((RegistryCallback<SoundEvent>) listener);
 		EntityInitializer.ENTITIES.listen((RegistryCallback<EntityType<?>>) listener);
+		PotionInitializer.POTIONS.listen((RegistryCallback<Potion>) listener);
 	}
 }

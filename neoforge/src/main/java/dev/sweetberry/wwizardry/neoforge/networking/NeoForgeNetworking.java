@@ -32,19 +32,6 @@ public class NeoForgeNetworking {
 			});
 		});
 
-		registrar.playBidirectional(
-			ComponentSyncPayload.TYPE,
-			ComponentSyncPayload.CODEC,
-			(packet, context) -> {
-				if (context instanceof ClientPayloadContext) {
-					var client = Minecraft.getInstance();
-					ComponentSyncPayload.onClientReceive(packet, client.level);
-				} else {
-					ComponentSyncPayload.onServerReceive(packet, (ServerPlayer) context.player());
-				}
-			}
-		);
-
 		PacketRegistry.SEND_TO_SERVER.listen(PacketDistributor::sendToServer);
 
 		PacketRegistry.SEND_TO_CLIENT.listen(PacketDistributor::sendToPlayer);
