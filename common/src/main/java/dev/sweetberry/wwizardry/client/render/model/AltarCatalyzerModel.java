@@ -61,7 +61,6 @@ public class AltarCatalyzerModel extends Model {
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		WanderingWizardry.id(timeToCraft + "");
 		var seconds = ticks / 20;
 		seconds %= 4;
 		poseStack.pushPose();

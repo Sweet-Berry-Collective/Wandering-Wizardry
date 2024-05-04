@@ -2,26 +2,29 @@ package dev.sweetberry.wwizardry.client.content.events;
 
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
+import dev.sweetberry.wwizardry.client.render.model.SnailModel;
+import dev.sweetberry.wwizardry.client.render.entity.SnailRenderer;
 import dev.sweetberry.wwizardry.client.render.model.AltarCatalyzerModel;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
-import dev.sweetberry.wwizardry.content.block.entity.AltarPedestalBlockEntity;
 import dev.sweetberry.wwizardry.client.render.blockentity.AltarCatalyzerBlockEntityRenderer;
 import dev.sweetberry.wwizardry.client.render.blockentity.AltarPedestalBlockEntityRenderer;
 import dev.sweetberry.wwizardry.content.block.sign.ModdedSignBlock;
 import dev.sweetberry.wwizardry.content.component.BoatComponent;
+import dev.sweetberry.wwizardry.content.entity.EntityInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
-import net.minecraft.client.model.geom.LayerDefinitions;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.apache.logging.log4j.util.TriConsumer;
 
@@ -42,14 +45,29 @@ public class ClientEvents {
 		);
 	}
 
-	public static void registerEntityRenderers(BiConsumer<Lazy<BlockEntityType<?>>, BlockEntityRendererProvider<?>> consumer) {
+	private static <T extends Entity> EntityRendererProvider<Entity> get(EntityRendererProvider<T> provider) {
+		return (EntityRendererProvider<Entity>) provider;
+	}
+
+	private static <T extends BlockEntity> BlockEntityRendererProvider<BlockEntity> get(BlockEntityRendererProvider<T> provider) {
+		return (BlockEntityRendererProvider<BlockEntity>) provider;
+	}
+
+	public static void registerEntityRenderers(BiConsumer<Lazy<EntityType<Entity>>, EntityRendererProvider<Entity>> consumer) {
 		consumer.accept(
-			(Lazy<BlockEntityType<?>>)(Object) BlockInitializer.ALTAR_PEDESTAL_TYPE,
-			(BlockEntityRendererProvider<AltarPedestalBlockEntity>) AltarPedestalBlockEntityRenderer::new
+			(Lazy<EntityType<Entity>>) (Object) EntityInitializer.SNAIL,
+			get(SnailRenderer::new)
+		);
+	}
+
+	public static void registerBlockEntityRenderers(BiConsumer<Lazy<BlockEntityType<BlockEntity>>, BlockEntityRendererProvider<BlockEntity>> consumer) {
+		consumer.accept(
+			(Lazy<BlockEntityType<BlockEntity>>)(Object) BlockInitializer.ALTAR_PEDESTAL_TYPE,
+			get(AltarPedestalBlockEntityRenderer::new)
 		);
 		consumer.accept(
-			(Lazy<BlockEntityType<?>>)(Object) BlockInitializer.ALTAR_CATALYZER_TYPE,
-			(BlockEntityRendererProvider<AltarCatalyzerBlockEntity>) AltarCatalyzerBlockEntityRenderer::new
+			(Lazy<BlockEntityType<BlockEntity>>)(Object) BlockInitializer.ALTAR_CATALYZER_TYPE,
+			get(AltarCatalyzerBlockEntityRenderer::new)
 		);
 	}
 
@@ -72,5 +90,8 @@ public class ClientEvents {
 
 		var altarModel = AltarCatalyzerModel.createLayer();
 		consumer.accept(AltarCatalyzerModel.LAYER_LOCATION, () -> altarModel);
+
+		var snailModel = SnailModel.createBodyLayer();
+		consumer.accept(SnailModel.LAYER_LOCATION, () -> snailModel);
 	}
 }

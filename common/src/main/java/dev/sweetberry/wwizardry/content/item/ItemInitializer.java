@@ -4,6 +4,7 @@ import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
+import dev.sweetberry.wwizardry.content.entity.EntityInitializer;
 import dev.sweetberry.wwizardry.content.item.charm.AnvilCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.BrewingCharmItem;
 import dev.sweetberry.wwizardry.content.item.charm.CraftingCharmItem;
@@ -11,11 +12,7 @@ import dev.sweetberry.wwizardry.content.item.charm.SmithingCharmItem;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -295,6 +292,25 @@ public class ItemInitializer {
 			new Item.Properties()
 		),
 		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> SNAIL_SHELL = registerItem(
+		"snail_shell",
+		() -> new Item(
+			new Item.Properties()
+		),
+		ITEMS_STACKS
+	);
+
+	public static final Lazy<Item> SNAIL_SPAWN_EGG = registerItem(
+		"snail_spawn_egg",
+		() -> new SpawnEggItem(
+			EntityInitializer.SNAIL.get(),
+			0xdfb8a2,
+			0xdd9c9c,
+			new Item.Properties()
+		),
+		ITEMS_STACKS
 	);
 
 	public static <T extends Item> Lazy<T> registerItem(String id, Supplier<T> item, List<Lazy<Item>> group) {

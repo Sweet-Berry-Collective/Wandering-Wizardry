@@ -1,26 +1,15 @@
 package dev.sweetberry.wwizardry.neoforge;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
-import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.client.content.events.ClientEvents;
 import dev.sweetberry.wwizardry.client.content.events.PackReloader;
 import dev.sweetberry.wwizardry.compat.terrablender.TerraBlenderInitializer;
 import dev.sweetberry.wwizardry.content.ContentInitializer;
-import dev.sweetberry.wwizardry.content.block.sign.ModdedSignBlock;
-import dev.sweetberry.wwizardry.content.component.BoatComponent;
-import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.neoforge.component.NeoForgeComponents;
 import dev.sweetberry.wwizardry.neoforge.networking.NeoForgeNetworking;
-import net.minecraft.client.model.BoatModel;
-import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -31,8 +20,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-
-import java.util.stream.Collectors;
 
 @Mod("wwizardry")
 public class NeoForgeInitializer {
@@ -56,7 +43,7 @@ public class NeoForgeInitializer {
 				callback
 			);
 		});
-		bus.addListener(this::registerBlockEntityRenderers);
+		bus.addListener(this::registerEntityRenderers);
 		bus.addListener(this::registerEntityLayers);
 		bus.addListener(this::registerClientReloadListeners);
 		WanderingWizardryClient.init();
@@ -79,9 +66,13 @@ public class NeoForgeInitializer {
 	}
 
 	@SubscribeEvent
-	public void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+	public void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		ClientEvents.registerBlockEntityRenderers((type, renderer) -> {
+			event.registerBlockEntityRenderer(type.get(), renderer);
+		});
+
 		ClientEvents.registerEntityRenderers((type, renderer) -> {
-			event.registerBlockEntityRenderer(type.get(), (BlockEntityRendererProvider<? super BlockEntity>) renderer);
+			event.registerEntityRenderer(type.get(), renderer);
 		});
 	}
 

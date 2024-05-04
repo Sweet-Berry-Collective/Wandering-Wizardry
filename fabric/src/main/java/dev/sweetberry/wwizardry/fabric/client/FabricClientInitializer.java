@@ -3,35 +3,27 @@ package dev.sweetberry.wwizardry.fabric.client;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
-import dev.sweetberry.wwizardry.client.content.ClientContentInitializer;
 import dev.sweetberry.wwizardry.client.content.RenderLayers;
 import dev.sweetberry.wwizardry.client.content.events.ClientEvents;
 import dev.sweetberry.wwizardry.client.content.events.ItemTooltipHandler;
 import dev.sweetberry.wwizardry.client.content.events.PackReloader;
-import dev.sweetberry.wwizardry.content.block.sign.ModdedSignBlock;
-import dev.sweetberry.wwizardry.content.component.BoatComponent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.client.model.BoatModel;
-import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import java.util.function.Supplier;
 
@@ -39,8 +31,11 @@ public class FabricClientInitializer implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		WanderingWizardryClient.init();
+		ClientEvents.registerBlockEntityRenderers((type, renderer) -> {
+			BlockEntityRenderers.register(type.get(), renderer);
+		});
 		ClientEvents.registerEntityRenderers((type, renderer) -> {
-			BlockEntityRenderers.register(type.get(), (BlockEntityRendererProvider<? super BlockEntity>) renderer);
+			EntityRendererRegistry.register(type.get(), renderer);
 		});
 
 		ClientEvents.registerModelPredicates((item, name, callback) -> {
