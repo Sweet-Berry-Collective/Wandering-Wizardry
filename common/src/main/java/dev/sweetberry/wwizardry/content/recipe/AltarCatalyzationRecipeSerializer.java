@@ -6,6 +6,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Arrays;
 import java.util.List;
+
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -38,7 +40,7 @@ public class AltarCatalyzationRecipeSerializer implements RecipeSerializer<Altar
 			ItemStack.CODEC.fieldOf("result").forGetter(AltarCatalyzationRecipe::result),
 			Codec.BOOL.optionalFieldOf("keepCatalyst", true).forGetter(AltarCatalyzationRecipe::keepCatalyst),
 			Codec.INT.optionalFieldOf("bloom", 0).forGetter(AltarCatalyzationRecipe::bloom)
-		).apply(instance, AltarCatalyzationRecipe::new)
+		).apply(instance, AltarCatalyzationRecipe::create)
 	);
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, AltarCatalyzationRecipe> STREAM_CODEC = StreamCodec.of(

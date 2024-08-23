@@ -37,12 +37,13 @@ public class AnvilCharmItem extends AltarCharmItem {
 
 		for (var i : bookDirs) {
 			for (var enchant : EnchantmentHelper.getEnchantmentsForCrafting(view.getItemInPedestal(i)).entrySet()) {
-				if (!EnchantmentHelper.isEnchantmentCompatible(bookEnchants.keySet(), enchant.getKey().value()) && !Config.getAllowOpEnchants())
+				if (!EnchantmentHelper.isEnchantmentCompatible(bookEnchants.keySet(), enchant.getKey()) && !Config.getAllowOpEnchants())
 					return false;
 
-				if (bookEnchants.getLevel(enchant.getKey().value()) > enchant.getIntValue())
-					bookEnchants.upgrade(enchant.getKey().value(), enchant.getIntValue());
-				else bookEnchants.set(enchant.getKey().value(), enchant.getIntValue());
+				if (bookEnchants.getLevel(enchant.getKey()) > enchant.getIntValue())
+					bookEnchants.upgrade(enchant.getKey(), enchant.getIntValue());
+				else
+					bookEnchants.set(enchant.getKey(), enchant.getIntValue());
 			}
 		}
 

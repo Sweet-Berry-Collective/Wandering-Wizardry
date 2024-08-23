@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 
-public class BrickType extends AbstractDataGenerator {
+public class BrickTypeGen extends AbstractDataGenerator {
 	public final String baseName;
 	public final boolean plural;
 
@@ -30,7 +30,7 @@ public class BrickType extends AbstractDataGenerator {
 	public final Lazy<Block> WALL;
 	public final Lazy<Item> WALL_ITEM;
 
-	public BrickType(String baseName, boolean plural, MapColor color, SoundType sounds) {
+	public BrickTypeGen(String baseName, boolean plural, MapColor color, SoundType sounds) {
 		super();
 
 		this.baseName = baseName;

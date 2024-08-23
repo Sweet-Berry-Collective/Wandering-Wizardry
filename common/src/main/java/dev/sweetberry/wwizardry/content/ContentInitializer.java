@@ -40,7 +40,6 @@ public class ContentInitializer {
 		CriterionInitializer.CRITERION.listen((RegistryCallback<CriterionTrigger<?>>) listener);
 		ItemInitializer.ITEMS.listen((RegistryCallback<Item>) listener);
 		ItemInitializer.TABS.listen((RegistryCallback<CreativeModeTab>) listener);
-		PaintingInitializer.PAINTINGS.listen((RegistryCallback<PaintingVariant>) listener);
 		RecipeInitializer.RECIPE_SERIALIZERS.listen((RegistryCallback<RecipeSerializer<?>>) listener);
 		RecipeInitializer.RECIPES.listen((RegistryCallback<RecipeType<?>>) listener);
 		WorldgenInitializer.STRUCTURE_PROCESSORS.listen((RegistryCallback<StructureProcessorType<?>>) listener);

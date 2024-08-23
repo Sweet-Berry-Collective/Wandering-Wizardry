@@ -21,6 +21,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.core.Registry;
 
 import java.util.List;

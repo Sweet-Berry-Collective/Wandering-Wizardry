@@ -9,6 +9,8 @@ import dev.sweetberry.wwizardry.content.ContentInitializer;
 import dev.sweetberry.wwizardry.neoforge.component.NeoForgeComponents;
 import dev.sweetberry.wwizardry.neoforge.networking.NeoForgeNetworking;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;

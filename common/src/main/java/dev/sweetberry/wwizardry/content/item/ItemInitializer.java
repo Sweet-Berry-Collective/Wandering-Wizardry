@@ -247,13 +247,11 @@ public class ItemInitializer {
 
 	public static final Lazy<Item> MUSIC_DISC_WANDERING = registerItem(
 		"music_disc_wandering",
-		() -> new RecordItem(
-			10,
-			SoundInitializer.DISC_WANDERING.get(),
+		() -> new Item(
 			new Item.Properties()
 				.stacksTo(1)
-				.rarity(Rarity.RARE),
-			140
+				.rarity(Rarity.RARE)
+				.jukeboxPlayable(SoundInitializer.SONG_WANDERING)
 		),
 		ITEMS_STACKS
 	);

@@ -1,4 +1,4 @@
-blocks {
+block {
      glass [
          "wwizardry:reinforced_glass"
      ]
@@ -12,7 +12,7 @@ blocks {
          ]
      }
  }
- items {
+ item {
      glass [
          "wwizardry:reinforced_glass"
      ]

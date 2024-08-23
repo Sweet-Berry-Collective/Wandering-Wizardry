@@ -69,9 +69,9 @@ public class SmithingCharmItem extends AltarCharmItem{
 		if (maybeRecipe.isEmpty())
 			return false;
 		var recipe = maybeRecipe.get().value();
-		var container = new FakeContainer(templateStack, baseStack, additionStack);
+		var input = new SmithingRecipeInput(templateStack, baseStack, additionStack);
 		view.keepCenter();
-		view.setResultInPedestal(baseDirection, recipe.assemble(container, world.registryAccess()));
+		view.setResultInPedestal(baseDirection, recipe.assemble(input, world.registryAccess()));
 
 		return true;
 	}
@@ -79,57 +79,5 @@ public class SmithingCharmItem extends AltarCharmItem{
 	private Stream<RecipeHolder<SmithingRecipe>> getRecipes(RecipeManager manager) {
 		return manager.getAllRecipesFor(RecipeType.SMITHING)
 			.stream();
-	}
-
-	private record FakeContainer(ItemStack template, ItemStack base, ItemStack material) implements Container {
-		@Override
-		public int getContainerSize() {
-			return 3;
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return false;
-		}
-
-		@Override
-		public ItemStack getItem(int i) {
-			return switch (i) {
-				case 0 -> template;
-				case 1 -> base;
-				case 2 -> material;
-				default -> null;
-			};
-		}
-
-		@Override
-		public ItemStack removeItem(int i, int i1) {
-			return null;
-		}
-
-		@Override
-		public ItemStack removeItemNoUpdate(int i) {
-			return null;
-		}
-
-		@Override
-		public void setItem(int i, ItemStack itemStack) {
-
-		}
-
-		@Override
-		public void setChanged() {
-
-		}
-
-		@Override
-		public boolean stillValid(Player player) {
-			return false;
-		}
-
-		@Override
-		public void clearContent() {
-
-		}
 	}
 }

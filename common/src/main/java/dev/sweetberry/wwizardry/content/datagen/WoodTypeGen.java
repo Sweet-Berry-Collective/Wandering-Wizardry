@@ -8,8 +8,11 @@ import dev.sweetberry.wwizardry.content.world.sapling.BeeHoldingSaplingGenerator
 import dev.sweetberry.wwizardry.content.block.nature.RootedMushroomBlock;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
+import dev.sweetberry.wwizardry.mixin.Accessor_BlockSetType;
+import dev.sweetberry.wwizardry.mixin.Accessor_WoodType;
 import net.minecraft.core.Direction;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HangingSignItem;
@@ -18,14 +21,18 @@ import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class WoodType extends AbstractDataGenerator {
+public class WoodTypeGen extends AbstractDataGenerator {
 	public final String baseName;
+
+	public final Lazy<BlockSetType> BLOCK_SET;
+	public final Lazy<WoodType> TYPE;
 
 	public final Lazy<Block> LOG;
 	public final Lazy<Item> LOG_ITEM;
@@ -69,12 +76,12 @@ public class WoodType extends AbstractDataGenerator {
 	public final Lazy<Item> BOAT_ITEM;
 
 	public final Lazy<Item> BOAT_CHEST_ITEM;
-	public WoodType(String baseName, MapColor wood, MapColor bark, SoundType sounds) {
+	public WoodTypeGen(String baseName, MapColor wood, MapColor bark, SoundType sounds) {
 		this(baseName, wood, bark, sounds, null);
 	}
 
 
-	public WoodType(String baseName, MapColor wood, MapColor bark, SoundType sounds, @Nullable Supplier<Block> fungusBaseBlock) {
+	public WoodTypeGen(String baseName, MapColor wood, MapColor bark, SoundType sounds, @Nullable Supplier<Block> fungusBaseBlock) {
 		super();
 		this.baseName = baseName;
 
@@ -83,12 +90,13 @@ public class WoodType extends AbstractDataGenerator {
 		final var blockSettings = BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood);
 		final var nonCollidable = BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood).noCollission();
 		final var nonOpaque = BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood).noOcclusion();
-		final var hanging = BlockBehaviour.Properties
-			.ofFullCopy(Blocks.OAK_HANGING_SIGN)
-			.sound(sounds)
-			.mapColor(wood);
 		final var itemSettings = new Item.Properties();
 		final var singleStack = new Item.Properties().stacksTo(1);
+
+		final var typeName = WanderingWizardry.id(baseName).toString();
+
+		BLOCK_SET = createBlockSetType(typeName, () -> new BlockSetType(typeName, true, true, true, BlockSetType.PressurePlateSensitivity.EVERYTHING, sounds, SoundEvents.WOODEN_DOOR_CLOSE, SoundEvents.WOODEN_DOOR_OPEN, SoundEvents.WOODEN_TRAPDOOR_CLOSE, SoundEvents.WOODEN_TRAPDOOR_OPEN, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON, SoundEvents.WOODEN_BUTTON_CLICK_OFF, SoundEvents.WOODEN_BUTTON_CLICK_ON));
+		TYPE = createWoodType(typeName, () -> new WoodType(typeName, BLOCK_SET.get(), sounds, SoundType.HANGING_SIGN, SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN));
 
 		final var logName = fungus ? "stem" : "log";
 		final var woodName = fungus ? "hyphae" : "wood";
@@ -118,34 +126,32 @@ public class WoodType extends AbstractDataGenerator {
 		SLAB = BlockInitializer.registerBlock(baseName+"_slab", () -> new SlabBlock(blockSettings));
 		SLAB_ITEM = ItemInitializer.registerItem(baseName+"_slab", () -> new BlockItem(SLAB.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		BUTTON = BlockInitializer.registerBlock(baseName+"_button", () -> new ButtonBlock(BlockSetType.OAK, 30, nonCollidable));
+		BUTTON = BlockInitializer.registerBlock(baseName+"_button", () -> new ButtonBlock(BLOCK_SET.get(), 30, nonCollidable));
 		BUTTON_ITEM = ItemInitializer.registerItem(baseName+"_button", () -> new BlockItem(BUTTON.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		PRESSURE_PLATE = BlockInitializer.registerBlock(baseName+"_pressure_plate", () -> new PressurePlateBlock(BlockSetType.OAK, nonCollidable));
+		PRESSURE_PLATE = BlockInitializer.registerBlock(baseName+"_pressure_plate", () -> new PressurePlateBlock(BLOCK_SET.get(), nonCollidable));
 		PRESSURE_PLATE_ITEM = ItemInitializer.registerItem(baseName+"_pressure_plate", () -> new BlockItem(PRESSURE_PLATE.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		DOOR = BlockInitializer.registerBlock(baseName+"_door", () -> new DoorBlock(BlockSetType.OAK, nonOpaque));
+		DOOR = BlockInitializer.registerBlock(baseName+"_door", () -> new DoorBlock(BLOCK_SET.get(), nonOpaque));
 		DOOR_ITEM = ItemInitializer.registerItem(baseName+"_door", () -> new BlockItem(DOOR.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		TRAPDOOR = BlockInitializer.registerBlock(baseName+"_trapdoor", () -> new TrapDoorBlock(BlockSetType.OAK, nonOpaque));
+		TRAPDOOR = BlockInitializer.registerBlock(baseName+"_trapdoor", () -> new TrapDoorBlock(BLOCK_SET.get(), nonOpaque));
 		TRAPDOOR_ITEM = ItemInitializer.registerItem(baseName+"_trapdoor", () -> new BlockItem(TRAPDOOR.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		var signId = WanderingWizardry.id(baseName);
-		ModdedSignBlock.SIGNS.add(signId);
-		SIGN = BlockInitializer.registerBlock(baseName+"_sign",() ->  new ModdedStandingSignBlock(nonCollidable, signId));
-		SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_sign", () -> new ModdedWallSignBlock(nonCollidable, signId));
+		SIGN = BlockInitializer.registerBlock(baseName+"_sign",() ->  new StandingSignBlock(TYPE.get(), nonCollidable));
+		SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_sign", () -> new WallSignBlock(TYPE.get(), nonCollidable));
 		BlockInitializer.addSignBlocks((Lazy<Block>)(Object)SIGN, (Lazy<Block>)(Object)SIGN_WALL);
 		SIGN_ITEM = ItemInitializer.registerItem(baseName+"_sign", () -> new SignItem(itemSettings, SIGN.get(), SIGN_WALL.get()), ItemInitializer.BLOCKS_STACKS);
 
-		HANGING_SIGN = BlockInitializer.registerBlock(baseName+"_hanging_sign", () -> new ModdedCeilingHangingSignBlock(nonCollidable, signId));
-		HANGING_SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_hanging_sign", () -> new ModdedWallHangingSignBlock(nonCollidable, signId));
+		HANGING_SIGN = BlockInitializer.registerBlock(baseName+"_hanging_sign", () -> new CeilingHangingSignBlock(TYPE.get(), nonCollidable));
+		HANGING_SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_hanging_sign", () -> new WallHangingSignBlock(TYPE.get(), nonCollidable));
 		BlockInitializer.addHangingSignBlocks((Lazy<Block>)(Object)HANGING_SIGN, (Lazy<Block>)(Object)HANGING_SIGN_WALL);
 		HANGING_SIGN_ITEM = ItemInitializer.registerItem(baseName+"_hanging_sign", () -> new HangingSignItem(HANGING_SIGN.get(), HANGING_SIGN_WALL.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		FENCE = BlockInitializer.registerBlock(baseName+"_fence", () -> new FenceBlock(blockSettings));
 		FENCE_ITEM = ItemInitializer.registerItem(baseName+"_fence", () -> new BlockItem(FENCE.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		FENCE_GATE = BlockInitializer.registerBlock(baseName+"_fence_gate", () -> new FenceGateBlock(net.minecraft.world.level.block.state.properties.WoodType.OAK, blockSettings));
+		FENCE_GATE = BlockInitializer.registerBlock(baseName+"_fence_gate", () -> new FenceGateBlock(TYPE.get(), blockSettings));
 		FENCE_GATE_ITEM = ItemInitializer.registerItem(baseName+"_fence_gate", () -> new BlockItem(FENCE_GATE.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
 		if (!fungus) {
@@ -167,6 +173,22 @@ public class WoodType extends AbstractDataGenerator {
 			BOAT_ITEM = null;
 			BOAT_CHEST_ITEM = null;
 		}
+	}
+
+	private static Lazy<BlockSetType> createBlockSetType(String name, Supplier<BlockSetType> supplier) {
+		return Lazy.create(() -> {
+			var value = supplier.get();
+			Accessor_BlockSetType.getTYPES().put(name, value);
+			return value;
+		});
+	}
+
+	private static Lazy<WoodType> createWoodType(String name, Supplier<WoodType> supplier) {
+		return Lazy.create(() -> {
+			var value = supplier.get();
+			Accessor_WoodType.getTYPES().put(name, value);
+			return value;
+		});
 	}
 
 	private static FungusBlock createFungusBlock(String baseName, Block base) {

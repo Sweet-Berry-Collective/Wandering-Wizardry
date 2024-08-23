@@ -5,7 +5,7 @@ plugins {
 archivesBaseName = project.archives_base_name
 version = rootProject.version + "-fabric"
 
-def test_compat = false
+def test_compat = true
 
 repositories {
 	maven {

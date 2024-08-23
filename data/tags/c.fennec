@@ -1,4 +1,4 @@
-blocks {
+block {
     glass_blocks [
         "wwizardry:reinforced_glass"
     ]
@@ -10,7 +10,7 @@ blocks {
         "wwizardry:deepslate_rose_quartz_ore"
     ]
 }
-items {
+item {
     glass_blocks [
         "wwizardry:reinforced_glass"
     ]

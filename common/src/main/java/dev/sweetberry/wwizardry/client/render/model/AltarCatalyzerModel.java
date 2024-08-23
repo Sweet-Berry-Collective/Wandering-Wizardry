@@ -60,17 +60,17 @@ public class AltarCatalyzerModel extends Model {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int i1, int i2) {
 		var seconds = ticks / 20;
 		seconds %= 4;
 		poseStack.pushPose();
 		AnimationHelper.applyKeyframes(LAYER_1_FRAMES, seconds, poseStack);
-		layer1.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		layer1.render(poseStack, vertexConsumer, i, i1, i2);
 		poseStack.popPose();
 
 		poseStack.pushPose();
 		AnimationHelper.applyKeyframes(crafting ? LAYER_2_FRAMES_FAST : LAYER_2_FRAMES, seconds, poseStack);
-		layer2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		layer2.render(poseStack, vertexConsumer, i, i1, i2);
 		poseStack.popPose();
 	}
 }

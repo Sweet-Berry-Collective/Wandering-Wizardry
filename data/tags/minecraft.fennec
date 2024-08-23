@@ -7,7 +7,7 @@ worldgen {
     }
 }
 
-blocks {
+block {
     mineable {
         axe [
             "#wwizardry:wood/all"
@@ -170,7 +170,7 @@ blocks {
     ]
 }
 
-items {
+item {
     music_discs [
         "wwizardry:music_disc_wandering"
     ]

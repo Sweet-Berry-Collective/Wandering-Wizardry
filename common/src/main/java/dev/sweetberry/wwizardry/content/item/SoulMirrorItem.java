@@ -15,6 +15,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.PlayerRespawnLogic;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -217,11 +218,6 @@ public class SoulMirrorItem extends TieredItem {
 	}
 
 	@Override
-	public int getUseDuration(ItemStack stack) {
-		return 30;
-	}
-
-	@Override
 	public InteractionResult useOn(UseOnContext context) {
 		BlockPos blockPos = context.getClickedPos();
 		Level world = context.getLevel();
@@ -260,12 +256,12 @@ public class SoulMirrorItem extends TieredItem {
 		var world = server.getLevel(player.getRespawnDimension());
 		if (world == null)
 			return moveToWorldSpawn(server, player);
-		var _respawnPos = Player.findRespawnPositionAndUseSpawnBlock(world, pos, player.getRespawnAngle(), player.isRespawnForced(), true);
+		var _respawnPos = Accessor_ServerPlayer.invokeFindRespawnAndUseSpawnBlock(world, pos, player.getRespawnAngle(), player.isRespawnForced(), true);
 		if (_respawnPos.isEmpty())
 			return moveToWorldSpawn(server, player);
 		var respawnPos = _respawnPos.get();
-		player.teleportTo(world, respawnPos.x, respawnPos.y, respawnPos.z, player.getRespawnAngle(), 0);
-		return new PosAndWorld(BlockPos.containing(respawnPos.x, respawnPos.y, respawnPos.z), world);
+		player.teleportTo(world, respawnPos.position().x, respawnPos.position().y, respawnPos.position().z, respawnPos.yaw(), 0);
+		return new PosAndWorld(BlockPos.containing(respawnPos.position().x, respawnPos.position().y, respawnPos.position().z), world);
 	}
 
 	private static PosAndWorld moveToWorldSpawn(MinecraftServer server, ServerPlayer player) {
@@ -312,7 +308,7 @@ public class SoulMirrorItem extends TieredItem {
 					break;
 			} while (blockPos.getY() + addY < world.getMaxBuildHeight() - 1);
 			var center = blockPos.getCenter();
-			player.teleportToWithTicket(center.x, blockPos.getY() + addY, center.z);
+			player.teleportTo(center.x, blockPos.getY() + addY, center.z);
 			return new PosAndWorld(BlockPos.containing(center.x, blockPos.getY() + addY, center.z), world);
 		}
 		return new PosAndWorld(blockPos, null);

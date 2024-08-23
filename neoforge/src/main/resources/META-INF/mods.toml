@@ -13,8 +13,6 @@ authors = "Sweet Berry Collective" #optional
 description = '''An exploration focused magic mod''' #mandatory (Supports multiline text)
 [[mixins]]
 config = "wwizardry.mixins.json"
-[[mixins]]
-config = "wwizardry_neoforge.mixins.json"
 [[accessTransformers]]
 file="accesstransformer.cfg"
 [[dependencies.wwizardry]] #optional

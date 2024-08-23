@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block.entity;
 
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
@@ -24,11 +25,13 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SculkSpreader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	public ItemStack result = ItemStack.EMPTY;
@@ -66,7 +69,11 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 				.anyMatch(it -> it.heldItem.isEmpty())
 		) return;
 
+		WanderingWizardry.LOGGER.info("test");
+
 		var optional = level.getRecipeManager().getRecipeFor(RecipeInitializer.ALTAR_TYPE.get(), view, level);
+
+		WanderingWizardry.LOGGER.info("{}", optional.isPresent());
 
 		if (optional.isPresent()) {
 			optional.get().value().tryCraft(view, level);
@@ -262,46 +269,18 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		}
 
 		@Override
-		public int getContainerSize() {
-			return 5;
-		}
-
-		@Override
 		public boolean isEmpty() {
 			return false;
 		}
 
 		@Override
-		public ItemStack getItem(int i) {
-			return getItemInPedestal(AltarDirection.values()[i]);
+		public @NotNull ItemStack getItem(int i) {
+			return Objects.requireNonNull(getItemInPedestal(AltarDirection.values()[i]));
 		}
 
 		@Override
-		public ItemStack removeItem(int i, int j) {
-			return null;
-		}
-
-		@Override
-		public ItemStack removeItemNoUpdate(int i) {
-			return null;
-		}
-
-		@Override
-		public void setItem(int i, ItemStack itemStack) {
-			setResultInPedestal(AltarDirection.values()[i], itemStack);
-		}
-
-		@Override
-		public void setChanged() {}
-
-		@Override
-		public boolean stillValid(Player player) {
-			return true;
-		}
-
-		@Override
-		public void clearContent() {
-
+		public int size() {
+			return 5;
 		}
 	}
 }

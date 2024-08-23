@@ -80,14 +80,6 @@ public class ClientEvents {
 			consumer.accept(WanderingWizardryClient.getBoatLayerLocation(id, true), () -> chestBoatModel);
 		}
 
-		var signModel = SignRenderer.createSignLayer();
-		var hangingSignModel = HangingSignRenderer.createHangingSignLayer();
-
-		for (var id : ModdedSignBlock.SIGNS) {
-			consumer.accept(WanderingWizardryClient.getSignLayerLocation(id, false), () -> signModel);
-			consumer.accept(WanderingWizardryClient.getSignLayerLocation(id, true), () -> hangingSignModel);
-		}
-
 		var altarModel = AltarCatalyzerModel.createLayer();
 		consumer.accept(AltarCatalyzerModel.LAYER_LOCATION, () -> altarModel);
 

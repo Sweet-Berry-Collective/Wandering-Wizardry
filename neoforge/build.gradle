@@ -1,37 +1,38 @@
 plugins {
 	id 'java'
-	alias libs.plugins.neogradle
+	alias libs.plugins.mod.dev.gradle
     id 'java-library'
 }
 
-jarJar.enable()
-
-minecraft {
-	accessTransformers {
-		file('src/main/resources/accesstransformer.cfg')
+neoForge {
+	version = libs.versions.neoforge.get()
+	var at = file('src/main/resources/accesstransformer.cfg')
+	if (at.exists()) {
+//		accessTransformers.add(at.absolutePath)
+	}
+	runs {
+		configureEach {
+			systemProperty('neoforge.enabledGameTestNamespaces', "wwizardry")
+			ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+		}
+		client {
+			client()
+		}
+		data {
+			data()
+		}
+		server {
+			server()
+		}
+	}
+	mods {
+		"wwizardry" {
+			sourceSet sourceSets.main
+		}
 	}
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-
-runs {
-	configureEach {
-		modSource project.sourceSets.main
-	}
-
-	data {
-		programArguments.addAll '--mod', project.archives_base_name, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-	}
-
-	client {
-		systemProperty 'neoforge.enabledGameTestNamespaces', project.archives_base_name
-	}
-
-	server {
-		systemProperty 'neoforge.enabledGameTestNamespaces', project.archives_base_name
-		programArgument '--nogui'
-	}
-}
 
 repositories {
 	maven {

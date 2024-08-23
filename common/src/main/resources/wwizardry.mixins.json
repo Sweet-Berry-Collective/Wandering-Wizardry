@@ -6,10 +6,12 @@
   "mixins": [
     "Accessor_AxeItem",
     "Accessor_BlockEntityType",
+    "Accessor_BlockSetType",
     "Accessor_PlayerRespawnLogic",
     "Accessor_PotionBrewing",
     "Accessor_ServerPlayer",
     "Accessor_StructureProcessor",
+    "Accessor_WoodType",
     "Invoker_BlockBehaviour",
     "Mixin_Boat",
     "Mixin_DefaultAttributes",
@@ -27,11 +29,10 @@
     "defaultRequire": 1
   },
   "client": [
+    "client.Mixin_BoatRenderer",
     "client.Mixin_ClientLevel",
     "client.Mixin_ItemInHandRenderer",
-    "client.Mixin_Model",
-    "client.Mixin_SignRenderer",
-    "client.Mixin_SignRenderer_HangingSignRenderer"
+    "client.Mixin_Model"
   ],
   "refmap": "wwizardry.refmap.json"
 }

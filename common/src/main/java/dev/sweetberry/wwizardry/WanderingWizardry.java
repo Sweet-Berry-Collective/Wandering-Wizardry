@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry;
 
 import dev.sweetberry.wwizardry.content.ContentInitializer;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
+import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class WanderingWizardry {
 	}
 
 	public static ResourceLocation id(String id) {
-		return new ResourceLocation(MODID, id);
+		return ResourceLocation.fromNamespaceAndPath(MODID, id);
 	}
 
 	public static boolean isModLoaded(String modid) {

@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.util.FastColor;
 
 public class AltarCatalyzerBlockEntityRenderer implements AltarBlockEntityRenderer<AltarCatalyzerBlockEntity> {
 	private static final double ALTAR_TOP = 16.5d / 16d;
@@ -53,7 +54,7 @@ public class AltarCatalyzerBlockEntityRenderer implements AltarBlockEntityRender
 		model.ticks = WanderingWizardryClient.tickCounter + tickDelta;
 		model.crafting = entity.crafting;
 		model.timeToCraft = entity.crafting ? entity.getCraftingTime(tickDelta) : 0;
-		model.renderToBuffer(matrices, buf, light, overlay, 1, 1, 1, entity.clampLerpTime(0, tickDelta, 0.125f, 1));
+		model.renderToBuffer(matrices, buf, light, overlay, FastColor.ARGB32.colorFromFloat(entity.clampLerpTime(0, tickDelta, 0.125f, 1), 1, 1, 1));
 		matrices.popPose();
 	}
 }

@@ -1,4 +1,4 @@
-blocks {
+block {
     damages_snail [
         "copper_block"
         "exposed_copper"
@@ -231,7 +231,7 @@ blocks {
     ]
 }
 
-items {
+item {
     snail_food [
         "kelp"
     ]
