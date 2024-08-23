@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.block.redstone;
 
 import com.mojang.serialization.MapCodec;
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.content.block.entity.LogicGateBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -76,6 +77,7 @@ public class LogicGateBlock extends DiodeBlock implements EntityBlock {
 		int back = getInputSignal(world, pos, state);
 		int side = getAlternateSignal(world, pos, state);
 		var mode = state.getValue(MODE);
+		WanderingWizardry.LOGGER.info("{}, {}, {}", back, side, mode);
 		return function.compare(state, mode, side, back);
 	}
 

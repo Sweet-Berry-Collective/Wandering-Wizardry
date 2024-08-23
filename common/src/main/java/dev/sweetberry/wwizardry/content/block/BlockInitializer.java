@@ -112,10 +112,9 @@ public class BlockInitializer {
 			LogicGateBlock.SideInput.ALL,
 			true,
 			(state, mode, side, back) -> {
-				int value = side == 0 ? 0 : back % side;
 				if (mode == ComparatorMode.SUBTRACT)
-					value = back - value;
-				return value;
+					return back - (side == 0 ? 0 : back % side);
+				return side == 0 ? back : back % side;
 			}
 		)
 	);
