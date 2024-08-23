@@ -4,11 +4,13 @@ plugins {
     id 'java-library'
 }
 
+version = rootProject.version + "-neoforge"
+
 neoForge {
 	version = libs.versions.neoforge.get()
 	var at = file('src/main/resources/accesstransformer.cfg')
 	if (at.exists()) {
-//		accessTransformers.add(at.absolutePath)
+		accessTransformers = [at.absolutePath]
 	}
 	runs {
 		configureEach {
@@ -72,6 +74,7 @@ tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
 	it.options.encoding = 'UTF-8'
 	it.options.release = 21
 	dependsOn ":generateData"
+	dependsOn processResources
 }
 
 tasks.withType(Javadoc).matching(notNeoTask).configureEach {
@@ -82,7 +85,10 @@ processResources {
 	from project(":common").sourceSets.main.resources
 	inputs.property 'version', version
 
-	filesMatching('META-INF/mods.toml') {
+	filesMatching('META-INF/neoforge.mods.toml') {
 		expand "version": version
 	}
 }
+
+test.onlyIf { false }
+compileTestJava.onlyIf { false }

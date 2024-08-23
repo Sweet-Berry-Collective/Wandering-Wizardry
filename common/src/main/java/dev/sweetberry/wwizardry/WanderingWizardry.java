@@ -25,8 +25,6 @@ public class WanderingWizardry {
 		init = true;
 		WanderingWizardry.LOGGER.info("*tips altar* w'wizardry");
 		ContentInitializer.init();
-
-		BlockInitializer.registerSecondaryBlockFunctions();
 	}
 
 	public static ResourceLocation id(String id) {

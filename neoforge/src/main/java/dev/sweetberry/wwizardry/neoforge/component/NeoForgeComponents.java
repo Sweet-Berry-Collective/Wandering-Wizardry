@@ -35,7 +35,7 @@ public class NeoForgeComponents {
 		return (T) entity.getData(COMPONENTS.get(id)).component;
 	}
 
-	private static <T extends Component> Supplier<AttachmentType<ProxyComponent<T>>> create(String id, Supplier<T> supplier) {
+	private static <T extends Component<T>> Supplier<AttachmentType<ProxyComponent<T>>> create(String id, Supplier<T> supplier) {
 		Supplier<AttachmentType<ProxyComponent<T>>> type = ATTACHMENT_TYPES.register(
 			id,
 			() -> AttachmentType.serializable(() -> new ProxyComponent<T>(supplier.get())).build()

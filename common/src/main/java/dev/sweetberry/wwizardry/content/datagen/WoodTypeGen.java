@@ -90,6 +90,14 @@ public class WoodTypeGen extends AbstractDataGenerator {
 		final var blockSettings = BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood);
 		final var nonCollidable = BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood).noCollission();
 		final var nonOpaque = BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).sound(sounds).mapColor(wood).noOcclusion();
+		final var sign = BlockBehaviour.Properties
+			.ofFullCopy(Blocks.OAK_SIGN)
+			.sound(sounds)
+			.mapColor(wood);
+		final var hanging = BlockBehaviour.Properties
+			.ofFullCopy(Blocks.OAK_HANGING_SIGN)
+			.sound(sounds)
+			.mapColor(wood);
 		final var itemSettings = new Item.Properties();
 		final var singleStack = new Item.Properties().stacksTo(1);
 
@@ -138,13 +146,13 @@ public class WoodTypeGen extends AbstractDataGenerator {
 		TRAPDOOR = BlockInitializer.registerBlock(baseName+"_trapdoor", () -> new TrapDoorBlock(BLOCK_SET.get(), nonOpaque));
 		TRAPDOOR_ITEM = ItemInitializer.registerItem(baseName+"_trapdoor", () -> new BlockItem(TRAPDOOR.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		SIGN = BlockInitializer.registerBlock(baseName+"_sign",() ->  new StandingSignBlock(TYPE.get(), nonCollidable));
-		SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_sign", () -> new WallSignBlock(TYPE.get(), nonCollidable));
+		SIGN = BlockInitializer.registerBlock(baseName+"_sign",() ->  new StandingSignBlock(TYPE.get(), sign));
+		SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_sign", () -> new WallSignBlock(TYPE.get(), sign));
 		BlockInitializer.addSignBlocks((Lazy<Block>)(Object)SIGN, (Lazy<Block>)(Object)SIGN_WALL);
 		SIGN_ITEM = ItemInitializer.registerItem(baseName+"_sign", () -> new SignItem(itemSettings, SIGN.get(), SIGN_WALL.get()), ItemInitializer.BLOCKS_STACKS);
 
-		HANGING_SIGN = BlockInitializer.registerBlock(baseName+"_hanging_sign", () -> new CeilingHangingSignBlock(TYPE.get(), nonCollidable));
-		HANGING_SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_hanging_sign", () -> new WallHangingSignBlock(TYPE.get(), nonCollidable));
+		HANGING_SIGN = BlockInitializer.registerBlock(baseName+"_hanging_sign", () -> new CeilingHangingSignBlock(TYPE.get(), hanging));
+		HANGING_SIGN_WALL = BlockInitializer.registerBlock(baseName+"_wall_hanging_sign", () -> new WallHangingSignBlock(TYPE.get(), hanging));
 		BlockInitializer.addHangingSignBlocks((Lazy<Block>)(Object)HANGING_SIGN, (Lazy<Block>)(Object)HANGING_SIGN_WALL);
 		HANGING_SIGN_ITEM = ItemInitializer.registerItem(baseName+"_hanging_sign", () -> new HangingSignItem(HANGING_SIGN.get(), HANGING_SIGN_WALL.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 

@@ -32,7 +32,7 @@ public class EntityInitializer {
 
 	public static <T extends Entity> Lazy<EntityType<T>> registerEntity(String id, Supplier<EntityType<T>> entity, Supplier<AttributeSupplier> supplier) {
 		var value = EntityInitializer.<T>entities().register(WanderingWizardry.id(id), entity);
-		SUPPLIER_DATA.add(new AttributeSupplierData((Supplier<EntityType<?>>) (Object) value, supplier.get()));
+		SUPPLIER_DATA.add(new AttributeSupplierData((Supplier<EntityType<?>>) (Object) value, supplier));
 		return value;
 	}
 
@@ -40,5 +40,5 @@ public class EntityInitializer {
 		return (RegistryContext<EntityType<T>>) (Object) ENTITIES;
 	}
 
-	public record AttributeSupplierData(Supplier<EntityType<?>> entity, AttributeSupplier supplier) {}
+	public record AttributeSupplierData(Supplier<EntityType<?>> entity, Supplier<AttributeSupplier> supplier) {}
 }

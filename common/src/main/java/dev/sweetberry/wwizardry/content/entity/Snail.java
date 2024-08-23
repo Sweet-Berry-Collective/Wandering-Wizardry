@@ -65,6 +65,7 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 	}
 
 	public static AttributeSupplier createAttributes() {
+		WanderingWizardry.LOGGER.info("god damn it");
 		return Mob
 			.createMobAttributes()
 			.add(Attributes.MOVEMENT_SPEED, 0.1)

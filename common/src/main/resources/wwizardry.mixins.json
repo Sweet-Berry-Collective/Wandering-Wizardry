@@ -14,7 +14,7 @@
     "Accessor_WoodType",
     "Invoker_BlockBehaviour",
     "Mixin_Boat",
-    "Mixin_DefaultAttributes",
+    "Mixin_ChestBoat",
     "Mixin_Item",
     "Mixin_ItemEntity",
     "Mixin_MappedRegistry",
@@ -29,7 +29,6 @@
     "defaultRequire": 1
   },
   "client": [
-    "client.Mixin_BoatRenderer",
     "client.Mixin_ClientLevel",
     "client.Mixin_ItemInHandRenderer",
     "client.Mixin_Model"

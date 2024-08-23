@@ -5,6 +5,7 @@ import dev.sweetberry.wwizardry.api.component.Component;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.client.content.events.ClientEvents;
 import dev.sweetberry.wwizardry.content.ContentInitializer;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
 import dev.sweetberry.wwizardry.content.events.UseBlockHandler;
 import dev.sweetberry.wwizardry.content.net.packet.ComponentSyncPacket;
@@ -67,6 +68,8 @@ public class FabricInitializer implements ModInitializer {
 		FabricInitializer.addWanderingTradesFor(2);
 
 		WanderingWizardry.init("fabric");
+
+		BlockInitializer.registerSecondaryBlockFunctions();
     }
 
 	private static void addWanderingTradesFor(int level) {

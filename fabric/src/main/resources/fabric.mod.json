@@ -38,7 +38,8 @@
     ]
   },
   "mixins": [
-    "wwizardry.mixins.json"
+    "wwizardry.mixins.json",
+    "wwizardry.fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": "*",

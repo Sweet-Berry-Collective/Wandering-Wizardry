@@ -1,8 +1,9 @@
-package dev.sweetberry.wwizardry.mixin.client;
+package dev.sweetberry.wwizardry.neoforge.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.datafixers.util.Pair;
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.content.component.BoatComponent;
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
@@ -38,12 +39,23 @@ public class Mixin_BoatRenderer {
 
 	@WrapOperation(
 		method = "render(Lnet/minecraft/world/entity/vehicle/Boat;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
-		at = @At(value = "INVOKE", target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;")
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/BoatRenderer;getModelWithLocation(Lnet/minecraft/world/entity/vehicle/Boat;)Lcom/mojang/datafixers/util/Pair;")
 	)
-	private <K, V> V wwizardry$getBoat(Map<K, V> instance, K key, Operation<V> original, Boat boat) {
+	private Pair<ResourceLocation, ListModel<Boat>> wwizardry$getBoat(BoatRenderer instance, Boat boat, Operation<Pair<ResourceLocation, ListModel<Boat>>> original) {
 		var type = ComponentInitializer.<BoatComponent>getComponent(ComponentInitializer.BOAT, boat).type;
 		if (type != null)
-			return (V) wwizardry$models.get(type);
-		return instance.get(key);
+			return wwizardry$models.get(type);
+		return original.call(instance, boat);
+	}
+
+	@WrapOperation(
+		method = "getTextureLocation(Lnet/minecraft/world/entity/vehicle/Boat;)Lnet/minecraft/resources/ResourceLocation;",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/BoatRenderer;getModelWithLocation(Lnet/minecraft/world/entity/vehicle/Boat;)Lcom/mojang/datafixers/util/Pair;")
+	)
+	private Pair<ResourceLocation, ListModel<Boat>> wwizardry$getBoat2(BoatRenderer instance, Boat boat, Operation<Pair<ResourceLocation, ListModel<Boat>>> original) {
+		var type = ComponentInitializer.<BoatComponent>getComponent(ComponentInitializer.BOAT, boat).type;
+		if (type != null)
+			return wwizardry$models.get(type);
+		return original.call(instance, boat);
 	}
 }

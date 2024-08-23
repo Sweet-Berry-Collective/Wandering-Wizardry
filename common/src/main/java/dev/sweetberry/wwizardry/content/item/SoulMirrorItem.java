@@ -130,6 +130,11 @@ public class SoulMirrorItem extends TieredItem {
 	}
 
 	@Override
+	public int getUseDuration(ItemStack stack, LivingEntity entity) {
+		return 30;
+	}
+
+	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
 		if (world.isClientSide || !(user instanceof ServerPlayer player))
 			return stack;

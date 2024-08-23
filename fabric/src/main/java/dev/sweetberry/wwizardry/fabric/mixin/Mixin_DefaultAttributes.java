@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.mixin;
+package dev.sweetberry.wwizardry.fabric.mixin;
 
 import dev.sweetberry.wwizardry.content.entity.EntityInitializer;
 import net.minecraft.world.entity.EntityType;
@@ -20,7 +20,7 @@ public class Mixin_DefaultAttributes {
 	private static void getModdedSupplier(EntityType<? extends LivingEntity> entity, CallbackInfoReturnable<AttributeSupplier> cir) {
 		for (var data : EntityInitializer.SUPPLIER_DATA) {
 			if (data.entity().get() == entity) {
-				cir.setReturnValue(data.supplier());
+				cir.setReturnValue(data.supplier().get());
 				return;
 			}
 		}

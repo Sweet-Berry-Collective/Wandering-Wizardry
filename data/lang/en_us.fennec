@@ -1,3 +1,5 @@
+"jukebox_song.wwizardry.wandering" = "Moonkey - Wandering"
+
 "subtitles.wwizardry" {
     snail {
         place = "Shell placed on snail"
@@ -228,7 +230,6 @@
     soul_mirror = "Soul Mirror"
 
     music_disc_wandering = "Music Disc"
-    "music_disc_wandering.desc" = "Moonkey - Wandering"
 
     snail_spawn_egg = "Snail Spawn Egg"
 }

@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.content.component.BoatComponent;
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
 import net.minecraft.network.chat.Component;
@@ -40,11 +41,11 @@ public class Mixin_Boat {
 	private void wwizardry$getDropItem(CallbackInfoReturnable<Item> cir) {
 		var self = (Boat)(Object)this;
 		var type = ComponentInitializer.<BoatComponent>getComponent(ComponentInitializer.BOAT, self).type;
+		WanderingWizardry.LOGGER.info("{}", type);
 		if (type == null)
 			return;
 		var boat = BoatComponent.BOATS.get(type);
-		var chest = self instanceof ChestBoat;
-		cir.setReturnValue((chest ? boat.chest() : boat.boat()).get());
+		cir.setReturnValue(boat.boat().get());
 	}
 
 	@WrapOperation(
@@ -54,7 +55,7 @@ public class Mixin_Boat {
 			target = "Lnet/minecraft/world/entity/vehicle/Boat$Type;getPlanks()Lnet/minecraft/world/level/block/Block;"
 		)
 	)
-	private Block wwizardry$repacePlanks(Boat.Type instance, Operation<Block> original) {
+	private Block wwizardry$replacePlanks(Boat.Type instance, Operation<Block> original) {
 		var self = (Boat)(Object)this;
 		var type = ComponentInitializer.<BoatComponent>getComponent(ComponentInitializer.BOAT, self).type;
 		if (type == null)
