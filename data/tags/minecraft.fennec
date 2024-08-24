@@ -171,6 +171,11 @@ block {
 }
 
 item {
+    trim_materials [
+        "wwizardry:rose_quartz"
+        "wwizardry:crystalline_sculk"
+    ]
+
     music_discs [
         "wwizardry:music_disc_wandering"
     ]

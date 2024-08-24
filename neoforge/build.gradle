@@ -46,6 +46,17 @@ repositories {
 		name = "Forge"
 		url = "https://maven.minecraftforge.net/"
 	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
 }
 
 //sourceSets.main.resources { srcDir 'src/generated/resources' }

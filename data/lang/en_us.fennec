@@ -7,6 +7,11 @@
     }
 }
 
+"wwizardry.trim_material" {
+    "rose_quartz" = "Rose Quartz"
+    "crystalling_sculk" = "Crystalline Sculk"
+}
+
 "itemGroup.wwizardry" {
     items = "Wandering Wizardry Items"
     blocks = "Wandering Wizardry Blocks"

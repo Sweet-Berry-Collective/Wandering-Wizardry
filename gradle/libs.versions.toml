@@ -13,6 +13,9 @@ terrablender = "1.21-4.0.0.1"
 emi = "1.1.12+1.21"
 modmenu = "11.0.1"
 
+trimmed_fabric = "1.21-3.0.0+fabric"
+trimmed_neoforge = "1.21-3.0.0+neoforge"
+
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 
@@ -27,6 +30,9 @@ terrablender_neoforge = { module = "com.github.glitchfiend:TerraBlender-neoforge
 emi_common = { module = "dev.emi:emi-xplat-mojmap", version.ref = "emi" }
 emi_fabric = { module = "dev.emi:emi-fabric", version.ref = "emi" }
 emi_neoforge = { module = "dev.emi:emi-neoforge", version.ref = "emi" }
+
+trimmed_neoforge = { module = "maven.modrinth:trimmed", version.ref = "trimmed_neoforge" }
+trimmed_fabric = { module = "maven.modrinth:trimmed", version.ref = "trimmed_fabric" }
 
 # Neoforge
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
@@ -44,9 +50,9 @@ mixin = ["mixin", "mixin_extras"]
 
 include_common = ["terrablender_common"]
 
-include_fabric = ["terrablender_fabric"]
+include_fabric = ["terrablender_fabric", "trimmed_fabric"]
 
-include_neoforge = ["terrablender_neoforge"]
+include_neoforge = ["terrablender_neoforge", "trimmed_neoforge"]
 
 compat_fabric = ["emi_fabric", "modmenu"]
 
