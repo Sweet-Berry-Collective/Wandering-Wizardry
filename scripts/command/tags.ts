@@ -31,7 +31,7 @@ export default function generateTags(inputDir: string, outputDir: string) {
                     required: false,
                     id: it
                 }))
-            }))
+            }, undefined, 2))
             console.log("    "+outputFile)
         }
     }

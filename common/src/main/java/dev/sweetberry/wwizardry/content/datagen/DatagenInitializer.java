@@ -9,6 +9,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,8 +39,14 @@ public class DatagenInitializer {
 		return t;
 	}
 
-	public static void reloadPack(ResourceManager manager) {
+	public static void reloadPack(ResourceManager manager) throws IOException {
 		DatagenInitializer.pack.clear(PackType.CLIENT_RESOURCES);
+		var opt = manager.getResource(WanderingWizardry.id("icon_large.png"));
+		if (opt.isPresent()) {
+			var png = opt.get().open();
+			pack.put("pack.png", png.readAllBytes());
+			png.close();
+		}
 		DatagenInitializer.REGISTRY
 			.values()
 			.forEach(generator -> generator.onRegisterPack(manager, pack));

@@ -12,6 +12,7 @@ import dev.sweetberry.wwizardry.content.block.nature.FallingDecayableBlock;
 import dev.sweetberry.wwizardry.content.block.nature.RootedFlowerBlock;
 import dev.sweetberry.wwizardry.content.block.nature.RootedPlantBlock;
 import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
+import dev.sweetberry.wwizardry.content.block.redstone.CopperLensBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.LogicGateBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
@@ -222,6 +223,19 @@ public class BlockInitializer {
 				.instabreak()
 				.mapColor(MapColor.TERRACOTTA_PINK)
 				.sound(SoundInitializer.SNAIL.get())
+		)
+	);
+
+	public static final Lazy<Block> WAXED_COPPER_LENS = registerBlock(
+		"waxed_copper_lens",
+		() -> new CopperLensBlock(
+			BlockBehaviour.Properties.of()
+				.mapColor(Blocks.COPPER_BLOCK.defaultMapColor())
+				.strength(3.0F, 6.0F)
+				.sound(SoundType.COPPER_BULB)
+				.requiresCorrectToolForDrops()
+				.isRedstoneConductor((state, getter, pos) -> false)
+				.noOcclusion()
 		)
 	);
 

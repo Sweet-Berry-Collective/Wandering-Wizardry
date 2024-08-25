@@ -1,1 +1,19 @@
-{"type":"crafting_shaped","category":"building","group":"stripped_bark","show_notification":true,"key":{"#":{"item":"wwizardry:stripped_mycha_stem"}},"pattern":["##","##"],"result":{"count":3,"id":"wwizardry:stripped_mycha_hyphae"}}
+{
+  "type": "crafting_shaped",
+  "category": "building",
+  "group": "stripped_bark",
+  "show_notification": true,
+  "key": {
+    "#": {
+      "item": "wwizardry:stripped_mycha_stem"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "count": 3,
+    "id": "wwizardry:stripped_mycha_hyphae"
+  }
+}

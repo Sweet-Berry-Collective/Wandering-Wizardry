@@ -1,1 +1,18 @@
-{"type":"crafting_shaped","category":"misc","group":"boat","show_notification":true,"key":{"#":{"item":"wwizardry:denia_planks"}},"pattern":["# #","###"],"result":{"id":"wwizardry:denia_boat"}}
+{
+  "type": "crafting_shaped",
+  "category": "misc",
+  "group": "boat",
+  "show_notification": true,
+  "key": {
+    "#": {
+      "item": "wwizardry:denia_planks"
+    }
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "id": "wwizardry:denia_boat"
+  }
+}

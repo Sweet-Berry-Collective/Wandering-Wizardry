@@ -1,0 +1,9 @@
+{
+  "parent": "wwizardry:block/copper_lens/base",
+  "textures": {
+    "side": "wwizardry:block/copper_lens/side",
+    "end": "wwizardry:block/copper_lens/end",
+    "glass": "wwizardry:block/copper_lens/glass",
+    "aperture": "wwizardry:block/copper_lens/aperture_focused"
+  }
+}

@@ -1,1 +1,10 @@
-{"type":"stonecutting","count":1,"ingredient":{"item":"wwizardry:basalt_tiles"},"result":{"id":"wwizardry:basalt_tile_wall"}}
+{
+  "type": "stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "wwizardry:basalt_tiles"
+  },
+  "result": {
+    "id": "wwizardry:basalt_tile_wall"
+  }
+}

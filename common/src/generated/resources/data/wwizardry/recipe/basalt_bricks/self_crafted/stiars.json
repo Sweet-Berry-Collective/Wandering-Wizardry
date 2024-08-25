@@ -1,1 +1,19 @@
-{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"#":{"item":"wwizardry:basalt_bricks"}},"pattern":["#  ","## ","###"],"result":{"count":4,"id":"wwizardry:basalt_brick_stairs"}}
+{
+  "type": "crafting_shaped",
+  "category": "building",
+  "show_notification": true,
+  "key": {
+    "#": {
+      "item": "wwizardry:basalt_bricks"
+    }
+  },
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "id": "wwizardry:basalt_brick_stairs"
+  }
+}

@@ -1,1 +1,37 @@
-{"replace":false,"values":[{"required":false,"id":"wwizardry:basalt_brick_wall"},{"required":false,"id":"wwizardry:basalt_tile_wall"},{"required":false,"id":"wwizardry:chiseled_basalt_wall"},{"required":false,"id":"wwizardry:cut_basalt_wall"},{"required":false,"id":"wwizardry:mossy_basalt_brick_wall"},{"required":false,"id":"wwizardry:mossy_basalt_tile_wall"},{"required":false,"id":"wwizardry:mossy_chiseled_basalt_wall"},{"required":false,"id":"wwizardry:mossy_cut_basalt_wall"}]}
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:basalt_brick_wall"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:basalt_tile_wall"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:chiseled_basalt_wall"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:cut_basalt_wall"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mossy_basalt_brick_wall"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mossy_basalt_tile_wall"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mossy_chiseled_basalt_wall"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mossy_cut_basalt_wall"
+    }
+  ]
+}

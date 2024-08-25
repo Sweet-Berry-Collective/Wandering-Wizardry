@@ -9,7 +9,7 @@ version = rootProject.version + "-neoforge"
 
 neoForge {
 	version = libs.versions.neoforge.get()
-	var at = file('src/main/resources/accesstransformer.cfg')
+	var at = project(":common").file('src/main/resources/accesstransformer.cfg')
 	if (at.exists()) {
 		accessTransformers = [at.absolutePath]
 	}
@@ -74,9 +74,11 @@ dependencies {
 	testCompileOnly classify(libs.emi.neoforge, "api")
 	runtimeOnly libs.emi.neoforge
 
+	libs.bundles.include.neoforge.get().forEach {
+		jarJar(runtimeOnly(it))
+	}
 	implementation libs.bundles.include.neoforge
 	testImplementation libs.bundles.include.neoforge
-//	jarJar libs.bundles.include.neoforge
 }
 
 Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>

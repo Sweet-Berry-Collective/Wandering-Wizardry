@@ -1,1 +1,14 @@
-{"type":"crafting_shapeless","category":"building","group":"planks","ingredients":[{"tag":"wwizardry:denia_logs"}],"result":{"count":4,"id":"wwizardry:denia_planks"}}
+{
+  "type": "crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "wwizardry:denia_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "wwizardry:denia_planks"
+  }
+}

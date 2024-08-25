@@ -1,1 +1,18 @@
-{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"#":{"item":"wwizardry:cut_basalt_slab"}},"pattern":["#","#"],"result":{"id":"wwizardry:chiseled_basalt","count":1}}
+{
+  "type": "crafting_shaped",
+  "category": "building",
+  "show_notification": true,
+  "key": {
+    "#": {
+      "item": "wwizardry:cut_basalt_slab"
+    }
+  },
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "result": {
+    "id": "wwizardry:chiseled_basalt",
+    "count": 1
+  }
+}

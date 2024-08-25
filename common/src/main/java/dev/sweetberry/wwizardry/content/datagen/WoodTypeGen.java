@@ -3,7 +3,6 @@ package dev.sweetberry.wwizardry.content.datagen;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.resource.MapBackedPack;
-import dev.sweetberry.wwizardry.content.block.sign.*;
 import dev.sweetberry.wwizardry.content.world.sapling.BeeHoldingSaplingGenerator;
 import dev.sweetberry.wwizardry.content.block.nature.RootedMushroomBlock;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;

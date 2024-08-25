@@ -1,1 +1,9 @@
-{"replace":false,"values":[{"required":false,"id":"wwizardry:reinforced_glass"}]}
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:reinforced_glass"
+    }
+  ]
+}

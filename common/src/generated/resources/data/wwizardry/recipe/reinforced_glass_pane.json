@@ -1,1 +1,18 @@
-{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"G":{"item":"wwizardry:reinforced_glass"}},"pattern":["GGG","GGG"],"result":{"count":16,"id":"wwizardry:reinforced_glass_pane"}}
+{
+  "type": "crafting_shaped",
+  "category": "building",
+  "show_notification": true,
+  "key": {
+    "G": {
+      "item": "wwizardry:reinforced_glass"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GGG"
+  ],
+  "result": {
+    "count": 16,
+    "id": "wwizardry:reinforced_glass_pane"
+  }
+}

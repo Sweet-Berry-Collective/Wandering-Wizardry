@@ -1,1 +1,13 @@
-{"replace":false,"values":[{"required":false,"id":"#wwizardry:wood/denia"},{"required":false,"id":"#wwizardry:wood/mycha"}]}
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "#wwizardry:wood/denia"
+    },
+    {
+      "required": false,
+      "id": "#wwizardry:wood/mycha"
+    }
+  ]
+}

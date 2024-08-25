@@ -1,1 +1,10 @@
-{"type":"stonecutting","count":1,"ingredient":{"item":"wwizardry:mossy_basalt_bricks"},"result":{"id":"wwizardry:mossy_basalt_brick_stairs"}}
+{
+  "type": "stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "wwizardry:mossy_basalt_bricks"
+  },
+  "result": {
+    "id": "wwizardry:mossy_basalt_brick_stairs"
+  }
+}

@@ -1,1 +1,21 @@
-{"replace":false,"values":[{"required":false,"id":"wwizardry:denia_log"},{"required":false,"id":"wwizardry:denia_wood"},{"required":false,"id":"wwizardry:stripped_denia_log"},{"required":false,"id":"wwizardry:stripped_denia_wood"}]}
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:denia_log"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:denia_wood"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:stripped_denia_log"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:stripped_denia_wood"
+    }
+  ]
+}

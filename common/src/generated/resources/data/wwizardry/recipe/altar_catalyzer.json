@@ -1,1 +1,22 @@
-{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"#":{"item":"polished_basalt"},"M":{"item":"sculk_catalyst"}},"pattern":["#","M","#"],"result":{"count":1,"id":"wwizardry:altar_catalyzer"}}
+{
+  "type": "crafting_shaped",
+  "category": "building",
+  "show_notification": true,
+  "key": {
+    "#": {
+      "item": "polished_basalt"
+    },
+    "M": {
+      "item": "sculk_catalyst"
+    }
+  },
+  "pattern": [
+    "#",
+    "M",
+    "#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "wwizardry:altar_catalyzer"
+  }
+}

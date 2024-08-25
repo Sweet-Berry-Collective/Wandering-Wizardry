@@ -1,1 +1,28 @@
-{"type":"minecraft:simple_block","config":{"to_place":{"type":"minecraft:weighted_state_provider","entries":[{"data":{"Name":"wwizardry:mycha_fungus"},"weight":2},{"data":{"Name":"wwizardry:indigo_caeruleum"},"weight":2},{"data":{"Name":"wwizardry:mycha_roots"},"weight":5}]}}}
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "wwizardry:mycha_fungus"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "wwizardry:indigo_caeruleum"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "wwizardry:mycha_roots"
+          },
+          "weight": 5
+        }
+      ]
+    }
+  }
+}

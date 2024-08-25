@@ -1,1 +1,18 @@
-{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"#":{"item":"wwizardry:cut_basalt"}},"pattern":["##","##"],"result":{"id":"wwizardry:basalt_bricks","count":4}}
+{
+  "type": "crafting_shaped",
+  "category": "building",
+  "show_notification": true,
+  "key": {
+    "#": {
+      "item": "wwizardry:cut_basalt"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "id": "wwizardry:basalt_bricks",
+    "count": 4
+  }
+}

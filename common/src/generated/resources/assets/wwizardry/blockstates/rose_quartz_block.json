@@ -1,1 +1,7 @@
-{"variants":{"":{"model":"wwizardry:block/rose_quartz_block"}}}
+{
+  "variants": {
+    "": {
+      "model": "wwizardry:block/rose_quartz_block"
+    }
+  }
+}

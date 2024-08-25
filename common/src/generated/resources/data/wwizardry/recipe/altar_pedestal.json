@@ -1,1 +1,22 @@
-{"type":"crafting_shaped","category":"building","show_notification":true,"key":{"#":{"item":"polished_basalt"},"M":{"item":"crying_obsidian"}},"pattern":["#","M","#"],"result":{"count":1,"id":"wwizardry:altar_pedestal"}}
+{
+  "type": "crafting_shaped",
+  "category": "building",
+  "show_notification": true,
+  "key": {
+    "#": {
+      "item": "polished_basalt"
+    },
+    "M": {
+      "item": "crying_obsidian"
+    }
+  },
+  "pattern": [
+    "#",
+    "M",
+    "#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "wwizardry:altar_pedestal"
+  }
+}

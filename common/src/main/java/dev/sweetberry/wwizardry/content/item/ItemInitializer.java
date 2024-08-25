@@ -312,6 +312,15 @@ public class ItemInitializer {
 		ITEMS_STACKS
 	);
 
+	public static final Lazy<Item> WAXED_COPPER_LENS = registerItem(
+		"waxed_copper_lens",
+		() -> new BlockItem(
+			BlockInitializer.WAXED_COPPER_LENS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
 	public static <T extends Item> Lazy<T> registerItem(String id, Supplier<T> item, List<Lazy<Item>> group) {
 		var lazy = ITEMS.register(WanderingWizardry.id(id), (Supplier<Item>)item);
 		group.add(lazy);

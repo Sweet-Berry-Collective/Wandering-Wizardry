@@ -26,7 +26,7 @@ function getRecipe(recipe: BrickRecipe, file: string, outputDir: string) {
         const json = Generator[generator.type](recipe, generator)
         for (const key in json) {
             const outputFile = outputDir+"/"+file+"/"+generator.name+"/"+key+".json"
-            Deno.writeTextFileSync(outputFile, JSON.stringify(json[key]))
+            Deno.writeTextFileSync(outputFile, JSON.stringify(json[key], undefined, 2))
             console.log("    "+outputFile)
         }
     }

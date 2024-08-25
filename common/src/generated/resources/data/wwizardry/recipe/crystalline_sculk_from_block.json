@@ -1,1 +1,13 @@
-{"type":"crafting_shapeless","category":"misc","ingredients":[{"item":"wwizardry:crystalline_sculk_block"}],"result":{"count":9,"id":"wwizardry:crystalline_sculk"}}
+{
+  "type": "crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "wwizardry:crystalline_sculk_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "wwizardry:crystalline_sculk"
+  }
+}

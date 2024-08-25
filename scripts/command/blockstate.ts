@@ -40,7 +40,7 @@ export default function generateBlockStates(inputDir: string, outputDir: string)
 
         const transformed = transformBlockState(state)
 
-        Deno.writeTextFileSync(outputFile, JSON.stringify(transformed))
+        Deno.writeTextFileSync(outputFile, JSON.stringify(transformed, undefined, 2))
 
         console.log(inputFile + " -> " + outputFile)
     }

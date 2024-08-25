@@ -28,7 +28,8 @@ public class RenderLayers {
 			BlockInitializer.MODULO_COMPARATOR,
 			BlockInitializer.REINFORCED_GLASS,
 			BlockInitializer.REINFORCED_GLASS_PANE,
-			BlockInitializer.MYCHA_ROOTS
+			BlockInitializer.MYCHA_ROOTS,
+			BlockInitializer.WAXED_COPPER_LENS
 		);
 	}
 

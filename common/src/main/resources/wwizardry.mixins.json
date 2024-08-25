@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "Accessor_AxeItem",
+    "Accessor_BeaconBlockEntity",
     "Accessor_BlockEntityType",
     "Accessor_BlockSetType",
     "Accessor_PlayerRespawnLogic",
@@ -13,6 +14,7 @@
     "Accessor_StructureProcessor",
     "Accessor_WoodType",
     "Invoker_BlockBehaviour",
+    "Mixin_BeaconBlockEntity",
     "Mixin_Boat",
     "Mixin_ChestBoat",
     "Mixin_Item",
@@ -29,6 +31,7 @@
     "defaultRequire": 1
   },
   "client": [
+    "client.Mixin_BeaconRenderer",
     "client.Mixin_ClientLevel",
     "client.Mixin_ItemInHandRenderer",
     "client.Mixin_Model"

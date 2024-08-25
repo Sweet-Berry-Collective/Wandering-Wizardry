@@ -1,1 +1,19 @@
-{"variants":{"facing=north":{"model":"wwizardry:block/snail_shell"},"facing=south":{"model":"wwizardry:block/snail_shell","y":180},"facing=east":{"model":"wwizardry:block/snail_shell","y":90},"facing=west":{"model":"wwizardry:block/snail_shell","y":270}}}
+{
+  "variants": {
+    "facing=north": {
+      "model": "wwizardry:block/snail_shell"
+    },
+    "facing=south": {
+      "model": "wwizardry:block/snail_shell",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "wwizardry:block/snail_shell",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "wwizardry:block/snail_shell",
+      "y": 270
+    }
+  }
+}

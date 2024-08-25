@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -44,7 +45,9 @@ public class Mixin_ReloadableResourceManager {
 		CallbackInfoReturnable<ReloadInstance> cir
 	) {
 		var temp = new MultiPackResourceManager(type, packs);
-		DatagenInitializer.reloadPack(temp);
+		try {
+			DatagenInitializer.reloadPack(temp);
+		} catch (IOException ignored) {}
 		temp.close();
 	}
 
