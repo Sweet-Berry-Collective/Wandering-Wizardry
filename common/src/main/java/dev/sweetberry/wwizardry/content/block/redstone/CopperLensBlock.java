@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -23,8 +24,11 @@ public class CopperLensBlock extends Block {
 	public static final EnumProperty<Focus> FOCUS = EnumProperty.create("focus", Focus.class);
 	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
 
-	public CopperLensBlock(Properties properties) {
+	public final @NotNull WeatheringCopper.WeatherState weatherState;
+
+	public CopperLensBlock(@NotNull WeatheringCopper.WeatherState state, Properties properties) {
 		super(properties);
+		this.weatherState = state;
 		registerDefaultState(defaultBlockState().setValue(POWERED, false).setValue(FOCUS, Focus.FOCUSED).setValue(AXIS, Direction.Axis.Y));
 	}
 

@@ -21,6 +21,7 @@ import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
+import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.core.Registry;
@@ -70,6 +71,11 @@ public class FabricInitializer implements ModInitializer {
 		WanderingWizardry.init("fabric");
 
 		BlockInitializer.registerSecondaryBlockFunctions();
+
+		for (var waxable : BlockInitializer.WAXABLES)
+			OxidizableBlocksRegistry.registerWaxableBlockPair(waxable.getFirst().get(), waxable.getSecond().get());
+		for (var waxable : BlockInitializer.WEATHERABLES)
+			OxidizableBlocksRegistry.registerOxidizableBlockPair(waxable.getFirst().get(), waxable.getSecond().get());
     }
 
 	private static void addWanderingTradesFor(int level) {

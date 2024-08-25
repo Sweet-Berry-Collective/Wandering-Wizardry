@@ -1,0 +1,13 @@
+{
+  "values": {
+    "wwizardry:copper_lens": {
+      "next_oxidized_stage": "wwizardry:exposed_copper_lens"
+    },
+    "wwizardry:exposed_copper_lens": {
+      "next_oxidized_stage": "wwizardry:weathered_copper_lens"
+    },
+    "wwizardry:oxidized_copper_lens": {
+      "next_oxidized_stage": "wwizardry:oxidized_copper_lens"
+    }
+  }
+}

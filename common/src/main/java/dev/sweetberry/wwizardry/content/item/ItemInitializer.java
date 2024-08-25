@@ -312,10 +312,73 @@ public class ItemInitializer {
 		ITEMS_STACKS
 	);
 
+	public static final Lazy<Item> COPPER_LENS = registerItem(
+		"copper_lens",
+		() -> new BlockItem(
+			BlockInitializer.COPPER_LENS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> EXPOSED_COPPER_LENS = registerItem(
+		"exposed_copper_lens",
+		() -> new BlockItem(
+			BlockInitializer.EXPOSED_COPPER_LENS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> WEATHERED_COPPER_LENS = registerItem(
+		"weathered_copper_lens",
+		() -> new BlockItem(
+			BlockInitializer.WEATHERED_COPPER_LENS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> OXIDIZED_COPPER_LENS = registerItem(
+		"oxidized_copper_lens",
+		() -> new BlockItem(
+			BlockInitializer.OXIDIZED_COPPER_LENS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
 	public static final Lazy<Item> WAXED_COPPER_LENS = registerItem(
 		"waxed_copper_lens",
 		() -> new BlockItem(
 			BlockInitializer.WAXED_COPPER_LENS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> WAXED_EXPOSED_COPPER_LENS = registerItem(
+		"waxed_exposed_copper_lens",
+		() -> new BlockItem(
+			BlockInitializer.WAXED_EXPOSED_COPPER_LENS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> WAXED_WEATHERED_COPPER_LENS = registerItem(
+		"waxed_weathered_copper_lens",
+		() -> new BlockItem(
+			BlockInitializer.WAXED_WEATHERED_COPPER_LENS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> WAXED_OXIDIZED_COPPER_LENS = registerItem(
+		"waxed_oxidized_copper_lens",
+		() -> new BlockItem(
+			BlockInitializer.WAXED_OXIDIZED_COPPER_LENS.get(),
 			new Item.Properties()
 		),
 		BLOCKS_STACKS

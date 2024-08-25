@@ -119,6 +119,15 @@
     modulo_comparator = "Modulo Comparator"
     redstone_stepper = "Redstone Stepper"
 
+    copper_lens = "Copper Lens"
+    exposed_copper_lens = "Exposed Copper Lens"
+    weathered_copper_lens = "Weathered Copper Lens"
+    oxidized_copper_lens = "Oxidized Copper Lens"
+    waxed_copper_lens = "Waxed Copper Lens"
+    waxed_exposed_copper_lens = "Waxed Exposed Copper Lens"
+    waxed_weathered_copper_lens = "Waxed Weathered Copper Lens"
+    waxed_oxidized_copper_lens = "Waxed Oxidized Copper Lens"
+
     # Natural
     sculkflower = "Sculkflower"
     indigo_caeruleum = "Indigo Caeruleum"

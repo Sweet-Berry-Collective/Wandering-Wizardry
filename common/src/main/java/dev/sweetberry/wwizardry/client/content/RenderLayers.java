@@ -29,7 +29,14 @@ public class RenderLayers {
 			BlockInitializer.REINFORCED_GLASS,
 			BlockInitializer.REINFORCED_GLASS_PANE,
 			BlockInitializer.MYCHA_ROOTS,
-			BlockInitializer.WAXED_COPPER_LENS
+			(Supplier<Block>)(Object) BlockInitializer.COPPER_LENS,
+			(Supplier<Block>)(Object) BlockInitializer.EXPOSED_COPPER_LENS,
+			(Supplier<Block>)(Object) BlockInitializer.WEATHERED_COPPER_LENS,
+			(Supplier<Block>)(Object) BlockInitializer.OXIDIZED_COPPER_LENS,
+			(Supplier<Block>)(Object) BlockInitializer.WAXED_COPPER_LENS,
+			(Supplier<Block>)(Object) BlockInitializer.WAXED_EXPOSED_COPPER_LENS,
+			(Supplier<Block>)(Object) BlockInitializer.WAXED_WEATHERED_COPPER_LENS,
+			(Supplier<Block>)(Object) BlockInitializer.WAXED_OXIDIZED_COPPER_LENS
 		);
 	}
 

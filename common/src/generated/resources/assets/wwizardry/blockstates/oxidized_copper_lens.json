@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "powered=false,focus=focused,axis=x": {
+      "model": "wwizardry:block/copper_lens/oxidized/unpowered/focused",
+      "x": 90,
+      "y": 90
+    },
+    "powered=true,focus=focused,axis=x": {
+      "model": "wwizardry:block/copper_lens/oxidized/powered/focused",
+      "x": 90,
+      "y": 90
+    },
+    "powered=false,focus=unfocused,axis=x": {
+      "model": "wwizardry:block/copper_lens/oxidized/unpowered/unfocused",
+      "x": 90,
+      "y": 90
+    },
+    "powered=true,focus=unfocused,axis=x": {
+      "model": "wwizardry:block/copper_lens/oxidized/powered/unfocused",
+      "x": 90,
+      "y": 90
+    },
+    "powered=false,focus=focused,axis=y": {
+      "model": "wwizardry:block/copper_lens/oxidized/unpowered/focused"
+    },
+    "powered=true,focus=focused,axis=y": {
+      "model": "wwizardry:block/copper_lens/oxidized/powered/focused"
+    },
+    "powered=false,focus=unfocused,axis=y": {
+      "model": "wwizardry:block/copper_lens/oxidized/unpowered/unfocused"
+    },
+    "powered=true,focus=unfocused,axis=y": {
+      "model": "wwizardry:block/copper_lens/oxidized/powered/unfocused"
+    },
+    "powered=false,focus=focused,axis=z": {
+      "model": "wwizardry:block/copper_lens/oxidized/unpowered/focused",
+      "x": 90
+    },
+    "powered=true,focus=focused,axis=z": {
+      "model": "wwizardry:block/copper_lens/oxidized/powered/focused",
+      "x": 90
+    },
+    "powered=false,focus=unfocused,axis=z": {
+      "model": "wwizardry:block/copper_lens/oxidized/unpowered/unfocused",
+      "x": 90
+    },
+    "powered=true,focus=unfocused,axis=z": {
+      "model": "wwizardry:block/copper_lens/oxidized/powered/unfocused",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "values": {
+    "wwizardry:copper_lens": {
+      "waxed": "wwizardry:waxed_copper_lens"
+    },
+    "wwizardry:exposed_copper_lens": {
+      "waxed": "wwizardry:waxed_exposed_copper_lens"
+    },
+    "wwizardry:weathered_copper_lens": {
+      "waxed": "wwizardry:waxed_weathered_copper_lens"
+    },
+    "wwizardry:oxidized_copper_lens": {
+      "waxed": "wwizardry:waxed_oxidized_copper_lens"
+    }
+  }
+}

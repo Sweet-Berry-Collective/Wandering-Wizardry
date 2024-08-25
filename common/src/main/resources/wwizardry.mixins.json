@@ -25,7 +25,7 @@
     "Mixin_RedStoneWireBlock",
     "Mixin_ReloadableResourceManager",
     "Mixin_SculkVeinBlock_SculkVeinSpreaderConfig",
-    "Mixin_StructureTemplate"
+    "Mixin_StructureTemplate",
   ],
   "injectors": {
     "defaultRequire": 1
