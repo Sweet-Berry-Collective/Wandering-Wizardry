@@ -8,6 +8,7 @@ import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import dev.sweetberry.wwizardry.content.entity.EntityInitializer;
 import dev.sweetberry.wwizardry.content.events.EventInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
+import dev.sweetberry.wwizardry.content.map.MapInitializer;
 import dev.sweetberry.wwizardry.content.net.NetworkingInitializer;
 import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
@@ -22,6 +23,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.saveddata.maps.MapDecorationType;
 
 public class ContentInitializer {
 	public static void init() {
@@ -43,5 +45,6 @@ public class ContentInitializer {
 		WorldgenInitializer.STRUCTURE_PROCESSORS.listen((RegistryCallback<StructureProcessorType<?>>) listener);
 		SoundInitializer.SOUNDS.listen((RegistryCallback<SoundEvent>) listener);
 		EntityInitializer.ENTITIES.listen((RegistryCallback<EntityType<?>>) listener);
+		MapInitializer.MAP_DECORATION_TYPE.listen((RegistryCallback<MapDecorationType>) listener);
 	}
 }

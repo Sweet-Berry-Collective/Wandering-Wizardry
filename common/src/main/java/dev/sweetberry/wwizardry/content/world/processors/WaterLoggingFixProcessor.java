@@ -1,6 +1,5 @@
 package dev.sweetberry.wwizardry.content.world.processors;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import net.minecraft.core.BlockPos;

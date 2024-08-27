@@ -1,8 +1,6 @@
 package dev.sweetberry.wwizardry;
 
 import dev.sweetberry.wwizardry.content.ContentInitializer;
-import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,6 +3,7 @@ accessWidener v1 named
 accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
 accessible class net/minecraft/world/item/alchemy/PotionBrewing$Mix
 accessible class net/minecraft/world/entity/npc/VillagerTrades$ItemsForEmeralds
+accessible class net/minecraft/world/entity/npc/VillagerTrades$TreasureMapForEmeralds
 accessible class net/minecraft/server/level/ServerPlayer$RespawnPosAngle
 
 accessible method net/minecraft/world/level/block/StairBlock <init> (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V

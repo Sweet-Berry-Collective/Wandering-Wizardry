@@ -1,7 +1,6 @@
 package dev.sweetberry.wwizardry.mixin.client;
 
 import dev.sweetberry.wwizardry.client.content.AnimatedTextureMap;
-import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;

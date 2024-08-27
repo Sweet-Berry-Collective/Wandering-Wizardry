@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Either;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.client.content.events.ItemTooltipHandler;
 import dev.sweetberry.wwizardry.content.events.UseBlockHandler;
+import dev.sweetberry.wwizardry.content.trades.TradeInitializer;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.InteractionResult;
@@ -16,10 +17,19 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent;
+import net.neoforged.neoforge.event.village.WandererTradesEvent;
+
+import java.util.Arrays;
 
 public class NeoForgeEvents {
 	public static void init() {
 		NeoForge.EVENT_BUS.register(NeoForgeEvents.class);
+	}
+
+	@SubscribeEvent
+	public static void onWanderingTrades(WandererTradesEvent ev) {
+		ev.getGenericTrades().addAll(Arrays.stream(TradeInitializer.WANDERING_TRADER_OFFERS[0]).toList());
+		ev.getRareTrades().addAll(Arrays.stream(TradeInitializer.WANDERING_TRADER_OFFERS[1]).toList());
 	}
 
 	@SubscribeEvent

@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.api.registry;
 
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.event.Event;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
@@ -34,6 +35,10 @@ public final class RegistryContext<T> extends Event<RegistryCallback<T>> {
 		super.listen(listener);
 		for (var registration : pastRegistrations)
 			listener.register(registry, registration.id(), registration.object());
+	}
+
+	public Holder<T> holderFor(Lazy<T> lazy) {
+		return registry.getHolder(registry.getKey(lazy.get())).get();
 	}
 
 	private record RegistryObject<T>(ResourceLocation id, Lazy<T> object) {}

@@ -1,8 +1,6 @@
 package dev.sweetberry.wwizardry.mixin;
 
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
-import dev.sweetberry.wwizardry.content.world.processors.WaterLoggingFixProcessor;
-import dev.sweetberry.wwizardry.mixin.Accessor_StructureProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
