@@ -1,6 +1,6 @@
 steps:
   - name: build
-    image: "eclipse-temurin:17.0.10_7-jdk-alpine"
+    image: "eclipse-temurin:21.0.4_7-jdk-alpine"
     commands:
       - ./gradlew build
   - name: notify
