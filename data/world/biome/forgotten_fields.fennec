@@ -138,9 +138,9 @@ spawners {
         }
         {
             type = "wwizardry:snail"
-            weight = 6
-            minCount = 4
-            maxCount = 8
+            weight = 14
+            minCount = 7
+            maxCount = 10
         }
     ]
     misc []

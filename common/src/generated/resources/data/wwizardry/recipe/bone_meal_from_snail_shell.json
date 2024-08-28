@@ -1,0 +1,14 @@
+{
+  "type": "crafting_shapeless",
+  "category": "misc",
+  "show_notification": true,
+  "ingredients": [
+    {
+      "item": "wwizardry:snail_shell"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "bone_meal"
+  }
+}

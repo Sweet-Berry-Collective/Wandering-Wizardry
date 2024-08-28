@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.item.charm;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.config.Config;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
@@ -30,7 +31,7 @@ public class AnvilCharmItem extends AltarCharmItem {
 			else
 				view.setResultInPedestal(i, item);
 		}
-		if (bookDirs.isEmpty())
+		if (bookDirs.size() <= 1)
 			return false;
 		var book = enchantedBookItem.getDefaultInstance();
 		var bookEnchants = new ItemEnchantments.Mutable(EnchantmentHelper.getEnchantmentsForCrafting(book));
@@ -46,6 +47,8 @@ public class AnvilCharmItem extends AltarCharmItem {
 					bookEnchants.set(enchant.getKey(), enchant.getIntValue());
 			}
 		}
+
+		book.set(DataComponents.STORED_ENCHANTMENTS, bookEnchants.toImmutable());
 
 		view.setRecipeResult(book);
 		return true;
