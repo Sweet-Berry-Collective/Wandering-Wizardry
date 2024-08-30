@@ -48,7 +48,7 @@ public class FeatureHelper {
 
 			var blockPos = new BlockPos((int)Math.floor(x), (int)Math.floor(y), (int)Math.floor(z));
 
-			if (level.ensureCanWrite(blockPos))
+			if (level.ensureCanWrite(blockPos) && level.getBlockState(blockPos).isAir())
 				level.setBlock(blockPos, provider.getState(rand, blockPos), Block.UPDATE_ALL);
 			else
 				break;
