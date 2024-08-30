@@ -77,7 +77,6 @@ public class LogicGateBlock extends DiodeBlock implements EntityBlock {
 		int back = getInputSignal(world, pos, state);
 		int side = getAlternateSignal(world, pos, state);
 		var mode = state.getValue(MODE);
-		WanderingWizardry.LOGGER.info("{}, {}, {}", back, side, mode);
 		return function.compare(state, mode, side, back);
 	}
 

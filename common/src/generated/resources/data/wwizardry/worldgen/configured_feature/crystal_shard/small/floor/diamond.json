@@ -1,0 +1,21 @@
+{
+  "type": "wwizardry:crystal_shard",
+  "config": {
+    "state": {
+      "type": "simple_state_provider",
+      "state": {
+        "Name": "wwizardry:diamond_glass"
+      }
+    },
+    "radius": {
+      "type": "uniform",
+      "max_exclusive": 2,
+      "min_inclusive": 1
+    },
+    "length": {
+      "type": "uniform",
+      "max_exclusive": 20,
+      "min_inclusive": 10
+    }
+  }
+}

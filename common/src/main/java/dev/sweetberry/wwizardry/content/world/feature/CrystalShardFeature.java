@@ -3,10 +3,12 @@ package dev.sweetberry.wwizardry.content.world.feature;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.FloatProvider;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.GeodeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import org.jetbrains.annotations.NotNull;
@@ -23,12 +25,34 @@ public class CrystalShardFeature extends Feature<CrystalShardFeature.Config> {
 		var origin = context.origin();
 		var rand = context.random();
 		var conf = context.config();
+		var level = context.level();
+
+		var block = level.getBlockState(origin);
+		var check = FeatureHelper.canReplace(block);
+		if (conf.ceiling) {
+			while (FeatureHelper.canReplace(block) == check) {
+				origin = check ? origin.above() : origin.below();
+				if (origin.getY() > level.getMaxBuildHeight() || origin.getY() < level.getMinBuildHeight())
+					return false;
+				block = level.getBlockState(origin);
+			}
+		} else {
+			while (FeatureHelper.canReplace(block) == check) {
+				origin = check ? origin.below() : origin.above();
+				if (origin.getY() > level.getMaxBuildHeight() || origin.getY() < level.getMinBuildHeight())
+					return false;
+				block = level.getBlockState(origin);
+			}
+		}
+		if (!level.getBiome(origin).is(WorldgenInitializer.CRYSTAL_COVE))
+			return false;
 
 		// Get a random rotation
-		final var ftau = (float) Math.TAU;
+		final var tau = (float) Math.TAU;
+		final var halfPi = (float) Math.PI / 2;
 		var q = new Quaternionf()
-			.rotateLocalX(rand.nextFloat() * ftau / 4)
-			.rotateLocalY(rand.nextFloat() * ftau);
+			.rotateLocalX(rand.nextFloat() * halfPi + (conf.ceiling ? halfPi : 0))
+			.rotateLocalY(rand.nextFloat() * tau);
 
 		var length = context.config().length.sample(rand);
 		var projected = new Vector3f(
@@ -54,7 +78,7 @@ public class CrystalShardFeature extends Feature<CrystalShardFeature.Config> {
 					if (dist > radius)
 						continue;
 					var pos = origin.offset(x, y, z);
-					FeatureHelper.drawLine(context, pos, dest, state);
+					FeatureHelper.drawLine(context, pos, dest, state, this::safeSetBlock);
 				}
 			}
 		}
@@ -63,12 +87,14 @@ public class CrystalShardFeature extends Feature<CrystalShardFeature.Config> {
 	public record Config(
 		BlockStateProvider state,
 		FloatProvider radius,
-		FloatProvider length
+		FloatProvider length,
+		boolean ceiling
 	) implements FeatureConfiguration {
 		public static final Codec<Config> CODEC = RecordCodecBuilder.create(inst -> inst.group(
 			BlockStateProvider.CODEC.fieldOf("state").forGetter(Config::state),
 			FloatProvider.CODEC.fieldOf("radius").forGetter(Config::radius),
-			FloatProvider.CODEC.fieldOf("length").forGetter(Config::length)
+			FloatProvider.CODEC.fieldOf("length").forGetter(Config::length),
+			Codec.BOOL.optionalFieldOf("ceiling", false).forGetter(Config::ceiling)
 		).apply(inst, Config::new));
 	}
 }

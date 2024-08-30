@@ -30,6 +30,8 @@ public class WorldgenInitializer {
 
 	public static final ResourceKey<Biome> FUNGAL_FOREST = key("fungal_forest");
 
+	public static final ResourceKey<Biome> CRYSTAL_COVE = key("crystal_cove");
+
 	public static final ResourceKey<PlacedFeature> ROSE_QUARTZ = ResourceKey.create(Registries.PLACED_FEATURE, WanderingWizardry.id("ore/rose_quartz"));
 
 	public static final Map<GenerationStep.Decoration, Set<ResourceKey<PlacedFeature>>> OVERWORLD_MODIFICATIONS = new HashMap<>();

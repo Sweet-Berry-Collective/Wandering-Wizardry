@@ -29,15 +29,12 @@ public record AltarCatalyzationRecipe(
 	public static final TagKey<Item> ALTAR_AIR_MODIFIER = TagKey.create(Registries.ITEM, WanderingWizardry.id("altar_air_modifier"));
 
 	public static AltarCatalyzationRecipe create(Ingredient catalyst, List<Ingredient> inputs, ItemStack result, boolean keepCatalyst, int bloom) {
-		WanderingWizardry.LOGGER.info("test");
 		return new AltarCatalyzationRecipe(catalyst, inputs, result, keepCatalyst, bloom);
 	}
 
 	@Override
 	public boolean matches(AltarRecipeView inventory, Level world) {
-		WanderingWizardry.LOGGER.info("aaaa");
 		if (!catalyst.test(inventory.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER))) return false;
-		WanderingWizardry.LOGGER.info("center");
 		var met = new boolean[]{false, false, false, false};
 		var neighbors = inventory.getOuterItems();
 		for (var neighbor : neighbors) {
@@ -51,11 +48,9 @@ public record AltarCatalyzationRecipe(
 				}
 			}
 		}
-		for (var b : met) {
-			WanderingWizardry.LOGGER.info("{}", b);
+		for (var b : met)
 			if (!b)
 				return false;
-		}
 		return true;
 	}
 

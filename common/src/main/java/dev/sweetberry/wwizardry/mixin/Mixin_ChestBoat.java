@@ -21,7 +21,6 @@ public class Mixin_ChestBoat {
 	private void wwizardry$getDropItem(CallbackInfoReturnable<Item> cir) {
 		var self = (Boat)(Object)this;
 		var type = ComponentInitializer.<BoatComponent>getComponent(ComponentInitializer.BOAT, self).type;
-		WanderingWizardry.LOGGER.info("{}", type);
 		if (type == null)
 			return;
 		var boat = BoatComponent.BOATS.get(type);

@@ -27,9 +27,7 @@ public class Mixin_BeaconBlockEntity {
 	)
 	private static int checkCopperLens(BlockState instance, BlockGetter blockGetter, BlockPos pos, Operation<Integer> original) {
 		if (instance.getBlock() instanceof CopperLensBlock copperLens) {
-			WanderingWizardry.LOGGER.info("waaaa");
 			var shouldBlock = copperLens.shouldBlockBeacon(instance);
-			WanderingWizardry.LOGGER.info("{}. {}, {}", instance.getValue(CopperLensBlock.AXIS), instance.getValue(CopperLensBlock.FOCUS), shouldBlock);
 
 			return shouldBlock ? 16 : original.call(instance, blockGetter, pos);
 		}
@@ -45,7 +43,6 @@ public class Mixin_BeaconBlockEntity {
 	)
 	private static boolean checkCopperLens(BlockState instance, Block block, Operation<Boolean> original) {
 		if (instance.getBlock() instanceof CopperLensBlock copperLens) {
-			WanderingWizardry.LOGGER.info("{}. {}", instance.getValue(CopperLensBlock.AXIS), instance.getValue(CopperLensBlock.FOCUS));
 			return !copperLens.shouldBlockBeacon(instance);
 		}
 		return original.call(instance, block);

@@ -1,6 +1,5 @@
 package dev.sweetberry.wwizardry.content.block.entity;
 
-import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
@@ -69,11 +68,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 				.anyMatch(it -> it.heldItem.isEmpty())
 		) return;
 
-		WanderingWizardry.LOGGER.info("test");
-
 		var optional = level.getRecipeManager().getRecipeFor(RecipeInitializer.ALTAR_TYPE.get(), view, level);
-
-		WanderingWizardry.LOGGER.info("{}", optional.isPresent());
 
 		if (optional.isPresent()) {
 			optional.get().value().tryCraft(view, level);

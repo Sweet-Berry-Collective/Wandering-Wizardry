@@ -1,15 +1,25 @@
 package dev.sweetberry.wwizardry.content.world.feature;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Predicate;
+
 public class FeatureHelper {
+	@FunctionalInterface
+	public interface SafeSet {
+		void safeSetBlock(WorldGenLevel level, BlockPos pos, BlockState state, Predicate<BlockState> predicate);
+	}
+
 	// Fast voxel traversal algorithm
-	public static <FC extends FeatureConfiguration> void drawLine(@NotNull FeaturePlaceContext<FC> context, BlockPos origin, BlockPos dest, BlockStateProvider provider) {
+	public static <FC extends FeatureConfiguration> void drawLine(@NotNull FeaturePlaceContext<FC> context, BlockPos origin, BlockPos dest, BlockStateProvider provider, SafeSet set) {
 		var level = context.level();
 		var rand = context.random();
 
@@ -47,9 +57,10 @@ public class FeatureHelper {
 				dist = (float)Math.sqrt((traversedX * traversedX) + (traversedY * traversedY) + (traversedZ * traversedZ));
 
 			var blockPos = new BlockPos((int)Math.floor(x), (int)Math.floor(y), (int)Math.floor(z));
+			var state = level.getBlockState(blockPos);
 
-			if (level.ensureCanWrite(blockPos) && level.getBlockState(blockPos).isAir())
-				level.setBlock(blockPos, provider.getState(rand, blockPos), Block.UPDATE_ALL);
+			if (level.ensureCanWrite(blockPos) && canReplace(state))
+				set.safeSetBlock(level, blockPos, provider.getState(rand, blockPos), a -> true);
 
 			if (blockPos.equals(dest) || dist > maxDist)
 				break;
@@ -65,6 +76,10 @@ public class FeatureHelper {
 				tMaxZ += tDeltaZ;
 			}
 		}
+	}
+
+	public static boolean canReplace(BlockState state) {
+		return state.isAir() || state.is(Blocks.WATER) || state.is(Blocks.LAVA);
 	}
 
 	private static float mod1(float value) {

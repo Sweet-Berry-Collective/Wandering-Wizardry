@@ -1,0 +1,194 @@
+carvers {
+    air [
+        "cave"
+        "cave_extra_underground"
+        "canyon"
+    ]
+}
+downfall = 0.4
+effects {
+    fog_color = 12638463
+    mood_sound {
+        block_search_extent = 8
+        offset = 2
+        sound = "ambient.cave"
+        tick_delay = 6000
+    }
+    music {
+        max_delay = 24000
+        min_delay = 12000
+        replace_current_music = false
+        sound = "music.overworld.dripstone_caves"
+    }
+    sky_color = 7907327
+    water_color = 4159204
+    water_fog_color = 329011
+}
+features [
+    []
+    [
+        "lake_lava_underground"
+        "lake_lava_surface"
+    ]
+    [
+        "amethyst_geode"
+    ]
+    [
+        "monster_room"
+        "monster_room_deep"
+    ]
+    []
+    []
+    [
+        "ore_dirt"
+        "ore_gravel"
+        "ore_granite_upper"
+        "ore_granite_lower"
+        "ore_diorite_upper"
+        "ore_diorite_lower"
+        "ore_andesite_upper"
+        "ore_andesite_lower"
+        "ore_tuff"
+        "ore_coal_upper"
+        "ore_coal_lower"
+        "ore_iron_upper"
+        "ore_iron_middle"
+        "ore_iron_small"
+        "ore_gold"
+        "ore_gold_lower"
+        "ore_redstone"
+        "ore_redstone_lower"
+        "ore_diamond"
+        "ore_diamond_medium"
+        "ore_diamond_large"
+        "ore_diamond_buried"
+        "ore_lapis"
+        "ore_lapis_buried"
+        "ore_copper_large"
+        "underwater_magma"
+        "disk_sand"
+        "disk_clay"
+        "disk_gravel"
+    ]
+    [
+        "wwizardry:crystal_shard/large/ceiling/amethyst"
+        "wwizardry:crystal_shard/large/ceiling/diamond"
+        "wwizardry:crystal_shard/large/ceiling/quartz"
+        "wwizardry:crystal_shard/large/ceiling/rose_quartz"
+
+        "wwizardry:crystal_shard/large/floor/amethyst"
+        "wwizardry:crystal_shard/large/floor/diamond"
+        "wwizardry:crystal_shard/large/floor/quartz"
+        "wwizardry:crystal_shard/large/floor/rose_quartz"
+
+        "wwizardry:crystal_shard/small/ceiling/amethyst"
+        "wwizardry:crystal_shard/small/ceiling/diamond"
+        "wwizardry:crystal_shard/small/ceiling/quartz"
+        "wwizardry:crystal_shard/small/ceiling/rose_quartz"
+
+        "wwizardry:crystal_shard/small/floor/amethyst"
+        "wwizardry:crystal_shard/small/floor/diamond"
+        "wwizardry:crystal_shard/small/floor/quartz"
+        "wwizardry:crystal_shard/small/floor/rose_quartz"
+    ]
+    [
+        "spring_water"
+        "spring_lava"
+    ]
+    [
+        "glow_lichen"
+        "patch_tall_grass_2"
+        "trees_plains"
+        "flower_plains"
+        "patch_grass_plain"
+        "brown_mushroom_normal"
+        "red_mushroom_normal"
+        "patch_sugar_cane"
+        "patch_pumpkin"
+    ]
+    [
+        "freeze_top_layer"
+    ]
+]
+has_precipitation = true
+spawn_costs {}
+spawners {
+    ambient [
+        {
+            type = "bat"
+            maxCount = 8
+            minCount = 8
+            weight = 10
+        }
+    ]
+    axolotls []
+    creature []
+    misc []
+    monster [
+        {
+            type = "spider"
+            maxCount = 4
+            minCount = 4
+            weight = 100
+        }
+        {
+            type = "zombie"
+            maxCount = 4
+            minCount = 4
+            weight = 95
+        }
+        {
+            type = "zombie_villager"
+            maxCount = 1
+            minCount = 1
+            weight = 5
+        }
+        {
+            type = "skeleton"
+            maxCount = 4
+            minCount = 4
+            weight = 100
+        }
+        {
+            type = "creeper"
+            maxCount = 4
+            minCount = 4
+            weight = 100
+        }
+        {
+            type = "slime"
+            maxCount = 4
+            minCount = 4
+            weight = 100
+        }
+        {
+            type = "enderman"
+            maxCount = 4
+            minCount = 1
+            weight = 10
+        }
+        {
+            type = "witch"
+            maxCount = 1
+            minCount = 1
+            weight = 5
+        }
+        {
+            type = "drowned"
+            maxCount = 4
+            minCount = 4
+            weight = 95
+        }
+    ]
+    underground_water_creature [
+        {
+            type = "glow_squid"
+            maxCount = 6
+            minCount = 4
+            weight = 10
+        }
+    ]
+    water_ambient []
+    water_creature []
+}
+temperature = 0.8
