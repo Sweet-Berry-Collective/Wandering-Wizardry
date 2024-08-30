@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.world.feature;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.FloatProvider;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -26,7 +27,7 @@ public class CrystalShardFeature extends Feature<CrystalShardFeature.Config> {
 		// Get a random rotation
 		final var ftau = (float) Math.TAU;
 		var q = new Quaternionf()
-			.rotateLocalX(rand.nextFloat() * ftau)
+			.rotateLocalX(rand.nextFloat() * ftau / 4)
 			.rotateLocalY(rand.nextFloat() * ftau);
 
 		var length = context.config().length.sample(rand);

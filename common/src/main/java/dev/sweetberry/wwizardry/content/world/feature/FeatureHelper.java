@@ -50,8 +50,6 @@ public class FeatureHelper {
 
 			if (level.ensureCanWrite(blockPos) && level.getBlockState(blockPos).isAir())
 				level.setBlock(blockPos, provider.getState(rand, blockPos), Block.UPDATE_ALL);
-			else
-				break;
 
 			if (blockPos.equals(dest) || dist > maxDist)
 				break;
