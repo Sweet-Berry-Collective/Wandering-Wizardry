@@ -53,7 +53,7 @@ public class CrystalShardFeature extends Feature<CrystalShardFeature.Config> {
 			for (int y = -intRadius; y <= intRadius; y++) {
 				for (int z = -intRadius; z <= intRadius; z++) {
 					float dist = (float)Math.sqrt((x * x) + (y * y) + (z * z));
-					if (dist > intRadius)
+					if (dist > radius)
 						continue;
 					var pos = origin.offset(x, y, z);
 					FeatureHelper.drawLine(context, pos, dest, state);
