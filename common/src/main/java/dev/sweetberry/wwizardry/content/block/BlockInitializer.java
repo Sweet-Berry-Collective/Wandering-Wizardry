@@ -383,7 +383,8 @@ public class BlockInitializer {
 		() -> new BuddingBlock(
 			BlockBehaviour.Properties
 				.ofFullCopy(Blocks.AMETHYST_BLOCK)
-				.mapColor(MapColor.ICE),
+				.mapColor(MapColor.ICE)
+				.randomTicks(),
 			SMALL_SCULK_BUD,
 			MEDIUM_SCULK_BUD,
 			LARGE_SCULK_BUD,

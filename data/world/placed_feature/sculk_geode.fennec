@@ -1,0 +1,26 @@
+feature = "wwizardry:sculk_geode"
+
+placement [
+    {
+        type = "rarity_filter"
+        chance = 24
+    }
+    {
+        type = "in_square"
+    }
+    {
+        type = "height_range"
+        height {
+            type = "uniform"
+            max_inclusive {
+                absolute = 30
+            }
+            min_inclusive {
+                above_bottom = 6
+            }
+        }
+    }
+    {
+        type = "biome"
+    }
+]
