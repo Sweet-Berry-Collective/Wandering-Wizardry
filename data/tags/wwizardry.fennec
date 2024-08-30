@@ -97,6 +97,16 @@ block {
         "waxed_exposed_copper_trapdoor"
         "waxed_weathered_copper_trapdoor"
         "waxed_oxidized_copper_trapdoor"
+
+        "copper_lens"
+        "exposed_copper_lens"
+        "weathered_copper_lens"
+        "oxidized_copper_lens"
+
+        "waxed_copper_lens"
+        "waxed_exposed_copper_lens"
+        "waxed_weathered_copper_lens"
+        "waxed_oxidized_copper_lens
     ]
 
     mycha_growable [

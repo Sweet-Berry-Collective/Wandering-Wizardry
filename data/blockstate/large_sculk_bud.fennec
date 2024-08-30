@@ -1,0 +1,44 @@
+[
+    {
+        when { facing = "down" }
+        apply {
+            model = "wwizardry:block/large_sculk_bud"
+            x = 180
+        }
+    }
+    {
+        when { facing = "east" }
+        apply {
+            model = "wwizardry:block/large_sculk_bud"
+            x = 90
+            y = 90
+        }
+    }
+    {
+        when { facing = "north" }
+        apply {
+            model = "wwizardry:block/large_sculk_bud"
+            x = 90
+        }
+    }
+    {
+        when { facing = "south" }
+        apply {
+            model = "wwizardry:block/large_sculk_bud"
+            x = 90
+            y = 180
+        }
+    }
+    {
+        when { facing = "up" }
+        apply = "wwizardry:block/large_sculk_bud"
+    }
+    {
+        when { facing = "west" }
+        apply {
+            model = "wwizardry:block/large_sculk_bud"
+            x = 90
+            y = 270
+        }
+    }
+]

@@ -9,10 +9,7 @@ import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.content.block.entity.AltarPedestalBlockEntity;
 import dev.sweetberry.wwizardry.content.block.entity.LogicGateBlockEntity;
-import dev.sweetberry.wwizardry.content.block.nature.FallingDecayableBlock;
-import dev.sweetberry.wwizardry.content.block.nature.RootedFlowerBlock;
-import dev.sweetberry.wwizardry.content.block.nature.RootedPlantBlock;
-import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
+import dev.sweetberry.wwizardry.content.block.nature.*;
 import dev.sweetberry.wwizardry.content.block.redstone.CopperLensBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.LogicGateBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
@@ -23,6 +20,7 @@ import dev.sweetberry.wwizardry.mixin.Accessor_BlockEntityType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -328,6 +326,104 @@ public class BlockInitializer {
 				.requiresCorrectToolForDrops()
 				.isRedstoneConductor((state, getter, pos) -> false)
 				.noOcclusion()
+		)
+	);
+
+	public static final Lazy<Block> SMALL_SCULK_BUD = registerBlock(
+		"small_sculk_bud",
+		() -> new AmethystClusterBlock(
+			3, 4,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.SMALL_AMETHYST_BUD)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> MEDIUM_SCULK_BUD = registerBlock(
+		"medium_sculk_bud",
+		() -> new AmethystClusterBlock(
+			4, 3,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.MEDIUM_AMETHYST_BUD)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> LARGE_SCULK_BUD = registerBlock(
+		"large_sculk_bud",
+		() -> new AmethystClusterBlock(
+			5, 3,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.LARGE_AMETHYST_BUD)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> SCULK_CLUSTER = registerBlock(
+		"sculk_cluster",
+		() -> new AmethystClusterBlock(
+			7, 3,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.AMETHYST_CLUSTER)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> SCULK_CRYSTAL = registerBlock(
+		"sculk_crystal",
+		() -> new Block(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.AMETHYST_BLOCK)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> BUDDING_SCULK_CRYSTAL = registerBlock(
+		"budding_sculk_crystal",
+		() -> new BuddingBlock(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.AMETHYST_BLOCK)
+				.mapColor(MapColor.ICE),
+			SMALL_SCULK_BUD,
+			MEDIUM_SCULK_BUD,
+			LARGE_SCULK_BUD,
+			SCULK_CLUSTER
+		)
+	);
+
+	public static final Lazy<Block> QUARTZ_GLASS = registerBlock(
+		"quartz_glass",
+		() -> new StainedGlassBlock(
+			DyeColor.WHITE,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
+		)
+	);
+
+	public static final Lazy<Block> ROSE_QUARTZ_GLASS = registerBlock(
+		"rose_quartz_glass",
+		() -> new StainedGlassBlock(
+			DyeColor.PINK,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
+		)
+	);
+
+	public static final Lazy<Block> DIAMOND_GLASS = registerBlock(
+		"diamond_glass",
+		() -> new StainedGlassBlock(
+			DyeColor.CYAN,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
+		)
+	);
+
+	public static final Lazy<Block> AMETHYST_GLASS = registerBlock(
+		"amethyst_glass",
+		() -> new StainedGlassBlock(
+			DyeColor.MAGENTA,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
 		)
 	);
 

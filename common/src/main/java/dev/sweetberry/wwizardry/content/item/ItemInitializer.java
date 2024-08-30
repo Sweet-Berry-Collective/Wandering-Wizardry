@@ -384,6 +384,96 @@ public class ItemInitializer {
 		BLOCKS_STACKS
 	);
 
+	public static final Lazy<Item> SMALL_SCULK_BUD = registerItem(
+		"small_sculk_bud",
+		() -> new BlockItem(
+			BlockInitializer.SMALL_SCULK_BUD.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> MEDIUM_SCULK_BUD = registerItem(
+		"medium_sculk_bud",
+		() -> new BlockItem(
+			BlockInitializer.MEDIUM_SCULK_BUD.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> LARGE_SCULK_BUD = registerItem(
+		"large_sculk_bud",
+		() -> new BlockItem(
+			BlockInitializer.LARGE_SCULK_BUD.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> SCULK_CLUSTER = registerItem(
+		"sculk_cluster",
+		() -> new BlockItem(
+			BlockInitializer.SCULK_CLUSTER.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> SCULK_CRYSTAL = registerItem(
+		"sculk_crystal",
+		() -> new BlockItem(
+			BlockInitializer.SCULK_CRYSTAL.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> BUDDING_SCULK_CRYSTAL = registerItem(
+		"budding_sculk_crystal",
+		() -> new BlockItem(
+			BlockInitializer.BUDDING_SCULK_CRYSTAL.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> QUARTZ_GLASS = registerItem(
+		"quartz_glass",
+		() -> new BlockItem(
+			BlockInitializer.QUARTZ_GLASS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> ROSE_QUARTZ_GLASS = registerItem(
+		"rose_quartz_glass",
+		() -> new BlockItem(
+			BlockInitializer.ROSE_QUARTZ_GLASS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> DIAMOND_GLASS = registerItem(
+		"diamond_glass",
+		() -> new BlockItem(
+			BlockInitializer.DIAMOND_GLASS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
+	public static final Lazy<Item> AMETHYST_GLASS = registerItem(
+		"amethyst_glass",
+		() -> new BlockItem(
+			BlockInitializer.AMETHYST_GLASS.get(),
+			new Item.Properties()
+		),
+		BLOCKS_STACKS
+	);
+
 	public static <T extends Item> Lazy<T> registerItem(String id, Supplier<T> item, List<Lazy<Item>> group) {
 		var lazy = ITEMS.register(WanderingWizardry.id(id), (Supplier<Item>)item);
 		group.add(lazy);

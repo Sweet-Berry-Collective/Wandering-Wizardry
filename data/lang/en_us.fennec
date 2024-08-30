@@ -134,6 +134,18 @@
     mycelial_sand = "Mycelial Sand"
     snail_shell = "Snail Shell"
 
+    small_sculk_bud = "Small Sculk Bud"
+    medium_sculk_bud = "Medium Sculk Bud"
+    large_sculk_bud = "Large Sculk Bud"
+    sculk_cluster = "Sculk Cluster"
+    sculk_crystal = "Sculk Crystal"
+    budding_sculk_crystal = "Budding Sculk Crystal"
+
+    quartz_glass = "Quartz Glass"
+    rose_quartz_glass = "Rose Quartz Glass"
+    diamond_glass = "Diamond Glass"
+    amethyst_glass = "Amethyst Glass"
+
     # Altar
     altar_pedestal = "Altar Pedestal"
     altar_catalyzer = "Altar Catalyzer"

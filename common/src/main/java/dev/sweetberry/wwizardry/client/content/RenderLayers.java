@@ -36,7 +36,17 @@ public class RenderLayers {
 			(Supplier<Block>)(Object) BlockInitializer.WAXED_COPPER_LENS,
 			(Supplier<Block>)(Object) BlockInitializer.WAXED_EXPOSED_COPPER_LENS,
 			(Supplier<Block>)(Object) BlockInitializer.WAXED_WEATHERED_COPPER_LENS,
-			(Supplier<Block>)(Object) BlockInitializer.WAXED_OXIDIZED_COPPER_LENS
+			(Supplier<Block>)(Object) BlockInitializer.WAXED_OXIDIZED_COPPER_LENS,
+			BlockInitializer.SMALL_SCULK_BUD,
+			BlockInitializer.MEDIUM_SCULK_BUD,
+			BlockInitializer.LARGE_SCULK_BUD,
+			BlockInitializer.SCULK_CLUSTER
+		);
+		put(RenderType.translucent(),
+			BlockInitializer.QUARTZ_GLASS,
+			BlockInitializer.ROSE_QUARTZ_GLASS,
+			BlockInitializer.DIAMOND_GLASS,
+			BlockInitializer.AMETHYST_GLASS
 		);
 	}
 
