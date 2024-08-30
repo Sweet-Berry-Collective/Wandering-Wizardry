@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.valueproviders.FloatProvider;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -45,12 +46,14 @@ public class CrystalShardFeature extends Feature<CrystalShardFeature.Config> {
 		return true;
 	}
 
-	private void drawLines(@NotNull FeaturePlaceContext<Config> context, BlockPos origin, BlockPos dest, int radius, BlockStateProvider state) {
-		for (int x = -radius; x <= radius; x++) {
-			for (int y = -radius; y <= radius; y++) {
-				for (int z = -radius; z <= radius; z++) {
+	private void drawLines(@NotNull FeaturePlaceContext<Config> context, BlockPos origin, BlockPos dest, float radius, BlockStateProvider state) {
+		final int intRadius = (int) Math.ceil(radius);
+
+		for (int x = -intRadius; x <= intRadius; x++) {
+			for (int y = -intRadius; y <= intRadius; y++) {
+				for (int z = -intRadius; z <= intRadius; z++) {
 					float dist = (float)Math.sqrt((x * x) + (y * y) + (z * z));
-					if (dist > radius)
+					if (dist > intRadius)
 						continue;
 					var pos = origin.offset(x, y, z);
 					FeatureHelper.drawLine(context, pos, dest, state);
@@ -61,13 +64,13 @@ public class CrystalShardFeature extends Feature<CrystalShardFeature.Config> {
 
 	public record Config(
 		BlockStateProvider state,
-		IntProvider radius,
-		IntProvider length
+		FloatProvider radius,
+		FloatProvider length
 	) implements FeatureConfiguration {
 		public static final Codec<Config> CODEC = RecordCodecBuilder.create(inst -> inst.group(
 			BlockStateProvider.CODEC.fieldOf("state").forGetter(Config::state),
-			IntProvider.CODEC.fieldOf("radius").forGetter(Config::radius),
-			IntProvider.CODEC.fieldOf("length").forGetter(Config::length)
+			FloatProvider.CODEC.fieldOf("radius").forGetter(Config::radius),
+			FloatProvider.CODEC.fieldOf("length").forGetter(Config::length)
 		).apply(inst, Config::new));
 	}
 }
