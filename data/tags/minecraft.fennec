@@ -26,6 +26,27 @@ block {
             "wwizardry:rose_quartz_ore"
             "wwizardry:deepslate_rose_quartz_ore"
             "wwizardry:rose_quartz_block"
+
+            "wwizardry:quartz_glass"
+            "wwizardry:rose_quartz_glass"
+            "wwizardry:amethyst_glass"
+            "wwizardry:diamond_glass"
+
+            "wwizardry:copper_lens"
+            "wwizardry:exposed_copper_lens"
+            "wwizardry:weathered_copper_lens"
+            "wwizardry:oxidized_copper_lens"
+            "wwizardry:waxed_copper_lens"
+            "wwizardry:waxed_exposed_copper_lens"
+            "wwizardry:waxed_weathered_copper_lens"
+            "wwizardry:waxed_oxidized_copper_lens"
+
+            "wwizardry:sculk_crystal"
+            "wwizardry:budding_sculk_crystal"
+            "wwizardry:small_sculk_bud"
+            "wwizardry:medium_sculk_bud"
+            "wwizardry:large_sculk_bud"
+            "wwizardry:sculk_cluster"
         ]
     }
 

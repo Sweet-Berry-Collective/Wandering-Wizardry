@@ -36,6 +36,78 @@
     {
       "required": false,
       "id": "wwizardry:rose_quartz_block"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:quartz_glass"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:rose_quartz_glass"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:amethyst_glass"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:diamond_glass"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:copper_lens"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:exposed_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:weathered_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:oxidized_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:waxed_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:waxed_exposed_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:waxed_weathered_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:waxed_oxidized_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:sculk_crystal"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:budding_sculk_crystal"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:small_sculk_bud"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:medium_sculk_bud"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:large_sculk_bud"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:sculk_cluster"
     }
   ]
 }

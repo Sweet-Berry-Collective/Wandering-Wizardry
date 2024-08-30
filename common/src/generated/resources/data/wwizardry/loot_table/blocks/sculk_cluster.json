@@ -1,0 +1,81 @@
+{
+  "type": "block",
+  "random_sequence": "wwizardry:blocks/sculk_cluster",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "alternatives",
+          "children": [
+            {
+              "type": "item",
+              "name": "wwizardry:sculk_cluster",
+              "conditions": [
+                {
+                  "condition": "match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "enchantments": [
+                        {
+                          "enchantments": "silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "alternatives",
+              "children": [
+                {
+                  "type": "item",
+                  "name": "wwizardry:crystalline_sculk",
+                  "conditions": [
+                    {
+                      "condition": "match_tool",
+                      "predicate": {
+                        "items": "#cluster_max_harvestables"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "add": false,
+                      "count": 4,
+                      "function": "set_count"
+                    },
+                    {
+                      "enchantment": "fortune",
+                      "formula": "ore_drops",
+                      "function": "apply_bonus"
+                    }
+                  ]
+                },
+                {
+                  "type": "item",
+                  "name": "wwizardry:crystalline_sculk",
+                  "functions": [
+                    {
+                      "add": false,
+                      "count": 2,
+                      "function": "set_count"
+                    },
+                    {
+                      "function": "explosion_decay"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
