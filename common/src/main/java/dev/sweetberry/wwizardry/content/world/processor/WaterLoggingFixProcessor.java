@@ -1,4 +1,4 @@
-package dev.sweetberry.wwizardry.content.world.processors;
+package dev.sweetberry.wwizardry.content.world.processor;
 
 import com.mojang.serialization.MapCodec;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;

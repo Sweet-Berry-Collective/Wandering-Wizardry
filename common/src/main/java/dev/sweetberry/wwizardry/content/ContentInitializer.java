@@ -22,6 +22,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.saveddata.maps.MapDecorationType;
 
@@ -34,6 +35,7 @@ public class ContentInitializer {
 		EventInitializer.init();
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void listenToAll(RegistryCallback<?> listener) {
 		BlockInitializer.BLOCKS.listen((RegistryCallback<Block>) listener);
 		BlockInitializer.BLOCK_ENTITIES.listen((RegistryCallback<BlockEntityType<?>>) listener);
@@ -43,6 +45,7 @@ public class ContentInitializer {
 		RecipeInitializer.RECIPE_SERIALIZERS.listen((RegistryCallback<RecipeSerializer<?>>) listener);
 		RecipeInitializer.RECIPES.listen((RegistryCallback<RecipeType<?>>) listener);
 		WorldgenInitializer.STRUCTURE_PROCESSORS.listen((RegistryCallback<StructureProcessorType<?>>) listener);
+		WorldgenInitializer.FEATURES.listen((RegistryCallback<Feature<?>>) listener);
 		SoundInitializer.SOUNDS.listen((RegistryCallback<SoundEvent>) listener);
 		EntityInitializer.ENTITIES.listen((RegistryCallback<EntityType<?>>) listener);
 		MapInitializer.MAP_DECORATION_TYPE.listen((RegistryCallback<MapDecorationType>) listener);

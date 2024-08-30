@@ -3,13 +3,15 @@ package dev.sweetberry.wwizardry.content.world;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.registry.RegistryContext;
-import dev.sweetberry.wwizardry.content.world.processors.WaterLoggingFixProcessor;
+import dev.sweetberry.wwizardry.content.world.feature.CrystalShardFeature;
+import dev.sweetberry.wwizardry.content.world.processor.WaterLoggingFixProcessor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.GeodeFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
@@ -22,6 +24,7 @@ import java.util.function.Supplier;
 
 public class WorldgenInitializer {
 	public static final RegistryContext<StructureProcessorType<?>> STRUCTURE_PROCESSORS = new RegistryContext<>(BuiltInRegistries.STRUCTURE_PROCESSOR);
+	public static final RegistryContext<Feature<?>> FEATURES = new RegistryContext<>(BuiltInRegistries.FEATURE);
 
 	public static final ResourceKey<Biome> FORGOTTEN_FIELDS = key("forgotten_fields");
 
@@ -34,6 +37,12 @@ public class WorldgenInitializer {
 	public static final Lazy<StructureProcessorType<WaterLoggingFixProcessor>> WATER_LOGGING_FIX = registerStructureProcessor(
 		"water_logging_fix",
 		() -> () -> WaterLoggingFixProcessor.CODEC
+	);
+
+	public static final Lazy<CrystalShardFeature> CRYSTAL_SHARD = registerFeature("crystal_shard",
+		() -> new CrystalShardFeature(
+			CrystalShardFeature.Config.CODEC
+		)
 	);
 
 	public static ResourceKey<Biome> key(String path) {
@@ -53,7 +62,13 @@ public class WorldgenInitializer {
 		addOverworldModification(GenerationStep.Decoration.UNDERGROUND_ORES, ROSE_QUARTZ);
 	}
 
+	@SuppressWarnings("unchecked")
 	private static <T extends StructureProcessor> Lazy<StructureProcessorType<T>> registerStructureProcessor(String id, Supplier<StructureProcessorType<T>> type) {
 		return (Lazy<StructureProcessorType<T>>)(Object) STRUCTURE_PROCESSORS.register(WanderingWizardry.id(id), (Supplier<StructureProcessorType<?>>)(Object) type);
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <F extends Feature<FC>, FC extends FeatureConfiguration> Lazy<F> registerFeature(String id, Supplier<F> feature) {
+		return (Lazy<F>) FEATURES.register(WanderingWizardry.id(id), (Supplier<Feature<?>>) feature);
 	}
 }
