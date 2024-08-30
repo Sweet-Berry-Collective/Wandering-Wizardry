@@ -288,6 +288,38 @@
     {
       "required": false,
       "id": "waxed_oxidized_copper_trapdoor"
+    },
+    {
+      "required": false,
+      "id": "copper_lens"
+    },
+    {
+      "required": false,
+      "id": "exposed_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "weathered_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "oxidized_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "waxed_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "waxed_exposed_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "waxed_weathered_copper_lens"
+    },
+    {
+      "required": false,
+      "id": "waxed_oxidized_copper_lens"
     }
   ]
 }

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.util.List;
 
 @Mixin(BlockBehaviour.class)
-public interface Invoker_BlockBehaviour {
+public interface Accessor_BlockBehaviour {
 	@Invoker("getSoundType")
 	SoundType invokeGetSoundType(BlockState state);
 

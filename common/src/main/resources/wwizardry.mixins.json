@@ -13,7 +13,7 @@
     "Accessor_ServerPlayer",
     "Accessor_StructureProcessor",
     "Accessor_WoodType",
-    "Invoker_BlockBehaviour",
+    "Accessor_BlockBehaviour",
     "Mixin_BeaconBlockEntity",
     "Mixin_Boat",
     "Mixin_ChestBoat",
@@ -25,7 +25,7 @@
     "Mixin_RedStoneWireBlock",
     "Mixin_ReloadableResourceManager",
     "Mixin_SculkVeinBlock_SculkVeinSpreaderConfig",
-    "Mixin_StructureTemplate",
+    "Mixin_StructureTemplate"
   ],
   "injectors": {
     "defaultRequire": 1

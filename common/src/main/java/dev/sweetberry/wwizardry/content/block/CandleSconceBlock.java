@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.content.block;
 
-import dev.sweetberry.wwizardry.mixin.Invoker_BlockBehaviour;
+import dev.sweetberry.wwizardry.mixin.Accessor_BlockBehaviour;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +48,7 @@ public class CandleSconceBlock extends SconceBlock {
 
 	@Override
 	public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-		var stacks = new ArrayList<>(((Invoker_BlockBehaviour) BlockInitializer.SCONCE.get()).invokeGetDrops(state, builder));
+		var stacks = new ArrayList<>(((Accessor_BlockBehaviour) BlockInitializer.SCONCE.get()).invokeGetDrops(state, builder));
 		stacks.add(new ItemStack(candleBlock));
 		return stacks;
 	}

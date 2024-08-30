@@ -1,6 +1,6 @@
 package dev.sweetberry.wwizardry.content.block;
 
-import dev.sweetberry.wwizardry.mixin.Invoker_BlockBehaviour;
+import dev.sweetberry.wwizardry.mixin.Accessor_BlockBehaviour;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -133,7 +133,7 @@ public class SconceBlock extends Block {
 			var stackEntity = new ItemEntity(world, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, droppedBlock.asItem().getDefaultInstance());
 			world.addFreshEntity(stackEntity);
 		}
-		var soundGroup = ((Invoker_BlockBehaviour)droppedBlock).invokeGetSoundType(droppedBlock.defaultBlockState());
+		var soundGroup = ((Accessor_BlockBehaviour)droppedBlock).invokeGetSoundType(droppedBlock.defaultBlockState());
 		world.playSound(player, pos, soundGroup.getBreakSound(), SoundSource.BLOCKS);
 		world.setBlockAndUpdate(pos, BlockInitializer.SCONCE.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
 		return InteractionResult.SUCCESS;
@@ -160,7 +160,7 @@ public class SconceBlock extends Block {
 
 		var block = item.getBlock();
 		var holder = ITEM_LOOKUP.get(block);
-		var soundGroup = ((Invoker_BlockBehaviour) block).invokeGetSoundType(block.defaultBlockState());
+		var soundGroup = ((Accessor_BlockBehaviour) block).invokeGetSoundType(block.defaultBlockState());
 		world.playSound(player, pos, soundGroup.getPlaceSound(), SoundSource.BLOCKS);
 		world.setBlockAndUpdate(pos, holder.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
 
