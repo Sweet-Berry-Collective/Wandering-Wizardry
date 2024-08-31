@@ -1,0 +1,17 @@
+type = "crafting_shaped"
+
+category = "building"
+-show_notification
+
+key {
+    "#" { item = "wwizardry:crystalline_sculk" }
+}
+pattern [
+    "##"
+    "##"
+]
+
+result {
+    count = 1
+    id = "wwizardry:sculk_crystal"
+}
