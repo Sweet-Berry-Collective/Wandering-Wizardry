@@ -43,6 +43,10 @@
             title = "We Are The Crystal Gems"
             description = "Mine Rose Quartz Ore to get a familiar gem"
         }
+        shear_snail {
+            title = "Haha! Slug!"
+            description = "Use a shear to get the shell off of a snail"
+        }
     }
     adventure {
         forgotten_fields {

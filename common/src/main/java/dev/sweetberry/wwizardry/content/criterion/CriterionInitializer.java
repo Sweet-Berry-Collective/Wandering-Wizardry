@@ -24,6 +24,10 @@ public class CriterionInitializer {
 		"place_end_crystal_in_altar"
 	);
 
+	public static final Lazy<SimpleTriggerCriterion> SHEAR_SNAIL = simple(
+		"shear_snail"
+	);
+
 	public static Lazy<SimpleTriggerCriterion> simple(String id) {
 		return register(id, SimpleTriggerCriterion::new);
 	}

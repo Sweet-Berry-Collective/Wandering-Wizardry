@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.entity;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import net.minecraft.core.BlockPos;
@@ -10,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
@@ -117,6 +119,8 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 					serverLevel.addFreshEntity(item);
 				}
 			}
+			if (player instanceof ServerPlayer serverPlayer)
+				CriterionInitializer.SHEAR_SNAIL.get().trigger(serverPlayer);
 			return InteractionResult.SUCCESS;
 		} else if (variant == Variant.SLUG && stack.is(ItemInitializer.SNAIL_SHELL.get())) {
 			setVariant(Variant.randomNonSlug(level().random));

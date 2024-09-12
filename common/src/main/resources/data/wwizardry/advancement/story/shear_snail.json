@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "id": "wwizardry:snail_shell"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.story.shear_snail.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.story.shear_snail.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "story",
+  "criteria": {
+    "shear_snail": {
+      "trigger": "wwizardry:shear_snail"
+    }
+  },
+  "sends_telemetry_event": false
+}
