@@ -156,8 +156,6 @@ public class SconceBlock extends Block {
 		if (!(stack.getItem() instanceof BlockItem item)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		if (!ITEM_LOOKUP.containsKey(item.getBlock())) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
-		System.out.println("test 2");
-
 		var block = item.getBlock();
 		var holder = ITEM_LOOKUP.get(block);
 		var soundGroup = ((Accessor_BlockBehaviour) block).invokeGetSoundType(block.defaultBlockState());
