@@ -8,6 +8,7 @@ import dev.sweetberry.wwizardry.compat.terrablender.TerraBlenderInitializer;
 import dev.sweetberry.wwizardry.content.ContentInitializer;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.entity.EntityInitializer;
+import dev.sweetberry.wwizardry.content.villager.VillagerInitializer;
 import dev.sweetberry.wwizardry.neoforge.component.NeoForgeComponents;
 import dev.sweetberry.wwizardry.neoforge.networking.NeoForgeNetworking;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -72,6 +73,7 @@ public class NeoForgeInitializer {
 		}));
 
 		BlockInitializer.registerSecondaryBlockFunctions();
+		VillagerInitializer.addToBiomes();
 	}
 
 	@SubscribeEvent

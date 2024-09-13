@@ -1,22 +1,24 @@
-package dev.sweetberry.wwizardry.content.trades;
+package dev.sweetberry.wwizardry.content.villager;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.Lazy;
+import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.map.MapInitializer;
+import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
+import dev.sweetberry.wwizardry.mixin.Accessor_VillagerType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.StructureTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -31,12 +33,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class TradeInitializer {
+public class VillagerInitializer {
+	public static final RegistryContext<VillagerType> VILLAGER_TYPES = new RegistryContext<>(BuiltInRegistries.VILLAGER_TYPE);
+
+	public static final Lazy<VillagerType> FUNGAL_FOREST_VILLAGER = registerType("fungal_forest", () -> new VillagerType("fungal_forest"));
+
 	public static final TagKey<Structure> ON_LAB_EXPLORER_MAPS = TagKey.create(Registries.STRUCTURE, WanderingWizardry.id("on_lab_explorer_maps"));
-	void a() {
-		// cost, destination, displayName, destinationType, maxUsage, villagerXp
-		new VillagerTrades.TreasureMapForEmeralds(13, ON_LAB_EXPLORER_MAPS, "filled_map.wwizardry.sculk_lab", MapInitializer.holder(MapInitializer.SCULK_LAB), 12, 5);
-	}
 
 	public static final VillagerTrades.ItemListing[][] WANDERING_TRADER_OFFERS = new VillagerTrades.ItemListing[][] {
 		{
@@ -72,6 +74,14 @@ public class TradeInitializer {
 			)
 		}
 	};
+
+	public static Lazy<VillagerType> registerType(String id, Supplier<VillagerType> type) {
+		return VILLAGER_TYPES.register(WanderingWizardry.id(id), type);
+	}
+
+	public static void addToBiomes() {
+		Accessor_VillagerType.getBY_BIOME().put(WorldgenInitializer.FUNGAL_FOREST, FUNGAL_FOREST_VILLAGER.get());
+	}
 
 	public static class TreasureMapForEmeralds implements VillagerTrades.ItemListing {
 		private final int emeraldCost;

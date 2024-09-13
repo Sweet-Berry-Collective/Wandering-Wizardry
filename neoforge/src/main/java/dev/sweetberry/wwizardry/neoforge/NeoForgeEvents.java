@@ -4,14 +4,12 @@ import com.mojang.datafixers.util.Either;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.client.content.events.ItemTooltipHandler;
 import dev.sweetberry.wwizardry.content.events.UseBlockHandler;
-import dev.sweetberry.wwizardry.content.trades.TradeInitializer;
-import net.minecraft.client.renderer.entity.BoatRenderer;
+import dev.sweetberry.wwizardry.content.villager.VillagerInitializer;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.block.TransparentBlock;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
@@ -28,8 +26,8 @@ public class NeoForgeEvents {
 
 	@SubscribeEvent
 	public static void onWanderingTrades(WandererTradesEvent ev) {
-		ev.getGenericTrades().addAll(Arrays.stream(TradeInitializer.WANDERING_TRADER_OFFERS[0]).toList());
-		ev.getRareTrades().addAll(Arrays.stream(TradeInitializer.WANDERING_TRADER_OFFERS[1]).toList());
+		ev.getGenericTrades().addAll(Arrays.stream(VillagerInitializer.WANDERING_TRADER_OFFERS[0]).toList());
+		ev.getRareTrades().addAll(Arrays.stream(VillagerInitializer.WANDERING_TRADER_OFFERS[1]).toList());
 	}
 
 	@SubscribeEvent

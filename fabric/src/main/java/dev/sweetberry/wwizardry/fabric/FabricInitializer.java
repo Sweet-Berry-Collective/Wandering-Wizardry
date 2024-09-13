@@ -1,15 +1,12 @@
 package dev.sweetberry.wwizardry.fabric;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
-import dev.sweetberry.wwizardry.api.component.Component;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
-import dev.sweetberry.wwizardry.client.content.events.ClientEvents;
 import dev.sweetberry.wwizardry.content.ContentInitializer;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
 import dev.sweetberry.wwizardry.content.events.UseBlockHandler;
-import dev.sweetberry.wwizardry.content.net.packet.ComponentSyncPacket;
-import dev.sweetberry.wwizardry.content.trades.TradeInitializer;
+import dev.sweetberry.wwizardry.content.villager.VillagerInitializer;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import dev.sweetberry.wwizardry.fabric.component.FabricComponents;
 import net.fabricmc.api.ModInitializer;
@@ -17,13 +14,11 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.core.Registry;
 
 import java.util.List;
@@ -76,12 +71,14 @@ public class FabricInitializer implements ModInitializer {
 			OxidizableBlocksRegistry.registerWaxableBlockPair(waxable.getFirst().get(), waxable.getSecond().get());
 		for (var waxable : BlockInitializer.WEATHERABLES)
 			OxidizableBlocksRegistry.registerOxidizableBlockPair(waxable.getFirst().get(), waxable.getSecond().get());
+
+		VillagerInitializer.addToBiomes();
     }
 
 	private static void addWanderingTradesFor(int level) {
 		TradeOfferHelper.registerWanderingTraderOffers(
 			level,
-			offers -> offers.addAll(List.of(TradeInitializer.WANDERING_TRADER_OFFERS[level-1]))
+			offers -> offers.addAll(List.of(VillagerInitializer.WANDERING_TRADER_OFFERS[level-1]))
 		);
 	}
 }

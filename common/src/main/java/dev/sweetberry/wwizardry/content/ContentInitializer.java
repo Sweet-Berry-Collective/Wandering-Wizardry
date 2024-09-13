@@ -12,10 +12,12 @@ import dev.sweetberry.wwizardry.content.map.MapInitializer;
 import dev.sweetberry.wwizardry.content.net.NetworkingInitializer;
 import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
+import dev.sweetberry.wwizardry.content.villager.VillagerInitializer;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -49,5 +51,6 @@ public class ContentInitializer {
 		SoundInitializer.SOUNDS.listen((RegistryCallback<SoundEvent>) listener);
 		EntityInitializer.ENTITIES.listen((RegistryCallback<EntityType<?>>) listener);
 		MapInitializer.MAP_DECORATION_TYPE.listen((RegistryCallback<MapDecorationType>) listener);
+		VillagerInitializer.VILLAGER_TYPES.listen((RegistryCallback<VillagerType>) listener);
 	}
 }

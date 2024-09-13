@@ -6,6 +6,7 @@ accessible class net/minecraft/world/entity/npc/VillagerTrades$ItemsForEmeralds
 accessible class net/minecraft/world/entity/npc/VillagerTrades$TreasureMapForEmeralds
 accessible class net/minecraft/server/level/ServerPlayer$RespawnPosAngle
 
+
 accessible method net/minecraft/world/level/block/StairBlock <init> (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
 accessible method net/minecraft/world/level/block/IronBarsBlock <init> (Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
 accessible method net/minecraft/world/level/block/TransparentBlock <init> (Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
@@ -14,6 +15,7 @@ accessible method net/minecraft/world/level/block/PressurePlateBlock <init> (Lne
 accessible method net/minecraft/world/level/block/DoorBlock <init> (Lnet/minecraft/world/level/block/state/properties/BlockSetType;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
 accessible method net/minecraft/world/level/block/TrapDoorBlock <init> (Lnet/minecraft/world/level/block/state/properties/BlockSetType;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
 accessible method net/minecraft/world/level/block/SaplingBlock <init> (Lnet/minecraft/world/level/block/grower/TreeGrower;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
+accessible method net/minecraft/world/entity/npc/VillagerType <init> (Ljava/lang/String;)V
 
 accessible method net/minecraft/world/level/block/entity/BlockEntity saveAdditional (Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/core/HolderLookup$Provider;)V
 accessible method net/minecraft/world/level/block/entity/BlockEntity loadAdditional (Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/core/HolderLookup$Provider;)V
