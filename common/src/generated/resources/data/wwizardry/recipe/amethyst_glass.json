@@ -4,7 +4,7 @@
   "cooking_time": 200,
   "experience": 1,
   "ingredient": {
-    "item": "amethyst"
+    "item": "amethyst_shard"
   },
   "result": {
     "id": "wwizardry:amethyst_glass"
