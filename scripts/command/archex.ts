@@ -24,7 +24,7 @@ export default function generateArchEx(inputDir: string, outputDir: string) {
         const outputFile = outputDir+"/"+file+".json"
 
         const read = fennecToJson(fennec.parse(Deno.readTextFileSync(inputFile)))
-        Deno.writeTextFileSync(outputFile, JSON.stringify(read))
+        Deno.writeTextFileSync(outputFile, JSON.stringify(read, undefined, 2))
 
         console.log(inputFile + " -> " + outputFile)
     }

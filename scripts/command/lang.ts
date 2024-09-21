@@ -9,7 +9,7 @@ export default function generateLang(inputDir: string, outputDir: string) {
         const outputFile = outputDir+"/"+file+".json"
 
         const read = fennec.parse(Deno.readTextFileSync(inputFile)) as RecuseMap
-        Deno.writeTextFileSync(outputFile, JSON.stringify(recurseToNormal(read)))
+        Deno.writeTextFileSync(outputFile, JSON.stringify(recurseToNormal(read), undefined, 2))
         console.log(`${inputFile} -> ${outputFile}`)
     }
 }

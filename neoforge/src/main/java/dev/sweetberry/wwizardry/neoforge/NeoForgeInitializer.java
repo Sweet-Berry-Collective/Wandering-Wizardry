@@ -1,28 +1,19 @@
 package dev.sweetberry.wwizardry.neoforge;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
-import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.client.content.events.ClientEvents;
 import dev.sweetberry.wwizardry.client.content.events.PackReloader;
 import dev.sweetberry.wwizardry.compat.terrablender.TerraBlenderInitializer;
 import dev.sweetberry.wwizardry.content.ContentInitializer;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.content.block.sign.ModdedSignBlock;
-import dev.sweetberry.wwizardry.content.component.BoatComponent;
-import dev.sweetberry.wwizardry.content.item.ItemInitializer;
+import dev.sweetberry.wwizardry.content.entity.EntityInitializer;
+import dev.sweetberry.wwizardry.content.villager.VillagerInitializer;
 import dev.sweetberry.wwizardry.neoforge.component.NeoForgeComponents;
 import dev.sweetberry.wwizardry.neoforge.networking.NeoForgeNetworking;
-import net.minecraft.client.model.BoatModel;
-import net.minecraft.client.model.ChestBoatModel;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -31,24 +22,16 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-
-import java.util.stream.Collectors;
 
 @Mod("wwizardry")
 public class NeoForgeInitializer {
-	public static final Lazy<CreativeModeTab> TAB = ItemInitializer.registerTab(
-		"items",
-		() -> CreativeModeTab.builder()
-			.icon(() -> ItemInitializer.CRYSTALLINE_SCULK_SHARD.get().getDefaultInstance())
-			.displayItems((display, collector) -> collector.acceptAll(ItemInitializer.STACKS.stream().map(Lazy::get).map(Item::getDefaultInstance).collect(Collectors.toList())))
-			.title(net.minecraft.network.chat.Component.translatable("itemGroup.wwizardry.items"))
-			.build()
-	);
-
 	public NeoForgeInitializer(IEventBus bus, Dist dist) {
 		bus.addListener(this::registerToRegistries);
 		bus.addListener(this::commonSetup);
+		bus.addListener(this::createEntityAttributes);
 		WanderingWizardry.modLoadedCheck = ModList.get()::isLoaded;
 		NeoForgeEvents.init();
 		NeoForgeComponents.init(bus);
@@ -66,7 +49,7 @@ public class NeoForgeInitializer {
 				callback
 			);
 		});
-		bus.addListener(this::registerBlockEntityRenderers);
+		bus.addListener(this::registerEntityRenderers);
 		bus.addListener(this::registerEntityLayers);
 		bus.addListener(this::registerClientReloadListeners);
 		WanderingWizardryClient.init();
@@ -77,12 +60,20 @@ public class NeoForgeInitializer {
 	}
 
 	@SubscribeEvent
+	public void createEntityAttributes(EntityAttributeCreationEvent event) {
+		EntityInitializer.SUPPLIER_DATA.forEach(it -> {
+			event.put((EntityType<? extends LivingEntity>) it.entity().get(), it.supplier().get());
+		});
+	}
+
+	@SubscribeEvent
 	public void registerToRegistries(RegisterEvent event) {
 		ContentInitializer.listenToAll(((registry, id, item) -> {
 			event.register(registry.key(), id, item);
 		}));
 
 		BlockInitializer.registerSecondaryBlockFunctions();
+		VillagerInitializer.addToBiomes();
 	}
 
 	@SubscribeEvent
@@ -91,28 +82,18 @@ public class NeoForgeInitializer {
 	}
 
 	@SubscribeEvent
-	public void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+	public void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		ClientEvents.registerBlockEntityRenderers((type, renderer) -> {
+			event.registerBlockEntityRenderer(type.get(), renderer);
+		});
+
 		ClientEvents.registerEntityRenderers((type, renderer) -> {
-			event.registerBlockEntityRenderer(type.get(), (BlockEntityRendererProvider<? super BlockEntity>) renderer);
+			event.registerEntityRenderer(type.get(), renderer);
 		});
 	}
 
 	@SubscribeEvent
 	public void registerEntityLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-		var boatModel = BoatModel.createBodyModel();
-		var chestBoatModel = ChestBoatModel.createBodyModel();
-
-		for (var id : BoatComponent.BOATS.keySet()) {
-			event.registerLayerDefinition(WanderingWizardryClient.getBoatLayerLocation(id, false), () -> boatModel);
-			event.registerLayerDefinition(WanderingWizardryClient.getBoatLayerLocation(id, true), () -> chestBoatModel);
-		}
-
-		var signModel = SignRenderer.createSignLayer();
-		var hangingSignModel = HangingSignRenderer.createHangingSignLayer();
-
-		for (var id : ModdedSignBlock.SIGNS) {
-			event.registerLayerDefinition(WanderingWizardryClient.getSignLayerLocation(id, false), () -> signModel);
-			event.registerLayerDefinition(WanderingWizardryClient.getSignLayerLocation(id, true), () -> hangingSignModel);
-		}
+		ClientEvents.registerModelLayers(event::registerLayerDefinition);
 	}
 }

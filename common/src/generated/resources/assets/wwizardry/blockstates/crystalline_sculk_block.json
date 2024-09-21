@@ -1,1 +1,7 @@
-{"variants":{"":{"model":"wwizardry:block/crystalline_sculk_block"}}}
+{
+  "variants": {
+    "": {
+      "model": "wwizardry:block/crystalline_sculk_block"
+    }
+  }
+}

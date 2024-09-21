@@ -33,21 +33,18 @@
     "terrablender": [
       "dev.sweetberry.wwizardry.fabric.compat.terrablender.FabricTerraBlenderInitializer"
     ],
-    "cardinal-components": [
-      "dev.sweetberry.wwizardry.fabric.compat.cardinal.CardinalInitializer"
-    ],
     "emi": [
       "dev.sweetberry.wwizardry.compat.emi.EmiInitializer"
     ]
   },
   "mixins": [
-    "wwizardry_fabric.mixins.json",
-    "wwizardry.mixins.json"
+    "wwizardry.mixins.json",
+    "wwizardry.fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": "*",
     "fabric-api": "*",
-    "minecraft": ">=1.20.3 <=1.20.4"
+    "minecraft": "1.21.x"
   },
   "custom": {
     "cardinal-components": [

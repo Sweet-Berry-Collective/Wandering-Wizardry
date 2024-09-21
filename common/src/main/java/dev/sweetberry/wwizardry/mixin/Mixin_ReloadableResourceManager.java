@@ -1,10 +1,8 @@
 package dev.sweetberry.wwizardry.mixin;
 
-import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.CloseableResourceManager;
 import net.minecraft.server.packs.resources.MultiPackResourceManager;
 import net.minecraft.server.packs.resources.ReloadInstance;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
@@ -17,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -24,9 +23,6 @@ import java.util.concurrent.Executor;
 
 @Mixin(ReloadableResourceManager.class)
 public class Mixin_ReloadableResourceManager {
-	@Shadow
-	private CloseableResourceManager resources;
-
 	@Shadow
 	@Final
 	private PackType type;
@@ -46,10 +42,10 @@ public class Mixin_ReloadableResourceManager {
 		List<PackResources> packs,
 		CallbackInfoReturnable<ReloadInstance> cir
 	) {
-		if (WanderingWizardry.isModLoaded("quilt_resource_loader"))
-			return;
 		var temp = new MultiPackResourceManager(type, packs);
-		DatagenInitializer.reloadPack(temp);
+		try {
+			DatagenInitializer.reloadPack(temp);
+		} catch (IOException ignored) {}
 		temp.close();
 	}
 
@@ -61,8 +57,6 @@ public class Mixin_ReloadableResourceManager {
 		)
 	)
 	private List<PackResources> wwizardry$getPacks(List<PackResources> old) {
-		if (WanderingWizardry.isModLoaded("quilt_resource_loader"))
-			return old;
 		var packs = new ArrayList<>(old);
 		packs.add(DatagenInitializer.pack);
 		return packs;

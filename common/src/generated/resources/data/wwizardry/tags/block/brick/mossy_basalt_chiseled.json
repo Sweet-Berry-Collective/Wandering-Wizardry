@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:mossy_chiseled_basalt"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mossy_chiseled_basalt_stairs"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mossy_chiseled_basalt_slab"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mossy_chiseled_basalt_wall"
+    }
+  ]
+}

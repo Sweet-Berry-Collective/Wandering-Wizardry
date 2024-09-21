@@ -5,7 +5,7 @@
   "spawn_overrides": {},
   "terrain_adaptation": "bury",
   "start_pool": "wwizardry:sculk_lab/anchor",
-  "size": 7,
+  "size": 20,
   "start_height": {
     "absolute": 0
   },

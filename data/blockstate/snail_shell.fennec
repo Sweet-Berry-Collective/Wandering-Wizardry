@@ -1,0 +1,124 @@
+[
+    {
+        when {
+            facing = "north"
+            count = 1
+        }
+        apply = "wwizardry:block/snail_shell/single"
+    }
+
+    {
+        when {
+            facing = "south"
+            count = 1
+        }
+        apply {
+            model = "wwizardry:block/snail_shell/single"
+            y = 180
+        }
+    }
+
+    {
+        when {
+            facing = "east"
+            count = 1
+        }
+        apply {
+            model = "wwizardry:block/snail_shell/single"
+            y = 90
+        }
+    }
+
+    {
+        when {
+            facing = "west"
+            count = 1
+        }
+        apply {
+            model = "wwizardry:block/snail_shell/single"
+            y = 270
+        }
+    }
+
+    {
+        when {
+            facing = "north"
+            count = 2
+        }
+        apply = "wwizardry:block/snail_shell/double"
+    }
+
+    {
+        when {
+            facing = "south"
+            count = 2
+        }
+        apply {
+            model = "wwizardry:block/snail_shell/double"
+            y = 180
+        }
+    }
+
+    {
+        when {
+            facing = "east"
+            count = 2
+        }
+        apply {
+            model = "wwizardry:block/snail_shell/double"
+            y = 90
+        }
+    }
+
+    {
+        when {
+            facing = "west"
+            count = 2
+        }
+        apply {
+            model = "wwizardry:block/snail_shell/double"
+            y = 270
+        }
+    }
+
+    {
+        when {
+            facing = "north"
+            count = 3
+        }
+        apply = "wwizardry:block/snail_shell/triple"
+    }
+
+    {
+        when {
+            facing = "south"
+            count = 3
+        }
+        apply {
+            model = "wwizardry:block/snail_shell/triple"
+            y = 180
+        }
+    }
+
+    {
+        when {
+            facing = "east"
+            count = 3
+        }
+        apply {
+            model = "wwizardry:block/snail_shell/triple"
+            y = 90
+        }
+    }
+
+    {
+        when {
+            facing = "west"
+            count = 3
+        }
+        apply {
+            model = "wwizardry:block/snail_shell/triple"
+            y = 270
+        }
+    }
+]

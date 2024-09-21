@@ -1,0 +1,10 @@
+{
+  "type": "stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "wwizardry:mossy_cut_basalt"
+  },
+  "result": {
+    "id": "wwizardry:mossy_cut_basalt"
+  }
+}

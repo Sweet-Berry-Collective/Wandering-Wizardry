@@ -1,0 +1,37 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "#wwizardry:brick/basalt_cut"
+    },
+    {
+      "required": false,
+      "id": "#wwizardry:brick/basalt_chiseled"
+    },
+    {
+      "required": false,
+      "id": "#wwizardry:brick/basalt_tiles"
+    },
+    {
+      "required": false,
+      "id": "#wwizardry:brick/basalt_bricks"
+    },
+    {
+      "required": false,
+      "id": "#wwizardry:brick/mossy_basalt_cut"
+    },
+    {
+      "required": false,
+      "id": "#wwizardry:brick/mossy_basalt_chiseled"
+    },
+    {
+      "required": false,
+      "id": "#wwizardry:brick/mossy_basalt_tiles"
+    },
+    {
+      "required": false,
+      "id": "#wwizardry:brick/mossy_basalt_bricks"
+    }
+  ]
+}

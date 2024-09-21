@@ -1,0 +1,27 @@
+{
+  "feature": "wwizardry:crystal_shard/large/floor/amethyst",
+  "placement": [
+    {
+      "type": "count",
+      "count": 16
+    },
+    {
+      "type": "in_square"
+    },
+    {
+      "type": "height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "above_bottom": 0
+        },
+        "max_inclusive": {
+          "absolute": 64
+        }
+      }
+    },
+    {
+      "type": "biome"
+    }
+  ]
+}

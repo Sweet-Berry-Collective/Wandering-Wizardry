@@ -9,6 +9,7 @@ import dev.sweetberry.wwizardry.mixin.Accessor_ServerPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
@@ -26,11 +27,12 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.LodestoneTracker;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.GameType;
@@ -43,11 +45,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class SoulMirrorItem extends TieredItem implements Vanishable {
-	public static final String LODESTONE_POS_KEY = "LodestonePos";
-	public static final String LODESTONE_DIMENSION_KEY = "LodestoneDimension";
-	public static final String LODESTONE_TRACKED_KEY = "LodestoneTracked";
-
+public class SoulMirrorItem extends TieredItem {
 	private static final ImmutableList<Vec3i> VALID_HORIZONTAL_SPAWN_OFFSETS = ImmutableList.of(
 		new Vec3i(0, 0, -1),
 		new Vec3i(-1, 0, 0),
@@ -58,6 +56,7 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 		new Vec3i(-1, 0, 1),
 		new Vec3i(1, 0, 1)
 	);
+
 	private static final ImmutableList<Vec3i> VALID_SPAWN_OFFSETS = new ImmutableList.Builder<Vec3i>()
 		.addAll(VALID_HORIZONTAL_SPAWN_OFFSETS)
 		.addAll(VALID_HORIZONTAL_SPAWN_OFFSETS.stream().map(Vec3i::below).iterator())
@@ -70,32 +69,14 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 	}
 
 	public static boolean hasLodestone(ItemStack stack) {
-		CompoundTag nbtCompound = stack.getTag();
-		return nbtCompound != null && (nbtCompound.contains("LodestoneDimension") || nbtCompound.contains("LodestonePos"));
+		return stack.has(DataComponents.LODESTONE_TRACKER);
 	}
 
 	@Nullable
-	private static ResourceKey<Level> getLodestoneDimension(CompoundTag nbt) {
-		return Level.RESOURCE_KEY_CODEC.parse(NbtOps.INSTANCE, nbt.get("LodestoneDimension")).result().orElse(null);
-	}
-
-	@Nullable
-	public static GlobalPos getLodestonePosition(@Nullable CompoundTag nbt) {
-		if (nbt == null)
-			return null;
-
-		boolean hasPos = nbt.contains("LodestonePos");
-		boolean hasDim = nbt.contains("LodestoneDimension");
-
-		if (!hasPos || !hasDim)
-			return null;
-
-		var dim = getLodestoneDimension(nbt);
-		if (dim == null)
-			return null;
-
-		BlockPos blockPos = NbtUtils.readBlockPos(nbt.getCompound("LodestonePos"));
-		return GlobalPos.of(dim, blockPos);
+	public static GlobalPos getLodestonePosition(@Nullable LodestoneTracker tracker) {
+		return tracker != null
+			? tracker.target().orElse(null)
+			: null;
 	}
 
 	public static Optional<Vec3> findRespawnPosition(EntityType<?> entity, CollisionGetter world, BlockPos pos) {
@@ -129,25 +110,13 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 		if (!hasLodestone(stack))
 			return;
 
-		CompoundTag nbtCompound = stack.getOrCreateTag();
-		if (nbtCompound.contains("LodestoneTracked") && !nbtCompound.getBoolean("LodestoneTracked"))
+		var tracker = stack.get(DataComponents.LODESTONE_TRACKER);
+		var pos = getLodestonePosition(tracker);
+
+		if (pos != null)
 			return;
 
-		var dim = getLodestoneDimension(nbtCompound);
-		if (dim == null || !nbtCompound.contains("LodestonePos"))
-			return;
-
-		var dimWorld = ((ServerLevel)world).getServer().getLevel(dim);
-		if (dimWorld == null) {
-			nbtCompound.remove("LodestonePos");
-			return;
-		}
-
-		BlockPos blockPos = NbtUtils.readBlockPos(nbtCompound.getCompound("LodestonePos"));
-		if (dimWorld.isInWorldBounds(blockPos) && dimWorld.getPoiManager().existsAtPosition(PoiTypes.LODESTONE, blockPos))
-			return;
-
-		nbtCompound.remove("LodestonePos");
+		stack.remove(DataComponents.LODESTONE_TRACKER);
 	}
 
 	@Override
@@ -161,6 +130,11 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 	}
 
 	@Override
+	public int getUseDuration(ItemStack stack, LivingEntity entity) {
+		return 30;
+	}
+
+	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
 		if (world.isClientSide || !(user instanceof ServerPlayer player))
 			return stack;
@@ -171,7 +145,7 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 
 		player.getCooldowns().addCooldown(this, 20);
 
-		var pos = getLodestonePosition(stack.getTag());
+		var pos = getLodestonePosition(stack.get(DataComponents.LODESTONE_TRACKER));
 		if (pos != null) {
 			var respawnWorld = server.getLevel(pos.dimension());
 			if (respawnWorld == null) {
@@ -183,7 +157,7 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 				return stack;
 
 			if (!player.isCreative())
-				stack.hurtAndBreak(1, user, a -> {});
+				stack.hurtAndBreak(1, user, EquipmentSlot.MAINHAND);
 
 			player.teleportTo(respawnWorld, respawnPos.x, respawnPos.y, respawnPos.z, player.getRespawnAngle(), 0);
 			var block = BlockPos.containing(respawnPos.x, respawnPos.y, respawnPos.z);
@@ -210,7 +184,7 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 		}
 
 		if (!player.isCreative())
-			stack.hurtAndBreak(1, user, a -> {});
+			stack.hurtAndBreak(1, user, EquipmentSlot.MAINHAND);
 
 		var posAndWorld = moveToSpawnPoint(server, player);
 		var respawnWorld = posAndWorld.world == null ? world : posAndWorld.world;
@@ -249,11 +223,6 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 	}
 
 	@Override
-	public int getUseDuration(ItemStack stack) {
-		return 30;
-	}
-
-	@Override
 	public InteractionResult useOn(UseOnContext context) {
 		BlockPos blockPos = context.getClickedPos();
 		Level world = context.getLevel();
@@ -269,17 +238,16 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 		ItemStack itemStack = context.getItemInHand();
 		var shouldKeepItem = !playerEntity.getAbilities().instabuild && itemStack.getCount() == 1;
 		if (shouldKeepItem) {
-			writeNbt(world.dimension(), blockPos, itemStack.getOrCreateTag());
+			writeLodestone(world.dimension(), blockPos, itemStack);
 			return InteractionResult.sidedSuccess(world.isClientSide);
 		}
 
 		var itemStack2 = getDefaultInstance();
-		CompoundTag nbtCompound = itemStack.hasTag() ? itemStack.getTag().copy() : new CompoundTag();
-		itemStack2.setTag(nbtCompound);
+
 		if (!playerEntity.getAbilities().instabuild)
 			itemStack.shrink(1);
 
-		writeNbt(world.dimension(), blockPos, nbtCompound);
+		writeLodestone(world.dimension(), blockPos, itemStack2);
 		if (!playerEntity.getInventory().add(itemStack2))
 			playerEntity.drop(itemStack2, false);
 
@@ -293,12 +261,12 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 		var world = server.getLevel(player.getRespawnDimension());
 		if (world == null)
 			return moveToWorldSpawn(server, player);
-		var _respawnPos = Player.findRespawnPositionAndUseSpawnBlock(world, pos, player.getRespawnAngle(), player.isRespawnForced(), true);
+		var _respawnPos = Accessor_ServerPlayer.invokeFindRespawnAndUseSpawnBlock(world, pos, player.getRespawnAngle(), player.isRespawnForced(), true);
 		if (_respawnPos.isEmpty())
 			return moveToWorldSpawn(server, player);
 		var respawnPos = _respawnPos.get();
-		player.teleportTo(world, respawnPos.x, respawnPos.y, respawnPos.z, player.getRespawnAngle(), 0);
-		return new PosAndWorld(BlockPos.containing(respawnPos.x, respawnPos.y, respawnPos.z), world);
+		player.teleportTo(world, respawnPos.position().x, respawnPos.position().y, respawnPos.position().z, respawnPos.yaw(), 0);
+		return new PosAndWorld(BlockPos.containing(respawnPos.position().x, respawnPos.position().y, respawnPos.position().z), world);
 	}
 
 	private static PosAndWorld moveToWorldSpawn(MinecraftServer server, ServerPlayer player) {
@@ -345,16 +313,15 @@ public class SoulMirrorItem extends TieredItem implements Vanishable {
 					break;
 			} while (blockPos.getY() + addY < world.getMaxBuildHeight() - 1);
 			var center = blockPos.getCenter();
-			player.teleportToWithTicket(center.x, blockPos.getY() + addY, center.z);
+			player.teleportTo(center.x, blockPos.getY() + addY, center.z);
 			return new PosAndWorld(BlockPos.containing(center.x, blockPos.getY() + addY, center.z), world);
 		}
 		return new PosAndWorld(blockPos, null);
 	}
 
-	private void writeNbt(ResourceKey<Level> worldKey, BlockPos pos, CompoundTag nbt) {
-		nbt.put("LodestonePos", NbtUtils.writeBlockPos(pos));
-		Level.RESOURCE_KEY_CODEC.encodeStart(NbtOps.INSTANCE, worldKey).resultOrPartial(WanderingWizardry.LOGGER::error).ifPresent(element -> nbt.put("LodestoneDimension", element));
-		nbt.putBoolean("LodestoneTracked", true);
+	private void writeLodestone(ResourceKey<Level> worldKey, BlockPos pos, ItemStack stack) {
+		var tracker = new LodestoneTracker(Optional.of(GlobalPos.of(worldKey, pos)), true);
+		stack.set(DataComponents.LODESTONE_TRACKER, tracker);
 	}
 
 	public record PosAndWorld(BlockPos pos, @Nullable ServerLevel world) {}

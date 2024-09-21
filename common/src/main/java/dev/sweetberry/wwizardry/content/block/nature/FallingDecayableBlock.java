@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.lighting.LightEngine;
+import org.jetbrains.annotations.NotNull;
 
 public class FallingDecayableBlock extends NyliumBlock implements Fallable {
 	public final Block decayBlock;
@@ -36,27 +37,27 @@ public class FallingDecayableBlock extends NyliumBlock implements Fallable {
 	}
 
 	@Override
-	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
+	public void onPlace(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean notify) {
 		world.scheduleTick(pos, this, this.getFallDelay());
 	}
 
 	@Override
-	public BlockState updateShape(
-		BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos
+	public @NotNull BlockState updateShape(
+		@NotNull BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, LevelAccessor world, @NotNull BlockPos pos, @NotNull BlockPos neighborPos
 	) {
 		world.scheduleTick(pos, this, this.getFallDelay());
 		return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+	public void tick(@NotNull BlockState state, ServerLevel world, BlockPos pos, @NotNull RandomSource random) {
 		if (!canFallThrough(world.getBlockState(pos.below()))) return;
 		if (pos.getY() == world.getMinBuildHeight()) return;
 		FallingBlockEntity.fall(world, pos, decayBlock.defaultBlockState());
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerLevel world, @NotNull RandomSource random, BlockPos pos, @NotNull BlockState state) {
 		BlockPos blockPos = pos.above();
 		ChunkGenerator chunkGenerator = world.getChunkSource().getGenerator();
 		Registry<ConfiguredFeature<?, ?>> registry = world.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE);
@@ -80,12 +81,13 @@ public class FallingDecayableBlock extends NyliumBlock implements Fallable {
 		return 2;
 	}
 
+	@SuppressWarnings("Deprecated")
 	public static boolean canFallThrough(BlockState state) {
 		return state.isAir() || state.is(BlockTags.FIRE) || state.liquid() || state.canBeReplaced();
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+	public void animateTick(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, RandomSource random) {
 		if (random.nextInt(16) == 0) {
 			BlockPos blockPos = pos.below();
 			if (canFallThrough(world.getBlockState(blockPos))) {
@@ -102,13 +104,13 @@ public class FallingDecayableBlock extends NyliumBlock implements Fallable {
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+	public void randomTick(@NotNull BlockState state, @NotNull ServerLevel world, @NotNull BlockPos pos, @NotNull RandomSource random) {
 		if (canBeNylium(state, world, pos)) return;
 		world.setBlockAndUpdate(pos, decayBlock.defaultBlockState());
 	}
 
 	@Override
-	public boolean isRandomlyTicking(BlockState state) {
+	public boolean isRandomlyTicking(@NotNull BlockState state) {
 		return true;
 	}
 }

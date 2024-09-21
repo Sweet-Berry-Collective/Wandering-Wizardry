@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "wwizardry:block/small_sculk_bud",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "wwizardry:block/small_sculk_bud",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "wwizardry:block/small_sculk_bud",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "wwizardry:block/small_sculk_bud",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "wwizardry:block/small_sculk_bud"
+    },
+    "facing=west": {
+      "model": "wwizardry:block/small_sculk_bud",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

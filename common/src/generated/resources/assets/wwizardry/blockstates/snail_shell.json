@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=north,count=1": {
+      "model": "wwizardry:block/snail_shell/single"
+    },
+    "facing=south,count=1": {
+      "model": "wwizardry:block/snail_shell/single",
+      "y": 180
+    },
+    "facing=east,count=1": {
+      "model": "wwizardry:block/snail_shell/single",
+      "y": 90
+    },
+    "facing=west,count=1": {
+      "model": "wwizardry:block/snail_shell/single",
+      "y": 270
+    },
+    "facing=north,count=2": {
+      "model": "wwizardry:block/snail_shell/double"
+    },
+    "facing=south,count=2": {
+      "model": "wwizardry:block/snail_shell/double",
+      "y": 180
+    },
+    "facing=east,count=2": {
+      "model": "wwizardry:block/snail_shell/double",
+      "y": 90
+    },
+    "facing=west,count=2": {
+      "model": "wwizardry:block/snail_shell/double",
+      "y": 270
+    },
+    "facing=north,count=3": {
+      "model": "wwizardry:block/snail_shell/triple"
+    },
+    "facing=south,count=3": {
+      "model": "wwizardry:block/snail_shell/triple",
+      "y": 180
+    },
+    "facing=east,count=3": {
+      "model": "wwizardry:block/snail_shell/triple",
+      "y": 90
+    },
+    "facing=west,count=3": {
+      "model": "wwizardry:block/snail_shell/triple",
+      "y": 270
+    }
+  }
+}

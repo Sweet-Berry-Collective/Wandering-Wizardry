@@ -1,6 +1,8 @@
 package dev.sweetberry.wwizardry.content.block.entity;
 
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,6 +29,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class AltarBlockEntity extends BlockEntity implements Container {
+	public static final String HELD_ITEM_KEY = "HeldItem";
+	public static final String RECIPE_REMAINDER_KEY = "RecipeRemainder";
+	public static final String CRAFTING_KEY = "crafting";
+
 	public static final float timingMultiplier = 0.0625f;
 	private EndCrystal endCrystalEntity;
 
@@ -122,13 +128,10 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 	}
 
 	private static Stream<ItemStack> getBundledStacks(ItemStack stack) {
-		CompoundTag nbtCompound = stack.getTag();
-		if (nbtCompound == null)
+		var contents = stack.get(DataComponents.BUNDLE_CONTENTS);
+		if (contents == null)
 			return Stream.empty();
-		if (!nbtCompound.contains("Items"))
-			return Stream.empty();
-		ListTag nbtList = nbtCompound.getList("Items", Tag.TAG_COMPOUND);
-		return nbtList.stream().map(CompoundTag.class::cast).map(ItemStack::of);
+		return contents.itemCopyStream();
 	}
 
 	public abstract Block getBlock();
@@ -136,28 +139,32 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 	public abstract void tick(Level world, BlockPos pos, BlockState state);
 
 	@Override
-	protected void saveAdditional(CompoundTag nbt) {
-		var heldItemNbt = new CompoundTag();
-		heldItem.save(heldItemNbt);
-		var recipeRemainderNbt = new CompoundTag();
-		recipeRemainder.save(recipeRemainderNbt);
-		nbt.put("HeldItem", heldItemNbt);
-		nbt.put("RecipeRemainder", recipeRemainderNbt);
-		nbt.putBoolean("crafting", crafting);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+		if (!heldItem.isEmpty())
+			nbt.put(HELD_ITEM_KEY, heldItem.save(provider));
+
+		if (!recipeRemainder.isEmpty())
+			nbt.put(RECIPE_REMAINDER_KEY, recipeRemainder.save(provider));
+
+		nbt.putBoolean(CRAFTING_KEY, crafting);
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		var heldItemNbt = nbt.getCompound("HeldItem");
-		heldItem = ItemStack.of(heldItemNbt);
-		var recipeRemainderNbt = nbt.getCompound("RecipeRemainder");
-		recipeRemainder = ItemStack.of(recipeRemainderNbt);
-		crafting = nbt.getBoolean("crafting");
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+		heldItem = nbt.contains(HELD_ITEM_KEY, Tag.TAG_COMPOUND)
+			? ItemStack.parseOptional(provider, nbt.getCompound(HELD_ITEM_KEY))
+			: ItemStack.EMPTY;
+
+		recipeRemainder = nbt.contains(RECIPE_REMAINDER_KEY, Tag.TAG_COMPOUND)
+			? ItemStack.parseOptional(provider, nbt.getCompound(RECIPE_REMAINDER_KEY))
+			: ItemStack.EMPTY;
+
+		crafting = nbt.getBoolean(CRAFTING_KEY);
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		return saveWithoutMetadata();
+	public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+		return saveWithoutMetadata(provider);
 	}
 
 	@Nullable
@@ -214,11 +221,10 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 	@Override
 	public void setChanged() {
 		if (level == null) return;
-		if (level.isClientSide()) {
+		if (level.isClientSide())
 			Minecraft.getInstance().levelRenderer.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
-		} else {
+		else
 			((ServerLevel) level).getChunkSource().blockChanged(worldPosition);
-		}
 		super.setChanged();
 	}
 

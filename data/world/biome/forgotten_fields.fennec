@@ -34,7 +34,7 @@ features [
         "lake_lava_surface"
     ]
     [
-        "amethyst_geode"
+        "wwizardry:sculk_geode"
     ]
     [
         "monster_room"
@@ -137,16 +137,10 @@ spawners {
             maxCount = 4
         }
         {
-            type = "horse"
-            weight = 5
-            minCount = 2
-            maxCount = 6
-        }
-        {
-            type = "donkey"
-            weight = 1
-            minCount = 1
-            maxCount = 3
+            type = "wwizardry:snail"
+            weight = 14
+            minCount = 7
+            maxCount = 10
         }
     ]
     misc []

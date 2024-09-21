@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "id": "wwizardry:brewing_charm"
+    },
+    "title": {
+      "translate": "advancement.wwizardry.adventure.charm.brewing.title"
+    },
+    "description": {
+      "translate": "advancement.wwizardry.adventure.charm.brewing.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true,
+    "frame": "goal"
+  },
+  "parent": "wwizardry:adventure/slot_charm",
+  "criteria": {
+    "void_bag": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wwizardry:brewing_charm"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "sends_telemetry_event": false
+}

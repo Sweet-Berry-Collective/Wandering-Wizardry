@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.content.block.redstone;
 
 import com.mojang.serialization.MapCodec;
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.content.block.entity.LogicGateBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -47,7 +48,7 @@ public class LogicGateBlock extends DiodeBlock implements EntityBlock {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
 		if (!multistate)
 			return InteractionResult.PASS;
 		if (!player.getAbilities().mayBuild)

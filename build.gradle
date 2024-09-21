@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
 	alias libs.plugins.idea.ext
+	alias libs.plugins.loom apply false
 }
 
 version = "${project.version}+mc.${libs.versions.minecraft.get()}"
@@ -9,10 +10,6 @@ if (!project.classification.isBlank())
 group = project.maven_group
 
 repositories {
-	maven {
-		name = 'Quilt'
-		url = 'https://maven.quiltmc.org/repository/release'
-	}
 	maven {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/'
@@ -66,13 +63,13 @@ tasks.register("generateData") {
 			generate("lang", "assets/wwizardry/lang")
 			generate("tags", "data")
 			generate("archex", "staticdata/architecture_extensions")
-			loot("basic_block_loot.fennec", "data/wwizardry/loot_tables/blocks")
-			generate("bricks", "data/wwizardry/recipes")
-			transpile("recipes", "data/wwizardry/recipes")
-			transpile("loot", "data/wwizardry/loot_tables")
+			loot("basic_block_loot.fennec", "data/wwizardry/loot_table/blocks")
+			generate("bricks", "data/wwizardry/recipe")
+			transpile("recipes", "data/wwizardry/recipe")
+			transpile("loot", "data/wwizardry/loot_table")
 			transpile("world", "data/wwizardry/worldgen")
 			generate("blockstate", "assets/wwizardry/blockstates")
-			awToAt()
+//			awToAt()
 		} catch (e) {
 			e.printStackTrace()
 		}
@@ -81,13 +78,13 @@ tasks.register("generateData") {
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = 'UTF-8'
-	it.options.release = 17
+	it.options.release = 21
 	dependsOn "generateData"
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 
 	withSourcesJar()
 }

@@ -31,11 +31,11 @@ public class NeoForgeComponents {
 		ATTACHMENT_TYPES.register(bus);
 	}
 
-	public static <T extends Component> T get(ResourceLocation id, Entity entity) {
+	public static <T extends Component<T>> T get(ResourceLocation id, Entity entity) {
 		return (T) entity.getData(COMPONENTS.get(id)).component;
 	}
 
-	private static <T extends Component> Supplier<AttachmentType<ProxyComponent<T>>> create(String id, Supplier<T> supplier) {
+	private static <T extends Component<T>> Supplier<AttachmentType<ProxyComponent<T>>> create(String id, Supplier<T> supplier) {
 		Supplier<AttachmentType<ProxyComponent<T>>> type = ATTACHMENT_TYPES.register(
 			id,
 			() -> AttachmentType.serializable(() -> new ProxyComponent<T>(supplier.get())).build()

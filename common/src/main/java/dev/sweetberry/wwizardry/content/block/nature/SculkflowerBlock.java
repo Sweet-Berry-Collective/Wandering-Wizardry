@@ -3,6 +3,7 @@ package dev.sweetberry.wwizardry.content.block.nature;
 import dev.sweetberry.wwizardry.content.block.Sculkable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SculkflowerBlock extends FlowerBlock implements Sculkable, SculkBehaviour {
 
-	public SculkflowerBlock(MobEffect suspiciousStewEffect, int effectDuration, Properties settings) {
+	public SculkflowerBlock(Holder<MobEffect> suspiciousStewEffect, int effectDuration, Properties settings) {
 		super(suspiciousStewEffect, effectDuration, settings);
 		registerDefaultState(defaultBlockState().setValue(Sculkable.SCULK_INFESTED, false));
 	}

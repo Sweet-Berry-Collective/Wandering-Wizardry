@@ -1,0 +1,13 @@
+{
+  "type": "crafting_shapeless",
+  "category": "redstone",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "wwizardry:denia_planks"
+    }
+  ],
+  "result": {
+    "id": "wwizardry:denia_button"
+  }
+}

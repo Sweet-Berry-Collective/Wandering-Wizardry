@@ -1,24 +1,20 @@
 [versions]
-# The latest versions are available at https://lambdaurora.dev/tools/import_quilt.html
-minecraft = "1.20.4"
-quilt_loader = "0.23.1"
-neoforge = "20.4.83-beta"
+minecraft = "1.21"
+fabric_loader = "0.15.11"
+neoforge = "21.0.37-beta"
 
 mixin = "0.8.5"
-mixin_extras = "0.3.2"
+mixin_extras = "0.3.5"
 
-fabric_api = "0.95.3+1.20.4"
+fabric_api = "0.100.3+1.21"
 
-terrablender = "1.20.4-3.3.0.12"
-ccapi = "5.4.0"
+terrablender = "1.21-4.0.0.1"
 
-emi = "1.1.0+1.20.4"
-modmenu = "9.0.0"
+emi = "1.1.12+1.21"
+modmenu = "11.0.1"
 
-qsl = "7.0.0-alpha.9+1.20.2"
-arch_ex = "3.1.1+1.20.1"
-staticdata = "1.0.1+1.20"
-suspicious_shapes = "1.0.0+1.20.1"
+trimmed_fabric = "1.21-3.0.0+fabric"
+trimmed_neoforge = "1.21-3.0.0+neoforge"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -35,21 +31,18 @@ emi_common = { module = "dev.emi:emi-xplat-mojmap", version.ref = "emi" }
 emi_fabric = { module = "dev.emi:emi-fabric", version.ref = "emi" }
 emi_neoforge = { module = "dev.emi:emi-neoforge", version.ref = "emi" }
 
+trimmed_neoforge = { module = "maven.modrinth:trimmed", version.ref = "trimmed_neoforge" }
+trimmed_fabric = { module = "maven.modrinth:trimmed", version.ref = "trimmed_fabric" }
+
 # Neoforge
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 
 # Fabric
-quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loader" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 
 fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
 
-ccapi_base = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-base", version.ref = "ccapi" }
-ccapi_entity = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-entity", version.ref = "ccapi" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
-quilt_resource_loader = { module = "org.quiltmc.qsl.core:resource_loader", version.ref = "qsl" }
-arch_ex = { module = "maven.modrinth:arch-ex", version.ref = "arch_ex" }
-staticdata = { module = "maven.modrinth:static-data", version.ref = "staticdata" }
-suspicious_shapes = { module = "maven.modrinth:suspicious-shapes", version.ref = "suspicious_shapes" }
 
 # If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
 [bundles]
@@ -57,15 +50,15 @@ mixin = ["mixin", "mixin_extras"]
 
 include_common = ["terrablender_common"]
 
-include_fabric = ["terrablender_fabric", "ccapi_base", "ccapi_entity"]
+include_fabric = ["terrablender_fabric", "trimmed_fabric"]
 
-include_neoforge = ["terrablender_neoforge"]
+include_neoforge = ["terrablender_neoforge", "trimmed_neoforge"]
 
 compat_fabric = ["emi_fabric", "modmenu"]
-# compat = ["emi", "arch_ex", "staticdata", "suspicious_shapes", "modmenu"]
 
 [plugins]
-idea_ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
-loom = { id = "org.quiltmc.loom", version = "1.4.+" }
+idea_ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.8" }
+loom = { id = "fabric-loom", version = "1.7-SNAPSHOT" }
 vanilla_gradle = { id = "org.spongepowered.gradle.vanilla", version = "0.2.1-SNAPSHOT" }
-neogradle = { id = "net.neoforged.gradle.userdev", version = "7.0.88" }
+neogradle = { id = "net.neoforged.gradle.userdev", version = "7.0.107" }
+mod_dev_gradle = { id = "net.neoforged.moddev", version = "2.0.16-beta" }

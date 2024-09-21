@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:denia_pressure_plate"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mycha_pressure_plate"
+    }
+  ]
+}

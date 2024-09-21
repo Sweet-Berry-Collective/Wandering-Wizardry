@@ -7,7 +7,7 @@ export default function genericTranspile(inputDir: string, outputDir: string) {
         const outputFile = outputDir+"/"+file+".json"
 
         const read = fennec.parse(Deno.readTextFileSync(inputFile))
-        Deno.writeTextFileSync(outputFile, JSON.stringify(read))
+        Deno.writeTextFileSync(outputFile, JSON.stringify(read, undefined, 2))
 
         console.log(inputFile + " -> " + outputFile)
     }

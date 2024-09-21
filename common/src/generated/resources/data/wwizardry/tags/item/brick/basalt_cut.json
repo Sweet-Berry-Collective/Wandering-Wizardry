@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:cut_basalt"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:cut_basalt_stairs"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:cut_basalt_slab"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:cut_basalt_wall"
+    }
+  ]
+}

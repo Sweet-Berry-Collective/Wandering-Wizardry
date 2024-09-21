@@ -12,6 +12,6 @@ If you're contributing translations or tags, make sure to use the `data` directo
 Data there is converted from [FennecConfig](https://github.com/Oliver-makes-code/FennecConfig) to JSON at compiletime.
 
 ## Building the mod
-To build the mod, you need a JDK >= 17, as well as [Deno](https://deno.com/runtime)
+To build the mod, you need a JDK >= 21, as well as [Deno](https://deno.com/runtime)
 
 Everything should be done using the `./gradlew build` command.

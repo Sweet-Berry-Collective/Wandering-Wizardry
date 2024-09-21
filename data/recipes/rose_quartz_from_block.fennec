@@ -9,5 +9,5 @@ ingredients [
 
 result {
     count = 9
-    item = "wwizardry:rose_quartz"
+    id = "wwizardry:rose_quartz"
 }

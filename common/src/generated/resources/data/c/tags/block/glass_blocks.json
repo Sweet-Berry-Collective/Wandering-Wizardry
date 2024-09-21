@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:reinforced_glass"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:quartz_glass"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:rose_quartz_glass"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:diamond_glass"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:amethyst_glass"
+    }
+  ]
+}

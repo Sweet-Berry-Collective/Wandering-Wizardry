@@ -1,0 +1,21 @@
+{
+  "type": "wwizardry:crystal_shard",
+  "config": {
+    "state": {
+      "type": "simple_state_provider",
+      "state": {
+        "Name": "wwizardry:rose_quartz_glass"
+      }
+    },
+    "radius": {
+      "type": "uniform",
+      "max_exclusive": 3,
+      "min_inclusive": 2
+    },
+    "length": {
+      "type": "uniform",
+      "max_exclusive": 30,
+      "min_inclusive": 15
+    }
+  }
+}

@@ -7,4 +7,6 @@ ingredients [
     { item="wwizardry:mycha_planks" }
 ]
 
-result { item = "wwizardry:mycha_button" }
+result {
+    id = "wwizardry:mycha_button"
+}

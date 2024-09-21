@@ -13,5 +13,5 @@ inputs [
 catalyst { item = "brewing_stand" }
 
 result {
-    item = "wwizardry:brewing_charm"
+    id = "wwizardry:brewing_charm"
 }

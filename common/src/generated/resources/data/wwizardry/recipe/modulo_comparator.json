@@ -1,0 +1,25 @@
+{
+  "type": "crafting_shaped",
+  "category": "redstone",
+  "show_notification": true,
+  "key": {
+    "R": {
+      "item": "redstone_torch"
+    },
+    "S": {
+      "item": "stone"
+    },
+    "Q": {
+      "tag": "wwizardry:rose_quartzes"
+    }
+  },
+  "pattern": [
+    " R ",
+    "RQR",
+    "SSS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "wwizardry:modulo_comparator"
+  }
+}

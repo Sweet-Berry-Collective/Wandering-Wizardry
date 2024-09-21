@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.SculkBlock;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public interface Sculkable {
-
 	BooleanProperty SCULK_INFESTED = BooleanProperty.create("sculked");
 	BooleanProperty SCULK_BELOW = BooleanProperty.create("sculk_below");
 

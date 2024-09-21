@@ -19,6 +19,6 @@ export default function loot(inputFile: string, outputDir: string) {
         }
         const outputFile = outputDir+"/"+block+".json";
         console.log("    "+outputFile)
-        Deno.writeTextFileSync(outputFile, JSON.stringify(output))
+        Deno.writeTextFileSync(outputFile, JSON.stringify(output, undefined, 2))
     }
 }

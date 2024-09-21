@@ -26,7 +26,7 @@ public class WanderingWizardry {
 	}
 
 	public static ResourceLocation id(String id) {
-		return new ResourceLocation(MODID, id);
+		return ResourceLocation.fromNamespaceAndPath(MODID, id);
 	}
 
 	public static boolean isModLoaded(String modid) {

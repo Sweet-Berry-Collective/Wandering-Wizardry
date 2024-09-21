@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.compat.terrablender;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.compat.terrablender.region.CrystalCoveRegion;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import net.minecraft.world.level.block.Blocks;
@@ -14,6 +15,7 @@ public class TerraBlenderInitializer {
 	public static void init() {
 		Regions.register(ForgottenFieldsRegion.INSTANCE);
 		Regions.register(FungalForestRegion.INSTANCE);
+		Regions.register(CrystalCoveRegion.INSTANCE);
 
 		SurfaceRuleManager.addSurfaceRules(
 			SurfaceRuleManager.RuleCategory.OVERWORLD,

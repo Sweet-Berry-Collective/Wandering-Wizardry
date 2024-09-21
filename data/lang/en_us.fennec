@@ -1,4 +1,21 @@
-"itemGroup.wwizardry.items" = "Wandering Wizardry Items"
+"jukebox_song.wwizardry.wandering" = "Moonkey - Wandering"
+
+"subtitles.wwizardry" {
+    snail {
+        place = "Shell placed on snail"
+        break = "Shell removed from snail"
+    }
+}
+
+"wwizardry.trim_material" {
+    "rose_quartz" = "Rose Quartz"
+    "crystalling_sculk" = "Crystalline Sculk"
+}
+
+"itemGroup.wwizardry" {
+    items = "Wandering Wizardry Items"
+    blocks = "Wandering Wizardry Blocks"
+}
 
 "wwizardry.void_bag" {
     generic_1 = "This bag acts as a joint between dimensions,"
@@ -25,6 +42,10 @@
         quartz {
             title = "We Are The Crystal Gems"
             description = "Mine Rose Quartz Ore to get a familiar gem"
+        }
+        shear_snail {
+            title = "Haha! Slug!"
+            description = "Use a shear to get the shell off of a snail"
         }
     }
     adventure {
@@ -102,10 +123,32 @@
     modulo_comparator = "Modulo Comparator"
     redstone_stepper = "Redstone Stepper"
 
+    copper_lens = "Copper Lens"
+    exposed_copper_lens = "Exposed Copper Lens"
+    weathered_copper_lens = "Weathered Copper Lens"
+    oxidized_copper_lens = "Oxidized Copper Lens"
+    waxed_copper_lens = "Waxed Copper Lens"
+    waxed_exposed_copper_lens = "Waxed Exposed Copper Lens"
+    waxed_weathered_copper_lens = "Waxed Weathered Copper Lens"
+    waxed_oxidized_copper_lens = "Waxed Oxidized Copper Lens"
+
     # Natural
     sculkflower = "Sculkflower"
     indigo_caeruleum = "Indigo Caeruleum"
     mycelial_sand = "Mycelial Sand"
+    snail_shell = "Snail Shell"
+
+    small_sculk_bud = "Small Sculk Bud"
+    medium_sculk_bud = "Medium Sculk Bud"
+    large_sculk_bud = "Large Sculk Bud"
+    sculk_cluster = "Sculk Cluster"
+    sculk_crystal = "Sculk Crystal"
+    budding_sculk_crystal = "Budding Sculk Crystal"
+
+    quartz_glass = "Quartz Glass"
+    rose_quartz_glass = "Rose Quartz Glass"
+    diamond_glass = "Diamond Glass"
+    amethyst_glass = "Amethyst Glass"
 
     # Altar
     altar_pedestal = "Altar Pedestal"
@@ -211,11 +254,18 @@
     slot_charm = "Slot Charm"
     crafting_charm = "Crafting Charm"
     brewing_charm = "Brewing Charm"
+    smithing_charm = "Smithing Charm"
+    anvil_charm = "Anvil Charm"
 
     soul_mirror = "Soul Mirror"
 
     music_disc_wandering = "Music Disc"
-    "music_disc_wandering.desc" = "Moonkey - Wandering"
+
+    snail_spawn_egg = "Snail Spawn Egg"
+}
+
+"entity.wwizardry" {
+    snail = "Snail"
 }
 
 "boat.wwizardry" {

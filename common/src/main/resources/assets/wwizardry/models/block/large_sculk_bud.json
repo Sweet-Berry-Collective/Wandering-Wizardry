@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "wwizardry:block/large_sculk_bud"
+  }
+}

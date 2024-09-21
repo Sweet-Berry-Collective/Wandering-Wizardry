@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:denia_fence"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mycha_fence"
+    }
+  ]
+}

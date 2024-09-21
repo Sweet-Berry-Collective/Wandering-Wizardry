@@ -14,5 +14,5 @@ pattern [
 
 result {
     count = 1
-    item = "wwizardry:redstone_stepper"
+    id = "wwizardry:redstone_stepper"
 }

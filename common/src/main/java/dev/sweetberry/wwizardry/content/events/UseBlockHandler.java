@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -51,7 +52,7 @@ public class UseBlockHandler {
 			}
 			world.playSound(player, pos, SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 0.5F, 1.0F);
 			world.playSound(player, pos, SoundEvents.SCULK_BLOCK_BREAK, SoundSource.BLOCKS, 1.5F, 1.0F);
-			stack.hurtAndBreak(1, player, playerEntity -> playerEntity.broadcastBreakEvent(hand));
+			stack.hurtAndBreak(1, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
 			if (!player.isCreative()) {
 				var item = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, Items.SCULK_VEIN.getDefaultInstance());
 				world.addFreshEntity(item);

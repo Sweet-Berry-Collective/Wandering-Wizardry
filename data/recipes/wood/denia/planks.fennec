@@ -9,5 +9,5 @@ ingredients [
 
 result {
     count = 4
-    item = "wwizardry:denia_planks"
+    id = "wwizardry:denia_planks"
 }

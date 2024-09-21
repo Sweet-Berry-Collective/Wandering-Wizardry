@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.sweetberry.wwizardry.fabric.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "Mixin_DefaultAttributes"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "client.Mixin_BoatRenderer"
+  ]
+}

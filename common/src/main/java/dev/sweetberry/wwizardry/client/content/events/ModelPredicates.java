@@ -16,8 +16,6 @@ public class ModelPredicates {
 		var client = Minecraft.getInstance();
 		if (client.player == null)
 			return 0.0f;
-		var nbt = itemStack.getTag();
-		if (nbt != null && nbt.contains("Locked")) return nbt.getBoolean("Locked") ? 1.0f : 0.0f;
 		var bag = ComponentInitializer.<VoidBagComponent>getComponent(ComponentInitializer.VOID_BAG, client.player);
 		return bag.locked ? 1 : 0;
 	}

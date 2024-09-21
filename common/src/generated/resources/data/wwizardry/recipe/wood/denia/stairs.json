@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shaped",
+  "category": "building",
+  "group": "wooden_stairs",
+  "show_notification": true,
+  "key": {
+    "#": {
+      "item": "wwizardry:denia_planks"
+    }
+  },
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "id": "wwizardry:denia_stairs"
+  }
+}

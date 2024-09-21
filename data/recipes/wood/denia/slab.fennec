@@ -13,5 +13,5 @@ pattern [
 
 result {
     count = 6
-    item = "wwizardry:denia_slab"
+    id = "wwizardry:denia_slab"
 }

@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.block.nature;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
@@ -17,7 +18,7 @@ public class RootedFlowerBlock extends FlowerBlock {
 	public static final VoxelShape SHAPE = Block.box(5.0, 0.0, 5.0, 11.0, 16.0, 11.0);
 	public final TagKey<Block> tag;
 
-	public RootedFlowerBlock(MobEffect suspiciousStewEffect, int effectDuration, String tagName, Properties settings) {
+	public RootedFlowerBlock(Holder<MobEffect> suspiciousStewEffect, int effectDuration, String tagName, Properties settings) {
 		super(suspiciousStewEffect, effectDuration, settings);
 		tag = TagKey.create(Registries.BLOCK, WanderingWizardry.id(tagName));
 	}

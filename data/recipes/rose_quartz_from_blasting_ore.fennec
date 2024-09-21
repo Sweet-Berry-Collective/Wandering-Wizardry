@@ -9,4 +9,6 @@ ingredient {
     tag = "wwizardry:rose_quartz_ores"
 }
 
-result = "wwizardry:rose_quartz"
+result {
+    id = "wwizardry:rose_quartz"
+}

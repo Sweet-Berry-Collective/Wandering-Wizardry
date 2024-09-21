@@ -1,0 +1,48 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "wwizardry:block/snail_shell",
+		"particle": "wwizardry:block/snail_shell"
+	},
+	"elements": [
+		{
+			"from": [8.5, 0, 6],
+			"to": [11.5, 4, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [2, 0, 0]},
+			"faces": {
+				"north": {"uv": [4, 4, 7, 8], "texture": "#0"},
+				"east": {"uv": [0, 4, 4, 8], "texture": "#0"},
+				"south": {"uv": [11, 4, 14, 8], "texture": "#0"},
+				"west": {"uv": [7, 4, 11, 8], "texture": "#0"},
+				"up": {"uv": [7, 4, 4, 0], "texture": "#0"},
+				"down": {"uv": [10, 0, 7, 4], "texture": "#0"}
+			}
+		},
+		{
+			"from": [4.5, 0, 6],
+			"to": [7.5, 4, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [-2, 0, 0]},
+			"faces": {
+				"north": {"uv": [4, 4, 7, 8], "texture": "#0"},
+				"east": {"uv": [0, 4, 4, 8], "texture": "#0"},
+				"south": {"uv": [11, 4, 14, 8], "texture": "#0"},
+				"west": {"uv": [7, 4, 11, 8], "texture": "#0"},
+				"up": {"uv": [7, 4, 4, 0], "texture": "#0"},
+				"down": {"uv": [10, 0, 7, 4], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.5, 4, 6],
+			"to": [9.5, 8, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 4, 0]},
+			"faces": {
+				"north": {"uv": [4, 4, 7, 8], "texture": "#0"},
+				"east": {"uv": [0, 4, 4, 8], "texture": "#0"},
+				"south": {"uv": [11, 4, 14, 8], "texture": "#0"},
+				"west": {"uv": [7, 4, 11, 8], "texture": "#0"},
+				"up": {"uv": [7, 4, 4, 0], "texture": "#0"},
+				"down": {"uv": [10, 0, 7, 4], "texture": "#0"}
+			}
+		}
+	]
+}

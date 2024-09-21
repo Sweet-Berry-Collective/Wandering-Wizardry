@@ -5,24 +5,28 @@ import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
 import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
+import dev.sweetberry.wwizardry.content.entity.EntityInitializer;
 import dev.sweetberry.wwizardry.content.events.EventInitializer;
-import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
+import dev.sweetberry.wwizardry.content.map.MapInitializer;
 import dev.sweetberry.wwizardry.content.net.NetworkingInitializer;
-import dev.sweetberry.wwizardry.content.painting.PaintingInitializer;
 import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
-import dev.sweetberry.wwizardry.content.trades.TradeInitializer;
+import dev.sweetberry.wwizardry.content.villager.VillagerInitializer;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.saveddata.maps.MapDecorationType;
 
 public class ContentInitializer {
 	public static void init() {
@@ -33,15 +37,20 @@ public class ContentInitializer {
 		EventInitializer.init();
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void listenToAll(RegistryCallback<?> listener) {
 		BlockInitializer.BLOCKS.listen((RegistryCallback<Block>) listener);
 		BlockInitializer.BLOCK_ENTITIES.listen((RegistryCallback<BlockEntityType<?>>) listener);
 		CriterionInitializer.CRITERION.listen((RegistryCallback<CriterionTrigger<?>>) listener);
 		ItemInitializer.ITEMS.listen((RegistryCallback<Item>) listener);
 		ItemInitializer.TABS.listen((RegistryCallback<CreativeModeTab>) listener);
-		PaintingInitializer.PAINTINGS.listen((RegistryCallback<PaintingVariant>) listener);
 		RecipeInitializer.RECIPE_SERIALIZERS.listen((RegistryCallback<RecipeSerializer<?>>) listener);
+		RecipeInitializer.RECIPES.listen((RegistryCallback<RecipeType<?>>) listener);
 		WorldgenInitializer.STRUCTURE_PROCESSORS.listen((RegistryCallback<StructureProcessorType<?>>) listener);
+		WorldgenInitializer.FEATURES.listen((RegistryCallback<Feature<?>>) listener);
 		SoundInitializer.SOUNDS.listen((RegistryCallback<SoundEvent>) listener);
+		EntityInitializer.ENTITIES.listen((RegistryCallback<EntityType<?>>) listener);
+		MapInitializer.MAP_DECORATION_TYPE.listen((RegistryCallback<MapDecorationType>) listener);
+		VillagerInitializer.VILLAGER_TYPES.listen((RegistryCallback<VillagerType>) listener);
 	}
 }

@@ -1,0 +1,21 @@
+type = "crafting_shaped"
+
+category = "building"
+-show_notification
+
+key {
+    "#" { item = "copper_ingot" }
+    G { tag = "c:glass_blocks" }
+    C { item = "chain" }
+    A { item = "amethyst_shard" }
+}
+pattern [
+    "#A#"
+    "#C#"
+    "#G#"
+]
+
+result {
+    count = 1
+    id = "wwizardry:copper_lens"
+}

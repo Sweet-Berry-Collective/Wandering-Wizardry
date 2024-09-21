@@ -1,0 +1,9 @@
+{
+  "asset_name": "wwizardry_crystalline_sculk",
+  "description": {
+    "color": "#0a5060",
+    "translate": "wwizardry.trim_material.crystalline_sculk"
+  },
+  "ingredient": "wwizardry:crystalline_sculk",
+  "item_model_index": 1036417063.5174
+}

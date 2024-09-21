@@ -13,10 +13,11 @@ neoforge/runs/
 *.launch
 
 # IntelliJ Idea
-.idea/
+.idea/*
 *.iml
 *.ipr
 *.iws
+!.idea/scopes/
 
 # Visual Studio Code
 .settings/

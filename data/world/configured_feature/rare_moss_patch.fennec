@@ -19,9 +19,7 @@ config {
     vertical_range = 5
     xz_radius {
         type = "uniform"
-        value {
-            max_inclusive = 6
-            min_inclusive = 2
-        }
+        max_inclusive = 6
+        min_inclusive = 2
     }
 }

@@ -1,0 +1,9 @@
+{
+  "asset_name": "wwizardry_rose_quartz",
+  "description": {
+    "color": "#d47a94",
+    "translate": "wwizardry.trim_material.rose_quartz"
+  },
+  "ingredient": "wwizardry:rose_quartz",
+  "item_model_index": 652681283.69607
+}

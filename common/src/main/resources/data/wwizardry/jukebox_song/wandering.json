@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "jukebox_song.wwizardry.wandering"
+  },
+  "length_in_seconds": 140.0,
+  "sound_event": "wwizardry:music_disc.wandering"
+}

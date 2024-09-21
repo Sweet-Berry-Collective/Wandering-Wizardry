@@ -1,71 +1,47 @@
 package dev.sweetberry.wwizardry.fabric;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.sweetberry.wwizardry.WanderingWizardry;
-import dev.sweetberry.wwizardry.api.Lazy;
-import dev.sweetberry.wwizardry.api.component.Component;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
-import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.fabric.compat.cardinal.CardinalInitializer;
-import dev.sweetberry.wwizardry.fabric.compat.cardinal.component.ProxyComponent;
 import dev.sweetberry.wwizardry.content.ContentInitializer;
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
-import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
 import dev.sweetberry.wwizardry.content.events.UseBlockHandler;
-import dev.sweetberry.wwizardry.content.item.ItemInitializer;
-import dev.sweetberry.wwizardry.content.trades.TradeInitializer;
+import dev.sweetberry.wwizardry.content.villager.VillagerInitializer;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
+import dev.sweetberry.wwizardry.fabric.component.FabricComponents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
+import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FabricInitializer implements ModInitializer {
-	public static final Lazy<CreativeModeTab> GROUP = ItemInitializer.registerTab(
-		"items",
-		() -> FabricItemGroup.builder()
-			.icon(() -> ItemInitializer.CRYSTALLINE_SCULK_SHARD.get().getDefaultInstance())
-			.displayItems((display, collector) -> collector.acceptAll(ItemInitializer.STACKS.stream().map(Lazy::get).map(Item::getDefaultInstance).collect(Collectors.toList())))
-			.title(net.minecraft.network.chat.Component.translatable("itemGroup.wwizardry.items"))
-			.build()
-	);
-
     @Override
     public void onInitialize() {
-		ComponentInitializer.getter = FabricInitializer::getComponent;
+		FabricComponents.init();
+
+		ComponentInitializer.getter = FabricComponents::getComponent;
 		WanderingWizardry.modLoadedCheck = FabricLoader.getInstance()::isModLoaded;
 
 		ContentInitializer.listenToAll(((registry, id, item) -> {
 			Registry.register(registry, id, item.get());
 		}));
 
-		PacketRegistry.SEND_TO_CLIENT.listen((player, packet) -> {
-			var payload = PacketByteBufs.create();
-			packet.writeTo(payload);
-			ServerPlayNetworking.send(player, packet.getId(), payload);
-		});
+		PacketRegistry.SEND_TO_CLIENT.listen(ServerPlayNetworking::send);
 
-		PacketRegistry.registerTo((id, constructor) -> {
-			ServerPlayNetworking.registerGlobalReceiver(id, ((server, player, handler, buf, responseSender) -> {
-				var packet = constructor.create(buf);
-				packet.onServerReceive(server, player.serverLevel(), player);
-			}));
+		PacketRegistry.registerTo((id, codec) -> {
+			PayloadTypeRegistry.playC2S().register(id, codec);
+			ServerPlayNetworking.registerGlobalReceiver(id, (payload, context) -> {
+				payload.onServerReceive(context.player().server, context.player().serverLevel(), context.player());
+			});
 		});
 
 		UseBlockCallback.EVENT.register((player, world, hand, hitResult) ->
@@ -84,32 +60,25 @@ public class FabricInitializer implements ModInitializer {
 			}
 		});
 
-		if (WanderingWizardry.isModLoaded("quilt_resource_loader"))
-			initWithQsl();
-
 		FabricInitializer.addWanderingTradesFor(1);
 		FabricInitializer.addWanderingTradesFor(2);
 
 		WanderingWizardry.init("fabric");
 
 		BlockInitializer.registerSecondaryBlockFunctions();
-    }
 
-	public static void initWithQsl() {
-		ResourceLoader.get(PackType.CLIENT_RESOURCES).getRegisterDefaultPackEvent().register(ctx -> {
-			DatagenInitializer.reloadPack(ctx.resourceManager());
-			ctx.addResourcePack(DatagenInitializer.pack);
-		});
-	}
+		for (var waxable : BlockInitializer.WAXABLES)
+			OxidizableBlocksRegistry.registerWaxableBlockPair(waxable.getFirst().get(), waxable.getSecond().get());
+		for (var waxable : BlockInitializer.WEATHERABLES)
+			OxidizableBlocksRegistry.registerOxidizableBlockPair(waxable.getFirst().get(), waxable.getSecond().get());
+
+		VillagerInitializer.addToBiomes();
+    }
 
 	private static void addWanderingTradesFor(int level) {
 		TradeOfferHelper.registerWanderingTraderOffers(
 			level,
-			offers -> offers.addAll(List.of(TradeInitializer.WANDERING_TRADER_OFFERS[level-1]))
+			offers -> offers.addAll(List.of(VillagerInitializer.WANDERING_TRADER_OFFERS[level-1]))
 		);
-	}
-
-	public static <T extends Component> T getComponent(ResourceLocation id, Entity entity) {
-		return (T) entity.getComponent(CardinalInitializer.COMPONENTS.get(id)).baseComponent;
 	}
 }

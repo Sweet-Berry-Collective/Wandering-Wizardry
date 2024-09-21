@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.block;
 
+import com.mojang.datafixers.util.Pair;
 import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.registry.RegistryContext;
@@ -8,24 +9,19 @@ import dev.sweetberry.wwizardry.content.block.altar.AltarPedestalBlock;
 import dev.sweetberry.wwizardry.content.block.entity.AltarCatalyzerBlockEntity;
 import dev.sweetberry.wwizardry.content.block.entity.AltarPedestalBlockEntity;
 import dev.sweetberry.wwizardry.content.block.entity.LogicGateBlockEntity;
-import dev.sweetberry.wwizardry.content.block.nature.FallingDecayableBlock;
-import dev.sweetberry.wwizardry.content.block.nature.RootedFlowerBlock;
-import dev.sweetberry.wwizardry.content.block.nature.RootedPlantBlock;
-import dev.sweetberry.wwizardry.content.block.nature.SculkflowerBlock;
+import dev.sweetberry.wwizardry.content.block.nature.*;
+import dev.sweetberry.wwizardry.content.block.redstone.CopperLensBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.LogicGateBlock;
 import dev.sweetberry.wwizardry.content.block.redstone.ResonatorBlock;
+import dev.sweetberry.wwizardry.content.block.redstone.WeatheringCopperLensBlock;
+import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import dev.sweetberry.wwizardry.mixin.Accessor_AxeItem;
 import dev.sweetberry.wwizardry.mixin.Accessor_BlockEntityType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DropExperienceBlock;
-import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.RedstoneLampBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.TransparentBlock;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -33,10 +29,7 @@ import net.minecraft.world.level.block.state.properties.ComparatorMode;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class BlockInitializer {
@@ -111,10 +104,9 @@ public class BlockInitializer {
 			LogicGateBlock.SideInput.ALL,
 			true,
 			(state, mode, side, back) -> {
-				int value = side == 0 ? 0 : back % side;
 				if (mode == ComparatorMode.SUBTRACT)
-					value = back - value;
-				return value;
+					return back - (side == 0 ? 0 : back % side);
+				return side == 0 ? back : back % side;
 			}
 		)
 	);
@@ -206,15 +198,235 @@ public class BlockInitializer {
 		)
 	);
 
-	public static final Lazy<Block> WALL_HOLDER = registerBlock(
+	public static final Lazy<Block> SCONCE = registerBlock(
 		"wall_holder",
-		() ->  new WallHolderBlock(
+		() ->  new SconceBlock(
 			BlockBehaviour.Properties.of()
 				.instabreak()
 				.mapColor(MapColor.COLOR_GRAY)
 		)
 	);
 
+	public static final Lazy<Block> SNAIL_SHELL = registerBlock(
+		"snail_shell",
+		() -> new ShellBlock(
+			BlockBehaviour.Properties.of()
+				.instabreak()
+				.mapColor(MapColor.TERRACOTTA_PINK)
+				.sound(SoundInitializer.SNAIL.get())
+		)
+	);
+
+	public static final Lazy<CopperLensBlock> WAXED_COPPER_LENS = registerBlock(
+		"waxed_copper_lens",
+		() -> new CopperLensBlock(
+			WeatheringCopper.WeatherState.UNAFFECTED,
+			BlockBehaviour.Properties.of()
+				.mapColor(Blocks.COPPER_BLOCK.defaultMapColor())
+				.strength(3.0F, 6.0F)
+				.sound(SoundType.COPPER_BULB)
+				.requiresCorrectToolForDrops()
+				.isRedstoneConductor((state, getter, pos) -> false)
+				.noOcclusion()
+		)
+	);
+
+	public static final Lazy<CopperLensBlock> WAXED_EXPOSED_COPPER_LENS = registerBlock(
+		"waxed_exposed_copper_lens",
+		() -> new CopperLensBlock(
+			WeatheringCopper.WeatherState.EXPOSED,
+			BlockBehaviour.Properties.of()
+				.mapColor(Blocks.EXPOSED_COPPER.defaultMapColor())
+				.strength(3.0F, 6.0F)
+				.sound(SoundType.COPPER_BULB)
+				.requiresCorrectToolForDrops()
+				.isRedstoneConductor((state, getter, pos) -> false)
+				.noOcclusion()
+		)
+	);
+
+	public static final Lazy<CopperLensBlock> WAXED_WEATHERED_COPPER_LENS = registerBlock(
+		"waxed_weathered_copper_lens",
+		() -> new CopperLensBlock(
+			WeatheringCopper.WeatherState.WEATHERED,
+			BlockBehaviour.Properties.of()
+				.mapColor(Blocks.WEATHERED_COPPER.defaultMapColor())
+				.strength(3.0F, 6.0F)
+				.sound(SoundType.COPPER_BULB)
+				.requiresCorrectToolForDrops()
+				.isRedstoneConductor((state, getter, pos) -> false)
+				.noOcclusion()
+		)
+	);
+
+	public static final Lazy<CopperLensBlock> WAXED_OXIDIZED_COPPER_LENS = registerBlock(
+		"waxed_oxidized_copper_lens",
+		() -> new CopperLensBlock(
+			WeatheringCopper.WeatherState.OXIDIZED,
+			BlockBehaviour.Properties.of()
+				.mapColor(Blocks.OXIDIZED_COPPER.defaultMapColor())
+				.strength(3.0F, 6.0F)
+				.sound(SoundType.COPPER_BULB)
+				.requiresCorrectToolForDrops()
+				.isRedstoneConductor((state, getter, pos) -> false)
+				.noOcclusion()
+		)
+	);
+
+	public static final Lazy<WeatheringCopperLensBlock> COPPER_LENS = registerBlock(
+		"copper_lens",
+		() -> new WeatheringCopperLensBlock(
+			WeatheringCopper.WeatherState.UNAFFECTED,
+			BlockBehaviour.Properties.of()
+				.mapColor(Blocks.COPPER_BLOCK.defaultMapColor())
+				.strength(3.0F, 6.0F)
+				.sound(SoundType.COPPER_BULB)
+				.requiresCorrectToolForDrops()
+				.isRedstoneConductor((state, getter, pos) -> false)
+				.noOcclusion()
+		)
+	);
+
+	public static final Lazy<WeatheringCopperLensBlock> EXPOSED_COPPER_LENS = registerBlock(
+		"exposed_copper_lens",
+		() -> new WeatheringCopperLensBlock(
+			WeatheringCopper.WeatherState.EXPOSED,
+			BlockBehaviour.Properties.of()
+				.mapColor(Blocks.EXPOSED_COPPER.defaultMapColor())
+				.strength(3.0F, 6.0F)
+				.sound(SoundType.COPPER_BULB)
+				.requiresCorrectToolForDrops()
+				.isRedstoneConductor((state, getter, pos) -> false)
+				.noOcclusion()
+		)
+	);
+
+	public static final Lazy<WeatheringCopperLensBlock> WEATHERED_COPPER_LENS = registerBlock(
+		"weathered_copper_lens",
+		() -> new WeatheringCopperLensBlock(
+			WeatheringCopper.WeatherState.WEATHERED,
+			BlockBehaviour.Properties.of()
+				.mapColor(Blocks.WEATHERED_COPPER.defaultMapColor())
+				.strength(3.0F, 6.0F)
+				.sound(SoundType.COPPER_BULB)
+				.requiresCorrectToolForDrops()
+				.isRedstoneConductor((state, getter, pos) -> false)
+				.noOcclusion()
+		)
+	);
+
+	public static final Lazy<WeatheringCopperLensBlock> OXIDIZED_COPPER_LENS = registerBlock(
+		"oxidized_copper_lens",
+		() -> new WeatheringCopperLensBlock(
+			WeatheringCopper.WeatherState.OXIDIZED,
+			BlockBehaviour.Properties.of()
+				.mapColor(Blocks.OXIDIZED_COPPER.defaultMapColor())
+				.strength(3.0F, 6.0F)
+				.sound(SoundType.COPPER_BULB)
+				.requiresCorrectToolForDrops()
+				.isRedstoneConductor((state, getter, pos) -> false)
+				.noOcclusion()
+		)
+	);
+
+	public static final Lazy<Block> SMALL_SCULK_BUD = registerBlock(
+		"small_sculk_bud",
+		() -> new AmethystClusterBlock(
+			3, 4,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.SMALL_AMETHYST_BUD)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> MEDIUM_SCULK_BUD = registerBlock(
+		"medium_sculk_bud",
+		() -> new AmethystClusterBlock(
+			4, 3,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.MEDIUM_AMETHYST_BUD)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> LARGE_SCULK_BUD = registerBlock(
+		"large_sculk_bud",
+		() -> new AmethystClusterBlock(
+			5, 3,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.LARGE_AMETHYST_BUD)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> SCULK_CLUSTER = registerBlock(
+		"sculk_cluster",
+		() -> new AmethystClusterBlock(
+			7, 3,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.AMETHYST_CLUSTER)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> SCULK_CRYSTAL = registerBlock(
+		"sculk_crystal",
+		() -> new Block(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.AMETHYST_BLOCK)
+				.mapColor(MapColor.ICE)
+		)
+	);
+
+	public static final Lazy<Block> BUDDING_SCULK_CRYSTAL = registerBlock(
+		"budding_sculk_crystal",
+		() -> new BuddingBlock(
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.AMETHYST_BLOCK)
+				.mapColor(MapColor.ICE)
+				.randomTicks(),
+			SMALL_SCULK_BUD,
+			MEDIUM_SCULK_BUD,
+			LARGE_SCULK_BUD,
+			SCULK_CLUSTER
+		)
+	);
+
+	public static final Lazy<Block> QUARTZ_GLASS = registerBlock(
+		"quartz_glass",
+		() -> new StainedGlassBlock(
+			DyeColor.WHITE,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
+		)
+	);
+
+	public static final Lazy<Block> ROSE_QUARTZ_GLASS = registerBlock(
+		"rose_quartz_glass",
+		() -> new StainedGlassBlock(
+			DyeColor.PINK,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
+		)
+	);
+
+	public static final Lazy<Block> DIAMOND_GLASS = registerBlock(
+		"diamond_glass",
+		() -> new StainedGlassBlock(
+			DyeColor.CYAN,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
+		)
+	);
+
+	public static final Lazy<Block> AMETHYST_GLASS = registerBlock(
+		"amethyst_glass",
+		() -> new StainedGlassBlock(
+			DyeColor.MAGENTA,
+			BlockBehaviour.Properties
+				.ofFullCopy(Blocks.GLASS)
+		)
+	);
 
 	public static final Lazy<BlockEntityType<AltarPedestalBlockEntity>> ALTAR_PEDESTAL_TYPE = registerBlockEntity(
 		"altar_pedestal",
@@ -239,9 +451,23 @@ public class BlockInitializer {
 		() -> BlockEntityType.Builder
 			.of(
 				LogicGateBlockEntity::new,
-				MODULO_COMPARATOR.get()
+				MODULO_COMPARATOR.get(),
+				REDSTONE_STEPPER.get()
 			).build(null)
 	);
+
+	public static final Pair<Lazy<WeatheringCopperLensBlock>, Lazy<CopperLensBlock>>[] WAXABLES = new Pair[] {
+		new Pair<>(BlockInitializer.COPPER_LENS, BlockInitializer.WAXED_COPPER_LENS),
+		new Pair<>(BlockInitializer.EXPOSED_COPPER_LENS, BlockInitializer.WAXED_EXPOSED_COPPER_LENS),
+		new Pair<>(BlockInitializer.WEATHERED_COPPER_LENS, BlockInitializer.WAXED_WEATHERED_COPPER_LENS),
+		new Pair<>(BlockInitializer.OXIDIZED_COPPER_LENS, BlockInitializer.WAXED_OXIDIZED_COPPER_LENS),
+	};
+
+	public static final Pair<Lazy<WeatheringCopperLensBlock>, Lazy<WeatheringCopperLensBlock>>[] WEATHERABLES = new Pair[] {
+		new Pair<>(BlockInitializer.COPPER_LENS, BlockInitializer.EXPOSED_COPPER_LENS),
+		new Pair<>(BlockInitializer.EXPOSED_COPPER_LENS, BlockInitializer.WEATHERED_COPPER_LENS),
+		new Pair<>(BlockInitializer.WEATHERED_COPPER_LENS, BlockInitializer.OXIDIZED_COPPER_LENS),
+	};
 
 	public static <T extends Block> Lazy<T> registerBlock(String id, Supplier<T> block) {
 		return (Lazy<T>) BLOCKS.register(WanderingWizardry.id(id), (Supplier<Block>) block);

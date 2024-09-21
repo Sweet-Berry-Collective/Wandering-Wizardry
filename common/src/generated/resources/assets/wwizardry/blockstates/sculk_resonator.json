@@ -1,1 +1,19 @@
-{"variants":{"facing=north":{"model":"wwizardry:block/sculk_resonator","y":180},"facing=south":{"model":"wwizardry:block/sculk_resonator"},"facing=east":{"model":"wwizardry:block/sculk_resonator","y":270},"facing=west":{"model":"wwizardry:block/sculk_resonator","y":90}}}
+{
+  "variants": {
+    "facing=north": {
+      "model": "wwizardry:block/sculk_resonator",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "wwizardry:block/sculk_resonator"
+    },
+    "facing=east": {
+      "model": "wwizardry:block/sculk_resonator",
+      "y": 270
+    },
+    "facing=west": {
+      "model": "wwizardry:block/sculk_resonator",
+      "y": 90
+    }
+  }
+}

@@ -18,18 +18,18 @@ public class DatagenInitializer {
 
 	public static final MapBackedPack pack = new MapBackedPack();
 
-	public static final WoodType DENIA_WOOD = registerDataGenerator("denia_wood", new WoodType("denia", MapColor.ICE, MapColor.DEEPSLATE, SoundType.WOOD));
-	public static final WoodType MYCHA_WOOD = registerDataGenerator("mycha_wood", new WoodType("mycha", MapColor.COLOR_PURPLE, MapColor.COLOR_BLUE, SoundType.NETHER_WOOD, BlockInitializer.MYCELIAL_SAND));
+	public static final WoodTypeGen DENIA_WOOD = registerDataGenerator("denia_wood", new WoodTypeGen("denia", MapColor.ICE, MapColor.DEEPSLATE, SoundType.WOOD));
+	public static final WoodTypeGen MYCHA_WOOD = registerDataGenerator("mycha_wood", new WoodTypeGen("mycha", MapColor.COLOR_PURPLE, MapColor.COLOR_BLUE, SoundType.NETHER_WOOD, BlockInitializer.MYCELIAL_SAND));
 
-	public static final BrickType CHISELED_BASALT = registerDataGenerator("chiseled_basalt", new BrickType("chiseled_basalt", false, MapColor.COLOR_GRAY, SoundType.BASALT));
-	public static final BrickType BASALT_BRICKS = registerDataGenerator("basalt_bricks", new BrickType("basalt_brick", true, MapColor.COLOR_GRAY, SoundType.BASALT));
-	public static final BrickType CUT_BASALT = registerDataGenerator("cut_basalt", new BrickType("cut_basalt", false, MapColor.COLOR_GRAY, SoundType.BASALT));
-	public static final BrickType BASALT_TILES = registerDataGenerator("basalt_tiles", new BrickType("basalt_tile", true, MapColor.COLOR_GRAY, SoundType.BASALT));
+	public static final BrickTypeGen CHISELED_BASALT = registerDataGenerator("chiseled_basalt", new BrickTypeGen("chiseled_basalt", false, MapColor.COLOR_GRAY, SoundType.BASALT));
+	public static final BrickTypeGen BASALT_BRICKS = registerDataGenerator("basalt_bricks", new BrickTypeGen("basalt_brick", true, MapColor.COLOR_GRAY, SoundType.BASALT));
+	public static final BrickTypeGen CUT_BASALT = registerDataGenerator("cut_basalt", new BrickTypeGen("cut_basalt", false, MapColor.COLOR_GRAY, SoundType.BASALT));
+	public static final BrickTypeGen BASALT_TILES = registerDataGenerator("basalt_tiles", new BrickTypeGen("basalt_tile", true, MapColor.COLOR_GRAY, SoundType.BASALT));
 
-	public static final BrickType MOSSY_CHISELED_BASALT = registerDataGenerator("mossy_chiseled_basalt", new BrickType("mossy_chiseled_basalt", false, MapColor.COLOR_GRAY, SoundType.BASALT));
-	public static final BrickType MOSSY_BASALT_BRICKS = registerDataGenerator("mossy_basalt_bricks", new BrickType("mossy_basalt_brick", true, MapColor.COLOR_GRAY, SoundType.BASALT));
-	public static final BrickType MOSSY_CUT_BASALT = registerDataGenerator("mossy_cut_basalt", new BrickType("mossy_cut_basalt", false, MapColor.COLOR_GRAY, SoundType.BASALT));
-	public static final BrickType MOSSY_BASALT_TILES = registerDataGenerator("mossy_basalt_tiles", new BrickType("mossy_basalt_tile", true, MapColor.COLOR_GRAY, SoundType.BASALT));
+	public static final BrickTypeGen MOSSY_CHISELED_BASALT = registerDataGenerator("mossy_chiseled_basalt", new BrickTypeGen("mossy_chiseled_basalt", false, MapColor.COLOR_GRAY, SoundType.BASALT));
+	public static final BrickTypeGen MOSSY_BASALT_BRICKS = registerDataGenerator("mossy_basalt_bricks", new BrickTypeGen("mossy_basalt_brick", true, MapColor.COLOR_GRAY, SoundType.BASALT));
+	public static final BrickTypeGen MOSSY_CUT_BASALT = registerDataGenerator("mossy_cut_basalt", new BrickTypeGen("mossy_cut_basalt", false, MapColor.COLOR_GRAY, SoundType.BASALT));
+	public static final BrickTypeGen MOSSY_BASALT_TILES = registerDataGenerator("mossy_basalt_tiles", new BrickTypeGen("mossy_basalt_tile", true, MapColor.COLOR_GRAY, SoundType.BASALT));
 
 	public static void init() {}
 
@@ -39,8 +39,14 @@ public class DatagenInitializer {
 		return t;
 	}
 
-	public static void reloadPack(ResourceManager manager) {
+	public static void reloadPack(ResourceManager manager) throws IOException {
 		DatagenInitializer.pack.clear(PackType.CLIENT_RESOURCES);
+		var opt = manager.getResource(WanderingWizardry.id("icon_large.png"));
+		if (opt.isPresent()) {
+			var png = opt.get().open();
+			pack.put("pack.png", png.readAllBytes());
+			png.close();
+		}
 		DatagenInitializer.REGISTRY
 			.values()
 			.forEach(generator -> generator.onRegisterPack(manager, pack));

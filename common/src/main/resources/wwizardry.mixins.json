@@ -5,14 +5,19 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "Accessor_AxeItem",
+    "Accessor_BeaconBlockEntity",
+    "Accessor_BlockBehaviour",
     "Accessor_BlockEntityType",
+    "Accessor_BlockSetType",
     "Accessor_PlayerRespawnLogic",
     "Accessor_PotionBrewing",
-    "Accessor_PotionBrewing_Mix",
     "Accessor_ServerPlayer",
     "Accessor_StructureProcessor",
-    "Accessor_TorchBlock",
+    "Accessor_VillagerType",
+    "Accessor_WoodType",
+    "Mixin_BeaconBlockEntity",
     "Mixin_Boat",
+    "Mixin_ChestBoat",
     "Mixin_Item",
     "Mixin_ItemEntity",
     "Mixin_MappedRegistry",
@@ -27,12 +32,10 @@
     "defaultRequire": 1
   },
   "client": [
-    "client.Mixin_HangingSignEditScreen",
+    "client.Mixin_BeaconRenderer",
+    "client.Mixin_ClientLevel",
     "client.Mixin_ItemInHandRenderer",
-    "client.Mixin_Model",
-    "client.Mixin_SignEditScreen",
-    "client.Mixin_SignRenderer",
-    "client.Mixin_SignRenderer_HangingSignRenderer"
+    "client.Mixin_Model"
   ],
   "refmap": "wwizardry.refmap.json"
 }

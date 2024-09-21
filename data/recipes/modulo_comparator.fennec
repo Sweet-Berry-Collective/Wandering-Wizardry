@@ -16,5 +16,5 @@ pattern [
 
 result {
     count = 1
-    item = "wwizardry:modulo_comparator"
+    id = "wwizardry:modulo_comparator"
 }

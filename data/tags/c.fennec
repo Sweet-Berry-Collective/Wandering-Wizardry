@@ -1,6 +1,11 @@
-blocks {
+block {
     glass_blocks [
         "wwizardry:reinforced_glass"
+
+        "wwizardry:quartz_glass"
+        "wwizardry:rose_quartz_glass"
+        "wwizardry:diamond_glass"
+        "wwizardry:amethyst_glass"
     ]
     glass_panes [
         "wwizardry:reinforced_glass_pane"
@@ -10,7 +15,7 @@ blocks {
         "wwizardry:deepslate_rose_quartz_ore"
     ]
 }
-items {
+item {
     glass_blocks [
         "wwizardry:reinforced_glass"
     ]

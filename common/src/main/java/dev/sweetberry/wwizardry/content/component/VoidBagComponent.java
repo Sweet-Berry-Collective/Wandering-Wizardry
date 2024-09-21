@@ -1,40 +1,54 @@
 package dev.sweetberry.wwizardry.content.component;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.sweetberry.wwizardry.api.component.Component;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.item.VoidBagItem;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 
-public class VoidBagComponent implements Component, Container {
+import java.util.List;
+
+public class VoidBagComponent implements Component<VoidBagComponent>, Container {
+	public static final Codec<VoidBagComponent> CODEC = RecordCodecBuilder.create(inst -> inst
+		.group(
+			Codec.BOOL.fieldOf("locked").forGetter(it -> it.locked),
+			ItemStack.OPTIONAL_CODEC.sizeLimitedListOf(27).fieldOf("items").forGetter(it -> it.inventory)
+		).apply(inst, VoidBagComponent::new)
+	);
+
 	public NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
 	public boolean locked = false;
 
+	public VoidBagComponent(boolean locked, List<ItemStack> inventory) {
+		this.locked = locked;
+		for (int i = 0; i < 27; i++)
+			this.inventory.set(i, inventory.get(i));
+	}
+
     public VoidBagComponent() {}
 
-    @Override
-	public void fromNbt(CompoundTag tag) {
-		inventory = NonNullList.withSize(27, ItemStack.EMPTY);
-		ContainerHelper.loadAllItems(tag, inventory);
-		locked = tag.getBoolean("Locked");
+	@Override
+	public Codec<VoidBagComponent> codec() {
+		return CODEC;
 	}
 
 	@Override
-	public void toNbt(CompoundTag tag) {
-		ContainerHelper.saveAllItems(tag, inventory);
-		tag.putBoolean("Locked", locked);
-		ItemStack previewStack = ItemInitializer.VOID_BAG.get().getDefaultInstance();
-		previewStack.getOrCreateTag().putBoolean("Locked", locked);
-		CompoundTag previewCompound = new CompoundTag();
-		previewStack.save(previewCompound);
-		tag.put("PreviewStack", previewCompound);
+	public void copyFrom(VoidBagComponent other) {
+		locked = other.locked;
+		inventory = other.inventory;
 	}
 
 	@Override
@@ -107,7 +121,7 @@ public class VoidBagComponent implements Component, Container {
 				return 0;
 			}
 
-			if (!ItemStack.isSameItemSameTags(inv_stack, stack))
+			if (!ItemStack.isSameItemSameComponents(inv_stack, stack))
 				continue;
 
 			var count_to_fill = inv_stack.getMaxStackSize() - inv_stack.getCount();

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:rose_quartz"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:crystalline_sculk"
+    }
+  ]
+}

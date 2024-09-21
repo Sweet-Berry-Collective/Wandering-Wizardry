@@ -16,7 +16,7 @@ public class BrewingCharmItem extends AltarCharmItem {
 		ItemStack ingredientStack = null;
 		for (var dir : AltarRecipeView.AltarDirection.cardinals()) {
 			var stack = view.getItemInPedestal(dir);
-			if (stack != null && PotionBrewing.isIngredient(stack)) {
+			if (stack != null && world.potionBrewing().isIngredient(stack)) {
 				ingredientSlot = dir;
 				ingredientStack = stack;
 				break;
@@ -30,9 +30,9 @@ public class BrewingCharmItem extends AltarCharmItem {
 			var stack = view.getItemInPedestal(dir);
 			if (stack == null)
 				continue;
-			if (PotionBrewing.hasMix(stack, ingredientStack)) {
+			if (world.potionBrewing().hasMix(stack, ingredientStack)) {
 				used = true;
-				view.setResultInPedestal(dir, PotionBrewing.mix(ingredientStack, stack));
+				view.setResultInPedestal(dir, world.potionBrewing().mix(ingredientStack, stack));
 			} else {
 				view.setResultInPedestal(dir, stack);
 			}

@@ -1,11 +1,10 @@
 package dev.sweetberry.wwizardry.mixin;
 
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
-import dev.sweetberry.wwizardry.content.world.processors.WaterLoggingFixProcessor;
-import dev.sweetberry.wwizardry.mixin.Accessor_StructureProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,6 +22,6 @@ public class Mixin_StructureTemplate {
 		if (placementData.getProcessors().stream().allMatch(
 			it -> ((Accessor_StructureProcessor)it).callGetType() == WorldgenInitializer.WATER_LOGGING_FIX.get()
 		))
-			placementData.setKeepLiquids(false);
+			placementData.setLiquidSettings(LiquidSettings.IGNORE_WATERLOGGING);
 	}
 }

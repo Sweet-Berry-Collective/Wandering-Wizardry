@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.block.entity;
 
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -15,12 +16,12 @@ public class LogicGateBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag nbt) {
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
 		nbt.putInt("OutputSignal", this.outputSignal);
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
 		this.outputSignal = nbt.getInt("OutputSignal");
 	}
 

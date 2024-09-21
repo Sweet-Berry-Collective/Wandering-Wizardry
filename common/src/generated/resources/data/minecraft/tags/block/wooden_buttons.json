@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:denia_button"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mycha_button"
+    }
+  ]
+}

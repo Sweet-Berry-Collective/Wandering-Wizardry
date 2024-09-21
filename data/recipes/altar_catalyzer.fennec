@@ -15,5 +15,5 @@ pattern [
 
 result {
     count = 1
-    item = "wwizardry:altar_catalyzer"
+    id = "wwizardry:altar_catalyzer"
 }

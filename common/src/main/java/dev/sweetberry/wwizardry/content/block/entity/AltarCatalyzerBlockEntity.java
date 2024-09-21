@@ -4,18 +4,16 @@ import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
 import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
-import dev.sweetberry.wwizardry.content.block.altar.AltarCatalyzerBlock;
-import dev.sweetberry.wwizardry.content.gamerule.GameruleInitializer;
+import dev.sweetberry.wwizardry.config.Config;
 import dev.sweetberry.wwizardry.content.item.ItemInitializer;
 import dev.sweetberry.wwizardry.content.net.packet.AltarCraftPacket;
-import dev.sweetberry.wwizardry.content.recipe.AltarCatalyzationRecipe;
 import dev.sweetberry.wwizardry.content.recipe.RecipeInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,14 +22,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SculkSpreader;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	public ItemStack result = ItemStack.EMPTY;
@@ -45,7 +44,7 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 
 	@Override
 	public void startCrafting(AltarRecipeView recipe) {
-		var bloomMultiplier = GameruleInitializer.getAltarSpreadMultiplier();
+		var bloomMultiplier = Config.getAltarSpreadMultiplier();
 		bloom = (int) Math.floor(recipe.getBloom() * bloomMultiplier);
 		result = recipe.getRecipeResult();
 		for (var neighbor : getNeighbors())
@@ -145,14 +144,14 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+		super.saveAdditional(nbt, provider);
 		behavior.save(nbt);
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+		super.loadAdditional(nbt, provider);
 		behavior.load(nbt);
 	}
 
@@ -265,46 +264,18 @@ public class AltarCatalyzerBlockEntity extends AltarBlockEntity {
 		}
 
 		@Override
-		public int getContainerSize() {
-			return 5;
-		}
-
-		@Override
 		public boolean isEmpty() {
 			return false;
 		}
 
 		@Override
-		public ItemStack getItem(int i) {
-			return getItemInPedestal(AltarDirection.values()[i]);
+		public @NotNull ItemStack getItem(int i) {
+			return Objects.requireNonNull(getItemInPedestal(AltarDirection.values()[i]));
 		}
 
 		@Override
-		public ItemStack removeItem(int i, int j) {
-			return null;
-		}
-
-		@Override
-		public ItemStack removeItemNoUpdate(int i) {
-			return null;
-		}
-
-		@Override
-		public void setItem(int i, ItemStack itemStack) {
-			setResultInPedestal(AltarDirection.values()[i], itemStack);
-		}
-
-		@Override
-		public void setChanged() {}
-
-		@Override
-		public boolean stillValid(Player player) {
-			return true;
-		}
-
-		@Override
-		public void clearContent() {
-
+		public int size() {
+			return 5;
 		}
 	}
 }

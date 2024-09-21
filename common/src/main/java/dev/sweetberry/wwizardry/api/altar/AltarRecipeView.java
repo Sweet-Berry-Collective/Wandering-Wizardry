@@ -4,6 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeInput;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * A view of the altars state as it tries to craft an item
  * */
-public interface AltarRecipeView extends Container {
+public interface AltarRecipeView extends RecipeInput {
 	/**
 	 * Gets an item in the referenced pedestal
 	 * Returns null if there's no pedestal

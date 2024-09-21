@@ -16,12 +16,12 @@ public class ComponentInitializer {
 		BoatComponent.BOATS.put(WanderingWizardry.id("denia"), new BoatComponent.BoatType(DatagenInitializer.DENIA_WOOD.PLANKS, DatagenInitializer.DENIA_WOOD.BOAT_ITEM, DatagenInitializer.DENIA_WOOD.BOAT_CHEST_ITEM));
 	}
 
-	public static <T extends Component> T getComponent(ResourceLocation id, Entity entity) {
+	public static <T extends Component<T>> T getComponent(ResourceLocation id, Entity entity) {
 		return getter.get(id, entity);
 	}
 
 	@FunctionalInterface
 	public interface ComponentGetter {
-		<T extends Component> T get(ResourceLocation id, Entity entity);
+		<T extends Component<T>> T get(ResourceLocation id, Entity entity);
 	}
 }

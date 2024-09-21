@@ -26,7 +26,7 @@ function getRecipe(recipe: BrickRecipe, file: string, outputDir: string) {
         const json = Generator[generator.type](recipe, generator)
         for (const key in json) {
             const outputFile = outputDir+"/"+file+"/"+generator.name+"/"+key+".json"
-            Deno.writeTextFileSync(outputFile, JSON.stringify(json[key]))
+            Deno.writeTextFileSync(outputFile, JSON.stringify(json[key], undefined, 2))
             console.log("    "+outputFile)
         }
     }
@@ -55,19 +55,19 @@ const Generator = {
                 type: "stonecutting",
                 count: 2,
                 ingredient: { item: recipe.block },
-                result: recipe.slab
+                result: { id: recipe.slab }
             },
             stairs: {
                 type: "stonecutting",
                 count: 1,
                 ingredient: { item: recipe.block },
-                result: recipe.stairs
+                result: { id: recipe.stairs }
             },
             wall:  {
                 type: "stonecutting",
                 count: 1,
                 ingredient: { item: recipe.block },
-                result: recipe.wall
+                result: { id: recipe.wall }
             }
         }
     },
@@ -85,7 +85,7 @@ const Generator = {
                 ],
                 result: {
                     count: 6,
-                    item: recipe.slab
+                    id: recipe.slab
                 }
             },
             stiars: {
@@ -102,7 +102,7 @@ const Generator = {
                 ],
                 result: {
                     count: 4,
-                    item: recipe.stairs
+                    id: recipe.stairs
                 }
             },
             wall: {
@@ -118,7 +118,7 @@ const Generator = {
                 ],
                 result: {
                     count: 6,
-                    item: recipe.wall
+                    id: recipe.wall
                 }
             }
         }
@@ -129,25 +129,25 @@ const Generator = {
                 type: "stonecutting",
                 count: 1,
                 ingredient: { item: generator.item },
-                result: recipe.block
+                result: { id: recipe.block }
             },
             slab: {
                 type: "stonecutting",
                 count: 2,
                 ingredient: { item: generator.item },
-                result: recipe.slab
+                result: { id: recipe.slab }
             },
             stairs: {
                 type: "stonecutting",
                 count: 1,
                 ingredient: { item: generator.item },
-                result: recipe.stairs
+                result: { id: recipe.stairs }
             },
             wall:  {
                 type: "stonecutting",
                 count: 1,
                 ingredient: { item: generator.item },
-                result: recipe.wall
+                result: { id: recipe.wall }
             }
         }
     },
@@ -164,7 +164,7 @@ const Generator = {
                 },
                 pattern: generator.pattern,
                 result: {
-                    item: recipe.block,
+                    id: recipe.block,
                     count: generator.count
                 }
             }
@@ -182,8 +182,7 @@ const Generator = {
                     { tag: "wwizardry:mossy_materials" }
                 ],
                 result: {
-                    item: recipe.block,
-                    count: 1
+                    id: recipe.block
                 }
             }
         }

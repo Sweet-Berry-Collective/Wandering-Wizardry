@@ -1,0 +1,131 @@
+[
+    # X
+    {
+        when {
+            powered = "false"
+            focus = "focused"
+            axis = "x"
+        }
+        apply {
+            model = "wwizardry:block/copper_lens/weathered/unpowered/focused"
+            x = 90
+            y = 90
+        }
+    }
+    {
+        when {
+            powered = "true"
+            focus = "focused"
+            axis = "x"
+        }
+        apply {
+            model = "wwizardry:block/copper_lens/weathered/powered/focused"
+            x = 90
+            y = 90
+        }
+    }
+    {
+        when {
+            powered = "false"
+            focus = "unfocused"
+            axis = "x"
+        }
+        apply {
+            model = "wwizardry:block/copper_lens/weathered/unpowered/unfocused"
+            x = 90
+            y = 90
+        }
+    }
+    {
+        when {
+            powered = "true"
+            focus = "unfocused"
+            axis = "x"
+        }
+        apply {
+            model = "wwizardry:block/copper_lens/weathered/powered/unfocused"
+            x = 90
+            y = 90
+        }
+    }
+
+    # Y
+    {
+        when {
+            powered = "false"
+            focus = "focused"
+            axis = "y"
+        }
+        apply = "wwizardry:block/copper_lens/weathered/unpowered/focused"
+    }
+    {
+        when {
+            powered = "true"
+            focus = "focused"
+            axis = "y"
+        }
+        apply = "wwizardry:block/copper_lens/weathered/powered/focused"
+    }
+    {
+        when {
+            powered = "false"
+            focus = "unfocused"
+            axis = "y"
+        }
+        apply = "wwizardry:block/copper_lens/weathered/unpowered/unfocused"
+    }
+    {
+        when {
+            powered = "true"
+            focus = "unfocused"
+            axis = "y"
+        }
+        apply = "wwizardry:block/copper_lens/weathered/powered/unfocused"
+    }
+
+    # Z
+    {
+        when {
+            powered = "false"
+            focus = "focused"
+            axis = "z"
+        }
+        apply {
+            model = "wwizardry:block/copper_lens/weathered/unpowered/focused"
+            x = 90
+        }
+    }
+    {
+        when {
+            powered = "true"
+            focus = "focused"
+            axis = "z"
+        }
+        apply {
+            model = "wwizardry:block/copper_lens/weathered/powered/focused"
+            x = 90
+        }
+    }
+    {
+        when {
+            powered = "false"
+            focus = "unfocused"
+            axis = "z"
+        }
+        apply {
+            model = "wwizardry:block/copper_lens/weathered/unpowered/unfocused"
+            x = 90
+        }
+    }
+    {
+        when {
+            powered = "true"
+            focus = "unfocused"
+            axis = "z"
+        }
+        apply {
+            model = "wwizardry:block/copper_lens/weathered/powered/unfocused"
+            x = 90
+        }
+    }
+]

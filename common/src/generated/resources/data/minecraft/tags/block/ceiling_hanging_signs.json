@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "required": false,
+      "id": "wwizardry:denia_hanging_sign"
+    },
+    {
+      "required": false,
+      "id": "wwizardry:mycha_hanging_sign"
+    }
+  ]
+}

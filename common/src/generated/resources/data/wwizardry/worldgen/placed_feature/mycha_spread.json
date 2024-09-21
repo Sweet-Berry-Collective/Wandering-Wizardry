@@ -1,1 +1,19 @@
-{"feature":"wwizardry:mycha_growth","placement":[{"type":"count","count":48},{"type":"in_square"},{"type":"heightmap","heightmap":"MOTION_BLOCKING"},{"type":"biome"}]}
+{
+  "feature": "wwizardry:mycha_growth",
+  "placement": [
+    {
+      "type": "count",
+      "count": 48
+    },
+    {
+      "type": "in_square"
+    },
+    {
+      "type": "heightmap",
+      "heightmap": "MOTION_BLOCKING"
+    },
+    {
+      "type": "biome"
+    }
+  ]
+}

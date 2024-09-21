@@ -1,1 +1,7 @@
-{"variants":{"":{"model":"wwizardry:block/mycha_roots"}}}
+{
+  "variants": {
+    "": {
+      "model": "wwizardry:block/mycha_roots"
+    }
+  }
+}

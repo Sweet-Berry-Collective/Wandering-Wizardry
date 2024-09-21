@@ -4,7 +4,7 @@ import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.client.WanderingWizardryClient;
 import dev.sweetberry.wwizardry.content.datagen.AbstractDataGenerator;
 import dev.sweetberry.wwizardry.content.datagen.DatagenInitializer;
-import dev.sweetberry.wwizardry.content.datagen.WoodType;
+import dev.sweetberry.wwizardry.content.datagen.WoodTypeGen;
 import net.minecraft.client.renderer.RenderType;
 
 public class DatagenRegistryAttachment {
@@ -16,12 +16,11 @@ public class DatagenRegistryAttachment {
 	}
 
 	public static void checkGenerator(AbstractDataGenerator dataGenerator) {
-		if (dataGenerator instanceof WoodType woodType) {
-			RenderLayers.put(RenderType.cutout(), woodType.DOOR, woodType.TRAPDOOR, woodType.SAPLING);
-			WanderingWizardryClient.addSignMaterial(WanderingWizardry.id(woodType.baseName));
-			if (woodType.fungus)
+		if (dataGenerator instanceof WoodTypeGen woodTypeGen) {
+			RenderLayers.put(RenderType.cutout(), woodTypeGen.DOOR, woodTypeGen.TRAPDOOR, woodTypeGen.SAPLING);
+			if (woodTypeGen.fungus)
 				return;
-			RenderLayers.put(RenderType.cutout(), woodType.LEAVES);
+			RenderLayers.put(RenderType.cutout(), woodTypeGen.LEAVES);
 		}
 	}
 }

@@ -14,5 +14,5 @@ pattern [
 
 result {
     count = 3
-    item = "wwizardry:mycha_hyphae"
+    id = "wwizardry:mycha_hyphae"
 }

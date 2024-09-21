@@ -9,10 +9,6 @@ def test_compat = true
 
 repositories {
 	maven {
-		name = 'Quilt'
-		url = 'https://maven.quiltmc.org/repository/release'
-	}
-	maven {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/'
 	}
@@ -45,10 +41,6 @@ loom {
 	}
 }
 
-project.configurations.configureEach {
-	exclude group: "net.fabricmc", module: "fabric-loader"
-}
-
 def classify(module, classifier) {
 	var m = module.get()
 	return "${m.module.group}:${m.module.name}:${m.version}:$classifier"
@@ -59,14 +51,13 @@ dependencies {
 
 	minecraft libs.minecraft
 	mappings loom.officialMojangMappings()
-	modImplementation libs.quilt.loader
+	modImplementation libs.fabric.loader
 	modImplementation libs.fabric.api
 
 	modImplementation libs.bundles.include.fabric
 	include libs.bundles.include.fabric
 
 	modCompileOnly classify(libs.emi.fabric, "api")
-	modCompileOnly libs.quilt.resource.loader
 
 	if (test_compat)
 		modRuntimeOnly libs.bundles.compat.fabric
@@ -84,7 +75,7 @@ processResources {
 tasks.withType(JavaCompile).configureEach {
 	source(project(":common").sourceSets.main.allSource)
 	it.options.encoding = 'UTF-8'
-	it.options.release = 17
+	it.options.release = 21
 	dependsOn ":generateData"
 }
 

@@ -14,6 +14,21 @@
     "sculkflower"
     "indigo_caeruleum"
 
+    "quartz_glass"
+    "rose_quartz_glass"
+    "diamond_glass"
+    "amethyst_glass"
+    "sculk_crystal"
+
+    "copper_lens"
+    "exposed_copper_lens"
+    "weathered_copper_lens"
+    "oxidized_copper_lens"
+    "waxed_copper_lens"
+    "waxed_exposed_copper_lens"
+    "waxed_weathered_copper_lens"
+    "waxed_oxidized_copper_lens"
+
     # Basalt Bricks
     "basalt_bricks"
     "basalt_brick_stairs"

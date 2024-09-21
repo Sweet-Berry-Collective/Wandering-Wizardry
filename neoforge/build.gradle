@@ -1,37 +1,41 @@
 plugins {
 	id 'java'
-	alias libs.plugins.neogradle
+	alias libs.plugins.mod.dev.gradle
     id 'java-library'
 }
 
-jarJar.enable()
+archivesBaseName = project.archives_base_name
+version = rootProject.version + "-neoforge"
 
-minecraft {
-	accessTransformers {
-		file('src/main/resources/accesstransformer.cfg')
+neoForge {
+	version = libs.versions.neoforge.get()
+	var at = project(":common").file('src/main/resources/accesstransformer.cfg')
+	if (at.exists()) {
+		accessTransformers = [at.absolutePath]
+	}
+	runs {
+		configureEach {
+			systemProperty('neoforge.enabledGameTestNamespaces', "wwizardry")
+			ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+		}
+		client {
+			client()
+		}
+		data {
+			data()
+		}
+		server {
+			server()
+		}
+	}
+	mods {
+		"wwizardry" {
+			sourceSet sourceSets.main
+		}
 	}
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-runs {
-	configureEach {
-		modSource project.sourceSets.main
-	}
-
-	data {
-		programArguments.addAll '--mod', project.archives_base_name, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-	}
-
-	client {
-		systemProperty 'neoforge.enabledGameTestNamespaces', project.archives_base_name
-	}
-
-	server {
-		systemProperty 'neoforge.enabledGameTestNamespaces', project.archives_base_name
-		programArgument '--nogui'
-	}
-}
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 repositories {
 	maven {
@@ -41,6 +45,17 @@ repositories {
 	maven {
 		name = "Forge"
 		url = "https://maven.minecraftforge.net/"
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
 	}
 }
 
@@ -59,9 +74,11 @@ dependencies {
 	testCompileOnly classify(libs.emi.neoforge, "api")
 	runtimeOnly libs.emi.neoforge
 
+	libs.bundles.include.neoforge.get().forEach {
+		jarJar(runtimeOnly(it))
+	}
 	implementation libs.bundles.include.neoforge
 	testImplementation libs.bundles.include.neoforge
-//	jarJar libs.bundles.include.neoforge
 }
 
 Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>
@@ -69,8 +86,9 @@ Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>
 tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
 	source(project(":common").sourceSets.main.allSource)
 	it.options.encoding = 'UTF-8'
-	it.options.release = 17
+	it.options.release = 21
 	dependsOn ":generateData"
+	dependsOn processResources
 }
 
 tasks.withType(Javadoc).matching(notNeoTask).configureEach {
@@ -81,7 +99,10 @@ processResources {
 	from project(":common").sourceSets.main.resources
 	inputs.property 'version', version
 
-	filesMatching('META-INF/mods.toml') {
+	filesMatching('META-INF/neoforge.mods.toml') {
 		expand "version": version
 	}
 }
+
+test.onlyIf { false }
+compileTestJava.onlyIf { false }

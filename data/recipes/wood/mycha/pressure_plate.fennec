@@ -11,4 +11,6 @@ pattern [
     "##"
 ]
 
-result { item="wwizardry:mycha_pressure_plate" }
+result {
+    id = "wwizardry:mycha_pressure_plate"
+}
