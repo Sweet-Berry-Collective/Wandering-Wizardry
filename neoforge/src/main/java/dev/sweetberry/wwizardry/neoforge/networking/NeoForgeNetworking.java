@@ -1,6 +1,7 @@
 package dev.sweetberry.wwizardry.neoforge.networking;
 
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.api.net.CustomPacket;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,8 +24,7 @@ public class NeoForgeNetworking {
 		PacketRegistry.registerTo((id, codec) -> {
 			registrar.playBidirectional(id, codec, (packet, context) -> {
 				if (context instanceof ClientPayloadContext) {
-					var client = Minecraft.getInstance();
-					packet.onClientReceive(Minecraft.getInstance(), client.level, client.player);
+					NeoforgeNetworkingClient.handleClient(packet);
 				} else {
 					var player = (ServerPlayer) context.player();
 					packet.onServerReceive(player.server, player.serverLevel(), player);

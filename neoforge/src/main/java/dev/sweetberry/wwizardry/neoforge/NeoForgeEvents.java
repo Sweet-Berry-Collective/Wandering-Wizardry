@@ -8,6 +8,7 @@ import dev.sweetberry.wwizardry.content.villager.VillagerInitializer;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -31,27 +32,9 @@ public class NeoForgeEvents {
 	}
 
 	@SubscribeEvent
-	public static void onTooltip(RenderTooltipEvent.GatherComponents event) {
-		var lines = event.getTooltipElements();
-
-		ItemTooltipHandler.addTooltips(
-			event.getItemStack(),
-			TooltipFlag.NORMAL,
-			(i, c) -> lines.addAll(i,
-				c.stream().map(it -> (FormattedText) it).map(Either::<FormattedText, TooltipComponent>left).toList()
-			)
-		);
-	}
-
-	@SubscribeEvent
-	public static void onClientTick(ClientTickEvent.Post ev) {
-		WanderingWizardryClient.tickCounter++;
-	}
-
-	@SubscribeEvent
 	public static void onUseOnBlock(UseItemOnBlockEvent event) {
 		var result = UseBlockHandler.onBlockUse(
-			event.getEntity(),
+			event.getPlayer(),
 			event.getLevel(),
 			event.getHand(),
 			event.getPos(),

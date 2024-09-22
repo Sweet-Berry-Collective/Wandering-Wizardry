@@ -12,6 +12,7 @@ import dev.sweetberry.wwizardry.content.villager.VillagerInitializer;
 import dev.sweetberry.wwizardry.neoforge.component.NeoForgeComponents;
 import dev.sweetberry.wwizardry.neoforge.networking.NeoForgeNetworking;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -39,20 +40,7 @@ public class NeoForgeInitializer {
 		WanderingWizardry.init("neoforge");
 
 		if (dist == Dist.CLIENT)
-			initClient(bus);
-	}
-
-	public void initClient(IEventBus bus) {
-		ClientEvents.registerModelPredicates((item, name, callback) -> {
-			ItemProperties.registerGeneric(
-				WanderingWizardry.id(name),
-				callback
-			);
-		});
-		bus.addListener(this::registerEntityRenderers);
-		bus.addListener(this::registerEntityLayers);
-		bus.addListener(this::registerClientReloadListeners);
-		WanderingWizardryClient.init();
+			NeoForgeClientEvents.init(bus);
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
@@ -74,26 +62,5 @@ public class NeoForgeInitializer {
 
 		BlockInitializer.registerSecondaryBlockFunctions();
 		VillagerInitializer.addToBiomes();
-	}
-
-	@SubscribeEvent
-	public void registerClientReloadListeners(RegisterClientReloadListenersEvent ev) {
-		ev.registerReloadListener(new PackReloader());
-	}
-
-	@SubscribeEvent
-	public void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-		ClientEvents.registerBlockEntityRenderers((type, renderer) -> {
-			event.registerBlockEntityRenderer(type.get(), renderer);
-		});
-
-		ClientEvents.registerEntityRenderers((type, renderer) -> {
-			event.registerEntityRenderer(type.get(), renderer);
-		});
-	}
-
-	@SubscribeEvent
-	public void registerEntityLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-		ClientEvents.registerModelLayers(event::registerLayerDefinition);
 	}
 }
