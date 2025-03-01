@@ -4,7 +4,8 @@
   "package": "dev.sweetberry.wwizardry.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "Mixin_DefaultAttributes"
+    "Mixin_DefaultAttributes",
+    "Mixin_VillagerTrades_EmeraldsForVillagerTypeItem"
   ],
   "injectors": {
     "defaultRequire": 1
