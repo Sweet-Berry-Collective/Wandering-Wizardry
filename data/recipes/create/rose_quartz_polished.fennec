@@ -1,6 +1,6 @@
 type = "create:sandpaper_polishing"
 
-ingrediends [{
+ingredients [{
     item = "wwizardry:rose_quartz"
 }]
 

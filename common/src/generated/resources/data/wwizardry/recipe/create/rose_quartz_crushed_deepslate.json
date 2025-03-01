@@ -1,7 +1,7 @@
 {
   "type": "create:crushing",
   "processingTime": 150,
-  "ingrediends": [
+  "ingredients": [
     {
       "item": "wwizardry:deepslate_rose_quartz_ore"
     }

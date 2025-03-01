@@ -2,7 +2,7 @@ type = "create:crushing"
 
 processingTime = 150
 
-ingrediends [{
+ingredients [{
     item = "wwizardry:rose_quartz_ore"
 }]
 
