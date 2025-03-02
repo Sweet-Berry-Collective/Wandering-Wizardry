@@ -17,6 +17,12 @@
     blocks = "Wandering Wizardry Blocks"
 }
 
+"biome.wwizardry" {
+    forgotten_fields = "Forgotten Fields"
+    fungal_forest = "Fungal Forest"
+    crystal_cove = "Crystal Cove"
+}
+
 "wwizardry.void_bag" {
     generic_1 = "This bag acts as a joint between dimensions,"
     generic_2 = "allowing you to store items across lifetimes."

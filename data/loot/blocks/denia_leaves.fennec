@@ -20,10 +20,10 @@ pools [
                             }
                             {
                                 condition = "match_tool"
-                                predicate { enchantments [{
-                                    enchantment = "silk_touch"
+                                predicate { predicates { "minecraft:enchantments": [{
+                                    enchantments = "silk_touch"
                                     levels { min = 1 }
-                                }]}
+                                }]}}
                             }
                         ]
                     }]
@@ -81,10 +81,10 @@ pools [
                     }
                     {
                         condition = "match_tool"
-                        predicate { enchantments [{
-                            enchantment = "silk_touch"
+                        predicate { predicates { "minecraft:enchantments": [{
+                            enchantments = "silk_touch"
                             levels { min = 1 }
-                        }]}
+                        }]}}
                     }
                 ]
             }

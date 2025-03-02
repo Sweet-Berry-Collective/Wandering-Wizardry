@@ -9,7 +9,7 @@
           "condition": "match_tool",
           "predicate": {
             "predicates": {
-              "enchantments": [
+              "minecraft:enchantments": [
                 {
                   "enchantments": "silk_touch",
                   "levels": {

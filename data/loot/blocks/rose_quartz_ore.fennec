@@ -12,10 +12,10 @@ pools [{
                 name = "wwizardry:rose_quartz_ore"
                 conditions [{
                     condition = "match_tool"
-                    predicate { enchantments [{
-                        enchantment = "silk_touch"
+                    predicate { predicates { "minecraft:enchantments": [{
+                        enchantments = "silk_touch"
                         levels { min = 1 }
-                    }]}
+                    }]}}
                 }]
             }
             {
