@@ -2,7 +2,7 @@ feature = "wwizardry:crystal_shard/large/floor/diamond"
 placement [
     {
         type = "count"
-        count = 16
+        count = 8
     }
     {
         type = "in_square"

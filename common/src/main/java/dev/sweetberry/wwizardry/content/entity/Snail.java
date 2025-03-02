@@ -49,7 +49,7 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 	protected Snail(EntityType<Snail> type, Level level) {
 		super(type, level);
 
-		setVariant(Variant.randomNonSlug(level().random));
+		setVariant(Variant.randomNonSlug(getRandom()));
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 		super.tick();
 
 		if (wasBaby && !isBaby())
-			setVariant(Variant.randomNonSlug(level().random));
+			setVariant(Variant.randomNonSlug(getRandom()));
 
 		if (getBlockStateOn().is(DAMAGES))
 			hurt(level().damageSources().dryOut(), 0.125f);
@@ -123,7 +123,7 @@ public class Snail extends Animal implements VariantHolder<Snail.Variant> {
 				CriterionInitializer.SHEAR_SNAIL.get().trigger(serverPlayer);
 			return InteractionResult.SUCCESS;
 		} else if (variant == Variant.SLUG && stack.is(ItemInitializer.SNAIL_SHELL.get())) {
-			setVariant(Variant.randomNonSlug(level().random));
+			setVariant(Variant.randomNonSlug(getRandom()));
 			level().playSound(player, BlockPos.containing(getPosition(0)), SoundInitializer.SNAIL_PLACE.get(), SoundSource.PLAYERS);
 			if (!player.isCreative())
 				stack.consume(1, player);

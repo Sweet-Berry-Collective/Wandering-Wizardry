@@ -2,7 +2,7 @@ feature = "wwizardry:crystal_shard/small/ceiling/amethyst"
 placement [
     {
         type = "count"
-        count = 64
+        count = 16
     }
     {
         type = "in_square"

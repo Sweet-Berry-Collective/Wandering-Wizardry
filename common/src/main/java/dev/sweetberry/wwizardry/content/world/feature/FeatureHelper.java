@@ -1,5 +1,6 @@
 package dev.sweetberry.wwizardry.content.world.feature;
 
+import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -79,7 +80,7 @@ public class FeatureHelper {
 	}
 
 	public static boolean canReplace(BlockState state) {
-		return state.isAir() || state.is(Blocks.WATER) || state.is(Blocks.LAVA);
+		return state.isAir() || state.is(Blocks.WATER) || state.is(Blocks.LAVA) || state.is(BlockInitializer.DIAMOND_GLASS.get()) || state.is(BlockInitializer.QUARTZ_GLASS.get()) || state.is(BlockInitializer.AMETHYST_GLASS.get()) || state.is(BlockInitializer.ROSE_QUARTZ_GLASS.get());
 	}
 
 	private static float mod1(float value) {
