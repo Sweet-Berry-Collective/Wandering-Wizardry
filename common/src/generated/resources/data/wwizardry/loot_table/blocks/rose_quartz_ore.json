@@ -19,7 +19,7 @@
                     "predicates": {
                       "minecraft:enchantments": [
                         {
-                          "enchantments": "silk_touch",
+                          "enchantments": "minecraft:silk_touch",
                           "levels": {
                             "min": 1
                           }
@@ -37,7 +37,7 @@
                 {
                   "function": "apply_bonus",
                   "formula": "ore_drops",
-                  "enchantment": "fortune"
+                  "enchantment": "minecraft:fortune"
                 },
                 {
                   "function": "explosion_decay"

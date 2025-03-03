@@ -13,7 +13,7 @@ pools [{
                 name = "wwizardry:sculk_cluster"
                 conditions [{
                     condition = "match_tool"
-                    predicate { predicates { "minecraft:enchantments": [{
+                    predicate { predicates { "minecraft:enchantments" [{
                         enchantments = "silk_touch"
                         levels { min = 1 }
                     }]}}

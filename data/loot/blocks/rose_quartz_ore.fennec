@@ -12,8 +12,8 @@ pools [{
                 name = "wwizardry:rose_quartz_ore"
                 conditions [{
                     condition = "match_tool"
-                    predicate { predicates { "minecraft:enchantments": [{
-                        enchantments = "silk_touch"
+                    predicate { predicates { "minecraft:enchantments" [{
+                        enchantments = "minecraft:silk_touch"
                         levels { min = 1 }
                     }]}}
                 }]
@@ -25,7 +25,7 @@ pools [{
                     {
                         function = "apply_bonus"
                         formula = "ore_drops"
-                        enchantment = "fortune"
+                        enchantment = "minecraft:fortune"
                     }
                     { function = "explosion_decay" }
                 ]

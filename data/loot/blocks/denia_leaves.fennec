@@ -20,7 +20,7 @@ pools [
                             }
                             {
                                 condition = "match_tool"
-                                predicate { predicates { "minecraft:enchantments": [{
+                                predicate { predicates { "minecraft:enchantments" [{
                                     enchantments = "silk_touch"
                                     levels { min = 1 }
                                 }]}}

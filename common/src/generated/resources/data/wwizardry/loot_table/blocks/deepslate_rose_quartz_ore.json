@@ -12,18 +12,23 @@
             {
               "type": "item",
               "name": "wwizardry:deepslate_rose_quartz_ore",
-              "predicate": {
-                "predicates": {
-                  "minecraft:enchantments": [
-                    {
-                      "enchantments": "silk_touch",
-                      "levels": {
-                        "min": 1
-                      }
+              "conditions": [
+                {
+                  "condition": "match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 }
-              }
+              ]
             },
             {
               "type": "item",
