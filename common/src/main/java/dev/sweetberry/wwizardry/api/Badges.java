@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.config.Config;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
@@ -17,7 +18,6 @@ import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ConcurrentMap;
 
 public class Badges {
 	private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
@@ -44,27 +44,56 @@ public class Badges {
 
 	private static final ConcurrentLinkedQueue<UUID> RESOLUTION_QUEUE = new ConcurrentLinkedQueue<>();
 
-	private static final Thread WORKER = new Thread(Badges::resolveThread);
+	private static Thread worker = new Thread(Badges::resolveThread);
+
+	static {
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			try {
+				if (worker.isAlive())
+					worker.join();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}));
+	}
 
 	@Nullable
 	public static Component getBadgeFor(UUID player) {
-		if (!WORKER.isAlive() && !WORKER.isInterrupted())
-			WORKER.start();
+		if (!Config.getEnableDevBadges())
+			return null;
+
+		if (!worker.isAlive() && !worker.isInterrupted()) {
+			worker = new Thread(Badges::resolveThread);
+			worker.start();
+		}
+
 		if (BADGES_CACHE.containsKey(player))
 			return BADGES_CACHE.get(player).orElse(null);
+
 		if (!RESOLUTION_QUEUE.contains(player))
 			RESOLUTION_QUEUE.add(player);
+
 		return null;
 	}
 
 	private static void resolveThread() {
-		while (true) {
+		byte queueCount = 0;
+
+		while (!Thread.currentThread().isInterrupted()) {
 			if (RESOLUTION_QUEUE.isEmpty()) {
+				// Quit the thread if it has been running idle for about a minute
+				// Since we're only ever incrementing it, it'll eventually overflow, and it'll reach 0 again after 256 times, or about 64 seconds.
+				queueCount++;
+				if (queueCount == 0)
+					return;
+
 				try {
-					Thread.sleep(100);
+					Thread.sleep(250);
 				} catch (InterruptedException ignored) {}
 				continue;
 			}
+			queueCount = 0;
+
 			var player = RESOLUTION_QUEUE.peek();
 			try {
 				var name = makeRequest(player);
@@ -72,7 +101,7 @@ public class Badges {
 				if (!MAP.containsKey(name))
 					BADGES_CACHE.put(player, Optional.empty());
 
-				WanderingWizardry.LOGGER.info(player + " -> " + name);
+				WanderingWizardry.LOGGER.info("{} -> {}", player, name);
 
 				var badge = MAP.get(name);
 				BADGES_CACHE.put(player, Optional.ofNullable(badge));

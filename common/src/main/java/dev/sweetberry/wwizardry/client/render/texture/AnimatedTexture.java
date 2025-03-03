@@ -3,6 +3,7 @@ package dev.sweetberry.wwizardry.client.render.texture;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.sweetberry.wwizardry.compat.sodium.TextureMarker;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.SpriteTicker;
@@ -17,7 +18,7 @@ import java.io.IOException;
 public class AnimatedTexture extends AbstractTexture implements Tickable {
 	public final ResourceLocation texture;
 
-	private SpriteContents contents;
+	public SpriteContents contents;
 	private SpriteTicker ticker;
 
 	public AnimatedTexture(ResourceLocation texture) {
@@ -33,7 +34,7 @@ public class AnimatedTexture extends AbstractTexture implements Tickable {
 			? ResourceMetadata.EMPTY
 			: ResourceMetadata.fromJsonStream(metadata.get().open());
 
-		var animationMetadataSection = (AnimationMetadataSection) resourceMetadata
+		var animationMetadataSection = resourceMetadata
 			.getSection(AnimationMetadataSection.SERIALIZER)
 			.orElse(AnimationMetadataSection.EMPTY);
 		var frameSize = animationMetadataSection.calculateFrameSize(nativeImage.getWidth(), nativeImage.getHeight());
@@ -61,16 +62,15 @@ public class AnimatedTexture extends AbstractTexture implements Tickable {
 	@Override
 	public void tick() {
 		if (ticker != null) {
-			if (RenderSystem.isOnRenderThread()) {
+			if (RenderSystem.isOnRenderThread())
 				cycle();
-			} else {
+			else
 				RenderSystem.recordRenderCall(this::cycle);
-			}
 		}
 	}
 
 	private void cycle() {
-//		SodiumIntegration.INSTANCE.markSpriteActive(contents);
+		TextureMarker.markTexture(this);
 		bind();
 		ticker.tickAndUpload(0, 0);
 	}

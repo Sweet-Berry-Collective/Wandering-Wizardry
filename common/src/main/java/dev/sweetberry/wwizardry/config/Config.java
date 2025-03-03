@@ -9,6 +9,8 @@ public class Config {
 
 	private boolean allowOpEnchants = false;
 
+	private boolean enableDevBadges = true;
+
 	public static double getAltarSpreadMultiplier() {
 		return globalInstance.altarSpreadMultiplier;
 	}
@@ -24,6 +26,15 @@ public class Config {
 
 	public static void setAllowOpEnchants(boolean allowOpEnchants) {
 		globalInstance.allowOpEnchants = allowOpEnchants;
+		ConfigHelper.saveGlobalConfig(globalInstance, name);
+	}
+
+	public static boolean getEnableDevBadges() {
+		return globalInstance.enableDevBadges;
+	}
+
+	public static void setEnableDevBadges(boolean enableDevBadges) {
+		globalInstance.enableDevBadges = enableDevBadges;
 		ConfigHelper.saveGlobalConfig(globalInstance, name);
 	}
 }

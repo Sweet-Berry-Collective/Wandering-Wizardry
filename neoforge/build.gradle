@@ -74,6 +74,8 @@ dependencies {
 	testCompileOnly classify(libs.emi.neoforge, "api")
 	runtimeOnly libs.emi.neoforge
 
+	compileOnly libs.sodium.neoforge
+
 	libs.bundles.include.neoforge.get().forEach {
 		jarJar(runtimeOnly(it))
 	}

@@ -59,6 +59,8 @@ dependencies {
 
 	modCompileOnly classify(libs.emi.fabric, "api")
 
+	modCompileOnly(libs.sodium.fabric)
+
 	if (test_compat)
 		modRuntimeOnly libs.bundles.compat.fabric
 }

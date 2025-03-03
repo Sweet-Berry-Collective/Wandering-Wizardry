@@ -1,6 +1,6 @@
 [versions]
 minecraft = "1.21.1"
-fabric_loader = "0.15.11"
+fabric_loader = "0.16.0"
 neoforge = "21.1.127"
 
 mixin = "0.8.5"
@@ -15,6 +15,9 @@ modmenu = "11.0.1"
 
 trimmed_fabric = "1.21-3.0.0+fabric"
 trimmed_neoforge = "1.21-3.0.0+neoforge"
+
+sodium_fabric = "mc1.21.1-0.6.9-fabric"
+sodium_neoforge = "mc1.21.1-0.6.9-neoforge"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -33,6 +36,9 @@ emi_neoforge = { module = "dev.emi:emi-neoforge", version.ref = "emi" }
 
 trimmed_neoforge = { module = "maven.modrinth:trimmed", version.ref = "trimmed_neoforge" }
 trimmed_fabric = { module = "maven.modrinth:trimmed", version.ref = "trimmed_fabric" }
+
+sodium_neoforge = { module = "maven.modrinth:sodium", version.ref = "sodium_neoforge" }
+sodium_fabric = { module = "maven.modrinth:sodium", version.ref = "sodium_fabric" }
 
 # Neoforge
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
@@ -54,11 +60,11 @@ include_fabric = ["terrablender_fabric", "trimmed_fabric"]
 
 include_neoforge = ["terrablender_neoforge", "trimmed_neoforge"]
 
-compat_fabric = ["emi_fabric", "modmenu"]
+compat_fabric = ["emi_fabric", "modmenu", "sodium_fabric"]
 
 [plugins]
 idea_ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.8" }
-loom = { id = "fabric-loom", version = "1.7-SNAPSHOT" }
+loom = { id = "fabric-loom", version = "1.8-SNAPSHOT" }
 vanilla_gradle = { id = "org.spongepowered.gradle.vanilla", version = "0.2.1-SNAPSHOT" }
 neogradle = { id = "net.neoforged.gradle.userdev", version = "7.0.107" }
 mod_dev_gradle = { id = "net.neoforged.moddev", version = "2.0.16-beta" }

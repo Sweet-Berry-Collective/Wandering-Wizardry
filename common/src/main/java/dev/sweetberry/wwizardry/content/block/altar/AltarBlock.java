@@ -232,12 +232,15 @@ public abstract class AltarBlock<T extends AltarBlockEntity> extends BaseEntityB
 	}
 
 	@Override
-	public int attemptUseCharge(SculkSpreader.ChargeCursor charge, LevelAccessor world, BlockPos pos, RandomSource random, SculkSpreader sculkChargeHandler, boolean spread) {
+	public int attemptUseCharge(SculkSpreader.ChargeCursor charge, LevelAccessor world, BlockPos _pos, RandomSource random, SculkSpreader sculkChargeHandler, boolean spread) {
+		var pos = charge.getPos();
+
 		var state = world.getBlockState(pos);
 		var stateDown = world.getBlockState(pos.below());
-		if (stateDown.getBlock() == Blocks.SCULK || stateDown.getBlock() == Blocks.AIR) {
+
+		if (stateDown.getBlock() == Blocks.SCULK || stateDown.getBlock() == Blocks.AIR)
 			world.setBlock(pos, state.setValue(Sculkable.SCULK_BELOW, true), UPDATE_ALL | UPDATE_KNOWN_SHAPE);
-		}
+
 		return charge.getCharge();
 	}
 
