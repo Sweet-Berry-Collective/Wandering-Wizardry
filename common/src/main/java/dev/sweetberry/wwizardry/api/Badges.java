@@ -62,13 +62,13 @@ public class Badges {
 		if (!Config.getEnableDevBadges())
 			return null;
 
+		if (BADGES_CACHE.containsKey(player))
+			return BADGES_CACHE.get(player).orElse(null);
+
 		if (!worker.isAlive() && !worker.isInterrupted()) {
 			worker = new Thread(Badges::resolveThread);
 			worker.start();
 		}
-
-		if (BADGES_CACHE.containsKey(player))
-			return BADGES_CACHE.get(player).orElse(null);
 
 		if (!RESOLUTION_QUEUE.contains(player))
 			RESOLUTION_QUEUE.add(player);
