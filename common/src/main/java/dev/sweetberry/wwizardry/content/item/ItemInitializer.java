@@ -274,6 +274,15 @@ public class ItemInitializer {
 		ITEMS_STACKS
 	);
 
+	public static final Lazy<Item> ECHO_LURE = registerItem(
+		"echo_lure",
+		() -> new Item(
+			new Item.Properties()
+				.stacksTo(1)
+		),
+		ITEMS_STACKS
+	);
+
 	public static final Lazy<Item> ALTAR_PEDESTAL = registerItem(
 		"altar_pedestal",
 		() -> new BlockItem(

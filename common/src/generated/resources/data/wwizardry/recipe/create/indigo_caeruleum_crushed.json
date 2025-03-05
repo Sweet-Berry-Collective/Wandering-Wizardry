@@ -3,29 +3,19 @@
   "processingTime": 150,
   "ingredients": [
     {
-      "item": "wwizardry:deepslate_rose_quartz_ore"
+      "item": "wwizardry:indigo_caeruleum"
     }
   ],
   "results": [
     {
-      "item": "wwizardry:rose_quartz"
+      "item": "cyan_dye"
     },
     {
-      "item": "wwizardry:rose_quartz"
+      "item": "purple_dye",
+      "chance": 0.5
     },
     {
-      "item": "wwizardry:rose_quartz"
-    },
-    {
-      "item": "wwizardry:rose_quartz",
-      "chance": 0.25
-    },
-    {
-      "item": "wwizardry:rose_quartz",
-      "chance": 0.25
-    },
-    {
-      "item": "create:polished_rose_quartz",
+      "item": "green_dye",
       "chance": 0.125
     }
   ],

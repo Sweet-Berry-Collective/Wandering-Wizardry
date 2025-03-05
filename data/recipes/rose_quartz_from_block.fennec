@@ -8,6 +8,6 @@ ingredients [
 ]
 
 result {
-    count = 9
+    count = 4
     id = "wwizardry:rose_quartz"
 }

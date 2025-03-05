@@ -1,0 +1,25 @@
+{
+  "type": "wwizardry:altar_catalyzation",
+  "keepCatalyst": false,
+  "bloom": 15,
+  "inputs": [
+    {
+      "item": "wwizardry:crystalline_sculk"
+    },
+    {
+      "item": "gold_ingot"
+    },
+    {
+      "item": "slime_ball"
+    },
+    {
+      "item": "ender_pearl"
+    }
+  ],
+  "catalyst": {
+    "item": "fishing_rod"
+  },
+  "result": {
+    "id": "wwizardry:echo_lure"
+  }
+}

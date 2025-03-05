@@ -17,6 +17,9 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 public class BrickTypeGen extends AbstractDataGenerator {
 	public final String baseName;
 	public final boolean plural;
@@ -36,19 +39,20 @@ public class BrickTypeGen extends AbstractDataGenerator {
 		this.baseName = baseName;
 		this.plural = plural;
 
-		final var blockSettings = BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS).sound(sounds).mapColor(color).requiresCorrectToolForDrops();
+		final Function<BlockBehaviour.Properties, BlockBehaviour.Properties> consumer = (p) -> p.sound(sounds).mapColor(color).requiresCorrectToolForDrops();
+
 		final var itemSettings = new Item.Properties();
 
-		BASE = BlockInitializer.registerBlock(baseName+(plural?"s":""), () -> new Block(blockSettings));
+		BASE = BlockInitializer.registerBlock(baseName+(plural?"s":""), (p) -> new Block(consumer.apply(p)));
 		BASE_ITEM = ItemInitializer.registerItem(baseName+(plural?"s":""), () -> new BlockItem(BASE.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", () -> new StairBlock(BASE.get().defaultBlockState(), blockSettings));
+		STAIRS = BlockInitializer.registerBlock(baseName+"_stairs", (p) -> new StairBlock(BASE.get().defaultBlockState(), consumer.apply(p)));
 		STAIRS_ITEM = ItemInitializer.registerItem(baseName+"_stairs", () -> new BlockItem(STAIRS.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		SLAB = BlockInitializer.registerBlock(baseName+"_slab", () -> new SlabBlock(blockSettings));
+		SLAB = BlockInitializer.registerBlock(baseName+"_slab", (p) -> new SlabBlock(consumer.apply(p)));
 		SLAB_ITEM = ItemInitializer.registerItem(baseName+"_slab", () -> new BlockItem(SLAB.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 
-		WALL = BlockInitializer.registerBlock(baseName+"_wall", () -> new WallBlock(blockSettings));
+		WALL = BlockInitializer.registerBlock(baseName+"_wall", (p) -> new WallBlock(consumer.apply(p)));
 		WALL_ITEM = ItemInitializer.registerItem(baseName+"_wall", () -> new BlockItem(WALL.get(), itemSettings), ItemInitializer.BLOCKS_STACKS);
 	}
 

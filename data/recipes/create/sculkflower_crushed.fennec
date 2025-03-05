@@ -3,23 +3,17 @@ type = "create:crushing"
 processingTime = 150
 
 ingredients [{
-    item = "wwizardry:rose_quartz_ore"
+    item = "wwizardry:sculkflower"
 }]
 
 results [
-    { item = "wwizardry:rose_quartz" }
-    { item = "wwizardry:rose_quartz" }
-    { item = "wwizardry:rose_quartz" }
+    { item = "black_dye" }
     {
-        item = "wwizardry:rose_quartz"
+        item = "green_dye"
         chance = 0.25
     }
     {
-        item = "wwizardry:rose_quartz"
-        chance = 0.25
-    }
-    {
-        item = "create:polished_rose_quartz"
+        item = "sculk_vein"
         chance = 0.125
     }
 ]

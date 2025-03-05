@@ -8,9 +8,8 @@
     }
   },
   "pattern": [
-    "RRR",
-    "RRR",
-    "RRR"
+    "RR",
+    "RR"
   ],
   "result": {
     "count": 1,

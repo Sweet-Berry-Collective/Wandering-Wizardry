@@ -32,75 +32,72 @@ import net.minecraft.world.level.material.PushReaction;
 import java.util.*;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unchecked")
 public class BlockInitializer {
 	public static final RegistryContext<Block> BLOCKS = new RegistryContext<>(BuiltInRegistries.BLOCK);
 	public static final RegistryContext<BlockEntityType<?>> BLOCK_ENTITIES = new RegistryContext<>(BuiltInRegistries.BLOCK_ENTITY_TYPE);
 
 	public static final Lazy<Block> INDIGO_CAERULEUM = registerBlock(
 		"indigo_caeruleum",
-		() -> new RootedFlowerBlock(
+		(p) -> new RootedFlowerBlock(
 			MobEffects.INVISIBILITY,
 			20,
 			"mycha_growable",
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.POPPY)
-		)
+			p
+		),
+		Blocks.POPPY
 	);
 
 	public static final Lazy<Block> REINFORCED_GLASS = registerBlock(
 		"reinforced_glass",
-		() -> new TransparentBlock(
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.GLASS)
+		(p) -> new TransparentBlock(
+			p
 				.requiresCorrectToolForDrops()
-		)
+		),
+		Blocks.GLASS
 	);
 
 	public static final Lazy<Block> REINFORCED_GLASS_PANE = registerBlock(
 		"reinforced_glass_pane",
-		() -> new IronBarsBlock(
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.GLASS)
+		(p) -> new IronBarsBlock(
+			p
 				.requiresCorrectToolForDrops()
-		)
+		),
+		Blocks.GLASS
 	);
 
 	public static final Lazy<Block> REDSTONE_LANTERN = registerBlock(
 		"redstone_lantern",
-		() -> new RedstoneLampBlock(
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.REDSTONE_LAMP)
-		)
+		RedstoneLampBlock::new,
+		Blocks.REDSTONE_LAMP
 	);
 
 	public static final Lazy<Block> ROSE_QUARTZ_ORE = registerBlock(
 		"rose_quartz_ore",
-		() -> new DropExperienceBlock(
+		(p) -> new DropExperienceBlock(
 			UniformInt.of(1,4),
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.IRON_ORE)
-		)
+			p
+		),
+		Blocks.IRON_ORE
 	);
 	public static final Lazy<Block> DEEPSLATE_ROSE_QUARTZ_ORE = registerBlock(
 		"deepslate_rose_quartz_ore",
-		() -> new DropExperienceBlock(
-			UniformInt.of(1,4),
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.DEEPSLATE_IRON_ORE)
-		)
+		(p) -> new DropExperienceBlock(
+			UniformInt.of(1, 4),
+			p
+		),
+		Blocks.DEEPSLATE_IRON_ORE
 	);
 	public static final Lazy<Block> ROSE_QUARTZ_BLOCK = registerBlock(
 		"rose_quartz_block",
-		() -> new Block(
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.AMETHYST_BLOCK)
-		)
+		Block::new,
+		Blocks.AMETHYST_BLOCK
 	);
 
 	public static final Lazy<Block> MODULO_COMPARATOR = registerBlock(
 		"modulo_comparator",
-		() -> new LogicGateBlock(
-			BlockBehaviour.Properties.ofFullCopy(Blocks.COMPARATOR),
+		(p) -> new LogicGateBlock(
+			p,
 			LogicGateBlock.SideInput.ALL,
 			true,
 			(state, mode, side, back) -> {
@@ -108,32 +105,36 @@ public class BlockInitializer {
 					return back - (side == 0 ? 0 : back % side);
 				return side == 0 ? back : back % side;
 			}
-		)
+		),
+		Blocks.COMPARATOR
 	);
 
 	public static final Lazy<Block> REDSTONE_STEPPER = registerBlock(
 		"redstone_stepper",
-		() -> new LogicGateBlock(
-			BlockBehaviour.Properties.ofFullCopy(Blocks.REPEATER),
+		(p) -> new LogicGateBlock(
+			p,
 			LogicGateBlock.SideInput.NONE,
 			false,
 			(state, mode, side, back) -> back > 0 ? 1 : 0
-		)
+		),
+		Blocks.REPEATER
 	);
 
 	public static final Lazy<Block> MYCELIAL_SAND = registerBlock(
 		"mycelial_sand",
-		() -> new FallingDecayableBlock(
-			BlockBehaviour.Properties.ofFullCopy(Blocks.SAND).mapColor(MapColor.ICE),
+		(p) -> new FallingDecayableBlock(
+			p
+				.mapColor(MapColor.ICE),
 			Blocks.SAND,
 			"mycha_spread"
-		)
+		),
+		Blocks.SAND
 	);
 
 	public static final Lazy<Block> MYCHA_ROOTS = registerBlock(
 		"mycha_roots",
-		() -> new RootedPlantBlock(
-			BlockBehaviour.Properties.of()
+		(p) -> new RootedPlantBlock(
+			p
 				.mapColor(MapColor.NETHER)
 				.replaceable()
 				.noCollission()
@@ -147,61 +148,57 @@ public class BlockInitializer {
 
 	public static final Lazy<Block> ALTAR_PEDESTAL = registerBlock(
 		"altar_pedestal",
-		() -> new AltarPedestalBlock(
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.REDSTONE_BLOCK)
-		)
+		AltarPedestalBlock::new,
+		Blocks.REDSTONE_BLOCK
 	);
 
 	public static final Lazy<AltarCatalyzerBlock> ALTAR_CATALYZER = registerBlock(
 		"altar_catalyzer",
-		() -> new AltarCatalyzerBlock(
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.REDSTONE_BLOCK)
-		)
+		AltarCatalyzerBlock::new,
+		Blocks.REDSTONE_BLOCK
 	);
 
 	public static final Lazy<Block> SCULK_RESONATOR = registerBlock(
 		"sculk_resonator",
-		() -> new ResonatorBlock(
-			BlockBehaviour.Properties.of()
+		(p) -> new ResonatorBlock(
+			p
 				.sound(SoundType.SCULK_SHRIEKER)
 		)
 	);
 
 	public static final Lazy<Block> SCULKFLOWER = registerBlock(
 		"sculkflower",
-		() -> new SculkflowerBlock(
+		(p) -> new SculkflowerBlock(
 			MobEffects.DARKNESS,
 			30,
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.POPPY)
+			p
 				.offsetType(BlockBehaviour.OffsetType.NONE)
-		)
+		),
+		Blocks.POPPY
 	);
 
 	public static final Lazy<Block> CRYSTALLINE_SCULK = registerBlock(
 		"crystalline_sculk_block",
-		() -> new CrystalSculkBlock(
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.AMETHYST_BLOCK)
+		(p) -> new CrystalSculkBlock(
+			p
 				.lightLevel((state) -> 1)
 				.mapColor(MapColor.ICE)
-		)
+		),
+		Blocks.AMETHYST_BLOCK
 	);
 
 	public static final Lazy<Block> CAMERA = registerBlock(
 		"camera",
-		() -> new CameraBlock(
-			BlockBehaviour.Properties.of()
+		(p) -> new CameraBlock(
+			p
 				.mapColor(MapColor.COLOR_GRAY)
 		)
 	);
 
 	public static final Lazy<Block> SCONCE = registerBlock(
 		"wall_holder",
-		() ->  new SconceBlock(
-			BlockBehaviour.Properties.of()
+		(p) ->  new SconceBlock(
+			p
 				.instabreak()
 				.mapColor(MapColor.COLOR_GRAY)
 		)
@@ -209,8 +206,8 @@ public class BlockInitializer {
 
 	public static final Lazy<Block> SNAIL_SHELL = registerBlock(
 		"snail_shell",
-		() -> new ShellBlock(
-			BlockBehaviour.Properties.of()
+		(p) -> new ShellBlock(
+			p
 				.instabreak()
 				.mapColor(MapColor.TERRACOTTA_PINK)
 				.sound(SoundInitializer.SNAIL.get())
@@ -219,9 +216,9 @@ public class BlockInitializer {
 
 	public static final Lazy<CopperLensBlock> WAXED_COPPER_LENS = registerBlock(
 		"waxed_copper_lens",
-		() -> new CopperLensBlock(
+		(p) -> new CopperLensBlock(
 			WeatheringCopper.WeatherState.UNAFFECTED,
-			BlockBehaviour.Properties.of()
+			p
 				.mapColor(Blocks.COPPER_BLOCK.defaultMapColor())
 				.strength(3.0F, 6.0F)
 				.sound(SoundType.COPPER_BULB)
@@ -233,9 +230,9 @@ public class BlockInitializer {
 
 	public static final Lazy<CopperLensBlock> WAXED_EXPOSED_COPPER_LENS = registerBlock(
 		"waxed_exposed_copper_lens",
-		() -> new CopperLensBlock(
+		(p) -> new CopperLensBlock(
 			WeatheringCopper.WeatherState.EXPOSED,
-			BlockBehaviour.Properties.of()
+			p
 				.mapColor(Blocks.EXPOSED_COPPER.defaultMapColor())
 				.strength(3.0F, 6.0F)
 				.sound(SoundType.COPPER_BULB)
@@ -247,9 +244,9 @@ public class BlockInitializer {
 
 	public static final Lazy<CopperLensBlock> WAXED_WEATHERED_COPPER_LENS = registerBlock(
 		"waxed_weathered_copper_lens",
-		() -> new CopperLensBlock(
+		(p) -> new CopperLensBlock(
 			WeatheringCopper.WeatherState.WEATHERED,
-			BlockBehaviour.Properties.of()
+			p
 				.mapColor(Blocks.WEATHERED_COPPER.defaultMapColor())
 				.strength(3.0F, 6.0F)
 				.sound(SoundType.COPPER_BULB)
@@ -261,9 +258,9 @@ public class BlockInitializer {
 
 	public static final Lazy<CopperLensBlock> WAXED_OXIDIZED_COPPER_LENS = registerBlock(
 		"waxed_oxidized_copper_lens",
-		() -> new CopperLensBlock(
+		(p) -> new CopperLensBlock(
 			WeatheringCopper.WeatherState.OXIDIZED,
-			BlockBehaviour.Properties.of()
+			p
 				.mapColor(Blocks.OXIDIZED_COPPER.defaultMapColor())
 				.strength(3.0F, 6.0F)
 				.sound(SoundType.COPPER_BULB)
@@ -275,9 +272,9 @@ public class BlockInitializer {
 
 	public static final Lazy<WeatheringCopperLensBlock> COPPER_LENS = registerBlock(
 		"copper_lens",
-		() -> new WeatheringCopperLensBlock(
+		(p) -> new WeatheringCopperLensBlock(
 			WeatheringCopper.WeatherState.UNAFFECTED,
-			BlockBehaviour.Properties.of()
+			p
 				.mapColor(Blocks.COPPER_BLOCK.defaultMapColor())
 				.strength(3.0F, 6.0F)
 				.sound(SoundType.COPPER_BULB)
@@ -289,9 +286,9 @@ public class BlockInitializer {
 
 	public static final Lazy<WeatheringCopperLensBlock> EXPOSED_COPPER_LENS = registerBlock(
 		"exposed_copper_lens",
-		() -> new WeatheringCopperLensBlock(
+		(p) -> new WeatheringCopperLensBlock(
 			WeatheringCopper.WeatherState.EXPOSED,
-			BlockBehaviour.Properties.of()
+			p
 				.mapColor(Blocks.EXPOSED_COPPER.defaultMapColor())
 				.strength(3.0F, 6.0F)
 				.sound(SoundType.COPPER_BULB)
@@ -303,9 +300,9 @@ public class BlockInitializer {
 
 	public static final Lazy<WeatheringCopperLensBlock> WEATHERED_COPPER_LENS = registerBlock(
 		"weathered_copper_lens",
-		() -> new WeatheringCopperLensBlock(
+		(p) -> new WeatheringCopperLensBlock(
 			WeatheringCopper.WeatherState.WEATHERED,
-			BlockBehaviour.Properties.of()
+			p
 				.mapColor(Blocks.WEATHERED_COPPER.defaultMapColor())
 				.strength(3.0F, 6.0F)
 				.sound(SoundType.COPPER_BULB)
@@ -317,9 +314,9 @@ public class BlockInitializer {
 
 	public static final Lazy<WeatheringCopperLensBlock> OXIDIZED_COPPER_LENS = registerBlock(
 		"oxidized_copper_lens",
-		() -> new WeatheringCopperLensBlock(
+		(p) -> new WeatheringCopperLensBlock(
 			WeatheringCopper.WeatherState.OXIDIZED,
-			BlockBehaviour.Properties.of()
+			p
 				.mapColor(Blocks.OXIDIZED_COPPER.defaultMapColor())
 				.strength(3.0F, 6.0F)
 				.sound(SoundType.COPPER_BULB)
@@ -331,101 +328,101 @@ public class BlockInitializer {
 
 	public static final Lazy<Block> SMALL_SCULK_BUD = registerBlock(
 		"small_sculk_bud",
-		() -> new AmethystClusterBlock(
+		(p) -> new AmethystClusterBlock(
 			3, 4,
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.SMALL_AMETHYST_BUD)
+			p
 				.mapColor(MapColor.ICE)
-		)
+		),
+		Blocks.SMALL_AMETHYST_BUD
 	);
 
 	public static final Lazy<Block> MEDIUM_SCULK_BUD = registerBlock(
 		"medium_sculk_bud",
-		() -> new AmethystClusterBlock(
+		(p) -> new AmethystClusterBlock(
 			4, 3,
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.MEDIUM_AMETHYST_BUD)
+			p
 				.mapColor(MapColor.ICE)
-		)
+		),
+		Blocks.MEDIUM_AMETHYST_BUD
 	);
 
 	public static final Lazy<Block> LARGE_SCULK_BUD = registerBlock(
 		"large_sculk_bud",
-		() -> new AmethystClusterBlock(
+		(p) -> new AmethystClusterBlock(
 			5, 3,
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.LARGE_AMETHYST_BUD)
+			p
 				.mapColor(MapColor.ICE)
-		)
+		),
+		Blocks.LARGE_AMETHYST_BUD
 	);
 
 	public static final Lazy<Block> SCULK_CLUSTER = registerBlock(
 		"sculk_cluster",
-		() -> new AmethystClusterBlock(
+		(p) -> new AmethystClusterBlock(
 			7, 3,
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.AMETHYST_CLUSTER)
+			p
 				.mapColor(MapColor.ICE)
-		)
+		),
+		Blocks.AMETHYST_CLUSTER
 	);
 
 	public static final Lazy<Block> SCULK_CRYSTAL = registerBlock(
 		"sculk_crystal",
-		() -> new Block(
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.AMETHYST_BLOCK)
+		(p) -> new Block(
+			p
 				.mapColor(MapColor.ICE)
-		)
+		),
+		Blocks.AMETHYST_BLOCK
 	);
 
 	public static final Lazy<Block> BUDDING_SCULK_CRYSTAL = registerBlock(
 		"budding_sculk_crystal",
-		() -> new BuddingBlock(
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.AMETHYST_BLOCK)
+		(p) -> new BuddingBlock(
+			p
 				.mapColor(MapColor.ICE)
 				.randomTicks(),
 			SMALL_SCULK_BUD,
 			MEDIUM_SCULK_BUD,
 			LARGE_SCULK_BUD,
 			SCULK_CLUSTER
-		)
+		),
+		Blocks.AMETHYST_BLOCK
 	);
 
 	public static final Lazy<Block> QUARTZ_GLASS = registerBlock(
 		"quartz_glass",
-		() -> new StainedGlassBlock(
+		(p) -> new StainedGlassBlock(
 			DyeColor.WHITE,
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.GLASS)
-		)
+			p
+		),
+		Blocks.GLASS
 	);
 
 	public static final Lazy<Block> ROSE_QUARTZ_GLASS = registerBlock(
 		"rose_quartz_glass",
-		() -> new StainedGlassBlock(
+		(p) -> new StainedGlassBlock(
 			DyeColor.PINK,
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.GLASS)
-		)
+			p
+		),
+		Blocks.GLASS
 	);
 
 	public static final Lazy<Block> DIAMOND_GLASS = registerBlock(
 		"diamond_glass",
-		() -> new StainedGlassBlock(
+		(p) -> new StainedGlassBlock(
 			DyeColor.CYAN,
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.GLASS)
-		)
+			p
+		),
+		Blocks.GLASS
 	);
 
 	public static final Lazy<Block> AMETHYST_GLASS = registerBlock(
 		"amethyst_glass",
-		() -> new StainedGlassBlock(
+		(p) -> new StainedGlassBlock(
 			DyeColor.MAGENTA,
-			BlockBehaviour.Properties
-				.ofFullCopy(Blocks.GLASS)
-		)
+			p
+		),
+		Blocks.GLASS
 	);
 
 	public static final Lazy<BlockEntityType<AltarPedestalBlockEntity>> ALTAR_PEDESTAL_TYPE = registerBlockEntity(
@@ -473,6 +470,18 @@ public class BlockInitializer {
 		return (Lazy<T>) BLOCKS.register(WanderingWizardry.id(id), (Supplier<Block>) block);
 	}
 
+	public static <T extends Block> Lazy<T> registerBlock(String id, BlockInitFunc<T> block) {
+		return (Lazy<T>) BLOCKS.register(WanderingWizardry.id(id), () -> block.init(BlockBehaviour.Properties.of()));
+	}
+
+	public static <T extends Block> Lazy<T> registerBlock(String id, BlockInitFunc<T> block, BlockBehaviour copy) {
+		return (Lazy<T>) BLOCKS.register(WanderingWizardry.id(id), () -> block.init(BlockBehaviour.Properties.ofFullCopy(copy)));
+	}
+
+	public static <T extends Block> Lazy<T> registerBlock(String id, BlockInitFunc<T> block, Supplier<? extends BlockBehaviour> copy) {
+		return (Lazy<T>) BLOCKS.register(WanderingWizardry.id(id), () -> block.init(BlockBehaviour.Properties.ofFullCopy(copy.get())));
+	}
+
 	public static <T extends BlockEntity> Lazy<BlockEntityType<T>> registerBlockEntity(String id, Supplier<BlockEntityType<T>> blockEntity) {
 		return (Lazy<BlockEntityType<T>>)(Object) BLOCK_ENTITIES.register(WanderingWizardry.id(id), (Supplier<BlockEntityType<?>>)(Object) blockEntity);
 	}
@@ -491,8 +500,7 @@ public class BlockInitializer {
 		if (!INTERNAL_BLOCKENTITY_MAP.containsKey(type))
 			INTERNAL_BLOCKENTITY_MAP.put(type, new HashSet<>());
 		var set = INTERNAL_BLOCKENTITY_MAP.get(type);
-		for (var block : blocks)
-			set.add(block);
+		set.addAll(Arrays.asList(blocks));
 	}
 
 	private static Set<Block> getBlocksForType(BlockEntityType<?> oldType) {
@@ -527,5 +535,10 @@ public class BlockInitializer {
 		var map = new HashMap<>(old);
 		Accessor_AxeItem.setStrippedBlocks(map);
 		return map;
+	}
+
+	@FunctionalInterface
+	public interface BlockInitFunc<T extends Block> {
+		T init(BlockBehaviour.Properties properties);
 	}
 }

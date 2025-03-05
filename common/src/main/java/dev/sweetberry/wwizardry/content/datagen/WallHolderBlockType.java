@@ -24,11 +24,16 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		this.block = block;
 		this.parent = parent;
 
-		wallBlock = BlockInitializer.registerBlock(transformId(id), () -> switch (parent) {
-			case CANDLE -> new CandleSconceBlock(BlockBehaviour.Properties.ofFullCopy(BlockInitializer.SCONCE.get()), (CandleBlock) block);
-			// TODO!
-			default -> throw new NotImplementedException("Type "+ parent.name +" is not implemented.");
-		});
+		switch (parent) {
+			case CANDLE:
+				wallBlock = BlockInitializer.registerBlock(
+					transformId(id),
+					(p) -> new CandleSconceBlock(p, (CandleBlock) block),
+					BlockInitializer.SCONCE
+				);
+			default:
+				throw new NotImplementedException("Type "+ parent.name +" is not implemented.");
+		}
 	}
 
 	public static String transformId(ResourceLocation id) {
@@ -51,8 +56,10 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 		TORCH_TOGGLEABLE("torch", true),
 		LANTERN("lantern", false),
 		LANTERN_TOGGLEABLE("lantern", true);
+
 		public final String name;
 		public final boolean isToggleable;
+
 		ParentType(String name, boolean isToggleable) {
 			this.name = name;
 			this.isToggleable = isToggleable;

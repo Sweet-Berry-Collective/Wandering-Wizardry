@@ -189,6 +189,10 @@ block {
         "wwizardry:mossy_chiseled_basalt_wall"
         "wwizardry:mossy_cut_basalt_wall"
     ]
+
+    sculk_replaceable [
+        "wwizardry:mycelial_sand"
+    ]
 }
 
 item {

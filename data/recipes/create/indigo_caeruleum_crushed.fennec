@@ -1,0 +1,28 @@
+type = "create:crushing"
+
+processingTime = 150
+
+ingredients [{
+    item = "wwizardry:indigo_caeruleum"
+}]
+
+results [
+    { item = "cyan_dye" }
+    {
+        item = "purple_dye"
+        chance = 0.5
+    }
+    {
+        item = "green_dye"
+        chance = 0.125
+    }
+]
+
+"fabric:load_conditions" [{
+    condition = "fabric:all_mods_loaded"
+    values [ "create" ]
+}]
+"neoforge:conditions" [{
+    type = "neoforge:mod_loaded"
+    modid = "create"
+}]

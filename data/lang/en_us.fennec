@@ -43,6 +43,11 @@
     broken = "It is currently broken, blocking your reflection."
 }
 
+"wwizardry.echo_lure" {
+    generic_1 = "A magical lure that attracts nearby items"
+    generic_2 = "from a further range than normally possible."
+}
+
 "advancement.wwizardry" {
     story {
         quartz {
@@ -141,6 +146,7 @@
     # Natural
     sculkflower = "Sculkflower"
     indigo_caeruleum = "Indigo Caeruleum"
+    mycha_roots = "Mycha Roots"
     mycelial_sand = "Mycelial Sand"
     snail_shell = "Snail Shell"
 
@@ -264,6 +270,8 @@
     anvil_charm = "Anvil Charm"
 
     soul_mirror = "Soul Mirror"
+
+    echo_lure = "Echo Lure"
 
     music_disc_wandering = "Music Disc"
 

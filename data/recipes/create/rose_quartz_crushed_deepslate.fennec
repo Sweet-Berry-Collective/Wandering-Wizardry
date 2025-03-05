@@ -7,9 +7,15 @@ ingredients [{
 }]
 
 results [
-    { item = "create:polished_rose_quartz" }
+    { item = "wwizardry:rose_quartz" }
+    { item = "wwizardry:rose_quartz" }
+    { item = "wwizardry:rose_quartz" }
     {
-        item = "create:polished_rose_quartz"
+        item = "wwizardry:rose_quartz"
+        chance = 0.25
+    }
+    {
+        item = "wwizardry:rose_quartz"
         chance = 0.25
     }
     {

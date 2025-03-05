@@ -23,6 +23,15 @@ pools [{
                 name = "wwizardry:rose_quartz"
                 functions [
                     {
+                        function = "set_count"
+                        add = false
+                        count {
+                            type = "uniform"
+                            max = 4
+                            min = 1
+                        }
+                    }
+                    {
                         function = "apply_bonus"
                         formula = "ore_drops"
                         enchantment = "minecraft:fortune"

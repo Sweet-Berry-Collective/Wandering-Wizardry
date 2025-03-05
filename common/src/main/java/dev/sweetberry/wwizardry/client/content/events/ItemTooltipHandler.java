@@ -49,6 +49,12 @@ public class ItemTooltipHandler {
 		Component.translatable("wwizardry.soul_mirror.broken").withStyle(ChatFormatting.DARK_PURPLE)
 	);
 
+	public static final List<Component> ECHO_LURE = List.of(
+		Component.empty(),
+		Component.translatable("wwizardry.echo_lure.generic_1").withStyle(ChatFormatting.DARK_PURPLE),
+		Component.translatable("wwizardry.echo_lure.generic_2").withStyle(ChatFormatting.DARK_PURPLE)
+	);
+
 	public static void addTooltips(ItemStack stack, TooltipFlag context, BiConsumer<Integer, List<Component>> lines) {
 		if (stack.is(ItemInitializer.VOID_BAG.get())) {
 			var player = Minecraft.getInstance().player;
@@ -65,6 +71,12 @@ public class ItemTooltipHandler {
 			lines.accept(
 				1,
 				ItemInitializer.SOUL_MIRROR.get().isFullyUsed(stack) ? SOUL_MIRROR_BROKEN : SOUL_MIRROR
+			);
+		}
+		if (stack.is(ItemInitializer.ECHO_LURE.get())) {
+			lines.accept(
+				1,
+				ECHO_LURE
 			);
 		}
 	}
