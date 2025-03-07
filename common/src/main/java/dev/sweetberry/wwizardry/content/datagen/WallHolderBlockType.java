@@ -31,6 +31,7 @@ public class WallHolderBlockType extends AbstractDataGenerator {
 					(p) -> new CandleSconceBlock(p, (CandleBlock) block),
 					BlockInitializer.SCONCE
 				);
+				break;
 			default:
 				throw new NotImplementedException("Type "+ parent.name +" is not implemented.");
 		}
