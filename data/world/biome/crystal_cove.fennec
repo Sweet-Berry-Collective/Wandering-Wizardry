@@ -70,7 +70,22 @@ features [
         "disk_clay"
         "disk_gravel"
     ]
+    []
     [
+        "spring_water"
+        "spring_lava"
+    ]
+    [
+        "glow_lichen"
+        "patch_tall_grass_2"
+        "trees_plains"
+        "flower_plains"
+        "patch_grass_plain"
+        "brown_mushroom_normal"
+        "red_mushroom_normal"
+        "patch_sugar_cane"
+        "patch_pumpkin"
+
         "wwizardry:crystal_shard/large/ceiling/amethyst"
         "wwizardry:crystal_shard/large/ceiling/diamond"
         "wwizardry:crystal_shard/large/ceiling/quartz"
@@ -90,21 +105,6 @@ features [
         "wwizardry:crystal_shard/small/floor/diamond"
         "wwizardry:crystal_shard/small/floor/quartz"
         "wwizardry:crystal_shard/small/floor/rose_quartz"
-    ]
-    [
-        "spring_water"
-        "spring_lava"
-    ]
-    [
-        "glow_lichen"
-        "patch_tall_grass_2"
-        "trees_plains"
-        "flower_plains"
-        "patch_grass_plain"
-        "brown_mushroom_normal"
-        "red_mushroom_normal"
-        "patch_sugar_cane"
-        "patch_pumpkin"
     ]
     [
         "freeze_top_layer"

@@ -2,6 +2,7 @@ package dev.sweetberry.wwizardry.content.world.feature;
 
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -20,7 +21,7 @@ public class FeatureHelper {
 	}
 
 	// Fast voxel traversal algorithm
-	public static <FC extends FeatureConfiguration> void drawLine(@NotNull FeaturePlaceContext<FC> context, BlockPos origin, BlockPos dest, BlockStateProvider provider, SafeSet set) {
+	public static <FC extends FeatureConfiguration> void drawLine(@NotNull FeaturePlaceContext<FC> context, ChunkPos originChunk, BlockPos origin, BlockPos dest, BlockStateProvider provider, SafeSet set) {
 		var level = context.level();
 		var rand = context.random();
 
@@ -60,7 +61,9 @@ public class FeatureHelper {
 			var blockPos = new BlockPos((int)Math.floor(x), (int)Math.floor(y), (int)Math.floor(z));
 			var state = level.getBlockState(blockPos);
 
-			if (level.ensureCanWrite(blockPos) && canReplace(state))
+			var destChunk = new ChunkPos(blockPos);
+
+			if (level.ensureCanWrite(blockPos) && canReplace(state) && (Math.abs(originChunk.x - destChunk.x) <= 1 || Math.abs(originChunk.z - destChunk.z) <= 1))
 				set.safeSetBlock(level, blockPos, provider.getState(rand, blockPos), a -> true);
 
 			if (blockPos.equals(dest) || dist > maxDist)

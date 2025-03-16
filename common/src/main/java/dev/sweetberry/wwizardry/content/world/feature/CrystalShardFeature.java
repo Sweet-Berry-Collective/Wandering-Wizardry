@@ -6,6 +6,7 @@ import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.content.world.WorldgenInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.FloatProvider;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.GeodeFeature;
@@ -28,42 +29,21 @@ public class CrystalShardFeature extends Feature<CrystalShardFeature.Config> {
 		var level = context.level();
 
 		var block = level.getBlockState(origin);
-		var check = FeatureHelper.canReplace(block);
-		if (conf.ceiling) {
-			while (FeatureHelper.canReplace(block) == check) {
-				origin = check ? origin.above() : origin.below();
-				if (origin.getY() > level.getMaxBuildHeight() || origin.getY() < level.getMinBuildHeight())
-					return false;
-				block = level.getBlockState(origin);
-			}
-		} else {
-			while (FeatureHelper.canReplace(block) == check) {
-				origin = check ? origin.below() : origin.above();
-				if (origin.getY() > level.getMaxBuildHeight() || origin.getY() < level.getMinBuildHeight())
-					return false;
-				block = level.getBlockState(origin);
-			}
-		}
-		if (!level.getBiome(origin).is(WorldgenInitializer.CRYSTAL_COVE))
+
+		var canGenerate = FeatureHelper.canReplace(block) && !FeatureHelper.canReplace(level.getBlockState(origin.above(conf.ceiling ? 1 : -1)));
+
+		if (!canGenerate)
 			return false;
 
-		// Get a random rotation
-		final var tau = (float) Math.TAU;
-		final var halfPi = (float) Math.PI / 2;
-		var q = new Quaternionf()
-			.rotateLocalX(rand.nextFloat() * halfPi + (conf.ceiling ? halfPi : 0))
-			.rotateLocalY(rand.nextFloat() * tau);
+		var radius = conf.radius.sample(rand);
+		var xo = rand.nextFloat() * radius * 2 - 1;
+		var zo = rand.nextFloat() * radius * 2 - 1;
 
-		var length = context.config().length.sample(rand);
-		var projected = new Vector3f(
-			0,
-			length,
-			0
-		).rotate(q);
-		var dest = origin.offset((int)projected.x, (int)projected.y, (int)projected.z);
+		var length = context.config().length.sample(rand) * (conf.ceiling ? -1 : 1);
+		var dest = origin.offset((int) Math.floor(xo), (int)length, (int) Math.floor(zo));
 
 		// Draw the lines
-		drawLines(context, origin, dest, conf.radius.sample(rand), conf.state);
+		drawLines(context, origin, dest, radius, conf.state);
 
 		return true;
 	}
@@ -78,7 +58,7 @@ public class CrystalShardFeature extends Feature<CrystalShardFeature.Config> {
 					if (dist > radius)
 						continue;
 					var pos = origin.offset(x, y, z);
-					FeatureHelper.drawLine(context, pos, dest, state, this::safeSetBlock);
+					FeatureHelper.drawLine(context, new ChunkPos(origin), pos, dest, state, this::safeSetBlock);
 				}
 			}
 		}
