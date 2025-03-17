@@ -39,6 +39,7 @@ public class FabricInitializer implements ModInitializer {
 
 		PacketRegistry.registerTo((id, codec) -> {
 			PayloadTypeRegistry.playC2S().register(id, codec);
+			PayloadTypeRegistry.playS2C().register(id, codec);
 			ServerPlayNetworking.registerGlobalReceiver(id, (payload, context) -> {
 				payload.onServerReceive(context.player().server, context.player().serverLevel(), context.player());
 			});

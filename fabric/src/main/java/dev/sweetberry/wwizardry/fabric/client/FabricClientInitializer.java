@@ -47,7 +47,6 @@ public class FabricClientInitializer implements ClientModInitializer {
 
 		PacketRegistry.SEND_TO_SERVER.listen(ClientPlayNetworking::send);
 		PacketRegistry.registerTo((id, codec) -> {
-			PayloadTypeRegistry.playS2C().register(id, codec);
 			ClientPlayNetworking.registerGlobalReceiver(id, (packet, context) -> {
 				packet.onClientReceive(context.client(), context.client().level, context.player());
 			});
