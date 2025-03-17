@@ -1,11 +1,13 @@
 package dev.sweetberry.wwizardry.mixin.client;
 
+import dev.sweetberry.wwizardry.WanderingWizardry;
 import dev.sweetberry.wwizardry.api.net.PacketRegistry;
 import dev.sweetberry.wwizardry.content.component.ComponentInitializer;
 import dev.sweetberry.wwizardry.content.net.packet.ComponentSyncPacket;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +21,8 @@ public class Mixin_ClientLevel {
 		method = "addEntity"
 	)
 	private void askForComponent(Entity entity, CallbackInfo ci) {
-		if (!(entity instanceof Boat))
+		final var type = entity.getType();
+		if (type != EntityType.BOAT && type != EntityType.CHEST_BOAT)
 			return;
 		PacketRegistry.sendToServer(new ComponentSyncPacket(ComponentInitializer.BOAT, entity.getId(), new CompoundTag()));
 	}
