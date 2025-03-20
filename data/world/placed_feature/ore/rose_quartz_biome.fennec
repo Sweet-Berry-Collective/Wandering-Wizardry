@@ -3,7 +3,7 @@ feature = "wwizardry:ore/rose_quartz"
 placement [
     {
         type = "count"
-        count = 8
+        count = 4
     }
     { type = "in_square" }
     {

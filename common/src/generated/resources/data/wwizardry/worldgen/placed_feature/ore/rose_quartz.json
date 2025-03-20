@@ -3,7 +3,7 @@
   "placement": [
     {
       "type": "count",
-      "count": 13
+      "count": 8
     },
     {
       "type": "in_square"
@@ -16,7 +16,7 @@
           "above_bottom": 96
         },
         "min_inclusive": {
-          "above_bottom": -16
+          "above_bottom": 32
         }
       }
     },

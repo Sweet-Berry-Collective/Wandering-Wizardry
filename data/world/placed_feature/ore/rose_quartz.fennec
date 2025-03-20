@@ -3,7 +3,7 @@ feature = "wwizardry:ore/rose_quartz"
 placement [
     {
         type = "count"
-        count = 13
+        count = 8
     }
     { type = "in_square" }
     {
@@ -11,7 +11,7 @@ placement [
         height {
             type = "trapezoid"
             max_inclusive { above_bottom = 96 }
-            min_inclusive { above_bottom = -16 }
+            min_inclusive { above_bottom = 32 }
         }
     }
     { type = "biome" }
