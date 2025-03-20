@@ -39,6 +39,22 @@ loom {
 	mixin {
 		defaultRefmapName.set("wwizardry.refmap.json")
 	}
+
+	runs {
+		client {
+			ideConfigGenerated = true
+			configName = "Fabric Client"
+
+			client()
+		}
+
+		server {
+			ideConfigGenerated = true
+			configName = "Fabric Server"
+
+			server()
+		}
+	}
 }
 
 def classify(module, classifier) {
