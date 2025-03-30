@@ -332,6 +332,7 @@ public class BlockInitializer {
 			3, 4,
 			p
 				.mapColor(MapColor.ICE)
+				.lightLevel(it -> 2)
 		),
 		Blocks.SMALL_AMETHYST_BUD
 	);
@@ -342,6 +343,7 @@ public class BlockInitializer {
 			4, 3,
 			p
 				.mapColor(MapColor.ICE)
+				.lightLevel(it -> 2)
 		),
 		Blocks.MEDIUM_AMETHYST_BUD
 	);
@@ -352,6 +354,7 @@ public class BlockInitializer {
 			5, 3,
 			p
 				.mapColor(MapColor.ICE)
+				.lightLevel(it -> 2)
 		),
 		Blocks.LARGE_AMETHYST_BUD
 	);
@@ -362,6 +365,7 @@ public class BlockInitializer {
 			7, 3,
 			p
 				.mapColor(MapColor.ICE)
+				.lightLevel(it -> 2)
 		),
 		Blocks.AMETHYST_CLUSTER
 	);
@@ -371,6 +375,7 @@ public class BlockInitializer {
 		(p) -> new Block(
 			p
 				.mapColor(MapColor.ICE)
+				.lightLevel(it -> 2)
 		),
 		Blocks.AMETHYST_BLOCK
 	);
@@ -380,6 +385,7 @@ public class BlockInitializer {
 		(p) -> new BuddingBlock(
 			p
 				.mapColor(MapColor.ICE)
+				.lightLevel(it -> 2)
 				.randomTicks(),
 			SMALL_SCULK_BUD,
 			MEDIUM_SCULK_BUD,
