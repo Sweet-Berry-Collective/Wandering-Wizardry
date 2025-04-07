@@ -56,8 +56,12 @@ public class ComponentSyncPacket implements CustomPacket {
 	}
 
 	private <T extends Component<T>> void onClientReceiveGeneric(Minecraft client, ClientLevel world, AbstractClientPlayer receiver) {
+		var actualEntity = world.getEntity(entity);
+		if (actualEntity == null)
+			return;
+
 		// please java
-		var component = ComponentInitializer.<T>getComponent(id, world.getEntity(entity));
+		var component = ComponentInitializer.<T>getComponent(id, actualEntity);
 		var codec = component.codec();
 		codec.decode(NbtOps.INSTANCE, this.component).result().map(Pair::getFirst).ifPresent(component::copyFrom);
 	}
@@ -68,7 +72,11 @@ public class ComponentSyncPacket implements CustomPacket {
 	}
 
 	private <T extends Component<T>> void onServerReceiveGeneric(MinecraftServer server, ServerLevel world, ServerPlayer sender) {
-		var component = ComponentInitializer.<T>getComponent(id, world.getEntity(entity));
+		var actualEntity = world.getEntity(entity);
+		if (actualEntity == null)
+			return;
+
+		var component = ComponentInitializer.<T>getComponent(id, actualEntity);
 		PacketRegistry.sendToClient(sender, new ComponentSyncPacket(id, entity, component.codec().encode(component, NbtOps.INSTANCE, this.component).result().orElse(this.component)));
 	}
 
