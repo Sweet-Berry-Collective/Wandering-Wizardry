@@ -23,7 +23,7 @@ public record EmiAltarShapelessRecipe(ResourceLocation id, List<EmiIngredient> i
 			inputs.set(i, EmiIngredient.of(ingredients.get(i)));
 		}
 
-		return new EmiAltarShapelessRecipe(WanderingWizardry.id(EmiInitializer.getPrefixedPathedIdentifier(id, "altar_crafting_shapeless")), inputs, EmiStack.of(output.copy()));
+		return new EmiAltarShapelessRecipe(WanderingWizardry.id(EmiInitializer.getPrefixedPathedIdentifier(id, "/altar_crafting_shapeless")), inputs, EmiStack.of(output.copy()));
 	}
 
 	@Override

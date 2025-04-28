@@ -104,10 +104,10 @@ public class EmiInitializer implements EmiPlugin {
 								Items.TIPPED_ARROW
 							};
 							final String[] strings = {
-								"potion/",
-								"splash_potion/",
-								"lingering_potion/",
-								"tipped_arrow/"
+								"/potion/",
+								"/splash_potion/",
+								"/lingering_potion/",
+								"/tipped_arrow/"
 							};
 
 							final ItemStack[] inputStacks = new ItemStack[4];

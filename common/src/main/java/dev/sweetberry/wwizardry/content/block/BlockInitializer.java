@@ -472,10 +472,6 @@ public class BlockInitializer {
 		new Pair<>(BlockInitializer.WEATHERED_COPPER_LENS, BlockInitializer.OXIDIZED_COPPER_LENS),
 	};
 
-	public static <T extends Block> Lazy<T> registerBlock(String id, Supplier<T> block) {
-		return (Lazy<T>) BLOCKS.register(WanderingWizardry.id(id), (Supplier<Block>) block);
-	}
-
 	public static <T extends Block> Lazy<T> registerBlock(String id, BlockInitFunc<T> block) {
 		return (Lazy<T>) BLOCKS.register(WanderingWizardry.id(id), () -> block.init(BlockBehaviour.Properties.of()));
 	}
