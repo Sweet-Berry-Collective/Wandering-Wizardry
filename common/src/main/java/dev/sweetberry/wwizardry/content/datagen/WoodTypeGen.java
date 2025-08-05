@@ -95,6 +95,7 @@ public class WoodTypeGen extends AbstractDataGenerator {
 		final BlockBehaviorFunction defaultBlockProperties = (it) -> it
 			.sound(sounds)
 			.mapColor(wood)
+			.strength(2.0F, 3.0F)
 			.instrument(NoteBlockInstrument.BASS)
 			.ignitedByLava();
 

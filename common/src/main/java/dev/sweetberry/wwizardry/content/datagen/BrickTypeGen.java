@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +40,12 @@ public class BrickTypeGen extends AbstractDataGenerator {
 		this.baseName = baseName;
 		this.plural = plural;
 
-		final Function<BlockBehaviour.Properties, BlockBehaviour.Properties> consumer = (p) -> p.sound(sounds).mapColor(color).requiresCorrectToolForDrops();
+		final Function<BlockBehaviour.Properties, BlockBehaviour.Properties> consumer = (p) -> p
+			.instrument(NoteBlockInstrument.BASEDRUM)
+			.strength(1.5F, 6.0F)
+			.sound(sounds)
+			.mapColor(color)
+			.requiresCorrectToolForDrops();
 
 		final var itemSettings = new Item.Properties();
 
