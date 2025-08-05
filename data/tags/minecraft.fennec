@@ -48,6 +48,9 @@ block {
             "wwizardry:large_sculk_bud"
             "wwizardry:sculk_cluster"
         ]
+        shovel [
+            "wwizardry:mycelial_sand"
+        ]
     }
 
     crystal_sound_blocks [
