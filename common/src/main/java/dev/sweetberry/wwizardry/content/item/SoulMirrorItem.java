@@ -330,13 +330,20 @@ public class SoulMirrorItem extends TieredItem implements AltarCraftable {
 		final var soulMirrorItem = ItemInitializer.SOUL_MIRROR.get();
 		view.keepCenter();
 
+		var center = view.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER);
+
+		assert center != null;
+
+		if (!center.has(DataComponents.LODESTONE_TRACKER))
+			return false;
+
 		for (var i : AltarRecipeView.AltarDirection.cardinals()) {
 			var item = view.getItemInPedestal(i);
 			if (item == null)
 				return false;
 
 			if (item.is(soulMirrorItem))
-				copyLodestone(view.getResultInPedestal(AltarRecipeView.AltarDirection.CENTER), item);
+				copyLodestone(center, item);
 
 			view.setResultInPedestal(i, item);
 		}
