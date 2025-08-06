@@ -32,4 +32,13 @@ public class WanderingWizardry {
 	public static boolean isModLoaded(String modid) {
 		return modLoadedCheck.apply(modid);
 	}
+
+	public static <T> boolean arrayContains(T[] arr, T val) {
+		for (var i : arr) {
+			if (i.equals(val))
+				return true;
+		}
+
+		return false;
+	}
 }

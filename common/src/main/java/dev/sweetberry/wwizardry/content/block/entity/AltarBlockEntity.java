@@ -4,6 +4,7 @@ import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
@@ -51,10 +52,6 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 
 	public float getCraftingTime(float tickDelta) {
 		return (craftingTick + tickDelta) / 100;
-	}
-
-	public float getCraftingTime() {
-		return getCraftingTime(0);
 	}
 
 	public float clampLerpTime(float add, float tickDelta, float from, float to) {
@@ -113,11 +110,28 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 		update();
 	}
 
+	@Override
+	public int getMaxStackSize() {
+		return 1;
+	}
+
+	@Override
+	public int getMaxStackSize(@NotNull ItemStack stack) {
+		return 1;
+	}
+
+	@Override
+	public boolean canPlaceItem(int slot, @NotNull ItemStack stack) {
+		return heldItem.isEmpty() && !crafting;
+	}
+
 	public void dropContainedItems(ItemStack stack) {
 		if (level == null)
 			return;
+
 		if (stack.isEmpty())
 			return;
+
 		getBundledStacks(stack).forEach(it -> {
 			if (it.isEmpty())
 				return;
@@ -185,15 +199,17 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 
 	@Override
 	public ItemStack getItem(int slot) {
-		if (crafting) return ItemStack.EMPTY;
-		var item = heldItem.copy();
-		item.setCount(64);
-		return item;
+		if (crafting)
+			return ItemStack.EMPTY;
+
+		return heldItem.copy();
 	}
 
 	@Override
 	public ItemStack removeItem(int slot, int amount) {
-		if (crafting) return ItemStack.EMPTY;
+		if (crafting)
+			return ItemStack.EMPTY;
+
 		var item = heldItem.copy();
 		heldItem = ItemStack.EMPTY;
 		setChanged();
@@ -202,7 +218,9 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 
 	@Override
 	public ItemStack removeItemNoUpdate(int slot) {
-		if (crafting) return ItemStack.EMPTY;
+		if (crafting)
+			return ItemStack.EMPTY;
+
 		var item = heldItem.copy();
 		heldItem = ItemStack.EMPTY;
 		setChanged();
@@ -211,7 +229,9 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 
 	@Override
 	public void setItem(int slot, ItemStack stack) {
-		if (crafting) return;
+		if (crafting)
+			return;
+
 		heldItem = stack.copy();
 		heldItem.setCount(1);
 		tryCraft();
@@ -220,7 +240,9 @@ public abstract class AltarBlockEntity extends BlockEntity implements Container 
 
 	@Override
 	public void setChanged() {
-		if (level == null) return;
+		if (level == null)
+			return;
+
 		if (level.isClientSide())
 			Minecraft.getInstance().levelRenderer.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
 		else

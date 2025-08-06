@@ -268,6 +268,7 @@
     brewing_charm = "Brewing Charm"
     smithing_charm = "Smithing Charm"
     anvil_charm = "Anvil Charm"
+    repair_charm = "Repair Charm"
 
     soul_mirror = "Soul Mirror"
 

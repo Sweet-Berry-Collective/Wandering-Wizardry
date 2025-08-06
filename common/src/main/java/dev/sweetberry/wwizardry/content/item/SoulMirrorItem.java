@@ -1,7 +1,8 @@
 package dev.sweetberry.wwizardry.content.item;
 
 import com.google.common.collect.ImmutableList;
-import dev.sweetberry.wwizardry.WanderingWizardry;
+import dev.sweetberry.wwizardry.api.altar.AltarCraftable;
+import dev.sweetberry.wwizardry.api.altar.AltarRecipeView;
 import dev.sweetberry.wwizardry.content.criterion.CriterionInitializer;
 import dev.sweetberry.wwizardry.content.item.tier.CrystallineSculkTier;
 import dev.sweetberry.wwizardry.mixin.Accessor_PlayerRespawnLogic;
@@ -10,12 +11,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.PlayerRespawnLogic;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -45,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class SoulMirrorItem extends TieredItem {
+public class SoulMirrorItem extends TieredItem implements AltarCraftable {
 	private static final ImmutableList<Vec3i> VALID_HORIZONTAL_SPAWN_OFFSETS = ImmutableList.of(
 		new Vec3i(0, 0, -1),
 		new Vec3i(-1, 0, 0),
@@ -322,6 +319,29 @@ public class SoulMirrorItem extends TieredItem {
 	private void writeLodestone(ResourceKey<Level> worldKey, BlockPos pos, ItemStack stack) {
 		var tracker = new LodestoneTracker(Optional.of(GlobalPos.of(worldKey, pos)), true);
 		stack.set(DataComponents.LODESTONE_TRACKER, tracker);
+	}
+
+	private void copyLodestone(ItemStack from, ItemStack to) {
+		to.set(DataComponents.LODESTONE_TRACKER, from.get(DataComponents.LODESTONE_TRACKER));
+	}
+
+	@Override
+	public boolean tryCraft(AltarRecipeView view, Level world) {
+		final var soulMirrorItem = ItemInitializer.SOUL_MIRROR.get();
+		view.keepCenter();
+
+		for (var i : AltarRecipeView.AltarDirection.cardinals()) {
+			var item = view.getItemInPedestal(i);
+			if (item == null)
+				return false;
+
+			if (item.is(soulMirrorItem))
+				copyLodestone(view.getResultInPedestal(AltarRecipeView.AltarDirection.CENTER), item);
+
+			view.setResultInPedestal(i, item);
+		}
+
+		return true;
 	}
 
 	public record PosAndWorld(BlockPos pos, @Nullable ServerLevel world) {}

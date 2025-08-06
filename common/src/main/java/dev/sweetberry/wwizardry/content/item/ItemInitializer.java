@@ -5,10 +5,7 @@ import dev.sweetberry.wwizardry.api.Lazy;
 import dev.sweetberry.wwizardry.api.registry.RegistryContext;
 import dev.sweetberry.wwizardry.content.block.BlockInitializer;
 import dev.sweetberry.wwizardry.content.entity.EntityInitializer;
-import dev.sweetberry.wwizardry.content.item.charm.AnvilCharmItem;
-import dev.sweetberry.wwizardry.content.item.charm.BrewingCharmItem;
-import dev.sweetberry.wwizardry.content.item.charm.CraftingCharmItem;
-import dev.sweetberry.wwizardry.content.item.charm.SmithingCharmItem;
+import dev.sweetberry.wwizardry.content.item.charm.*;
 import dev.sweetberry.wwizardry.content.sounds.SoundInitializer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -239,6 +236,15 @@ public class ItemInitializer {
 	public static final Lazy<Item> ANVIL_CHARM = registerItem(
 		"anvil_charm",
 		() -> new AnvilCharmItem(
+			new Item.Properties()
+				.stacksTo(1)
+		),
+		ITEMS_STACKS
+	);
+
+	public static final Lazy<Item> REPAIR_CHARM = registerItem(
+		"repair_charm",
+		() -> new RepairCharmItem(
 			new Item.Properties()
 				.stacksTo(1)
 		),
