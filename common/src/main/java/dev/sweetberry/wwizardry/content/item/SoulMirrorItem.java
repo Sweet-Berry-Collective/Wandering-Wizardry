@@ -36,6 +36,7 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -183,7 +184,7 @@ public class SoulMirrorItem extends TieredItem implements AltarCraftable {
 		if (!player.isCreative())
 			stack.hurtAndBreak(1, user, EquipmentSlot.MAINHAND);
 
-		var posAndWorld = moveToSpawnPoint(server, player);
+		var posAndWorld = moveToSpawnPoint(player);
 		var respawnWorld = posAndWorld.world == null ? world : posAndWorld.world;
 		var respawnPos = posAndWorld.pos;
 
@@ -251,69 +252,12 @@ public class SoulMirrorItem extends TieredItem implements AltarCraftable {
 		return InteractionResult.sidedSuccess(world.isClientSide);
 	}
 
-	public static PosAndWorld moveToSpawnPoint(MinecraftServer server, ServerPlayer player) {
-		var pos = player.getRespawnPosition();
-		if (pos == null)
-			return moveToWorldSpawn(server, player);
-		var world = server.getLevel(player.getRespawnDimension());
-		if (world == null)
-			return moveToWorldSpawn(server, player);
-		var _respawnPos = Accessor_ServerPlayer.invokeFindRespawnAndUseSpawnBlock(world, pos, player.getRespawnAngle(), player.isRespawnForced(), true);
-		if (_respawnPos.isEmpty())
-			return moveToWorldSpawn(server, player);
-		var respawnPos = _respawnPos.get();
-		player.teleportTo(world, respawnPos.position().x, respawnPos.position().y, respawnPos.position().z, respawnPos.yaw(), 0);
-		return new PosAndWorld(BlockPos.containing(respawnPos.position().x, respawnPos.position().y, respawnPos.position().z), world);
-	}
+	public static PosAndWorld moveToSpawnPoint(ServerPlayer player) {
+		var transition = player.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
 
-	private static PosAndWorld moveToWorldSpawn(MinecraftServer server, ServerPlayer player) {
-		var world = server.overworld();
-		var access = (Accessor_ServerPlayer)player;
-		BlockPos blockPos = world.getSharedSpawnPos();
-		if (world.dimensionType().hasSkyLight() && world.getServer().getWorldData().getGameType() != GameType.ADVENTURE) {
-			int i = Math.max(0, server.getSpawnRadius(world));
-			int j = Mth.floor(world.getWorldBorder().getDistanceToBorder(blockPos.getX(), blockPos.getZ()));
-			if (j < i) {
-				i = j;
-			}
+		player.teleportTo(transition.newLevel(), transition.pos().x, transition.pos().y, transition.pos().z, transition.xRot(), transition.yRot());
 
-			if (j <= 1) {
-				i = 1;
-			}
-
-			long l = i * 2L + 1;
-			long m = l * l;
-			int k = m > 2147483647L ? Integer.MAX_VALUE : (int)m;
-			int n = access.invokeGetCoprime(k);
-			int o = RandomSource.create().nextInt(k);
-
-			for(int p = 0; p < k; ++p) {
-				int q = (o + n * p) % k;
-				int r = q % (i * 2 + 1);
-				int s = q / (i * 2 + 1);
-				BlockPos blockPos2 = Accessor_PlayerRespawnLogic.invokeGetOverworldRespawnPos(world, blockPos.getX() + r - i, blockPos.getZ() + s - i);
-				if (blockPos2 != null) {
-					var box = new AABB(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ(), blockPos2.getX()+1, blockPos2.getY()+2, blockPos2.getZ()+1);
-					if (world.noCollision(box)) {
-						var center = blockPos2.getCenter();
-						player.teleportTo(world, center.x, blockPos2.getY(), center.z, 0, 0);
-						return new PosAndWorld(blockPos2, world);
-					}
-				}
-			}
-		} else {
-			var addY = 0;
-			do {
-				addY++;
-				var box = new AABB(blockPos.getX(), blockPos.getY() + addY, blockPos.getZ(), blockPos.getX()+1, blockPos.getY()+2 + addY, blockPos.getZ()+1);
-				if (world.noCollision(box))
-					break;
-			} while (blockPos.getY() + addY < world.getMaxBuildHeight() - 1);
-			var center = blockPos.getCenter();
-			player.teleportTo(center.x, blockPos.getY() + addY, center.z);
-			return new PosAndWorld(BlockPos.containing(center.x, blockPos.getY() + addY, center.z), world);
-		}
-		return new PosAndWorld(blockPos, null);
+		return new PosAndWorld(BlockPos.containing(transition.pos().x, transition.pos().y, transition.pos().z), transition.newLevel());
 	}
 
 	private void writeLodestone(ResourceKey<Level> worldKey, BlockPos pos, ItemStack stack) {

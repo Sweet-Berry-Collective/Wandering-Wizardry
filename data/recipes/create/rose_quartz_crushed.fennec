@@ -7,8 +7,8 @@ ingredients [{
 }]
 
 results [
-    { item = "wwizardry:rose_quartz" }
-    { item = "wwizardry:rose_quartz" }
+    { id = "wwizardry:rose_quartz" }
+    { id = "wwizardry:rose_quartz" }
     { item = "wwizardry:rose_quartz" }
     {
         item = "wwizardry:rose_quartz"
