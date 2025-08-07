@@ -255,7 +255,7 @@ public class SoulMirrorItem extends TieredItem implements AltarCraftable {
 	public static PosAndWorld moveToSpawnPoint(ServerPlayer player) {
 		var transition = player.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
 
-		player.teleportTo(transition.newLevel(), transition.pos().x, transition.pos().y, transition.pos().z, transition.xRot(), transition.yRot());
+		player.teleportTo(transition.newLevel(), transition.pos().x, transition.pos().y, transition.pos().z, transition.yRot(), transition.xRot());
 
 		return new PosAndWorld(BlockPos.containing(transition.pos().x, transition.pos().y, transition.pos().z), transition.newLevel());
 	}
