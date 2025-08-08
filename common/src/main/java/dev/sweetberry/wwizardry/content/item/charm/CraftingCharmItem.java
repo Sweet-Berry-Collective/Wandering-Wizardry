@@ -19,7 +19,9 @@ public class CraftingCharmItem extends AltarCharmItem {
 		for (var it = recipes.iterator(); it.hasNext();) {
 			var recipe = it.next().value();
 
-			if (view.ingredientsMatch(recipe.getIngredients())) {
+			var ingredients = recipe.getIngredients();
+
+			if (!ingredients.isEmpty() && view.ingredientsMatch(ingredients)) {
 				view.setRecipeResult(recipe.getResultItem(world.registryAccess()));
 				view.setAllAsRemainders();
 				view.setBloom(5);

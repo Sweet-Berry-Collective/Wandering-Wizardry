@@ -79,8 +79,12 @@ public class EmiInitializer implements EmiPlugin {
 				.map(it -> (RecipeHolder<ShapelessRecipe>) (RecipeHolder<?>) it)
 				.filter(it -> it.value().getIngredients().size() <= 4)
 				.toList()
-		)
+		) {
+			if (recipe.value().getIngredients().isEmpty())
+				continue;
+			
 			registry.addRecipe(EmiAltarShapelessRecipe.of(recipe.id(), recipe.value()));
+		}
 
 		// TODO: Fix this code
 		var brewing = Minecraft.getInstance().level != null ? Minecraft.getInstance().level.potionBrewing() : PotionBrewing.EMPTY;
