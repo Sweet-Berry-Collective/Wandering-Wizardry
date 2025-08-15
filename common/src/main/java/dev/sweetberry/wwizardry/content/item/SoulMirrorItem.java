@@ -272,7 +272,6 @@ public class SoulMirrorItem extends TieredItem implements AltarCraftable {
 	@Override
 	public boolean tryCraft(AltarRecipeView view, Level world) {
 		final var soulMirrorItem = ItemInitializer.SOUL_MIRROR.get();
-		view.keepCenter();
 
 		var center = view.getItemInPedestal(AltarRecipeView.AltarDirection.CENTER);
 
@@ -291,6 +290,8 @@ public class SoulMirrorItem extends TieredItem implements AltarCraftable {
 
 			view.setResultInPedestal(i, item);
 		}
+
+		view.setResultInPedestal(AltarRecipeView.AltarDirection.CENTER, center);
 
 		return true;
 	}
