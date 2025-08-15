@@ -199,6 +199,12 @@ block {
 }
 
 item {
+    enchantable {
+        durability [
+            "wwizardry:soul_mirror"
+        ]
+    }
+
     trim_materials [
         "wwizardry:rose_quartz"
         "wwizardry:crystalline_sculk"
